@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="app.actionnation.actionapp.Challenges_Expand">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp">
+
+        <TextView
+            android:id="@+id/rv_tx_ChallengeNo"
+            style="@style/TextTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="12dp"
+            android:background="@drawable/ic_circle"
+            android:gravity="center"
+            android:text="1"
+            android:textStyle="normal" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/rv_tx_ChallengeHeading"
+                style="@style/DisplayChallenges"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="hello How r u"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/rv_tx_ChallengeName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="I don't want" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_ce_done"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="12dp"
+            app:srcCompat="@drawable/ic_check" />
+
+        <ImageButton
+            android:id="@+id/imgbtn_clg_submit"
+            style="@style/SmallButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_btnright"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"/>
+
+    </LinearLayout>
+</LinearLayout>
+

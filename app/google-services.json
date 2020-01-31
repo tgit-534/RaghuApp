@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "21902167503",
+    "firebase_url": "https://tgit-4c9c3.firebaseio.com",
+    "project_id": "tgit-4c9c3",
+    "storage_bucket": "tgit-4c9c3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:21902167503:android:755214914feb7ebb4056ba",
+        "android_client_info": {
+          "package_name": "app.actionnation.actionapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "21902167503-hrv8000r959bopk749a8p5kq3kjrmvar.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "app.actionnation.actionapp",
+            "certificate_hash": "79f0707798bc6e8a856da74636f40c3207482346"
+          }
+        },
+        {
+          "client_id": "21902167503-70vm0o8r7s8395sn3ss5231oleuavs46.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "app.actionnation.actionapp",
+            "certificate_hash": "3e91caa18aae9d1f8dc457eba38026db41721a2f"
+          }
+        },
+        {
+          "client_id": "21902167503-rbbmfmr28mkbe1ts8j4h4n5bt0s1bph0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6eKhVjAu18uxI1HQyvNf47XfG6_aZ1KM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "21902167503-rbbmfmr28mkbe1ts8j4h4n5bt0s1bph0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

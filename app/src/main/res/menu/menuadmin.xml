@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/ad_item1"
+        android:title="Item 2"
+        app:showAsAction="never"
+        >
+        <menu>
+            <item android:id="@+id/ad_subitem1"
+                android:title="Subitem1"
+                app:showAsAction="never"
+                ></item>
+
+            <item android:id="@+id/ad_category"
+                android:title="Category"
+                app:showAsAction="never"
+                ></item>
+            <item android:id="@+id/ad_Education"
+                android:title="Education"
+                app:showAsAction="never"
+                ></item>
+            <item android:id="@+id/ad_Challenges"
+                android:title="Challenges"
+                app:showAsAction="never"
+                ></item>
+            <item android:id="@+id/ad_Leadership"
+                android:title="Leadership"
+                app:showAsAction="never"
+                ></item>
+            <item android:id="@+id/ad_setImage"
+                android:title="Set Image"
+                app:showAsAction="never"
+                ></item>
+            <item android:id="@+id/ad_editAdmin"
+                android:title="Set Image"
+                app:showAsAction="never"
+                ></item>
+        </menu>
+    </item>
+    <item android:id="@+id/ad_menulogout"
+        android:title="Logout"
+        app:showAsAction="never"
+        ></item>
+</menu>

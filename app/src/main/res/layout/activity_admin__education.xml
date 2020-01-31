@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="app.actionnation.actionapp.Admin_Education">
+
+    <include
+        layout="@layout/admintoolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/fstTxtEdu"
+        style="@style/TextHeading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="Education Insert" />
+
+
+    <EditText
+        android:id="@+id/txtNameEdu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:hint="Education Name"
+
+        />
+
+
+    <Spinner
+        android:id="@+id/spnEduCat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Spinner
+        android:id="@+id/spnEduArea"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/txtSpinnerId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="100dp"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/btnSaveEdu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save" style="@style/ButtonStyle" />
+
+</LinearLayout>

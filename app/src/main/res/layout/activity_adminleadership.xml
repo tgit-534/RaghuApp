@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_vertical|center_horizontal"
+        android:orientation="vertical"
+        tools:context="app.actionnation.actionapp.adminleadership">
+
+        <include
+            layout="@layout/admintoolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            style="@style/TextHeading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Leadership Activity!"
+            android:layout_marginBottom="10dp"></TextView>
+
+        <Spinner
+            android:id="@+id/spn_al_edu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/al_et_LeadershipName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="LeadershipName" />
+
+        <EditText
+            android:id="@+id/al_et_LeadershipDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Leadership Description" />
+
+        <EditText
+            android:id="@+id/al_et_Opening"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Opening" />
+
+        <EditText
+            android:id="@+id/al_et_Step1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Step1" />
+
+        <EditText
+            android:id="@+id/al_et_Step2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Step 2" />
+
+        <EditText
+            android:id="@+id/al_et_Step3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Step 3" />
+
+
+        <EditText
+            android:id="@+id/al_et_Step4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Step 4" />
+
+        <EditText
+            android:id="@+id/al_et_Step5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Step5" />
+
+        <EditText
+            android:id="@+id/al_et_Ending"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Ending" />
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal" android:weightSum="3">
+          <Button
+              android:id="@+id/btn_al_Save"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Save" style="@style/ButtonStyle"
+              android:layout_weight="1"/>
+
+          <Button
+              android:id="@+id/btn_al_Update"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Update" style="@style/ButtonStyle"
+              android:layout_weight="1"/>
+
+          <Button
+              android:id="@+id/btn_al_Cancel"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Cancel"
+              style="@style/ButtonStyle" android:layout_weight="1"/>
+
+      </LinearLayout>
+
+
+    </LinearLayout>
+</ScrollView>

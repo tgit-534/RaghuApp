@@ -1,0 +1,276 @@
+<resources>
+    <string name="app_name">Action Nation</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="label_google_sign_in">Firebase + Google Sign In</string>
+    <string name="desc_google_sign_in">Use a Google Sign In credential to authenticate with Firebase.</string>
+    <string name="label_facebook_login">Firebase + Facebook Login</string>
+    <string name="desc_facebook_login">Use a Facebook Login credential to authenticate with Firebase.</string>
+    <string name="label_twitter_login">Firebase + Twitter Login</string>
+    <string name="desc_twitter_login">Use a Twitter Login credential to authenticate with Firebase.</string>
+    <string name="label_emailpassword">Email/Password Authentication</string>
+    <string name="desc_emailpassword">Use an email and password to authenticate with Firebase.</string>
+    <string name="label_passwordless">Passwordless Authentication</string>
+    <string name="desc_passwordless">Use only an email to authenticate with Firebase.</string>
+    <string name="label_phone_auth">Phone Number Authentication</string>
+    <string name="desc_phone_auth">Use a phone number to authenticate with Firebase.</string>
+    <string name="label_anonymous_auth">Anonymous Authentication</string>
+    <string name="desc_anonymous_auth">Sign in anonymously and then later upgrade to a full Firebase Auth user.</string>
+    <string name="label_custom_auth">Custom Authentication</string>
+    <string name="desc_custom_auth">Use a custom token signed by your own server to authenticate with Firebase.</string>
+    <string name="label_firebase_ui">FirebaseUI Auth</string>
+    <string name="desc_firebase_ui">Use the FirebaseUI-Android library to authenticate with Firebase.</string>
+    <string name="label_generic_idp">Generic IDP Auth</string>
+    <string name="desc_generic_idp">Use a generic identity provider, like Microsoft or Yahoo, to authenticate with Firebase.</string>
+    <string name="hint_user_id">User ID</string>
+    <string name="get_custom_token">Get Token</string>
+    <string name="sign_in">Sign In</string>
+    <string name="create_account">Create Account</string>
+    <string name="send_link">Send Link</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="verify_email">Verify Email</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="loading">Loading…</string>
+    <string name="custom_token">Custom Token</string>
+    <string name="signed_in">Signed In</string>
+    <string name="signed_out">Signed Out</string>
+    <string name="token_null">Token: null</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="desc_firebase_lockup">Firebase logo and name</string>
+    <string name="auth_failed">Authentication failed</string>
+    <string name="start_phone_auth">Start</string>
+    <string name="verify_phone_auth">Verify</string>
+    <string name="resend_phone_auth">Resend</string>
+    <string name="hint_phone_number">Phone Number</string>
+    <string name="hint_verification_code">Verification Code</string>
+    <string name="status_code_sent">Code Sent</string>
+    <string name="status_verification_failed">Verification failed</string>
+    <string name="status_verification_succeeded">Verification succeeded</string>
+    <string name="status_sign_in_failed">Sign-in failed</string>
+    <string name="instant_validation">(instant validation)</string>
+    <string name="firebase_status_fmt">Firebase User: %s</string>
+    <string name="firebase_user_management">Firebase User Management</string>
+    <string name="google_status_fmt">Google User: %s</string>
+    <string name="google_title_text">Google Sign In</string>
+    <string name="facebook_status_fmt">Facebook User: %s</string>
+    <string name="facebook_title_text">Facebook Login</string>
+    <string name="emailpassword_status_fmt">Email User: %1$s (verified: %2$b)</string>
+    <string name="emailpassword_title_text">Email and Password</string>
+    <string name="passwordless_status_fmt">Email User: %1$s (verified: %2$b)</string>
+    <string name="passwordless_title_text">Passwordless Sign In</string>
+    <string name="status_email_not_sent">Send link to your email to get started.</string>
+    <string name="status_email_sent">Link sent, check your email to continue.</string>
+    <string name="status_link_found">Link received, enter email to sign in.</string>
+    <string name="phone_title_text">Phone Number</string>
+    <string name="twitter_status_fmt">Twitter User: %s</string>
+    <string name="twitter_title_text">Twitter Login</string>
+    <string name="firebaseui_status_fmt">Firebase User: %s</string>
+    <string name="firebaseui_title_text">FirebaseUI Auth</string>
+    <string name="generic_title_text">Generic IDP Sign In\nwith Microsoft</string>
+    <string name="msft_status_fmt">Microsoft User: %s</string>
+    <string name="id_fmt">User ID: %s</string>
+    <string name="email_fmt">Email: %s</string>
+
+    <string name="fb_login_protocol_scheme">fb1315362295337602</string>
+    <string name="title_activity_bottom_navigation">BottomNavigationActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <!-- TODO: Mainlist Fragments-->
+
+
+    <!-- TODO: MainListFragments -->
+    <string name="MainListF_NationalLW">hi</string>
+    <string name="MainListF_PLASTIC">PRM</string>
+
+
+    <!-- Facebook   <string name="facebook_app_id">1315362295337602</string> -->
+    <string name="facebook_app_id">1315362295337602</string>
+
+    <!-- TODO: Leadership Initiative -->
+    <string name="li_step1">Step 1: \n</string>
+    <string name="li_step2">Step 2: \n</string>
+    <string name="li_step3">Step 3: \n</string>
+    <string name="li_step4">Step 4: \n</string>
+    <string name="li_step5">Step 5: \n</string>
+    <string name="li_introduction">Introduction: \n</string>
+    <string name="li_conclusion">Conclusion: \n</string>
+    <string name="li_description">Description: \n</string>
+
+
+    <!-- TODO: GoFbLogin -->
+    <string name="Login_AppName"> Action Nation </string>
+
+    <!-- TODO: Registration Page -->
+
+    <string name="Registration_Pwd_Mismatch"> Your password and confirmation password do not match. </string>
+    <string name="Registration_Succesfully_Registered"> Successfully registered! </string>
+    <string name="Registration_Error"> Registration Error! </string>
+    <string name="Registration_Enter_Email">Please enter email </string>
+    <string name="Registration_Enter_Password"> Please enter password! </string>
+    <string name="Registration_ReEnter_Password"> Please Re-Type password! </string>
+
+    <string name="Registration_Registering_Message"> Please enter password! </string>
+    <string name="Registration_Email_Exist"> Email Already Exist! </string>
+    <string name="Registration_Email_Wrong"> Email is wrong! </string>
+    <string name="Registration_WeakPassword"> Password is weak! </string>
+
+    <!-- TODO: Activity_Go_Fb_Login -->
+
+    <string name="gofb_forgotPassword"> Forgot Password? </string>
+
+    <!-- TODO: Activity_forgot_password -->
+
+    <string name="forgotPwd_btnText"> Reset Password </string>
+    <string name="forgotPwd_txt_email"> Enter email </string>
+    <string name="forgotPwd_txt_redirectLogin"> Redirect to Login Page </string>
+    <string name="forgotPwd_email_msg">Reset password instructions has sent to your email</string>
+    <string name="forgotPwd_email_doest_exist"> Email is not available! </string>
+
+
+    <!-- TODO: Go Fb Login Class -->
+
+    <string name="go_fb_login_autheticationfailed">Authentication Failed.</string>
+    <string name="go_fb_login_enterEmail">Enter email address!</string>
+    <string name="go_fb_login_enterPassword">Enter password!</string>
+
+    <!-- TODO: Go Fb Login xml -->
+
+    <string name="go_fb_forgotPwd">Forgot Password?</string>
+    <string name="go_fb_login">Login</string>
+
+    <!-- TODO: Common Notations -->
+    <string name="common_fb">Authentication Failed.</string>
+    <string name="common_google">google</string>
+    <string name="common_firebase">firebase</string>
+    <string name="common_auth">auth</string>
+    <string name="common_key_activity_name">KEY_ACTIVITY_NAME</string>
+    <string name="common_key_fp">fp</string>
+    <string name="common_Pls_Enter_Email">Please enter email </string>
+    <string name="common_verifying">verifying.. </string>
+    <string name="common_setType">text/plain</string>
+    <string name="common_yes">YES</string>
+    <string name="common_no">NO</string>
+    <string name="common_confirm">Confirm</string>
+
+
+    <!-- TODO: Common Notations Xml -->
+    <string name="common_signup">Sign Up</string>
+    <string name="common_enterPwd">Enter password</string>
+    <string name="common_enterEmail">Enter email</string>
+
+    <!-- TODO: Details Challenges XML -->
+    <string name="DC_Title1">Welcome Action Hero!</string>
+    <string name="DC_Title2">Become an Action Hero by doing these actions!</string>
+
+    <!-- TODO: Details Challenges Class -->
+    <string name="DCC_AlertMessage">Are you sure that you want to skip some challenges?</string>
+
+
+    <!-- TODO: Intent Data Transfer -->
+    <string name="Intent_EduId">EduId</string>
+    <string name="Intent_ChallengesNumber">ChallengesNumber</string>
+    <string name="Intent_EduName">EduName</string>
+    <string name="Intent_Auth">auth</string>
+    <string name="Intent_GetChallengeId">get_ChallengeId</string>
+
+
+    <!-- TODO: Error Messages -->
+
+    <!-- TODO: Firebase Database -->
+    <string name="fb_Education">Education</string>
+    <string name="fb_Challenges">Challenges</string>
+    <string name="fb_UserCourse">UserCourse</string>
+    <string name="fb_challengeNumber">challenge_Number</string>
+    <string name="fb_status">status</string>
+    <string name="fb_leadershipProg">leadershipprogram</string>
+    <string name="fb_eduId_ChallengesTable">eduid</string>
+    <string name="fb_category">category</string>
+    <string name="fb_Category_Db">Category</string>
+
+    <!-- TODO: Status Active -->
+    <string name="Status_Active">Active</string>
+    <string name="Status_InActive">InActive</string>
+
+
+    <!-- TODO: File related -->
+    <string name="file_CertificateStorate">/DCIM/ActionNation</string>
+    <string name="file_imageformat_jpg">.jpg</string>
+    <string name="file_certificate_startformat">MI_</string>
+
+    <!-- TODO: OneChallenge View Holder -->
+    <string name="ocv_title1">Hello Action Hero!</string>
+    <string name="ocv_title2">Lets begin the challenge!</string>
+
+    <!-- TODO: General Titles -->
+    <string name="general_title1">Hello Action Hero!</string>
+    <string name="general_titleLeader">Hello Action Hero!</string>
+    <string name="general_titleNlw">Submit Your Leadership Acts!</string>
+
+    <!-- TODO: OCE class Holder -->
+    <string name="OCE_HereIsYourChallenge">Here is your challenge No:</string>
+    <string name="OCE_CheckGalleryForCertificate">Congratulations! Check your gallery for your certificate!</string>
+    <string name="OCE_ChallengeComplete">You must complete your challenges to get Certificate!</string>
+    <string name="OCE_ToastPressBackButton">Press Back Button To Access Next Challenge!</string>
+    <string name="OCE_ChallengeNo">Challenge No:</string>
+    <string name="OCE_Toast_CertificateUnableMessage">This feature will be added in the next version! Thank you!</string>
+
+    <!-- TODO: parameters -->
+    <string name="pm_firstLoad_Challenges">0</string>
+
+    <!-- TODO: Leadership Activitite -->
+    <string name="Leadership_NLW">National Leadership Week</string>
+
+    <!-- TODO: Tabs Adapter -->
+    <string name="tabs_Title1">Action</string>
+    <string name="tabs_Title2">Inspire</string>
+    <string name="tabs_Title3">Task</string>
+
+
+    <string name="tabs_challenges">Challenges</string>
+    <string name="tabs_leadership">Leadership</string>
+    <string name="tabs_nlw">NLW</string>
+
+
+    <!-- TODO: Redirect From Main Class -->
+    <string name="RFM_FirstRun">FIRSTRUN</string>
+    <string name="RFM_Prefs">prefs</string>
+
+
+    <!-- TODO: Admin Challenges-->
+    <string name="AC_Editbtn">Edit</string>
+    <string name="AC_Savebtn">Save</string>
+
+    <!-- TODO: Admin Education -->
+    <string name="AE_EduArea_Action">Action</string>
+    <string name="AE_EduArea_Inspire">Inspire</string>
+    <string name="AE_EduArea_Task">Task</string>
+    <string name="AE_EduArea_DeActivate">De-Activate</string>
+
+
+    <string name="AE_EduArea_Action_Number">1</string>
+    <string name="AE_EduArea_Inspire_Number">0</string>
+    <string name="AE_EduArea_Task_Number">2</string>
+    <string name="AE_EduArea_DeActivate_Number">3</string>
+
+    <!-- TODO: Toast Messages -->
+    <string name="Toast_Inserted">Data Inserted!</string>
+    <string name="Toast_Updated">Data Updated!</string>
+
+
+</resources>
+
+
+

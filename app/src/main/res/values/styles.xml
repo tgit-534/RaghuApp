@@ -1,0 +1,143 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar"></style>
+
+
+    <!-- Activity with no Title -->
+
+    <style name="ThemeOverlay.MyNoTitleActivity" parent="AppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+    </style>
+
+
+    <!-- Dark Buttons -->
+
+    <style name="ThemeOverlay.MyDarkButton" parent="ThemeOverlay.AppCompat.Dark">
+
+        <item name="colorButtonNormal">@color/grey_500</item>
+
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:layout_marginRight">4dp</item>
+
+        <item name="android:layout_marginLeft">4dp</item>
+
+        <item name="android:textColor">@android:color/white</item>
+
+    </style>
+
+
+    <!-- Light EditTexts -->
+
+    <style name="ThemeOverlay.MyLightEditText" parent="ThemeOverlay.AppCompat.Dark" />
+
+
+    <style name="ThemeOverlay.MyTextDetail" parent="AppTheme">
+
+        <item name="android:layout_width">wrap_content</item>
+
+        <item name="android:layout_height">wrap_content</item>
+
+        <item name="android:fadeScrollbars">true</item>
+
+        <item name="android:gravity">center</item>
+
+        <item name="android:maxLines">5</item>
+
+        <item name="android:padding">4dp</item>
+
+        <item name="android:scrollbars">vertical</item>
+
+        <item name="android:textSize">14sp</item>
+
+    </style>
+
+
+    <style name="ThemeOverlay.FirebaseIcon" parent="AppTheme">
+
+        <item name="android:layout_marginTop">@dimen/icon_top_margin</item>
+
+        <item name="android:layout_marginBottom">@dimen/icon_bottom_margin</item>
+
+    </style>
+
+    <style name="ThemeOverlay.MyTitleText" parent="AppTheme">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">36sp</item>
+    </style>
+
+    <style name="MyTabLayoutTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="DisplayChallenges">
+        <item name="android:textSize">14sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">4dp</item>
+
+    </style>
+
+    <style name="TextTitle">
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="TextHeading">
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="TextNormal">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:gravity">center</item>
+
+    </style>
+
+    <style name="ButtonStyle">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">#ffe90a</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/button_bg</item>
+
+
+    </style>
+
+    <style name="TextTitleLeft">
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">left</item>
+
+    </style>
+
+    <style name="TextNormalleft">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:gravity">left</item>
+    </style>
+
+    <style name="SmallButtonStyle">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">#ffe90a</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/button_bg</item>
+    </style>
+
+</resources>

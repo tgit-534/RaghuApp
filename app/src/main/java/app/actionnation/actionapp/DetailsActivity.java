@@ -88,8 +88,6 @@ public class DetailsActivity extends AppCompatActivity {
                 } else if (selectedItem.equals(getString(R.string.fb_category))) {
 
 
-                } else if (selectedItem.equals(getString(R.string.fb_Challenges))) {
-
                 } else if (selectedItem.equals(getString(R.string.fb_Education))) {
                     updataEducation(myRef.child(getString(R.string.fb_Education)));
                 }
@@ -177,14 +175,27 @@ public class DetailsActivity extends AppCompatActivity {
             @Override
             protected void onBindViewHolder(@NonNull final FindViewHolderEdit holder, int position, @NonNull Education model) {
                 holder.mContentView.setText((model.getEdu_name()));
-                holder.mContentButton.setTag(fbAdapter.getRef(position).getKey());
+                holder.mContentButton.setTag(model.getStatus());
                 holder.mContentId.setText(fbAdapter.getRef(position).getKey());
                 holder.mContentChallenges.setTag(fbAdapter.getRef(position).getKey());
+                if (model.getStatus() == Integer.parseInt(getString(R.string.AE_EduArea_Inspire_Number))) {
+                    holder.mContentChallenges.setText(getString(R.string.AE_EduArea_Inspire));
+                }
 
                 holder.mContentChallenges.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        updataChallenges(myRef.child(getString(R.string.fb_Challenges)), holder.mContentChallenges.getTag().toString());
+
+                        if (Integer.parseInt(holder.mContentButton.getTag().toString()) == Integer.parseInt(getString(R.string.AE_EduArea_Inspire_Number))) {
+                            Intent homepage = new Intent(DetailsActivity.this, adminleadership.class);
+                            Bundle mBundle = new Bundle();
+                            mBundle.putString(getString(R.string.Intent_EduId), holder.mContentChallenges.getTag().toString());
+                            homepage.putExtras(mBundle);
+                            startActivity(homepage);
+                        } else {
+                            updataChallenges(myRef.child(getString(R.string.fb_Challenges)), holder.mContentChallenges.getTag().toString());
+
+                        }
                     }
                 });
                 holder.mContentButton.setOnClickListener(new View.OnClickListener() {
@@ -192,13 +203,13 @@ public class DetailsActivity extends AppCompatActivity {
                     public void onClick(View view) {
                         Intent homepage = new Intent(DetailsActivity.this, Admin_Education.class);
                         Bundle mBundle = new Bundle();
-                        mBundle.putString(getString(R.string.Intent_EduId), holder.mContentButton.getTag().toString());
+                        mBundle.putString(getString(R.string.Intent_EduId), holder.mContentChallenges.getTag().toString());
                         homepage.putExtras(mBundle);
                         startActivity(homepage);
 
                     }
                 });
-           }
+            }
 
             @NonNull
             @Override

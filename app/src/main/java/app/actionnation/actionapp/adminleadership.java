@@ -36,6 +36,9 @@ public class adminleadership extends AppCompatActivity {
     EditText EtName, EtDesc, EtOpening, EtStep1, EtStep2, EtStep3, EtStep4, EtStep5, EtClosing;
     Button BtnSave, BtnUpdate, BtnCancel;
     Spinner spnLeadership;
+    Bundle extras;
+    String strEduId;
+
 
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
@@ -68,46 +71,82 @@ public class adminleadership extends AppCompatActivity {
         // Make sure the toolbar exists in the activity and is not null
         setSupportActionBar(toolbar);
 
-        //mReferenceActionUniversity = mFirebaseDatabase.getInstance().getReference().child("Challenges");
-        mReferenceActionUniversity = mFirebaseDatabase.getInstance().getReference().child(getString(R.string.fb_Education));
+        extras = getIntent().getExtras();
+        if (extras != null) {
+            strEduId = extras.getString(getString(R.string.Intent_EduId));
+            mFirebaseDatabase.getInstance().getReference().child(getString(R.string.fb_leadershipProg))
+                    .orderByChild(getString(R.string.fb_eduId_ChallengesTable)).equalTo(strEduId)
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-        mAuth = FirebaseAuth.getInstance();
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
+                            for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                                String strLeadershipName = ds.getValue(leadershipprogram.class).getLeadership_name().toString();
+                                String strLeadershipDesc = ds.getValue(leadershipprogram.class).getLeadership_desc().toString();
+                                /*String strStep1 = dataSnapshot.getValue(leadershipprogram.class).getStep1().toString();
+                                String strStep2 = dataSnapshot.getValue(leadershipprogram.class).getStep2().toString();
+                                String strStep3 = dataSnapshot.getValue(leadershipprogram.class).getStep3().toString();
+                                String strStep4 = dataSnapshot.getValue(leadershipprogram.class).getStep4().toString();
+                                String strStep5 = dataSnapshot.getValue(leadershipprogram.class).getStep5().toString();
+                                String strOpening = dataSnapshot.getValue(leadershipprogram.class).getLd_opening().toString();
+                                String strClosing = dataSnapshot.getValue(leadershipprogram.class).getLd_closing().toString();*/
 
-        FirebaseUser user = mAuth.getCurrentUser();
+                                EtName.setText(strLeadershipName);
+                                EtDesc.setText(strLeadershipDesc);
+                            }
 
-        mReferenceActionUniversity.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                loadSpinnerData(dataSnapshot);
+                        }
 
-            }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-
-        spnLeadership.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Education ct = (Education) adapterView.getSelectedItem();
-                // txtSpinnerId.setText());
-                // txtSpinnerId.setText(((int) ct.getId()));
-                spnLeadership.setTag((ct.getFb_Id()));
-                Toast.makeText(getApplicationContext(), spnLeadership.getTag().toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
 
-            }
+        } else {
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
 
-            }
-        });
+            //mReferenceActionUniversity = mFirebaseDatabase.getInstance().getReference().child("Challenges");
+            mReferenceActionUniversity = mFirebaseDatabase.getInstance().getReference().child(getString(R.string.fb_Education));
 
+            mAuth = FirebaseAuth.getInstance();
+            mFirebaseDatabase = FirebaseDatabase.getInstance();
+
+            FirebaseUser user = mAuth.getCurrentUser();
+
+            mReferenceActionUniversity.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    loadSpinnerData(dataSnapshot);
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+
+            spnLeadership.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    Education ct = (Education) adapterView.getSelectedItem();
+                    // txtSpinnerId.setText());
+                    // txtSpinnerId.setText(((int) ct.getId()));
+                    spnLeadership.setTag((ct.getFb_Id()));
+                    Toast.makeText(getApplicationContext(), spnLeadership.getTag().toString(), Toast.LENGTH_SHORT).show();
+
+
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
+        }
 
         BtnSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,7 +188,7 @@ public class adminleadership extends AppCompatActivity {
         int id = item.getItemId();
 
         AdminCommonClass acc = new AdminCommonClass();
-        return super.onOptionsItemSelected(acc.AdminMenuSelected(item,adminleadership.this));
+        return super.onOptionsItemSelected(acc.AdminMenuSelected(item, adminleadership.this));
     }
 
     private void loadSpinnerData(DataSnapshot dataSnapshot) {

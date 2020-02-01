@@ -186,7 +186,6 @@
     <string name="Intent_Auth">auth</string>
     <string name="Intent_GetChallengeId">get_ChallengeId</string>
 
-
     <!-- TODO: Error Messages -->
 
     <!-- TODO: Firebase Database -->
@@ -203,6 +202,10 @@
     <!-- TODO: Status Active -->
     <string name="Status_Active">Active</string>
     <string name="Status_InActive">InActive</string>
+
+    <string name="Status_Active_Number">1</string>
+    <string name="Status_InActive_Number">0</string>
+
 
 
     <!-- TODO: File related -->
@@ -267,6 +270,8 @@
     <!-- TODO: Toast Messages -->
     <string name="Toast_Inserted">Data Inserted!</string>
     <string name="Toast_Updated">Data Updated!</string>
+    <string name="Toast_Cannot_Insert">You cannot insert,you can only update!</string>
+
 
 
 </resources>

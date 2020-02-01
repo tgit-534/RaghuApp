@@ -83,6 +83,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Ending" />
+        <Spinner
+            android:id="@+id/spn_al_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
       <LinearLayout
           android:layout_width="match_parent"

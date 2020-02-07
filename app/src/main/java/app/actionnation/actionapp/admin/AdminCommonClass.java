@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.MenuItem;
 
+import app.actionnation.actionapp.AdminActionQuestionnare;
 import app.actionnation.actionapp.Admin_Challenges;
 import app.actionnation.actionapp.Admin_Education;
 import app.actionnation.actionapp.CertificateGenerator;
@@ -40,6 +41,10 @@ public class AdminCommonClass {
                 break;
             case R.id.ad_editAdmin:
                 homepage = new Intent(ct, DetailsActivity.class);
+                ct.startActivity(homepage);
+                break;
+            case R.id.ad_questionnare:
+                homepage = new Intent(ct, AdminActionQuestionnare.class);
                 ct.startActivity(homepage);
                 break;
         }

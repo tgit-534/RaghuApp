@@ -16,7 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_main"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".knowyourcareer"></activity>
+        <activity android:name=".AdminActionQuestionnare"></activity>
+        <activity android:name=".knowyourcareer" />
         <activity android:name=".forgotpassword" />
         <activity android:name=".TestCoding">
             <intent-filter>

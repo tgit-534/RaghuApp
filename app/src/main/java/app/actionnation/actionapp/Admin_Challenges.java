@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -54,15 +55,15 @@ public class Admin_Challenges extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin__challenges);
-        etChalName = (EditText) findViewById(R.id.txtNameChal);
-        etChalDesc = (EditText) findViewById(R.id.txtChalDesc);
-        etChalNumber = (EditText) findViewById(R.id.txtChalNumber);
+        etChalName = findViewById(R.id.txtNameChal);
+        etChalDesc = findViewById(R.id.txtChalDesc);
+        etChalNumber = findViewById(R.id.txtChalNumber);
 
-        SpnEducation = (Spinner) findViewById(R.id.spnEduChal);
+        SpnEducation = findViewById(R.id.spnEduChal);
 
-        btnSaveChal = (Button) findViewById(R.id.btnSaveChal);
+        btnSaveChal = findViewById(R.id.btnSaveChal);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_admin);
+        Toolbar toolbar = findViewById(R.id.toolbar_admin);
         // Sets the Toolbar to act as the ActionBar for this Activity window.
         // Make sure the toolbar exists in the activity and is not null
         setSupportActionBar(toolbar);
@@ -95,6 +96,7 @@ public class Admin_Challenges extends AppCompatActivity {
                         etChalName.setText(ChallengeName);
                         etChalDesc.setText(ChallengeDesc);
                         etChalNumber.setText(ChallengeNumber);
+
                         SpnEducation.setVisibility(View.GONE);
                         btnSaveChal.setText(getString(R.string.AC_Editbtn));
                         btnSaveChal.setTag(EduId);

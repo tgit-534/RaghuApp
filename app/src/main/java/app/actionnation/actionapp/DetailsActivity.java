@@ -14,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,10 +30,11 @@ import java.util.List;
 
 import app.actionnation.actionapp.Database_Content.Category;
 import app.actionnation.actionapp.Database_Content.Challenges;
+import app.actionnation.actionapp.Database_Content.CommonData;
 import app.actionnation.actionapp.Database_Content.Education;
 import app.actionnation.actionapp.Database_Content.leadershipprogram;
 
-public class DetailsActivity extends AppCompatActivity {
+public class DetailsActivity extends AdminCommonClass {
     Intent intent;
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
@@ -56,11 +56,15 @@ public class DetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_details);
 
         spinner = findViewById(R.id.SpnDifferent);
+        generatePublicMenu();
+
 
         String[] data = {getString(R.string.fb_Challenges),
                 getString(R.string.fb_Education),
                 getString(R.string.fb_category),
-                getString(R.string.fb_leadershipProg)
+                getString(R.string.fb_leadershipProg),
+                getString(R.string.fb_CommonData_Db)
+
         };
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(DetailsActivity.this, android.R.layout.simple_spinner_item, data);
@@ -84,12 +88,12 @@ public class DetailsActivity extends AppCompatActivity {
 
                 if (selectedItem.equals(getString(R.string.fb_leadershipProg))) {
                     updataLeadershipProgram(myRef.child(getString(R.string.fb_leadershipProg)));
-
                 } else if (selectedItem.equals(getString(R.string.fb_category))) {
-
 
                 } else if (selectedItem.equals(getString(R.string.fb_Education))) {
                     updataEducation(myRef.child(getString(R.string.fb_Education)));
+                } else if (selectedItem.equals(getString(R.string.fb_CommonData_Db))) {
+                    updateCommonData(myRef.child(getString(R.string.fb_CommonData_Db)));
                 }
 
 
@@ -223,6 +227,46 @@ public class DetailsActivity extends AppCompatActivity {
         fbAdapter.startListening();
 
     }
+
+    public void updateCommonData(DatabaseReference dbRef) {
+        FirebaseRecyclerOptions<CommonData> options = new FirebaseRecyclerOptions.Builder<CommonData>()
+                .setQuery(dbRef, CommonData.class)
+                .build();
+
+        fbAdapter = new FirebaseRecyclerAdapter<CommonData, FindViewHolderEdit>(options) {
+            @Override
+            protected void onBindViewHolder(@NonNull final FindViewHolderEdit holder, int position, @NonNull CommonData model) {
+                holder.mContentView.setText((model.getDataString()));
+                holder.mContentButton.setTag(fbAdapter.getRef(position).getKey());
+                holder.mContentId.setText(fbAdapter.getRef(position).getKey());
+
+                holder.mContentButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent homepage = new Intent(DetailsActivity.this, AdminActionQuestionnare.class);
+                        Bundle mBundle = new Bundle();
+                        mBundle.putString(getString(R.string.Intent_CommonDataId), holder.mContentButton.getTag().toString());
+                        homepage.putExtras(mBundle);
+                        startActivity(homepage);
+                    }
+                });
+
+            }
+
+
+            @NonNull
+            @Override
+            public FindViewHolderEdit onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.admin_edit_layout, parent, false);
+                FindViewHolderEdit viewHolder = new FindViewHolderEdit(view);
+                return viewHolder;
+            }
+        };
+
+        recyclerView.setAdapter(fbAdapter);
+        fbAdapter.startListening();
+    }
+
 
     public void updataLeadershipProgram(DatabaseReference dbRef) {
         FirebaseRecyclerOptions<leadershipprogram> options = new FirebaseRecyclerOptions.Builder<leadershipprogram>()

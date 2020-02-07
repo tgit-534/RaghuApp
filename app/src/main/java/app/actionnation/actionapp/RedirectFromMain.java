@@ -20,7 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.facebook.CallbackManager;
-import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -124,33 +123,12 @@ public class RedirectFromMain extends AppCompatActivity implements MainListFragm
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        switch (id) {
-            case R.id.menulogout:
-                Intent in = getIntent();
-                String StrData = in.getStringExtra(getString(R.string.Intent_Auth));///"auth"
-
-                if (StrData.equals(getString(R.string.common_google)) || StrData.equals(getString(R.string.common_firebase))) {
-                    signOut();
-                }
-                break;
-            case R.id.itemFriendsInvite:
-                InviteToActionNation obj = new InviteToActionNation();
-                obj.CreateLink(RedirectFromMain.this);
-                break;
-        }
-        return super.onOptionsItemSelected(item);
+        CommonClass cls = new CommonClass();
+        return super.onOptionsItemSelected(cls.menuGenerationGeneral(RedirectFromMain.this,item, mGoogleSignInClient));
     }
 
 
-    public void logoutFromFacebook() {
-        LoginManager.getInstance().logOut();
-        Intent intent = new Intent(RedirectFromMain.this, GoFbLogin.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-        finish();
-    }
+
 
     private void signOut() {
         mGoogleSignInClient.signOut();

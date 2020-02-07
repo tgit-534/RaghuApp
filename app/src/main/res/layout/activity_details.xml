@@ -6,6 +6,10 @@
     android:orientation="vertical"
     tools:context="app.actionnation.actionapp.DetailsActivity">
 
+    <include
+        layout="@layout/admintoolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
     <Spinner
         android:id="@+id/SpnDifferent"
         android:layout_width="match_parent"

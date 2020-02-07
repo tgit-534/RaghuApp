@@ -134,6 +134,15 @@ public class CommonClass {
 
                 }
                 break;
+            case R.id.itemFriendsInvite:
+                InviteToActionNation obj = new InviteToActionNation();
+                obj.CreateLink(ct);
+                break;
+            case R.id.knowYourCareer:
+                Intent intent = new Intent(ct, knowyourcareer.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                ct.startActivity(intent);
+                break;
 
         }
         return item;

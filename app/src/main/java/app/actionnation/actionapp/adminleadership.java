@@ -69,7 +69,7 @@ public class adminleadership extends AppCompatActivity {
         BtnCancel = findViewById(R.id.btn_al_Cancel);
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_admin);
+        Toolbar toolbar = findViewById(R.id.toolbar_admin);
         // Sets the Toolbar to act as the ActionBar for this Activity window.
         // Make sure the toolbar exists in the activity and is not null
         setSupportActionBar(toolbar);
@@ -107,6 +107,7 @@ public class adminleadership extends AppCompatActivity {
                                 EtStep5.setText(strStep5);
                                 EtClosing.setText(strClosing);
                                 BtnUpdate.setTag(ds.getKey().toString());
+
                             }
                         }
                         @Override
@@ -230,7 +231,7 @@ public class adminleadership extends AppCompatActivity {
     }
 
     private void setSpinnerStatus() {
-        spinner = (Spinner) findViewById(R.id.spn_al_status);
+        spinner = findViewById(R.id.spn_al_status);
 
         String[] data = {getString(R.string.Status_Active),
                 getString(R.string.Status_Active)

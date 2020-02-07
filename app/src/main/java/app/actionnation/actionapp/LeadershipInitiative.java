@@ -122,7 +122,7 @@ public class LeadershipInitiative extends AppCompatActivity implements BottomNav
             case android.R.id.home:
                 Intent homepage = new Intent(LeadershipInitiative.this, RedirectFromMain.class);
                 Bundle mBundle = new Bundle();
-                mBundle.putString("auth", "google");
+                mBundle.putString(getString(R.string.Intent_Auth), getString(R.string.common_google));
                 homepage.putExtras(mBundle);
                 startActivity(homepage);
                 break;

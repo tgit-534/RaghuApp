@@ -1,44 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/ad_item1"
+    <item
+        android:id="@+id/ad_item1"
         android:title="Item 2"
-        app:showAsAction="never"
-        >
+        app:showAsAction="never">
         <menu>
-            <item android:id="@+id/ad_subitem1"
+            <item
+                android:id="@+id/ad_subitem1"
                 android:title="Subitem1"
-                app:showAsAction="never"
-                ></item>
+                app:showAsAction="never"></item>
 
-            <item android:id="@+id/ad_category"
+            <item
+                android:id="@+id/ad_category"
                 android:title="Category"
-                app:showAsAction="never"
-                ></item>
-            <item android:id="@+id/ad_Education"
+                app:showAsAction="never"></item>
+            <item
+                android:id="@+id/ad_Education"
                 android:title="Education"
-                app:showAsAction="never"
-                ></item>
-            <item android:id="@+id/ad_Challenges"
+                app:showAsAction="never"></item>
+            <item
+                android:id="@+id/ad_Challenges"
                 android:title="Challenges"
-                app:showAsAction="never"
-                ></item>
-            <item android:id="@+id/ad_Leadership"
+                app:showAsAction="never"></item>
+            <item
+                android:id="@+id/ad_Leadership"
                 android:title="Leadership"
-                app:showAsAction="never"
-                ></item>
-            <item android:id="@+id/ad_setImage"
+                app:showAsAction="never"></item>
+            <item
+                android:id="@+id/ad_setImage"
                 android:title="Set Image"
-                app:showAsAction="never"
-                ></item>
-            <item android:id="@+id/ad_editAdmin"
-                android:title="Set Image"
-                app:showAsAction="never"
-                ></item>
+                app:showAsAction="never"></item>
+            <item
+                android:id="@+id/ad_editAdmin"
+                android:title="Admin Edit"
+                app:showAsAction="never"></item>
+            <item
+                android:id="@+id/ad_questionnare"
+                android:title="Questionnare"
+                app:showAsAction="never"></item>
         </menu>
     </item>
-    <item android:id="@+id/ad_menulogout"
+    <item
+        android:id="@+id/ad_menulogout"
         android:title="Logout"
-        app:showAsAction="never"
-        ></item>
+        app:showAsAction="never"></item>
 </menu>

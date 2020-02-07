@@ -185,6 +185,8 @@
     <string name="Intent_EduName">EduName</string>
     <string name="Intent_Auth">auth</string>
     <string name="Intent_GetChallengeId">get_ChallengeId</string>
+    <string name="Intent_CommonDataId">CommonDataId</string>
+
 
     <!-- TODO: Error Messages -->
 
@@ -198,6 +200,8 @@
     <string name="fb_eduId_ChallengesTable">eduid</string>
     <string name="fb_category">category</string>
     <string name="fb_Category_Db">Category</string>
+    <string name="fb_ActionQuestionnare_Db">ActionQuestionnare</string>
+    <string name="fb_CommonData_Db">CommonData</string>
 
     <!-- TODO: Status Active -->
     <string name="Status_Active">Active</string>
@@ -205,7 +209,6 @@
 
     <string name="Status_Active_Number">1</string>
     <string name="Status_InActive_Number">0</string>
-
 
 
     <!-- TODO: File related -->
@@ -271,6 +274,26 @@
     <string name="Toast_Inserted">Data Inserted!</string>
     <string name="Toast_Updated">Data Updated!</string>
     <string name="Toast_Cannot_Insert">You cannot insert,you can only update!</string>
+
+    <!-- TODO: Know Your Career Xml -->
+    <string name="kyc_xml_DOB">Pick your Date Of Birth</string>
+    <string name="kyc_heading">Know Your Career!</string>
+
+
+    <!-- TODO: Know Your Admin Action Questionnare Xml -->
+    <string name="aaq_title">Action Questionnare</string>
+
+    <!-- TODO: Know Your Admin Action Questionnare-->
+    <string name="aaq_CareerQuestionnare">Action Questionnare</string>
+    <string name="aaq_values">Values</string>
+    <string name="aaq_Affirmations">Affirmations</string>
+    <string name="aaq_Inactive">Inactive</string>
+
+    <string name="aaq_CareerQuestionnare_Number">1</string>
+    <string name="aaq_values_Number">2</string>
+    <string name="aaq_Affirmations_Number">3</string>
+    <string name="aaq_Inactive_Number">0</string>
+
 
 
 

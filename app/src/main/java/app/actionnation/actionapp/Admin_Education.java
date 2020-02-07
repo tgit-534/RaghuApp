@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+
+
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -45,9 +47,7 @@ public class Admin_Education extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListner;
     private DatabaseReference mReferenceActionUniversity;
-    private DatabaseReference myRef;
     //private static final String TAG = "GoogleActivity";
-    Education edu;
     Bundle extras;
     String strEduId;
 
@@ -57,7 +57,7 @@ public class Admin_Education extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin__education);
 
-        EduName = (EditText) findViewById(R.id.txtNameEdu);
+        EduName = findViewById(R.id.txtNameEdu);
         EduCategory = (Spinner) findViewById(R.id.spnEduCat);
         txtSpinnerId = (TextView) findViewById(R.id.txtSpinnerId);
         saveBtnEdu = (Button) findViewById(R.id.btnSaveEdu);
@@ -83,9 +83,7 @@ public class Admin_Education extends AppCompatActivity {
                     saveBtnEdu.setText(R.string.AC_Editbtn);
                     saveBtnEdu.setTag(strCategoryId);
                     EduName.setText(strEduName);
-
                 }
-
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
 

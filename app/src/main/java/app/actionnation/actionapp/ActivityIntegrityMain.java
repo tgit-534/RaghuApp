@@ -90,8 +90,13 @@ public class ActivityIntegrityMain extends BaseClassUser implements View.OnClick
             btnSelf.setTextColor(Color.RED);
 
             csrIntegrityGame = dbHelper.getIntegrityScore(fbId, dayOfTheYear, yr);
-
+            csrIntegrityGame.moveToFirst();
             if (csrIntegrityGame.getCount() > Constants.Status_Zero) {
+                selfWin = csrIntegrityGame.getString(Constants.DbSql_Integrity_SelfWin);
+                placeWin = csrIntegrityGame.getString(Constants.DbSql_Integrity_PlaceWin);
+                wordAgreement = csrIntegrityGame.getString(Constants.DbSql_Integrity_WordAgreement);
+                respectWork = csrIntegrityGame.getString(Constants.DbSql_Integrity_RespectWork);
+                wordAgreementItems = csrIntegrityGame.getString(Constants.HP_DbSql_Integrity_RespectWorkItems);
 
                 dbHelper.updateIntegrityScore(25, Integer.parseInt(placeWin), Integer.parseInt(wordAgreement), Integer.parseInt(wordAgreementItems), Float.parseFloat(respectWork), fbId, dayOfTheYear, yr, 1);
 
@@ -105,10 +110,17 @@ public class ActivityIntegrityMain extends BaseClassUser implements View.OnClick
         } else if (i == R.id.btn_int_place) {
 
             csrIntegrityGame = dbHelper.getIntegrityScore(fbId, dayOfTheYear, yr);
+            csrIntegrityGame.moveToFirst();
 
             BtnPlace.setTextColor(Color.RED);
 
             if (csrIntegrityGame.getCount() > 0) {
+
+                selfWin = csrIntegrityGame.getString(Constants.DbSql_Integrity_SelfWin);
+                placeWin = csrIntegrityGame.getString(Constants.DbSql_Integrity_PlaceWin);
+                wordAgreement = csrIntegrityGame.getString(Constants.DbSql_Integrity_WordAgreement);
+                respectWork = csrIntegrityGame.getString(Constants.DbSql_Integrity_RespectWork);
+                wordAgreementItems = csrIntegrityGame.getString(Constants.HP_DbSql_Integrity_RespectWorkItems);
                 dbHelper.updateIntegrityScore(Integer.parseInt(selfWin), 25, Integer.parseInt(wordAgreement), Integer.parseInt(wordAgreementItems), Double.parseDouble(respectWork), fbId, dayOfTheYear, yr, 1);
             } else {
                 dbHelper.insertIntegrityScore(0, 25,

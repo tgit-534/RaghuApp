@@ -12,7 +12,7 @@ public class TabsAdapter extends FragmentStatePagerAdapter {
     String Title[] = { "Action","Inspire","Task"};
 
     public TabsAdapter(FragmentManager fm, int NoofTabs){
-        super(fm);
+        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.mNumOfTabs = NoofTabs;
     }
     @Override

@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -49,26 +50,6 @@ public class GoFbLogin extends BaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_go_fb_login);
 
-/*        //FB login
-        callbackManager = CallbackManager.Factory.create();
-        LoginManager.getInstance().registerCallback(callbackManager,
-                new FacebookCallback<LoginResult>() {
-                    @Override
-                    public void onSuccess(LoginResult loginResult) {
-                        RedirectToNext("fb");
-                        // App code
-                    }
-
-                    @Override
-                    public void onCancel() {
-                        // App code
-                    }
-
-                    @Override
-                    public void onError(FacebookException exception) {
-                        // App code
-                    }
-                });*/
 
         //  mDetailTextView = findViewById(R.id.detail);
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);
@@ -206,7 +187,9 @@ public class GoFbLogin extends BaseActivity
 
 
     private void RedirectToNext(String str) {
-        Intent homepage = new Intent(GoFbLogin.this, RedirectFromMain.class);
+       // Intent homepage = new Intent(GoFbLogin.this, RedirectFromMain.class);
+        Intent homepage = new Intent(GoFbLogin.this, ActivityMainObjectives.class);
+
         Bundle mBundle = new Bundle();
         mBundle.putString(getString(R.string.common_auth), str);
         homepage.putExtras(mBundle);

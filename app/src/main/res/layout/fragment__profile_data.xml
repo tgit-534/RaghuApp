@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Fragment_ProfileData">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/ll_FPD"
+        >
+
+        <TextView
+            style="@style/TextTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/fpd_title"></TextView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/et_FPdFirstName"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/my_border"
+                android:gravity="top|left"
+                android:hint="@string/fpd_firstName"
+                android:outlineAmbientShadowColor="@color/main_color" />
+
+            <EditText
+                android:id="@+id/et_FPDLastName"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/my_border"
+                android:gravity="top|left"
+                android:hint="@string/fpd_lastName" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/et_FPDHandleName"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/my_border"
+                android:gravity="top|left"
+                android:hint="@string/fpd_userName"
+                android:outlineAmbientShadowColor="@color/main_color" />
+
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_search_12">
+            </ImageButton>
+
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/et_FPDDream"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/my_border"
+            android:gravity="top|left"
+            android:hint="@string/fpd_dream"
+            android:inputType="textMultiLine"
+            android:maxLines="2"
+            android:minLines="2"
+            android:outlineAmbientShadowColor="@color/main_color"
+            android:scrollbars="vertical" />
+
+
+        <EditText
+            android:id="@+id/et_FPDChallenge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/my_border"
+            android:gravity="top|left"
+            android:hint="@string/fpd_challenge"
+            android:inputType="textMultiLine"
+            android:maxLines="2"
+            android:minLines="2"
+            android:outlineAmbientShadowColor="@color/main_color"
+            android:scrollbars="vertical" />
+
+
+        <EditText
+            android:id="@+id/et_FPDCountry"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/my_border"
+            android:gravity="top|left"
+            android:hint="@string/fpd_country"
+            android:outlineAmbientShadowColor="@color/main_color" />
+
+
+        <EditText
+            android:id="@+id/et_FPDState"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/my_border"
+            android:gravity="top|left"
+            android:hint="@string/fpd_state"
+            android:outlineAmbientShadowColor="@color/main_color" />
+
+
+        <Button
+            android:id="@+id/btnFPDSubmit"
+            style="@style/ButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Save" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context=".Activity_TrueLearning">
+
+
+    <include
+        layout="@layout/toolbar_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@color/an_text"
+        android:elevation="6dp" />
+
+    <TextView
+        style="@style/TextTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/Activity_TL_Heading"></TextView>
+
+    <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/listTrueLearning"
+        android:name="com.example.myapplication.ActivityAttention"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context="app.actionnation.actionapp.ActivityAttention"
+        tools:listitem="@layout/lf_habittraking" />
+
+
+
+</LinearLayout>

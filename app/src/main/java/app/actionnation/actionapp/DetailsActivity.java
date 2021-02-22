@@ -46,8 +46,6 @@ public class DetailsActivity extends AdminCommonClass {
     Button btnAdmin;
     Spinner spinner;
     FirebaseRecyclerAdapter fbAdapter;
-
-
     private List<Category> categories = new ArrayList<>();
 
     @Override
@@ -64,7 +62,7 @@ public class DetailsActivity extends AdminCommonClass {
                 getString(R.string.fb_category),
                 getString(R.string.fb_leadershipProg),
                 getString(R.string.fb_CommonData_Db)
-
+                
         };
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(DetailsActivity.this, android.R.layout.simple_spinner_item, data);
@@ -105,8 +103,7 @@ public class DetailsActivity extends AdminCommonClass {
             }
         });
 
-
-        //    userID = user.getUid();
+       //    userID = user.getUid();
 
 
         //   lv.setAdapter(adapter);
@@ -236,9 +233,9 @@ public class DetailsActivity extends AdminCommonClass {
         fbAdapter = new FirebaseRecyclerAdapter<CommonData, FindViewHolderEdit>(options) {
             @Override
             protected void onBindViewHolder(@NonNull final FindViewHolderEdit holder, int position, @NonNull CommonData model) {
-                holder.mContentView.setText((model.getDataString()));
+                holder.mContentView.setText(String.valueOf(model.getDataNumber()));
                 holder.mContentButton.setTag(fbAdapter.getRef(position).getKey());
-                holder.mContentId.setText(fbAdapter.getRef(position).getKey());
+                holder.mContentId.setText(model.getDataString());
 
                 holder.mContentButton.setOnClickListener(new View.OnClickListener() {
                     @Override

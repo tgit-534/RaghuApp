@@ -22,4 +22,14 @@
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:text="Share Link" />
+
+
+    <NumberPicker
+        android:id="@+id/numberpicker_main_picker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ></NumberPicker>
+
+
+
 </LinearLayout>

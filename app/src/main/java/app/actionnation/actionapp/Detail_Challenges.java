@@ -10,7 +10,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -47,16 +46,13 @@ import app.actionnation.actionapp.Database_Content.UserCourse;
 public class Detail_Challenges extends AppCompatActivity {
     private List<Challenges> challengesList = new ArrayList<>();
     private RecyclerView recyclerView;
-    private ChallengesListRecyclerViewAdapter mAdapter;
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
     FirebaseRecyclerAdapter fbAdapter;
 
-    private FirebaseAuth.AuthStateListener mAuthListner;
-    private DatabaseReference mReferenceActionUniversity;
+
     private DatabaseReference myRef;
     private static final String TAG = "GoogleActivity";
-    Button btnSubmit;
     int challengesNumber;
 
 
@@ -115,7 +111,7 @@ public class Detail_Challenges extends AppCompatActivity {
                     myRef = mFirebaseDatabase.getInstance().getReference().child(getString(R.string.fb_Challenges));
                     FirebaseUser user = mAuth.getCurrentUser();
 
-                    recyclerView = (RecyclerView) findViewById(R.id.rv_ShowChallanges);
+                    recyclerView = findViewById(R.id.rv_ShowChallanges);
                     recyclerView.setLayoutManager(new LinearLayoutManager(Detail_Challenges.this));
                     recyclerView.setHasFixedSize(true);
                     fetch(clgNum);
@@ -123,7 +119,7 @@ public class Detail_Challenges extends AppCompatActivity {
                     myRef = mFirebaseDatabase.getInstance().getReference().child(getString(R.string.fb_Challenges));
                     FirebaseUser user = mAuth.getCurrentUser();
 
-                    recyclerView = (RecyclerView) findViewById(R.id.rv_ShowChallanges);
+                    recyclerView = findViewById(R.id.rv_ShowChallanges);
                     recyclerView.setLayoutManager(new LinearLayoutManager(Detail_Challenges.this));
                     recyclerView.setHasFixedSize(true);
                     String param_LoadChallenges = getString(R.string.pm_firstLoad_Challenges);

@@ -6,10 +6,9 @@ public class UserCourse {
     String Fb_Id;
 
 
-    public UserCourse()
-{
+    public UserCourse() {
 
-}
+    }
 
     public String getEdu_Id() {
         return Edu_Id;

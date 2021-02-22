@@ -1,8 +1,8 @@
 package app.actionnation.actionapp.data;
 
-import app.actionnation.actionapp.data.model.LoggedInUser;
-
 import java.io.IOException;
+
+import app.actionnation.actionapp.data.model.LoggedInUser;
 
 /**
  * Class that handles authentication w/ login credentials and retrieves user information.

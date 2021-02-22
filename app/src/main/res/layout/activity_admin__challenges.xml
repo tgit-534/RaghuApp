@@ -16,11 +16,8 @@
         style="@style/TextHeading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Challenges"
-        >
-
+        android:text="Challenges">
     </TextView>
-
 
     <EditText
         android:id="@+id/txtNameChal"
@@ -35,7 +32,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal" />
 
-
     <EditText
         android:id="@+id/txtChalNumber"
         android:layout_width="match_parent"
@@ -43,13 +39,20 @@
         android:layout_gravity="center_horizontal"
         android:hint="Challenge Number" />
 
-
     <EditText
         android:id="@+id/txtChalDesc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:hint="Description" />
+
+    <EditText
+        android:id="@+id/txtVideoLink"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:hint="VideoLink" />
+
     <Spinner
         android:id="@+id/spnEduChalStatus"
         android:layout_width="match_parent"
@@ -58,12 +61,11 @@
 
     <Button
         android:id="@+id/btnSaveChal"
+        style="@style/ButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="Save"
-        style="@style/ButtonStyle"/>
-
+        android:text="Save" />
 
 
 </LinearLayout>

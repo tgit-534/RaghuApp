@@ -38,7 +38,7 @@ public class Admin_Challenges extends AppCompatActivity {
 
     private static final String TAG = "DatabaseActivity";
 
-    EditText etChalName, etChalDesc, etChalNumber;
+    EditText etChalName, etChalDesc, etChalNumber, etVideoLink;
     Spinner SpnEducation, spinner;
     Button btnSaveChal;
     Intent intent;
@@ -58,6 +58,7 @@ public class Admin_Challenges extends AppCompatActivity {
         etChalName = findViewById(R.id.txtNameChal);
         etChalDesc = findViewById(R.id.txtChalDesc);
         etChalNumber = findViewById(R.id.txtChalNumber);
+        etVideoLink = findViewById(R.id.txtVideoLink);
 
         SpnEducation = findViewById(R.id.spnEduChal);
 
@@ -92,10 +93,12 @@ public class Admin_Challenges extends AppCompatActivity {
                         String ChallengeDesc = ds.getValue(Challenges.class).getChallenge_Desc();
                         String EduId = ds.getValue(Challenges.class).getEduid();
                         String ChallengeNumber = String.valueOf(ds.getValue(Challenges.class).getChallengenumber());
+                        String VideoLink = String.valueOf(ds.getValue(Challenges.class).getChallengenumber());
 
                         etChalName.setText(ChallengeName);
                         etChalDesc.setText(ChallengeDesc);
                         etChalNumber.setText(ChallengeNumber);
+                        etVideoLink.setText(VideoLink);
 
                         SpnEducation.setVisibility(View.GONE);
                         btnSaveChal.setText(getString(R.string.AC_Editbtn));
@@ -170,6 +173,7 @@ public class Admin_Challenges extends AppCompatActivity {
                     chal.setChallenge_Desc(etChalDesc.getText().toString());
                     chal.setChallengenumber(Integer.parseInt(etChalNumber.getText().toString()));
                     chal.setEduid(btnSaveChal.getTag().toString());
+                    chal.setVideo_Url(etVideoLink.getText().toString());
 
                     if (spinner.getSelectedItem().equals(getString(R.string.Status_Active))) {
                         chal.setStatus(1);
@@ -186,6 +190,7 @@ public class Admin_Challenges extends AppCompatActivity {
                     chal.setChallenge_Name(etChalName.getText().toString());
                     chal.setChallenge_Desc(etChalDesc.getText().toString());
                     chal.setChallengenumber(Integer.parseInt(etChalNumber.getText().toString()));
+                    chal.setVideo_Url(etVideoLink.getText().toString());
                     if (spinner.getSelectedItem().equals(getString(R.string.Status_Active))) {
                         chal.setStatus(1);
                     } else if (spinner.getSelectedItem().equals(getString(R.string.Status_InActive))) {

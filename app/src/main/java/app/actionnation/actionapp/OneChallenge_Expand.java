@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,8 +24,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -34,6 +33,10 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.youtube.player.YouTubeBaseActivity;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -53,7 +56,7 @@ import java.util.Date;
 import app.actionnation.actionapp.Database_Content.Challenges;
 import app.actionnation.actionapp.Database_Content.UserCourse;
 
-public class OneChallenge_Expand extends AppCompatActivity implements View.OnClickListener, BottomNavigationView.OnNavigationItemReselectedListener {
+public class OneChallenge_Expand extends YouTubeBaseActivity implements View.OnClickListener, BottomNavigationView.OnNavigationItemReselectedListener {
 
     Button btnShare, btnCertGenerator, btnShareWithfrieds;
     Button btnSubmitright;
@@ -68,6 +71,10 @@ public class OneChallenge_Expand extends AppCompatActivity implements View.OnCli
     private static final String TAG = "234";
     private ValueEventListener challengeListener, challengeListner2;
 
+    YouTubePlayerView youTubePlayerView;
+    Button btnYoutube;
+
+
     String EduId;
     private ImageView mImageView;
     private Uri filePath;
@@ -78,13 +85,53 @@ public class OneChallenge_Expand extends AppCompatActivity implements View.OnCli
     FirebaseRecyclerAdapter fbAdapter;
     RecyclerView recyclerView;
     String StrValue;
-
+    YouTubePlayer.OnInitializedListener onInitializedListener;
+    private YouTubePlayer youTubePlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_one_challenge__expand);
         btnSubmitright = findViewById(R.id.btn_oce_SubmitRight);
+
+
+        final YoutubeService service = new YoutubeService();
+        youTubePlayerView = findViewById(R.id.viewYoutube);
+        btnYoutube = findViewById(R.id.btn_youtube);
+        onInitializedListener = new YouTubePlayer.OnInitializedListener() {
+            @Override
+            public void onInitializationSuccess(YouTubePlayer.Provider provider, final YouTubePlayer youTubePlayer, boolean b) {
+
+                if (!TextUtils.isEmpty(recyclerView.getTag().toString())) {
+                    youTubePlayer.loadVideo(recyclerView.getTag().toString());
+                }
+
+                youTubePlayer.setOnFullscreenListener(new YouTubePlayer.OnFullscreenListener() {
+                    @Override
+                    public void onFullscreen(boolean b) {
+                        recyclerView.setVisibility(View.INVISIBLE);
+                        btnSubmitright.setVisibility(View.INVISIBLE);
+                        youTubePlayer.loadVideo(recyclerView.getTag().toString());
+                    }
+                });
+            }
+
+            @Override
+            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+            }
+
+        };
+
+        btnYoutube.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //   setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+                youTubePlayerView.initialize(service.getStrApi(), onInitializedListener);
+            }
+        });
+
+
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigation);
         bottomNavigationView.setSelectedItemId(R.id.navigation_home);
         bottomNavigationView.setOnNavigationItemReselectedListener(this);
@@ -93,12 +140,11 @@ public class OneChallenge_Expand extends AppCompatActivity implements View.OnCli
 
         String strDisplayName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
         // Find the toolbar view inside the activity layout
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+       /* Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         // Sets the Toolbar to act as the ActionBar for this Activity window.
         // Make sure the toolbar exists in the activity and is not null
-        setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);*/
         Bundle extras = getIntent().getExtras();
-
 
 
         String strEduname = "";
@@ -108,9 +154,9 @@ public class OneChallenge_Expand extends AppCompatActivity implements View.OnCli
 
         }
         // getSupportActionBar().setTitle(getString(R.string.OCE_ChallengeNo)+ strChallengeNumber);
-        getSupportActionBar().setTitle(strEduname);
+ /*       getSupportActionBar().setTitle(strEduname);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
 
         CommonClass cl = new CommonClass();
         mGoogleSignInClient = cl.GoogleStart(OneChallenge_Expand.this);
@@ -285,7 +331,6 @@ public class OneChallenge_Expand extends AppCompatActivity implements View.OnCli
         EduId = extras.getString(getString(R.string.Intent_EduId));
         final int ChallengesNumber = Integer.parseInt(extras.getString(getString(R.string.Intent_ChallengesNumber)));
 
-
         if (Integer.parseInt(tx_Oce_ChallengeNumber.getTag().toString()) == ChallengesNumber) {
             if (userInputValue.equals("") || userInputValue.isEmpty()) {
                 return;
@@ -357,7 +402,6 @@ public class OneChallenge_Expand extends AppCompatActivity implements View.OnCli
                     uc.setChallenge_Number(ChallengesNumber);
                     demoRef.setValue(uc);
                 }
-
                 CommonClass cls = new CommonClass();
                 cls.callToast(OneChallenge_Expand.this, getString(R.string.OCE_ToastPressBackButton));
                 GoToHome();
@@ -416,9 +460,15 @@ public class OneChallenge_Expand extends AppCompatActivity implements View.OnCli
             protected void onBindViewHolder(@NonNull ChallengesViewHolder1 holder, int position, @NonNull Challenges model) {
                 String strChallengeId = fbAdapter.getRef(position).getKey();
                 if (strChallengeId.equals(StrValue)) {
-                    holder.cv_ChallengeNo.setText(getString(R.string.OCE_ChallengeNo) + model.getChallengenumber()+".");
+                    holder.cv_ChallengeNo.setText(getString(R.string.OCE_ChallengeNo) + model.getChallengenumber() + ".");
                     holder.cv_ChallengeDesc.setText(model.getChallenge_Desc());
                     holder.cv_ChallengeName.setText(model.getChallenge_Name());
+                    recyclerView.setTag(model.getVideo_Url());
+                    if (model.getVideo_Url() != null) {
+                        btnYoutube.setVisibility(View.VISIBLE);
+                        youTubePlayerView.setVisibility(View.VISIBLE);
+
+                    }
                 }
             }
         };
@@ -442,6 +492,7 @@ public class OneChallenge_Expand extends AppCompatActivity implements View.OnCli
         public final TextView cv_ChallengeNo;
         public final TextView cv_ChallengeName;
         public final TextView cv_ChallengeDesc;
+
         public Challenges mItem;
 
         public ChallengesViewHolder1(View view) {

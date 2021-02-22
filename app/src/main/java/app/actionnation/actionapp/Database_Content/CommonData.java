@@ -5,9 +5,18 @@ public class CommonData {
     String DataContent;
     int Status;
     int DataNumber;
+    String DataUrl;
 
     public CommonData() {
 
+    }
+
+    public String getDataUrl() {
+        return DataUrl;
+    }
+
+    public void setDataUrl(String dataUrl) {
+        DataUrl = dataUrl;
     }
 
     public String getDataString() {

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".FragmentClock">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_fclock_10"
+            style="@style/MediumButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10 Mins"
+            android:layout_margin="10dp"></Button>
+
+        <Button
+            android:id="@+id/btn_fclock_15"
+            style="@style/MediumButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="15 Mins"
+            android:layout_margin="10dp"></Button>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_fclock_20"
+            style="@style/MediumButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="20 Mins"
+            android:layout_margin="10dp"></Button>
+
+        <Button
+            android:id="@+id/btn_fclock_30"
+            style="@style/MediumButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="30 Mins"
+            android:layout_margin="10dp"></Button>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_fclock_1hr"
+            style="@style/MediumButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1 Hour"
+            android:layout_margin="10dp"></Button>
+
+        <Button
+            android:id="@+id/btn_fclock_130hr"
+            style="@style/MediumButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1.5 Hours"
+            android:layout_margin="10dp"></Button>
+    </LinearLayout>
+
+
+</LinearLayout>

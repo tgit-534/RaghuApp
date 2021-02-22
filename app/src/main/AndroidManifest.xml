@@ -6,6 +6,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.SET_ALARM" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
 
     <protected-broadcast android:name="android.intent.action.MEDIA_MOUNTED" />
 
@@ -16,7 +18,38 @@
         android:roundIcon="@mipmap/ic_launcher_main"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AdminActionQuestionnare"></activity>
+        <activity android:name=".ActivityProfileComplete" />
+        <activity android:name=".ActivityMainProfile" />
+        <activity
+            android:name=".ActivityYourStory"
+            android:label="@string/title_activity_your_story"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ActivityRevealStory"
+            android:label="@string/title_activity_reveal_story"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ActivityExperienceNature" />
+        <activity android:name=".ActivityExcerciseEat" />
+        <activity android:name=".ActivityOurBelief" />
+        <activity android:name=".ActivityExerciseNew" />
+        <activity android:name=".HappinessContent" />
+        <activity android:name=".RespectWork" />
+        <activity android:name=".ActivityEatHealthy" />
+        <activity android:name=".ActivityHappiness" />
+        <activity android:name=".Activity_TrueLearning" />
+        <activity android:name=".ActivityIntegrityMain" />
+        <activity android:name=".ActivityTimerWindow" />
+        <activity android:name=".ActivityAttention" />
+        <activity android:name=".ActivityReading" />
+        <activity android:name=".ActivityExercise" />
+        <activity android:name=".ActivityVisualization" />
+        <activity android:name=".MeditationActivity" />
+        <activity android:name=".ActivityIntegrity" />
+        <activity android:name=".ActivityMainObjectives" />
+        <activity android:name=".HabitTraking" />
+        <activity android:name=".PersondetailsActivity" />
+        <activity android:name=".displaydata" />
+        <activity android:name=".AdminActionQuestionnare" />
         <activity android:name=".knowyourcareer" />
         <activity android:name=".forgotpassword" />
         <activity android:name=".TestCoding">
@@ -98,6 +131,20 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
+
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat"/>
+
+        <receiver
+            android:name=".AlarmReceiver"
+            android:process=":remote" />
+        <receiver
+            android:name=".ToastReceiver"
+            android:process=":remote" />
+
+        <service
+            android:name=".RingtonePlayingService"
+            android:enabled="true" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

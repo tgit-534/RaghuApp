@@ -3,12 +3,20 @@ package app.actionnation.actionapp.Database_Content;
 public class Challenges {
 
     String fb_Id, eduid ;
-    String Challenge_Name, Challenge_Desc, Edu_Name;
+    String Challenge_Name, Challenge_Desc, Edu_Name, Video_Url;
     int status,challengenumber;
     String created_at;
 
     // constructors
     public Challenges() {
+    }
+
+    public String getVideo_Url() {
+        return Video_Url;
+    }
+
+    public void setVideo_Url(String video_Url) {
+        Video_Url = video_Url;
     }
 
     public String getFb_Id() {

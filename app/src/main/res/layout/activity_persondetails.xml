@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".PersondetailsActivity">
+
+    <include
+        layout="@layout/toolbar_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@color/an_text"
+        android:elevation="6dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ViewFlipper
+            android:id="@+id/vfPersonalDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="@string/pa_title"></TextView>
+
+                <EditText
+                    android:id="@+id/txtPdPurpose"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/my_border"
+                    android:gravity="top|left"
+                    android:hint="@string/pd_purpose"
+                    android:inputType="textMultiLine"
+                    android:lines="4"
+                    android:maxLines="10"
+                    android:minLines="6"
+                    android:outlineAmbientShadowColor="@color/main_color"
+                    android:scrollbars="vertical" />
+
+                <EditText
+                    android:id="@+id/txtPdMission"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/my_border"
+                    android:gravity="top|left"
+                    android:hint="@string/pd_mission"
+                    android:inputType="textMultiLine"
+                    android:lines="4"
+                    android:maxLines="10"
+                    android:minLines="6"
+                    android:outlineAmbientShadowColor="@color/main_color"
+                    android:scrollbars="vertical" />
+
+                <EditText
+                    android:id="@+id/txtPdVision"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/my_border"
+                    android:gravity="top|left"
+                    android:hint="@string/pd_vision"
+                    android:inputType="textMultiLine"
+                    android:lines="4"
+                    android:maxLines="10"
+                    android:minLines="6"
+                    android:outlineAmbientShadowColor="@color/main_color"
+                    android:scrollbars="vertical" />
+
+                <Button
+                    android:id="@+id/btnPdSubmit"
+                    style="@style/ButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="Save" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="@string/pa_HabitsTitle"></TextView>
+
+                <EditText
+                    android:id="@+id/txtPdHabit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/my_border"
+                    android:gravity="top|left"
+                    android:hint="@string/pd_habitName"
+                    android:inputType="textMultiLine"
+                    android:lines="4"
+                    android:maxLines="10"
+                    android:minLines="6"
+                    android:outlineAmbientShadowColor="@color/main_color"
+                    android:scrollbars="vertical" />
+
+                <EditText
+                    android:id="@+id/txtPdHabitDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/my_border"
+                    android:gravity="top|left"
+                    android:hint="@string/pd_habitDesc"
+                    android:inputType="textMultiLine"
+                    android:lines="4"
+                    android:maxLines="10"
+                    android:minLines="6"
+                    android:outlineAmbientShadowColor="@color/main_color"
+                    android:scrollbars="vertical" />
+
+                <Button
+                    android:id="@+id/btnPdSaveHabit"
+                    style="@style/ButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="Save"></Button>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="@string/pa_Visualization"></TextView>
+
+                <EditText
+                    android:id="@+id/txtPdVisualizationText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/my_border"
+                    android:gravity="top|left"
+                    android:hint="Write your Leadership Story here!"
+                    android:inputType="textMultiLine"
+                    android:lines="8"
+                    android:maxLines="10"
+                    android:minLines="6"
+                    android:outlineAmbientShadowColor="@color/main_color"
+                    android:scrollbars="vertical" />
+
+                <Button
+                    android:id="@+id/btnPdSaveVisualization"
+                    style="@style/SmallButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="Save Text"></Button>
+
+                <TextView
+                    style="@style/TextTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="Save your Vision Images!"></TextView>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="4dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/btnPdChooseFiles"
+                        style="@style/SmallButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        app:srcCompat="@drawable/ic_file_upload_48"></ImageButton>
+
+                    <Button
+                        android:id="@+id/btnPdSaveImages"
+                        style="@style/SmallButtonStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="Submit"></Button>
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="@string/pd_Distration"></TextView>
+
+                <EditText
+                    android:id="@+id/etDistration"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/my_border"
+                    android:gravity="top|left"
+                    android:hint="@string/pd_Distration_Hint"
+                    android:inputType="textMultiLine"
+                    android:lines="4"
+                    android:maxLines="10"
+                    android:minLines="6"
+                    android:outlineAmbientShadowColor="@color/main_color"
+                    android:scrollbars="vertical" />
+
+                <Button
+                    android:id="@+id/btnPdSaveDistration"
+                    style="@style/ButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="Save"></Button>
+            </LinearLayout>
+
+        </ViewFlipper>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/btnPdPrev"
+            style="@style/SmallButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_chevron_left_black_24dp"></ImageButton>
+
+        <ImageButton
+            android:id="@+id/btnPdNext"
+            style="@style/SmallButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_btnright"></ImageButton>
+
+    </LinearLayout>
+</LinearLayout>

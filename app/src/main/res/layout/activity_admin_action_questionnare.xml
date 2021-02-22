@@ -44,6 +44,17 @@
         android:layout_marginBottom="10dp"
         android:hint="Number"
         />
+
+    <ImageButton
+        android:id="@+id/abtn_display_ChooseImage"
+        style="@style/SmallButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:text="Choose Image"
+        app:srcCompat="@drawable/ic_file_upload_48" />
+
+
     <Spinner
         android:id="@+id/spn_aaq_Status"
         android:layout_width="match_parent"

@@ -164,6 +164,7 @@
     <string name="common_yes">YES</string>
     <string name="common_no">NO</string>
     <string name="common_confirm">Confirm</string>
+    <string name="common_facebook">fb</string>
 
 
     <!-- TODO: Common Notations Xml -->
@@ -202,6 +203,27 @@
     <string name="fb_Category_Db">Category</string>
     <string name="fb_ActionQuestionnare_Db">ActionQuestionnare</string>
     <string name="fb_CommonData_Db">CommonData</string>
+    <string name="fb_PersonalStatements_Db">PersonalStatements</string>
+    <string name="fb_PersonalHabits">PersonalHabits</string>
+    <string name="fb_Column_Fb_Id">fb_Id</string>
+
+
+    <!-- TODO: Firestore Database -->
+    <string name="fs_Personal_statements">Personal_Statements</string>
+    <string name="fs_PersonalHabits">Personal_Habits</string>
+    <string name="fs_PersonIntegrity">Person_Integrity</string>
+    <string name="fs_PersonVisualization">Personal_Visualization</string>
+    <string name="fs_PersonBook">Personal_Book</string>
+    <string name="fs_PersonalExcercise">Personal_Excercise</string>
+    <string name="fs_PersonalDistraction">Personal_Distraction</string>
+    <string name="fs_UserProfile">UserProfile</string>
+
+
+    <!-- TODO: Firestore Database fieldss -->
+    <string name="fs_PersonalHabits_Habitdays">habitDays</string>
+    <string name="fs_PersonalIntegrity_PromiseDate">promiseDate</string>
+    <string name="fs_PersonalVisualization_columnn">personVisualStatement</string>
+
 
     <!-- TODO: Status Active -->
     <string name="Status_Active">Active</string>
@@ -213,8 +235,12 @@
 
     <!-- TODO: File related -->
     <string name="file_CertificateStorate">/DCIM/ActionNation</string>
+    <string name="file_Visualization">/DCIM/ActionNation/Visualization</string>
+
     <string name="file_imageformat_jpg">.jpg</string>
     <string name="file_certificate_startformat">MI_</string>
+    <string name="file_Visualization_startformat">OV_</string>
+
 
     <!-- TODO: OneChallenge View Holder -->
     <string name="ocv_title1">Hello Action Hero!</string>
@@ -274,6 +300,13 @@
     <string name="Toast_Inserted">Data Inserted!</string>
     <string name="Toast_Updated">Data Updated!</string>
     <string name="Toast_Cannot_Insert">You cannot insert,you can only update!</string>
+    <string name="Toast_No_Data">No Data Available!</string>
+    <string name="Toast_Textbox_Empty">Text Boxes are empty!</string>
+
+
+    <!-- TODO: Split Characters -->
+    <string name="Split_Comma">,</string>
+
 
     <!-- TODO: Know Your Career Xml -->
     <string name="kyc_xml_DOB">Pick your Date Of Birth</string>
@@ -288,12 +321,255 @@
     <string name="aaq_values">Values</string>
     <string name="aaq_Affirmations">Affirmations</string>
     <string name="aaq_Inactive">Inactive</string>
+    <string name="aaq_description">Description</string>
+    <string name="aaq_Display_fields">DisplayFields</string>
+    <string name="aaq_True_Learning">True Learning</string>
+    <string name="aaq_Happiness">Happiness</string>
+    <string name="aaq_EatHealthy">EatHealthy</string>
+    <string name="aaq_MVP">MVP</string>
+    <string name="aaq_Forgiveness">Forgiveness</string>
+    <string name="aaq_Emotions">Emotions</string>
+    <string name="aaq_Nature">Nature</string>
+    <string name="aaq_Story">Story</string>
+    <string name="aaq_AvoidFood">Avoid Food</string>
 
     <string name="aaq_CareerQuestionnare_Number">1</string>
     <string name="aaq_values_Number">2</string>
     <string name="aaq_Affirmations_Number">3</string>
     <string name="aaq_Inactive_Number">0</string>
+    <string name="aaq_description_Number">4</string>
+    <string name="aaq_Display_fields_Number">5</string>
+    <string name="aaq_True_Learning_Number">6</string>
+    <string name="aaq_Happiness_Number">7</string>
+    <string name="aaq_EatHealthy_Number">8</string>
+    <string name="aaq_Forgiveness_Number">9</string>
+    <string name="aaq_Emotions_Number">10</string>
+    <string name="aaq_Nature_Number">11</string>
+    <string name="aaq_Story_Number">12</string>
+    <string name="aaq_AvoidFood_Number">13</string>
 
+
+    <string name="Display_fields_Integrity">1</string>
+    <string name="Display_fields_Attention">2</string>
+    <string name="Display_fields_Meditation">3</string>
+    <string name="Display_fields_TrueLearning">4</string>
+    <string name="Display_fields_Happy">5</string>
+    <string name="Display_fields_EatHealthy">6</string>
+    <string name="Display_fields_Habit">7</string>
+    <string name="Display_fields_Excercise">8</string>
+    <string name="Display_fields_Review">9</string>
+    <string name="Display_fields_Visualization">10</string>
+
+
+    <string name="pa_title">Success Seeds</string>
+    <string name="pa_HabitsTitle">Habits</string>
+    <string name="pa_Visualization">Visualization</string>
+    <string name="pd_Distration">Distraction</string>
+    <string name="pd_Distration_Hint"> Your Distraction</string>
+
+
+    <string name="pd_purpose">Purpose: Why you exist?</string>
+    <string name="pd_mission">Mission: How you can serve your purpose?</string>
+    <string name="pd_vision">Vision: What you aspire to become?</string>
+
+    <string name="pd_habit">Habit</string>
+    <string name="pd_habitDesc">Habit Description</string>
+    <string name="pd_habitName">Your Habit to achieve your dreams!</string>
+
+    <string name="ht_descrption">Habits are building blocks of our success!</string>
+    <string name="btn_submit">Submit</string>
+
+    <!-- TODO: Fragment Philosophy-->
+    <string name="ap_Gratitude">Gratitude</string>
+    <string name="ap_Forgiveness">Forgiveness</string>
+    <string name="ap_Dream">Dream</string>
+
+    <!-- TODO: Activity Reading-->
+    <string name="ar_BookToRead">Book To Be Read</string>
+    <string name="ar_BookAlRead">Book Already Read</string>
+    <string name="ar_BookReading">Book Reading Now</string>
+
+    <string name="ar_BookReading_Number">1</string>
+    <string name="ar_BookToRead_Number">2</string>
+    <string name="ar_BookAlRead_Number">3</string>
+
+    <!-- TODO: Habit Traking -->
+    <string name="ht_HabitDaysInitialization">0</string>
+
+    <!-- TODO: Habit Traking Xml-->
+
+    <string name="go_HabitPage">Add Habit!</string>
+
+
+    <!-- TODO: Gratitide List Xml-->
+
+    <string name="gratitide_Add">Add Gratitude!</string>
+
+    <string name="Page_Redirect">PageRedirect</string>
+    <string name="Page_Redirect_Gratitude">Gratitude</string>
+    <string name="Page_Redirect_Habit">Habit</string>
+    <string name="Page_Redirect_Exercise">Exercise Routines</string>
+    <string name="Page_Redirect_Attention">Distraction</string>
+    <string name="Page_Redirect_Visualization">Visualization</string>
+    <string name="Page_Redirect_Belief">Belief</string>
+    <string name="Page_Redirect_Traction">Traction</string>
+
+
+    <!-- TODO: Integrity Xml-->
+    <string name="Activity_Integrity">Your Word will create your world!</string>
+
+    <!-- TODO: Attention Xml-->
+
+
+    <!-- TODO: Visualization  Xml-->
+    <string name="Activity_Visualization_Heading">Your Visualization for building your future!</string>
+    <string name="go_VisualizationPage">Edit Visualization Text!</string>
+
+    <!-- TODO: Excercise  Xml-->
+    <string name="Activity_Excercise_Toast_SelectRoutine">Please Select The Routine You Needed!</string>
+
+    <!-- TODO: Meditation  Xml-->
+    <!-- TODO: Integrity  Xml-->
+    <string name="Integrity_Date">Pick Date</string>
+    <string name="Integrity_Time">Pick Time</string>
+
+
+    <!-- TODO:  Heading  Xml-->
+    <string name="Fragment_Gr_Heading">Gratitude!</string>
+    <string name="Fragment_fg_Heading">Forgiveness!</string>
+    <string name="Fragment_Dm_Heading">Dream!</string>
+    <string name="Fragment_Dt_Heading">Distraction!</string>
+    <string name="Fragment_Tr_Heading">Traction!</string>
+    <string name="Fragment_Em_Heading">Emotions!</string>
+    <string name="Fragment_Abe_Heading"> Abundance(Reframe your world)!</string>
+
+
+    <!-- TODO:  Heading Activity Xml-->
+    <string name="Meditation_Heading">Meditation</string>
+    <string name="Activity_Reading_Heading">Reading is Improving!</string>
+    <string name="Activity_ExcerciseNew_Heading">Exercise!</string>
+    <string name="Activity_TL_Heading">True Learning!</string>
+    <string name="Activity_EH_Heading">Eat Healthy!</string>
+    <string name="Activity_Excercise_Heading">Excercise is Important!</string>
+    <string name="Activity_Attention_Heading">Attention for Amazing Creations!</string>
+    <string name="ht_Heading">Your Habits For Your Greatness!</string>
+    <string name="Activity_Belief_Heading">Our Belief System</string>
+    <string name="Activity_Nature_Heading">Experience Nature!</string>
+    <string name="Activity_Story_Heading">Story!</string>
+
+
+    <!-- TODO: Integrity Xml-->
+    <string name="Power_Limit">5</string>
+
+    <!-- TODO: Belief Xml-->
+    <string name="BeliefRedirect">Add Belief</string>
+
+
+    <!-- TODO: Reading  Xml-->
+
+
+    <!-- TODO: Happiness Contentl-->
+    <string name="Hc_redirect_Gratitude">Gratitude</string>
+    <string name="Hc_Gratitude_Heading">Gratitude</string>
+    <string name="Hc_Belief_Heading">Belief</string>
+    <string name="Hc_Gratitide_Hint">Insert Gratitude!</string>
+    <string name="Hc_Belief_Hint">Insert Belief!</string>
+    <string name="Hc_Traction_Hint">Insert Traction!</string>
+
+
+    <!-- TODO: Hint -->
+    <string name="Hint_Belief_Name">Type Belief Name</string>
+    <string name="Hint_Belief_Desc">Type Belief Description</string>
+    <string name="Hint_Traction_Name">Type Traction Name</string>
+    <string name="title_activity_reveal_story">ActivityRevealStory</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="title_activity_your_story">ActivityYourStory</string>
+
+
+    <!-- TODO: Happiness Contentl-->
+    <string name="Game_SelfWin_Number">25</string>
+    <string name="Game_PlaceWin_Number">25</string>
+    <string name="Game_WordWin_Number">100</string>
+    <string name="Game_WorkWin_Number">100</string>
+
+
+    <string name="Game_Button_Submit">Finish</string>
+
+
+    <!-- TODO: Generic Score-->
+
+    <string name="GS_meditationScore">2</string>
+    <string name="GS_trueLearningScore">3</string>
+    <string name="GS_exerciseScore">4</string>
+    <string name="GS_natureScore">5</string>
+    <string name="GS_yourStoryScore">6</string>
+    <string name="GS_ourBeliefScore">7</string>
+
+
+    <!-- TODO: Emotions-->
+    <string name="HP_AngerEmotion">Anger</string>
+    <string name="HP_HateEmotion">Hate</string>
+    <string name="HP_SadEmotion">Sad</string>
+    <string name="HP_EnvyEmotion">Envy</string>
+
+
+    <!-- TODO: Emotions-->
+    <string name="Activity_Number">ActivityNumber</string>
+
+
+    <string name="load_from_gallery">Load From Gallery</string>
+    <string name="load_from_camera">Load From Camera</string>
+    <string name="compress">Compress</string>
+    <string name="normal_image">Normal Image</string>
+    <string name="compress_image">Compress Image</string>
+
+
+    //Fragment Personal Details
+    <string name="FPD_FirstName">First Name</string>
+    <string name="FPD_LastName">Last Name</string>
+
+
+    <string name="action_settings">Settings</string>
+    <string name="profile_desc">Rowan Sebastian Atkinson CBE is an English actor,  comedian and screenwriter</string>
+    <string name="profile_title">Mr Bean</string>
+    <string name="posts">posts</string>
+    <string name="followers">followers</string>
+    <string name="following">following</string>
+    <string name="msg_error_unable_select_profile_pic">Unable to set profile image. Please try again!</string>
+    <string name="lbl_set_profile_photo">Set profile image</string>
+    <string name="lbl_take_camera_picture">Take a picture</string>
+    <string name="lbl_choose_from_gallery">Choose from gallery</string>
+    <string name="toast_image_intent_null">Image picker option is missing!</string>
+
+    <!-- font families -->
+    <string name="font_family_light">sans-serif-light</string>
+    <string name="font_family_medium">sans-serif-medium</string>
+    <string name="font_family_regular">sans-serif</string>
+    <string name="font_family_condensed">sans-serif-condensed</string>
+    <string name="font_family_black">sans-serif-black</string>
+    <string name="font_family_thin">sans-serif-thin</string>
+    <string name="dialog_permission_title">Grant Permissions</string>
+    <string name="dialog_permission_message">This app needs permission to use this feature. You can grant them in app settings.</string>
+    <string name="go_to_settings">GOTO SETTINGS</string>
+
+
+    <!-- Fragment Profile Data -->
+    <string name="fpd_firstName"> First Name</string>
+    <string name="fpd_lastName"> Last Name</string>
+    <string name="fpd_userName">Unique User Name</string>
+    <string name="fpd_dream">The Dream that you want to live!</string>
+    <string name="fpd_challenge">Challenging: What are you challenging with your Dream?</string>
+    <string name="fpd_country"> Country</string>
+    <string name="fpd_state"> State</string>
+
+    <string name="fpd_title">Your Profile</string>
 
 
 

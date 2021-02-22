@@ -57,8 +57,8 @@ public class RedirectFromMain extends AppCompatActivity implements MainListFragm
         Log.d(TAG, "signInWithCredential:success");
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
-        viewPager = (ViewPager) findViewById(R.id.view_pager);
 
+        viewPager = (ViewPager) findViewById(R.id.view_pager);
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Home"));
         tabLayout.addTab(tabLayout.newTab().setText("About"));
@@ -90,7 +90,7 @@ public class RedirectFromMain extends AppCompatActivity implements MainListFragm
 
             final AlertDialog mBuilder = new AlertDialog.Builder(RedirectFromMain.this).create();
             View mView = getLayoutInflater().inflate(R.layout.dialog_app, null);
-            ImageButton ib = (ImageButton) mView.findViewById(R.id.ib_da_inf);
+            ImageButton ib =  mView.findViewById(R.id.ib_da_inf);
 
             mBuilder.setView(mView);
             mBuilder.setCancelable(false);
@@ -127,9 +127,6 @@ public class RedirectFromMain extends AppCompatActivity implements MainListFragm
         return super.onOptionsItemSelected(cls.menuGenerationGeneral(RedirectFromMain.this,item, mGoogleSignInClient));
     }
 
-
-
-
     private void signOut() {
         mGoogleSignInClient.signOut();
         FirebaseAuth.getInstance().signOut();
@@ -138,7 +135,6 @@ public class RedirectFromMain extends AppCompatActivity implements MainListFragm
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
-
     }
 
 
@@ -163,8 +159,8 @@ public class RedirectFromMain extends AppCompatActivity implements MainListFragm
         public FindViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.item_name);
-            mImageView = (ImageView) view.findViewById(R.id.imgBtn);
+            mIdView =  view.findViewById(R.id.item_name);
+            mImageView = view.findViewById(R.id.imgBtn);
         }
 
         @Override

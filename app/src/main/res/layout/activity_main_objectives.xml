@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ActivityMainObjectives">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/toolbar_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:background="@color/an_text"
+            android:elevation="6dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/an_text">
+
+
+            <!--tools:context="app.actionnation.actionapp.ActivityMainObjectives"
+            tools:listitem="@layout/fragment_mainlist"-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="@dimen/toolbar_profile_width"
+                    android:layout_height="wrap_content">
+
+                    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/profile_image"
+                        android:layout_width="@dimen/toolbar_profile_width"
+                        android:layout_height="@dimen/toolbar_profile_width"
+                        android:layout_marginTop="@dimen/activity_padding"
+                        android:layout_marginBottom="@dimen/activity_padding"
+                        android:src="@drawable/baseline_account_circle_black_48"
+                        app:civ_border_width="2dp" />
+
+                    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/img_plus"
+                        android:layout_width="@dimen/ic_plus_width"
+                        android:layout_height="@dimen/ic_plus_width"
+                        android:layout_alignBottom="@+id/profile_image"
+                        android:layout_alignParentRight="true"
+                        android:src="@drawable/ic_plus" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/et_amo_username"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@string/font_family_medium"
+
+                    android:text="@string/profile_title"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/profile_title" />
+
+                <TextView
+                    android:id="@+id/et_amo_userDesc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dimen_40dp"
+                    android:gravity="center_horizontal"
+                    android:paddingLeft="@dimen/dimen_20dp"
+                    android:paddingRight="@dimen/dimen_20dp"
+                    android:text="@string/profile_desc"
+                    android:textColor="@color/profile_desc"
+                    android:textSize="@dimen/profile_desc" />
+
+                <Button
+                    android:id="@+id/btn_activity_finish_Profile"
+                    style="@style/ButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="Complete Profile"></Button>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/bg_meta_container"
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/activity_padding"
+                    android:paddingBottom="@dimen/activity_padding"
+                    android:weightSum="3">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1320"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/meta_count"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@string/font_family_condensed"
+                            android:text="@string/posts"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/meta_label" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="4.3m"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/meta_count"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@string/font_family_condensed"
+                            android:text="@string/followers"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/meta_label" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="123"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/meta_count"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@string/font_family_condensed"
+                            android:text="@string/following"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/meta_label" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <!--
+            <fragment
+                android:id="@+id/fooFragment"
+                android:name="app.actionnation.actionapp.FragmentProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />-->
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/listMainObjective"
+            android:name="com.example.myapplication.ActivityMainObjectives"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:contentDescription="TODO"
+            android:src="@android:drawable/ic_popup_disk_full" />
+    </LinearLayout>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

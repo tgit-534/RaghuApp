@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="@color/an_text"
-        android:foreground="@color/an_menu_color"
         app:itemBackground="@color/an_text"
         app:itemIconTint="@color/an_tabtext"
         app:itemTextColor="@color/an_tabtext"

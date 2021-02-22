@@ -116,7 +116,7 @@ public class nlw extends AppCompatActivity implements View.OnClickListener, Bott
 
     //Activity Initializations
     private void activityInitializations() {
-             ibtnSelect = findViewById(R.id.ibtn_nlw_ChooseImage);
+        ibtnSelect = findViewById(R.id.ibtn_nlw_ChooseImage);
         ibtnUpload = findViewById(R.id.ibtn_nlw_Upload);
         etStory = findViewById(R.id.etxt_nlw_LeadershipAct);
         imgView = findViewById(R.id.iv_nlw_Image);
@@ -129,7 +129,6 @@ public class nlw extends AppCompatActivity implements View.OnClickListener, Bott
         // Sets the Toolbar to act as the ActionBar for this Activity window.
         // Make sure the toolbar exists in the activity and is not null
         setSupportActionBar(toolbar);
-        CommonClass cl = new CommonClass();
         Bundle extras = getIntent().getExtras();
         String strEduName = "";
         if (extras != null) {
@@ -142,6 +141,7 @@ public class nlw extends AppCompatActivity implements View.OnClickListener, Bott
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigation_single);
         bottomNavigationView.setOnNavigationItemReselectedListener(this);
 
+        CommonClass cl = new CommonClass();
 
         mGoogleSignInClient = cl.GoogleStart(nlw.this);
         storageReference = FirebaseStorage.getInstance().getReference();

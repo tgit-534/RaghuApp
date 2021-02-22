@@ -19,9 +19,27 @@
                 android:title="Career Finder"
                 app:showAsAction="never"></item>
             <item
+                android:id="@+id/ActionNationPhilosophy"
+                android:title="Philosophy"
+                app:showAsAction="never"></item>
+            <item
+                android:id="@+id/PersonalDetails"
+                android:title="Personal"
+                app:showAsAction="never"></item>
+            <item
+                android:id="@+id/PersonalObjectives"
+                android:title="Your Story"
+                app:showAsAction="never"></item>
+
+            <item
                 android:id="@+id/menulogout"
                 android:title="Logout"
                 app:showAsAction="never"></item>
+            <item
+                android:id="@+id/testCode"
+                android:title="test"
+                app:showAsAction="never"></item>
+
         </menu>
     </item>
 </menu>

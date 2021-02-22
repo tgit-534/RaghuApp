@@ -9,8 +9,7 @@ import androidx.appcompat.widget.Toolbar;
 public class AdminCommonClass extends AppCompatActivity {
 
 
-
-        protected void generatePublicMenu() {
+    protected void generatePublicMenu() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_admin);
         // Sets the Toolbar to act as the ActionBar for this Activity window.
         // Make sure the toolbar exists in the activity and is not null

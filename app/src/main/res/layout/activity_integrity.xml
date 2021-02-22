@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ActivityIntegrity">
+
+    <include
+        layout="@layout/toolbar_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@color/an_text"
+        android:elevation="6dp" />
+
+    <TextView
+        style="@style/TextTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="@string/Activity_Integrity"></TextView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/in_date"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="5dp"
+            android:padding="5dp"
+            android:background="@drawable/my_border"
+            android:hint="Date"
+
+            android:enabled="false"
+            />
+
+        <Button
+            android:id="@+id/btn_date"
+            style="@style/MediumButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/in_date"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@+id/in_date"
+            android:layout_toRightOf="@+id/in_date"
+            android:text="@string/Integrity_Date" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/in_time"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/in_date"
+            android:layout_margin="5dp"
+            android:padding="5dp"
+            android:background="@drawable/my_border"
+            android:hint="Time"
+
+            android:enabled="false" />
+
+        <Button
+            android:id="@+id/btn_time"
+            style="@style/MediumButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_date"
+            android:layout_alignStart="@+id/btn_date"
+            android:layout_alignLeft="@+id/btn_date"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+
+            android:text="@string/Integrity_Time" />
+
+    </LinearLayout>
+
+
+    <EditText
+        android:id="@+id/in_et_Promise"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="5dp"
+        android:padding="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/my_border"
+        android:gravity="top|left"
+        android:inputType="textMultiLine"
+        android:lines="2"
+        android:maxLines="10"
+        android:minLines="3"
+        android:outlineAmbientShadowColor="@color/main_color"
+        android:scrollbars="vertical"
+        android:hint="What did you promise?"
+        />
+
+    <Button
+        android:id="@+id/in_btn_submit"
+        style="@style/SmallButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="Submit" />
+
+    <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/listIntegrity"
+        android:name="com.example.myapplication.ActivityIntegrity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        tools:context="app.actionnation.actionapp.ActivityIntegrity"
+        tools:listitem="@layout/lf_integritytracking" />
+</LinearLayout>

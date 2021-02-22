@@ -22,7 +22,6 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
@@ -47,9 +46,7 @@ public class MainListFragment extends Fragment {
     private OnListFragmentInteractionListener mListener;
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListner;
-    private DatabaseReference mReferenceActionUniversity;
-    private DatabaseReference myRef;
+
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -57,19 +54,18 @@ public class MainListFragment extends Fragment {
      */
     //Firebase from Data
 
-    DatabaseReference databaseReference;
 
     List<Challenges> list = new ArrayList<>();
     RecyclerView recyclerView;
-    private  String onlineUserID, strTab;
+    private String onlineUserID, strTab;
     private static final String TAG = "MainListFragment:Log";
 
     FirebaseRecyclerAdapter fbAdapter;
+
     public MainListFragment() {
     }
 
-    public MainListFragment(String str)
-    {
+    public MainListFragment(String str) {
 
         strTab = str;
     }
@@ -93,17 +89,16 @@ public class MainListFragment extends Fragment {
         }
     }
 
-    private void fetch()
-    {
+    private void fetch() {
         Query query = FirebaseDatabase.getInstance()
                 .getReference()
                 .child(getString(R.string.fb_Education));
 
-        if(strTab.equals(getString(R.string.tabs_challenges)))
+        if (strTab.equals(getString(R.string.tabs_challenges)))
             query = mFirebaseDatabase.getInstance().getReference().child(getString(R.string.fb_Education)).orderByChild(getString(R.string.fb_status)).equalTo(1);
-        if(strTab.equals(getString(R.string.tabs_leadership)))
+        if (strTab.equals(getString(R.string.tabs_leadership)))
             query = mFirebaseDatabase.getInstance().getReference().child(getString(R.string.fb_Education)).orderByChild(getString(R.string.fb_status)).equalTo(0);
-        if(strTab.equals(getString(R.string.tabs_nlw)))
+        if (strTab.equals(getString(R.string.tabs_nlw)))
             query = mFirebaseDatabase.getInstance().getReference().child(getString(R.string.fb_Education)).orderByChild(getString(R.string.fb_status)).equalTo(2);
         FirebaseRecyclerOptions<Education> options = new FirebaseRecyclerOptions.Builder<Education>()
                 .setQuery(query, Education.class)
@@ -114,17 +109,15 @@ public class MainListFragment extends Fragment {
             @Override
             protected void onBindViewHolder(@NonNull final RedirectFromMain.FindViewHolder holder, int position, @NonNull Education mValues) {
                 holder.mIdView.setText((mValues.getEdu_name()));
-              //  holder.mIdView.setVisibility(View.INVISIBLE);
-
                 holder.mIdView.setTag(fbAdapter.getRef(position).getKey());
-                holder.mImageView.setTag((String.valueOf( mValues.getEdu_name())));
+                holder.mImageView.setTag((String.valueOf(mValues.getEdu_name())));
 
-               // final String key =  userList.get(position).getKey();
+                // final String key =  userList.get(position).getKey();
 
                 Glide.with(getActivity().getApplicationContext())
                         .asBitmap()
                         .load(mValues.getUrl())
-                      //  .override(180, 180)
+                        //  .override(180, 180)
                         .into(new CustomTarget<Bitmap>() {
                             @Override
                             public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
@@ -175,7 +168,7 @@ public class MainListFragment extends Fragment {
                             String StrData = in.getStringExtra(getString(R.string.Intent_Auth));
                             String StrLeadershipWay = holder.mImageView.getTag().toString();
 
-                            if(StrLeadershipWay.equals(getString(R.string.Leadership_NLW))) {
+                            if (StrLeadershipWay.equals(getString(R.string.Leadership_NLW))) {
                                 Intent homepage = new Intent(view.getContext(), nlw.class);
                                 Bundle mBundle = new Bundle();
                                 mBundle.putString(getString(R.string.Intent_EduId), holder.mIdView.getTag().toString());
@@ -194,7 +187,7 @@ public class MainListFragment extends Fragment {
             @NonNull
             @Override
             public RedirectFromMain.FindViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_mainlist,parent,false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_mainlist, parent, false);
                 RedirectFromMain.FindViewHolder viewHolder = new RedirectFromMain.FindViewHolder(view);
                 return viewHolder;
             }
@@ -207,14 +200,12 @@ public class MainListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_mainlist_list, container, false);
-        mAuth =FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        // databaseReference = mFirebaseDatabase.getInstance().getReference().child("Challenges");
         onlineUserID = mAuth.getCurrentUser().getUid();
         FirebaseUser user = mAuth.getCurrentUser();
         recyclerView = (RecyclerView) view.findViewById(R.id.listChal);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
-        //recyclerView.setLayoutManager(new GridLayoutManager(this.getActivity(),2));
         recyclerView.setHasFixedSize(false);
         fetch();
         return view;

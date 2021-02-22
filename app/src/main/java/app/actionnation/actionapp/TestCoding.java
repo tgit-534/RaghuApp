@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
+import android.widget.NumberPicker;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +19,9 @@ import com.google.firebase.dynamiclinks.ShortDynamicLink;
 public class TestCoding extends AppCompatActivity {
 
     Button btnCreateLink, btnShareLink;
+    private String[] pickerVals;
+    NumberPicker picker1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,12 +29,27 @@ public class TestCoding extends AppCompatActivity {
         setContentView(R.layout.activity_test_coding);
         btnCreateLink = findViewById(R.id.btn_tc_CreateLink);
         btnShareLink = findViewById(R.id.btn_tc_ShareLink);
-        btnCreateLink.setOnClickListener(new View.OnClickListener() {
+
+        picker1 = findViewById(R.id.numberpicker_main_picker);
+        picker1.setMaxValue(4);
+        picker1.setMinValue(0);
+        pickerVals  = new String[] {"dog", "cat", "lizard", "turtle", "axolotl"};
+        picker1.setDisplayedValues(pickerVals);
+
+        picker1.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+                int valuePicker1 = picker1.getValue();
+                Log.d("picker value", pickerVals[valuePicker1]);
+            }
+        });
+
+        /*btnCreateLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CreateLink();
             }
-        });
+        });*/
     }
 
     public void CreateLink() {
@@ -75,6 +93,38 @@ public class TestCoding extends AppCompatActivity {
                         } else {
 
                             // Error
+
+                            /*
+
+                            Android Studio Command Type	Mac OS X Shortcuts
+Reformat code	OPTION + CMD + L
+Show selected API documentation	F1 / FUNCTION + F1
+Generate Source Code	CMD + N
+Jump to source	CMD + DOWN ARROW KEY
+Delete Line	CMD + BACKSPACE
+Search by symbol name	OPTION + CMD + O
+Build	CMD + F9
+Build and Run	CTRL + R
+Toggle Project Sidebar Visibility	CMD + 1
+Open Class	CMD + O
+Open File ( including resources)	CMD + SHIFT + O
+Recent Files Opened	CMD + E
+Recently edited files	CMD + SHIFT + E
+Previous Next/Previous Error	F2 / FUNCTION F2
+Last Edited Location	CMD + SHIFT + BACKSPACE
+Last Location	CMD + [ and CMD + ]
+Go to Declaration	CMD + B
+Go to Super	CMD + Y
+Next Word Navigation	ALT + LEFT/RIGHT ARROW KEY
+Find	CMD + F
+Find in Path	SHIFT + CMD + F
+Refactor Class, Method	CTRL + T
+
+
+
+
+                             */
+
 
                             // ...
 

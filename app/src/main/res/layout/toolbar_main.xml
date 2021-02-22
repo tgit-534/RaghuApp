@@ -4,6 +4,9 @@
     android:id="@+id/toolbar_main"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
     android:background="@color/an_text"
-    android:elevation="4dp" />
+    android:elevation="6dp"
+    android:minHeight="?attr/actionBarSize"
+    app:titleTextColor="@color/an_tabtext" />
 

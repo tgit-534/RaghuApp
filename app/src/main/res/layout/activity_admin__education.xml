@@ -25,9 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:hint="Education Name"
-
-        />
+        android:hint="Education Name" />
 
 
     <Spinner
@@ -49,8 +47,9 @@
 
     <Button
         android:id="@+id/btnSaveEdu"
+        style="@style/ButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Save" style="@style/ButtonStyle" />
+        android:text="Save" />
 
 </LinearLayout>

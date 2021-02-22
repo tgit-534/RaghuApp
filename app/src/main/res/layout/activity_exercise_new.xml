@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ActivityExerciseNew">
+
+    <include
+        layout="@layout/toolbar_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@color/an_text"
+        android:elevation="6dp" />
+    <TextView
+        style="@style/TextTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/Activity_ExcerciseNew_Heading"
+        android:layout_margin="10dp"></TextView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_margin="15dp"
+        android:onClick="RedirectExcercise"
+        android:text="@string/Page_Redirect_Exercise"
+        android:textColor="@android:color/holo_blue_light"></TextView>
+
+
+    <FrameLayout
+        android:id="@+id/fragmentContainerExercise"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"></FrameLayout>
+
+
+
+    <Button
+        android:id="@+id/btn_exe_finish"
+        style="@style/ButtonStyle"
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/Game_Button_Submit"
+        ></Button>
+
+</LinearLayout>

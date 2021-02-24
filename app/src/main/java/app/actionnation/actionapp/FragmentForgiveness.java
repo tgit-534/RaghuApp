@@ -21,14 +21,17 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import app.actionnation.actionapp.Database_Content.CommonData;
 import app.actionnation.actionapp.Database_Content.Personal_Distraction;
+import app.actionnation.actionapp.Database_Content.UserGame;
 import app.actionnation.actionapp.Storage.Constants;
 import app.actionnation.actionapp.data.DbHelper;
+import app.actionnation.actionapp.data.DbHelperClass;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -134,11 +137,8 @@ public class FragmentForgiveness extends Fragment implements View.OnClickListene
                 strEmotionData.add(res.getString(10));
                 strEmotionData.add(res.getString(11));
                 strEmotionData.add(res.getString(12));
-
-
             }
         }
-
 
         CommonClass cl = new CommonClass();
 
@@ -286,17 +286,28 @@ public class FragmentForgiveness extends Fragment implements View.OnClickListene
         dayOfYear = c.get(Calendar.DAY_OF_YEAR);
         yr = c.get(Calendar.YEAR);
         DbHelper db = new DbHelper(getActivity());
-
         CommonClass cls = new CommonClass();
+        FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+
+        UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr);
+        DbHelperClass dbHelperClass = new DbHelperClass();
+
+
         if (i == R.id.btn_forgive_Self) {
             btn_finish_Forgiveness_Inside.setTextColor(Color.RED);
-
-
             cls.SubmitHappinessGame(Constants.HP_ForgiveInsideScore, db, usrId, dayOfYear, yr);
+
+            userGame.setUserForgivenessSelfScore(Constants.Game_Forgiveness_Self);
+            dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userForgivenessSelfScore), String.valueOf(Constants.Game_Forgiveness_Self));
+
+
         } else if (i == R.id.btn_forgive_Outside) {
             btn_finish_Forgiveness_outside.setTextColor(Color.RED);
-
             cls.SubmitHappinessGame(Constants.HP_ForgiveOutsideScore, db, usrId, dayOfYear, yr);
+
+            userGame.setUserForgivenessOutsideScore(Constants.Game_Forgiveness_Outside);
+            dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userForgivenessOutsideScore), String.valueOf(Constants.Game_Forgiveness_Outside));
+
         }
     }
 

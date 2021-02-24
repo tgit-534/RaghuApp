@@ -29,4 +29,14 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         />
+
+
+
+    <Button
+        android:id="@+id/btn_traction_Submit"
+        style="@style/ButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Submit Distraction Score"></Button>
 </LinearLayout>

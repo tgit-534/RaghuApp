@@ -14,11 +14,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import app.actionnation.actionapp.Database_Content.UserGame;
+import app.actionnation.actionapp.Storage.Constants;
 import app.actionnation.actionapp.data.DbHelper;
+import app.actionnation.actionapp.data.DbHelperClass;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,7 +39,7 @@ public class FragmentTraction extends Fragment implements View.OnClickListener {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private Button btnTractionList;
+    private Button btnTractionList, btnSubmitTractionScore;
     RecyclerView recyclerView;
     ArrayList<String> strTractionPattern = new ArrayList<>();
     FirebaseAuth mAuth;
@@ -82,6 +86,8 @@ public class FragmentTraction extends Fragment implements View.OnClickListener {
         btnTractionList = view.findViewById(R.id.btn_TractionList);
         btnTractionList.setOnClickListener(this);
 
+        btnSubmitTractionScore = view.findViewById(R.id.btn_traction_Submit);
+        btnSubmitTractionScore.setOnClickListener(this);
 
         Calendar c = Calendar.getInstance();
 
@@ -97,7 +103,7 @@ public class FragmentTraction extends Fragment implements View.OnClickListener {
         Cursor res = db.getTractionList(usrId);
         Cursor res1 = db.getTractionDayList(usrId, dayOfYear);
         res1.moveToFirst();
-         if (res1.getCount() > 0) {
+        if (res1.getCount() > 0) {
             while (res1.moveToNext()) {
 
 
@@ -128,5 +134,50 @@ public class FragmentTraction extends Fragment implements View.OnClickListener {
             homepage.putExtras(mBundle);
             startActivity(homepage);
         }
+        if (i == R.id.btn_traction_Submit) {
+
+            FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+            CommonClass cls = new CommonClass();
+            Calendar c = Calendar.getInstance();
+
+            int dayOfYear = c.get(Calendar.DAY_OF_YEAR);
+            int yr = c.get(Calendar.YEAR);
+            String usrId = fetchUserId(FirebaseAuth.getInstance());
+
+            DbHelper db = new DbHelper(getActivity());
+            Cursor cus = db.getAttentionScore(usrId, dayOfYear, yr);
+
+            int attentionScore = 0;
+            int attentionTot = 0;
+            if (cus.getCount() > 0) {
+                cus.moveToFirst();
+
+                attentionScore = Integer.parseInt(cus.getString(Constants.Game_AS_TractionScore));
+                attentionTot = Integer.parseInt(cus.getString(Constants.Game_AS_TotTraction));
+
+            }
+            double gameDistractionScore = (double) attentionScore / attentionTot;
+
+            gameDistractionScore = gameDistractionScore * 100;
+
+            int databaseScore = (int) gameDistractionScore;
+
+
+            UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr);
+            userGame.setUserTractionScore(databaseScore);
+
+            DbHelperClass dbHelperClass = new DbHelperClass();
+
+            dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userTractionScore), String.valueOf(databaseScore));
+        }
+    }
+
+    private String fetchUserId(FirebaseAuth mAuth) {
+        final FirebaseUser fbUser = mAuth.getCurrentUser();
+        String usrId = "";
+        if (mAuth.getCurrentUser() != null) {
+            usrId = fbUser.getUid();
+        }
+        return usrId;
     }
 }

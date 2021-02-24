@@ -34,5 +34,13 @@
         tools:listitem="@layout/lf_habittraking" />
 
 
+    <Button
+        android:id="@+id/btn_trueLearning_Submit"
+        style="@style/ButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Submit Learning Score"></Button>
+
 
 </LinearLayout>

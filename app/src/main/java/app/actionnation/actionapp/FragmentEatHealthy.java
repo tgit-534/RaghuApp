@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
@@ -19,13 +20,16 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import app.actionnation.actionapp.Database_Content.CommonData;
+import app.actionnation.actionapp.Database_Content.UserGame;
 import app.actionnation.actionapp.Storage.Constants;
 import app.actionnation.actionapp.data.DbHelper;
+import app.actionnation.actionapp.data.DbHelperClass;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,6 +48,7 @@ public class FragmentEatHealthy extends Fragment {
     private String mParam2;
 
     RecyclerView recyclerView;
+    Button btn_Submit_Score;
     FirebaseAuth mAuth;
     String usrId;
     ArrayList<String> strEHPattern = new ArrayList<>();
@@ -96,7 +101,43 @@ public class FragmentEatHealthy extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_eat_healthy, container, false);
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.listEatHealthy);
+        recyclerView = view.findViewById(R.id.listEatHealthy);
+        btn_Submit_Score = view.findViewById(R.id.btn_EatHealthy_Submit);
+
+        btn_Submit_Score.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+                CommonClass cls = new CommonClass();
+                Calendar c = Calendar.getInstance();
+
+                int dayOfYear = c.get(Calendar.DAY_OF_YEAR);
+                int yr = c.get(Calendar.YEAR);
+                String usrId = fetchUserId();
+
+                DbHelper db = new DbHelper(getActivity());
+                Cursor cus = db.getEatHealthyScore(usrId, dayOfYear, yr);
+
+                int eatHelathyScore = 0;
+                int EatHealthyTot = 0;
+                if (cus.getCount() > 0) {
+                    cus.moveToFirst();
+
+                    eatHelathyScore = Integer.parseInt(cus.getString(Constants.Game_AS_DistractionScore));
+                    EatHealthyTot = Integer.parseInt(cus.getString(Constants.Game_AS_TotDistraction));
+
+                }
+                double gameEatFoodScore = (double) (eatHelathyScore) / EatHealthyTot;
+
+                gameEatFoodScore = gameEatFoodScore * 100;
+
+                UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr);
+                userGame.setUserDistractionScore((int) gameEatFoodScore);
+                DbHelperClass dbHelperClass = new DbHelperClass();
+                dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userEatHealthyScore), String.valueOf(gameEatFoodScore));
+            }
+        });
+
 
         usrId = fetchUserId();
         Calendar c = Calendar.getInstance();
@@ -136,7 +177,6 @@ public class FragmentEatHealthy extends Fragment {
     private void fetch(final ArrayList<String> strEPattern, final int eatStatus) {
 
         // Query qry = mFirebaseDatabase.getInstance().getReference().child(getString(R.string.fb_CommonData_Db)).orderByChild("status").equalTo(6);
-
 
         Query qry = mFirebaseDatabase.getInstance().getReference().child(getString(R.string.fb_CommonData_Db)).orderByChild("status").equalTo(strEatStatus);
 

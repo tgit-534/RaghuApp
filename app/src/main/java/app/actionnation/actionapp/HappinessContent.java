@@ -59,6 +59,8 @@ public class HappinessContent extends BaseClassUser implements View.OnClickListe
                 vf.setDisplayedChild(1);
             } else if (pageRedirect.equals(getString(R.string.Page_Redirect_Traction))) {
                 vf.setDisplayedChild(2);
+            } else if (pageRedirect.equals(getString(R.string.Page_Redirect_Abundance))) {
+                vf.setDisplayedChild(3);
             }
         }
 
@@ -106,7 +108,7 @@ public class HappinessContent extends BaseClassUser implements View.OnClickListe
 
         } else if (i == R.id.btnHpSaveReframe) {
             dbh.insertAbundance(etReframe.getText().toString(), usrId, 1);
-            Log.d(TAG, "Save Traction");
+            Log.d(TAG, "Save Reframe");
             clearForm((ViewGroup) findViewById(R.id.vfHappiness));
 
         }
@@ -114,18 +116,15 @@ public class HappinessContent extends BaseClassUser implements View.OnClickListe
     }
 
 
-
-
-
     private void clearForm(ViewGroup group) {
         for (int i = 0, count = group.getChildCount(); i < count; ++i) {
             View view = group.getChildAt(i);
             if (view instanceof EditText) {
-                ((EditText)view).setText("");
+                ((EditText) view).setText("");
             }
 
-            if(view instanceof ViewGroup && (((ViewGroup)view).getChildCount() > 0))
-                clearForm((ViewGroup)view);
+            if (view instanceof ViewGroup && (((ViewGroup) view).getChildCount() > 0))
+                clearForm((ViewGroup) view);
         }
     }
 }

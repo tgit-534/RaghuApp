@@ -6,8 +6,12 @@
     android:orientation="vertical"
     tools:context=".FragmentEatHealthy">
 
-
-
+    <TextView
+        style="@style/TextTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/Fragment_Eh_Heading"
+        android:layout_margin="10dp"></TextView>
 
     <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -15,5 +19,14 @@
         android:id="@+id/listEatHealthy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btn_EatHealthy_Submit"
+        style="@style/ButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Submit Eat Score"></Button>
+
 
 </LinearLayout>

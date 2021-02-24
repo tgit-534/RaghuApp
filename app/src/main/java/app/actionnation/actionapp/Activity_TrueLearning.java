@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
@@ -20,17 +21,22 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import app.actionnation.actionapp.Database_Content.CommonData;
 import app.actionnation.actionapp.Database_Content.Personal_Distraction;
+import app.actionnation.actionapp.Database_Content.UserGame;
 import app.actionnation.actionapp.Storage.Constants;
 import app.actionnation.actionapp.data.DbHelper;
+import app.actionnation.actionapp.data.DbHelperClass;
 
 public class Activity_TrueLearning extends BaseClassUser implements View.OnClickListener {
     RecyclerView recyclerView;
+    Button btnTrueLearning;
+
     FirebaseAuth mAuth;
     ArrayList<String> strTlPattern = new ArrayList<>();
     String TAG = "True Learning";
@@ -44,21 +50,21 @@ public class Activity_TrueLearning extends BaseClassUser implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__true_learning);
         generatePublicMenu();
-        recyclerView = (RecyclerView) findViewById(R.id.listTrueLearning);
+        recyclerView = findViewById(R.id.listTrueLearning);
+        btnTrueLearning = findViewById(R.id.btn_trueLearning_Submit);
 
+        String usrId = fetchUserId();
 
         Calendar c = Calendar.getInstance();
-
         int dayOfYear = c.get(Calendar.DAY_OF_YEAR);
+        int yr = c.get(Calendar.YEAR);
+
         DbHelper db = new DbHelper(Activity_TrueLearning.this);
 
         Log.d(TAG, "Enter Db");
 
-        Cursor res = db.getDataTrueLearning(String.valueOf(dayOfYear));
-        if (res.getCount() == 0) {
-            Log.d(TAG, "Enter Db no count");
-            // return;
-        } else {
+        Cursor res = db.getDataTrueLearning(String.valueOf(dayOfYear), String.valueOf(yr), usrId);
+        if (res.getCount() > 0) {
             while (res.moveToNext()) {
                 Log.d(TAG, "Enter Db no count inside while" + res.getString(1));
 
@@ -68,7 +74,6 @@ public class Activity_TrueLearning extends BaseClassUser implements View.OnClick
                 }
             }
         }
-
 
         CommonClass cl = new CommonClass();
 
@@ -80,14 +85,38 @@ public class Activity_TrueLearning extends BaseClassUser implements View.OnClick
         fetch(strTlPattern);
         //getDataFirebase();
 
+        btnTrueLearning.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+                CommonClass cls = new CommonClass();
+                Calendar c = Calendar.getInstance();
+
+                int dayOfYear = c.get(Calendar.DAY_OF_YEAR);
+                int yr = c.get(Calendar.YEAR);
+                String usrId = fetchUserId();
+
+                DbHelper db = new DbHelper(Activity_TrueLearning.this);
+                Cursor cus = db.getDataTrueLearning(String.valueOf(dayOfYear), String.valueOf(yr), usrId);
+
+                boolean trueLearningBool = false;
+                if (cus.getCount() > 0) {
+                    cus.moveToFirst();
+                    trueLearningBool = true;
+                }
+                UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr);
+                userGame.setUserTrueLearningScore(Constants.Game_TrueLearning);
+                DbHelperClass dbHelperClass = new DbHelperClass();
+
+                if (trueLearningBool)
+                    dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), Activity_TrueLearning.this, userGame, rootRef, getString(R.string.fs_Usergame_userTrueLearningScore), String.valueOf(Constants.Game_TrueLearning));
+            }
+        });
     }
 
 
     private void fetch(final ArrayList<String> strTPattern) {
-
-        // Query qry = mFirebaseDatabase.getInstance().getReference().child(getString(R.string.fb_CommonData_Db)).orderByChild("status").equalTo(6);
-
 
         Query qry = mFirebaseDatabase.getInstance().getReference().child(getString(R.string.fb_CommonData_Db)).orderByChild("status").equalTo(6);
 
@@ -113,7 +142,6 @@ public class Activity_TrueLearning extends BaseClassUser implements View.OnClick
                 }
 
                 holder.chkTrueLearning.setTag(model.getDataContent());
-
                 holder.chkTrueLearning.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -123,11 +151,11 @@ public class Activity_TrueLearning extends BaseClassUser implements View.OnClick
                         int yr = fetchDate(1);
                         DbHelper db = new DbHelper(Activity_TrueLearning.this);
                         if (isChecked == true) {
-                            db.insertTrueLearning(holder.chkTrueLearning.getTag().toString(), 1, dayOfTheYear);
+                            db.insertTrueLearning(holder.chkTrueLearning.getTag().toString(), 1, dayOfTheYear, usrId, yr);
                             CommonClass cls = new CommonClass();
                             cls.SubmitGenericGame(Constants.GS_trueLearningScore, db, usrId, dayOfTheYear, yr);
                         } else {
-                            db.updateDataTrueLearning(holder.chkTrueLearning.getTag().toString(), 0, dayOfTheYear);
+                            db.updateDataTrueLearning(holder.chkTrueLearning.getTag().toString(), 0, dayOfTheYear, usrId, yr);
                         }
                     }
 

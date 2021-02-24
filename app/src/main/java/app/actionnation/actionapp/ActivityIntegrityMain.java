@@ -9,9 +9,12 @@ import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import app.actionnation.actionapp.Database_Content.UserGame;
 import app.actionnation.actionapp.Storage.Constants;
 import app.actionnation.actionapp.data.DbHelper;
+import app.actionnation.actionapp.data.DbHelperClass;
 
 public class ActivityIntegrityMain extends BaseClassUser implements View.OnClickListener {
 
@@ -20,6 +23,8 @@ public class ActivityIntegrityMain extends BaseClassUser implements View.OnClick
     String fbId, placeWin, wordAgreement, respectWork, selfWin, wordAgreementItems;
     int dayOfTheYear, yr;
     Cursor csrIntegrityGame;
+    FirebaseFirestore rootRef;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +79,10 @@ public class ActivityIntegrityMain extends BaseClassUser implements View.OnClick
     @Override
     public void onClick(View v) {
         int i = v.getId();
+        DbHelperClass dbHelperClass = new DbHelperClass();
+        rootRef = FirebaseFirestore.getInstance();
+        CommonClass cls = new CommonClass();
+
         if (i == R.id.btn_int_word) {
             Intent homepage = new Intent(ActivityIntegrityMain.this, ActivityIntegrity.class);
             Bundle mBundle = new Bundle();
@@ -102,11 +111,17 @@ public class ActivityIntegrityMain extends BaseClassUser implements View.OnClick
 
             } else {
 
-                dbHelper.insertIntegrityScore(25, 0,
+                dbHelper.insertIntegrityScore(Constants.Game_SelfWin, 0,
                         0, 0, 0,
-                        fbId, dayOfTheYear, yr, 1);
+                        fbId, dayOfTheYear, yr, Constants.Status_One);
 
             }
+            UserGame userGame = cls.loadUserGame(fbId, dayOfTheYear, yr);
+            userGame.setUserSelfWinScore(Constants.Game_SelfWin);
+
+            dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), ActivityIntegrityMain.this, userGame, rootRef, getString(R.string.fs_Usergame_userSelfWinScore), String.valueOf(Constants.Game_SelfWin));
+
+
         } else if (i == R.id.btn_int_place) {
 
             csrIntegrityGame = dbHelper.getIntegrityScore(fbId, dayOfTheYear, yr);
@@ -127,6 +142,11 @@ public class ActivityIntegrityMain extends BaseClassUser implements View.OnClick
                         0, 0, 0,
                         fbId, dayOfTheYear, yr, 1);
             }
+
+            UserGame userGame = cls.loadUserGame(fbId, dayOfTheYear, yr);
+            userGame.setUserPlaceWinScore(Constants.Game_PlaceWin);
+
+            dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), ActivityIntegrityMain.this, userGame, rootRef, getString(R.string.fs_Usergame_userPlaceWinScore), String.valueOf(Constants.Game_PlaceWin));
 
 
         } else if (i == R.id.btn_int_completion) {

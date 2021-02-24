@@ -38,11 +38,9 @@ public class ActivityIntegrity extends BaseClassUser implements View.OnClickList
     private FirebaseFirestore db;
     Date dt;
     Long dateInMilli;
-
     RecyclerView recyclerView;
     FirestoreRecyclerAdapter adapter;
     FirebaseAuth mAuth;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +55,6 @@ public class ActivityIntegrity extends BaseClassUser implements View.OnClickList
         txtDate = findViewById(R.id.in_date);
         txtTime = findViewById(R.id.in_time);
         txtIntegrityDesc = findViewById(R.id.in_et_Promise);
-
         dtIntegrity = new Date();
 
         mAuth = FirebaseAuth.getInstance();
@@ -65,7 +62,6 @@ public class ActivityIntegrity extends BaseClassUser implements View.OnClickList
         recyclerView.setLayoutManager(new LinearLayoutManager(ActivityIntegrity.this));
         recyclerView.setHasFixedSize(false);
         fetch();
-
 
         btnDatePicker.setOnClickListener(this);
         btnTimePicker.setOnClickListener(this);
@@ -82,7 +78,6 @@ public class ActivityIntegrity extends BaseClassUser implements View.OnClickList
             return;
         }
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
-
 
         Calendar calToday = Calendar.getInstance();
         calToday.setTimeInMillis(Calendar.getInstance().getTimeInMillis());

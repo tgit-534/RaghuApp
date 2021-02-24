@@ -21,6 +21,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import app.actionnation.actionapp.Database_Content.UserGame;
+import app.actionnation.actionapp.Storage.Constants;
 import app.actionnation.actionapp.data.DbHelper;
 import app.actionnation.actionapp.data.DbHelperClass;
 
@@ -35,7 +37,6 @@ public class FragmentDistraction extends Fragment implements View.OnClickListene
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
 
 
     private Button btnSubmit, btnDistractionList;
@@ -93,15 +94,16 @@ public class FragmentDistraction extends Fragment implements View.OnClickListene
         Calendar c = Calendar.getInstance();
 
         int dayOfYear = c.get(Calendar.DAY_OF_YEAR);
+        int yr = c.get(Calendar.YEAR);
+
         DbHelper db = new DbHelper(getActivity());
 
         Log.d(TAG, "Enter Db");
 
-        Cursor res = db.getDataAttention(String.valueOf(dayOfYear));
-        if (res.getCount() == 0) {
-            Log.d(TAG, "Enter Db no count");
-            // return;
-        } else {
+        String usrId = fetchUserId(FirebaseAuth.getInstance());
+
+        Cursor res = db.getDataAttention(String.valueOf(dayOfYear), usrId, String.valueOf(yr));
+        if (res.getCount() > 0) {
             while (res.moveToNext()) {
                 Log.d(TAG, "Enter Db no count inside while" + res.getString(4));
 
@@ -111,7 +113,6 @@ public class FragmentDistraction extends Fragment implements View.OnClickListene
                 }
             }
         }
-
         mAuth = FirebaseAuth.getInstance();
         recyclerView = view.findViewById(R.id.listDistraction);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -135,6 +136,42 @@ public class FragmentDistraction extends Fragment implements View.OnClickListene
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.btn_att_Submit) {
+            FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+            CommonClass cls = new CommonClass();
+            Calendar c = Calendar.getInstance();
+
+            int dayOfYear = c.get(Calendar.DAY_OF_YEAR);
+            int yr = c.get(Calendar.YEAR);
+            String usrId = fetchUserId(FirebaseAuth.getInstance());
+
+            DbHelper db = new DbHelper(getActivity());
+            Cursor cus = db.getAttentionScore(usrId, dayOfYear, yr);
+
+            int attentionScore = 0;
+            int attentionTot = 0;
+            if (cus.getCount() > 0) {
+                cus.moveToFirst();
+
+                attentionScore = Integer.parseInt(cus.getString(Constants.Game_AS_DistractionScore));
+                attentionTot = Integer.parseInt(cus.getString(Constants.Game_AS_TotDistraction));
+
+            }
+            double gameDistractionScore = (double) (attentionTot - attentionScore) / attentionTot;
+
+            gameDistractionScore = gameDistractionScore * 100;
+
+            int databaseScore = (int) gameDistractionScore;
+            if(databaseScore == 0)
+                databaseScore = 100;
+
+            Log.d(TAG, "Enter Db");
+
+            UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr);
+            userGame.setUserDistractionScore(databaseScore);
+
+            DbHelperClass dbHelperClass = new DbHelperClass();
+
+            dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userDistractionScore), String.valueOf(databaseScore));
 
         } else if (i == R.id.btn_distractionlist) {
             Intent homepage = new Intent(getActivity(), PersondetailsActivity.class);
@@ -164,6 +201,15 @@ public class FragmentDistraction extends Fragment implements View.OnClickListene
 
         recyclerView.setAdapter(adapter);
         adapter.startListening();
+    }
+
+    private String fetchUserId(FirebaseAuth mAuth) {
+        final FirebaseUser fbUser = mAuth.getCurrentUser();
+        String usrId = "";
+        if (mAuth.getCurrentUser() != null) {
+            usrId = fbUser.getUid();
+        }
+        return usrId;
     }
 
 

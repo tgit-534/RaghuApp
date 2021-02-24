@@ -47,6 +47,7 @@ public class GratitudeAdapter extends RecyclerView.Adapter<GratitudeAdapter.Grat
 
             holder.tvGratitude.setText(name);
             holder.chkGratitude.setTag(name);
+            holder.chkGratitude.setVisibility(View.INVISIBLE);
             mCursor.moveToNext();
 
             if (strgrPattern != null) {

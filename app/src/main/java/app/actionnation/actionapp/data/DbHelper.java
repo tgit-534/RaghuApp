@@ -37,6 +37,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_PERSONAL_HabitScore);
         db.execSQL(CREATE_TABLE_PERSONAL_HabitDayTrack);
         db.execSQL(CREATE_TABLE_PERSONAL_AbundanceList);
+        db.execSQL(CREATE_TABLE_PERSONAL_EatHealthyScore);
     }
 
     @Override
@@ -61,12 +62,14 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS Personal_HabitDay_Track");
         db.execSQL("DROP TABLE IF EXISTS Personal_HabitScore");
         db.execSQL("DROP TABLE IF EXISTS Personal_Abundance_List");
+        db.execSQL("DROP TABLE IF EXISTS Personal_EatHealthy_Score");
+
 
 
         onCreate(db);
     }
 
-    private static final int VERSION = 22;
+    private static final int VERSION = 25;
 
     private HashMap hp;
 
@@ -107,13 +110,15 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String Exe_Work_today_date = "rw_dayOfTheYear";
 
 
-    //Personal Attendance
+    //Personal Attention
     public static final String Exe_TABLE_NAME_ATTENTION = "Personal_Attention";
     public static final String Exe_Attention_COLUMN_ID = "id";
     public static final String Exe_Attention_Fb_Id = "fb_Id";
     public static final String Exe_Distraction_Name = "a_distractionName";
     public static final String Exe_Distraction_Status = "a_distractionStatus";
     public static final String Exe_Attention_DayOfYear = "a_dayOfTheYear";
+    public static final String Exe_Attention_Year = "year";
+
 
     //Personal True Learning
     public static final String Exe_TABLE_NAME_TRUELEARNING = "Personal_True_Learning";
@@ -121,6 +126,8 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String Exe_Learning_Name = "l_learningName";
     public static final String Exe_Learning_Status = "l_learningStatus";
     public static final String Exe_Learning_DayOfYear = "l_dayOfTheYear";
+    public static final String Exe_Learning_Fb_Id = "fb_Id";
+    public static final String Exe_Learning_Year = "year";
 
 
     //Personal Gratitude List
@@ -329,9 +336,6 @@ public class DbHelper extends SQLiteOpenHelper {
 
         return res1;
     }
-
-
-
 
 
     //Personal Happiness  Score Insert and all
@@ -1256,7 +1260,8 @@ public class DbHelper extends SQLiteOpenHelper {
             + Exe_Attention_Fb_Id + " TEXT,"
             + Exe_Distraction_Name + " TEXT,"
             + Exe_Attention_DayOfYear + " INTEGER,"
-            + Exe_Distraction_Status + " INTEGER"
+            + Exe_Distraction_Status + " INTEGER,"
+            + Exe_Attention_Year + " INTEGER"
             + ")";
 
 
@@ -1265,26 +1270,31 @@ public class DbHelper extends SQLiteOpenHelper {
             + Exe_Learning_COLUMN_ID + " INTEGER PRIMARY KEY,"
             + Exe_Learning_Name + " TEXT,"
             + Exe_Learning_Status + " TEXT,"
-            + Exe_Learning_DayOfYear + " INTEGER"
+            + Exe_Learning_DayOfYear + " INTEGER,"
+            + Exe_Learning_Fb_Id + " TEXT,"
+            + Exe_Learning_Year + " INTEGER"
             + ")";
 
-    public boolean insertTrueLearning(String trueLearningName, int trueLearningStatus, int dayOfTheYear) {
+    public boolean insertTrueLearning(String trueLearningName, int trueLearningStatus, int dayOfTheYear, String fbId, int yr) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(Exe_Learning_Name, trueLearningName);
         contentValues.put(Exe_Learning_DayOfYear, dayOfTheYear);
         contentValues.put(Exe_Learning_Status, trueLearningStatus);
+        contentValues.put(Exe_Learning_Fb_Id, fbId);
+        contentValues.put(Exe_Learning_Year, yr);
+
         db.insert(Exe_TABLE_NAME_TRUELEARNING, null, contentValues);
         return true;
     }
 
 
-    public Cursor getDataTrueLearning(String dayOfTheYear) {
+    public Cursor getDataTrueLearning(String dayOfTheYear, String yr, String fbId) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.query(Exe_TABLE_NAME_TRUELEARNING,
                 null,
-                "l_dayOfTheYear = ?",
-                new String[]{dayOfTheYear},
+                "l_dayOfTheYear = ? and fb_Id = ? and year = ?",
+                new String[]{dayOfTheYear, fbId, yr},
                 null,
                 null,
                 null);
@@ -1292,35 +1302,36 @@ public class DbHelper extends SQLiteOpenHelper {
         return res;
     }
 
-    public boolean updateDataTrueLearning(String trueLearningName, int trueLearningStatus, int dayOfTheYear) {
+    public boolean updateDataTrueLearning(String trueLearningName, int trueLearningStatus, int dayOfTheYear, String fbId, int yr) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(Exe_Learning_Name, trueLearningName);
         contentValues.put(Exe_Learning_DayOfYear, dayOfTheYear);
         contentValues.put(Exe_Learning_Status, trueLearningStatus);
-        db.update(Exe_TABLE_NAME_TRUELEARNING, contentValues, "l_dayOfTheYear = ? AND l_learningName = ?", new String[]{Integer.toString(dayOfTheYear), trueLearningName});
+        db.update(Exe_TABLE_NAME_TRUELEARNING, contentValues, "l_dayOfTheYear = ? AND l_learningName = ? and fb_Id = ? and year = ?", new String[]{Integer.toString(dayOfTheYear), trueLearningName, fbId, Integer.toString(yr)});
         return true;
     }
 
 
-    public boolean insertAttention(String fb_id, String distractionName, int distractionStatus, int dayOfTheYear) {
+    public boolean insertAttention(String fb_id, String distractionName, int distractionStatus, int dayOfTheYear, int yr) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(Exe_Attention_Fb_Id, fb_id);
         contentValues.put(Exe_Distraction_Name, distractionName);
         contentValues.put(Exe_Attention_DayOfYear, dayOfTheYear);
         contentValues.put(Exe_Distraction_Status, distractionStatus);
+        contentValues.put(Exe_Attention_Year, yr);
 
         db.insert(Exe_TABLE_NAME_ATTENTION, null, contentValues);
         return true;
     }
 
-    public Cursor getDataAttention(String dayOfTheYear) {
+    public Cursor getDataAttention(String dayOfTheYear, String fb_Id, String yr) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.query(Exe_TABLE_NAME_ATTENTION,
                 null,
-                "a_dayOfTheYear = ?",
-                new String[]{dayOfTheYear},
+                "a_dayOfTheYear = ? and fb_Id = ? and year = ?",
+                new String[]{dayOfTheYear, fb_Id, yr},
                 null,
                 null,
                 null);
@@ -1328,14 +1339,14 @@ public class DbHelper extends SQLiteOpenHelper {
         return res;
     }
 
-    public boolean updateDataAttention(String fb_id, String distractionName, int distractionStatus, int dayOfTheYear) {
+    public boolean updateDataAttention(String fb_id, String distractionName, int distractionStatus, int dayOfTheYear, int year) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(Exe_Attention_Fb_Id, fb_id);
         contentValues.put(Exe_Distraction_Name, distractionName);
         contentValues.put(Exe_Attention_DayOfYear, dayOfTheYear);
         contentValues.put(Exe_Distraction_Status, distractionStatus);
-        db.update(Exe_TABLE_NAME_ATTENTION, contentValues, "a_dayOfTheYear = ? AND a_distractionName = ?", new String[]{Integer.toString(dayOfTheYear), distractionName});
+        db.update(Exe_TABLE_NAME_ATTENTION, contentValues, "a_dayOfTheYear = ? and fb_Id = ? and year = ? and a_distractionName = ?", new String[]{Integer.toString(dayOfTheYear), fb_id, Integer.toString(year), distractionName});
         return true;
     }
 

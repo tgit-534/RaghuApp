@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import app.actionnation.actionapp.Database_Content.UserGame;
 import app.actionnation.actionapp.Storage.Constants;
 import app.actionnation.actionapp.data.DbHelper;
 
@@ -338,18 +339,18 @@ public class CommonClass {
 
 
     public void InsertEatHealthyScore(DbHelper db, String fbId, int dayOfTheYear, int yr, int eatFoodScore, int avoidFoodScore, int eatFoodTotal, int avoidFoodTotal) {
-        Cursor curAttention = db.getAttentionScore(fbId, dayOfTheYear, yr);
+        Cursor curEatHealthy = db.getEatHealthyScore(fbId, dayOfTheYear, yr);
         int eatfoodScoreDb = 0, avoidScoreDb = 0, eatFoodTotalDb = 0, avoidFoodTotalDb = 0;
 
-        int countScore = curAttention.getCount();
-        if (curAttention.getCount() > 0) {
+        int countScore = curEatHealthy.getCount();
+        if (curEatHealthy.getCount() > 0) {
 
-            while (curAttention.moveToNext()) {
+            while (curEatHealthy.moveToNext()) {
 
-                eatfoodScoreDb = Integer.parseInt(curAttention.getString(2));
-                avoidScoreDb = Integer.parseInt(curAttention.getString(3));
-                eatFoodTotalDb = Integer.parseInt(curAttention.getString(4));
-                avoidFoodTotalDb = Integer.parseInt(curAttention.getString(5));
+                eatfoodScoreDb = Integer.parseInt(curEatHealthy.getString(Constants.Game_AS_EatFoodScore));
+                avoidScoreDb = Integer.parseInt(curEatHealthy.getString(Constants.Game_AS_AvoidFoodScore));
+                eatFoodTotalDb = Integer.parseInt(curEatHealthy.getString(Constants.Game_AS_TotEatFoodScore));
+                avoidFoodTotalDb = Integer.parseInt(curEatHealthy.getString(Constants.Game_AS_TotAvoidFoodScore));
             }
         }
 
@@ -496,7 +497,7 @@ public class CommonClass {
                     abundanceScore,
                     usrId, dayOfTheYear, yr, Constants.Status_One);
         }
-    return returnData;
+        return returnData;
 
     }
 
@@ -552,7 +553,6 @@ public class CommonClass {
     protected int fetchDate(int i) {
         Calendar c = Calendar.getInstance();
 
-
         int returnvalue = 0;
         if (i == 0)
             returnvalue = c.get(Calendar.DAY_OF_YEAR);
@@ -561,6 +561,16 @@ public class CommonClass {
         }
         return returnvalue;
 
+    }
+
+    public UserGame loadUserGame(String fbId, int dayOfTheYear, int yr) {
+        UserGame userGame = new UserGame();
+        userGame.setFb_Id(fbId);
+        userGame.setDayOfTheYear(dayOfTheYear);
+        userGame.setYear(yr);
+        userGame.setUserTotatScore(Constants.Game_userTotalScore);
+        userGame.setStatus(Constants.Status_One);
+        return userGame;
     }
 
 

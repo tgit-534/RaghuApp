@@ -65,7 +65,6 @@ public class Constants {
     public static final int Game_CommonScore_Negative = -1;
 
 
-
     //Generic Score
     public static final int HP_GratitudeScore = 2;
     public static final int HP_ForgiveInsideScore = 3;
@@ -101,6 +100,60 @@ public class Constants {
     public static final int DbSql_Integrity_WordAgreement = 4;
     public static final int DbSql_Integrity_RespectWork = 5;
     public static final int HP_DbSql_Integrity_RespectWorkItems = 9;
+
+    //Game Integrity
+    public static final int Game_SelfWin = 50;
+    public static final int Game_PlaceWin = 50;
+    public static final int Game_WordWin = 400;
+    public static final int Game_WorkWIn = 200;
+
+    //Game Attention
+    public static final int Game_Distraction = 100;
+    public static final int Game_Traction = 100;
+
+    //Game Meditation
+    public static final int Game_Meditation = 100;
+
+    // Game True Learning
+    public static final int Game_TrueLearning = 100;
+
+    //Game Happiness
+    public static final int Game_Forgiveness_Self = 50;
+    public static final int Game_Forgiveness_Outside = 50;
+    public static final int Game_Gratitude = 100;
+    public static final int Game_Abundance = 100;
+
+    //Game Eat and Exercise
+    public static final int Game_EatHealthy = 100;
+    public static final int Game_Exercise = 100;
+    //Game Habits
+    public static final int Game_Habits = 500;
+    //Game Experience Nature
+    public static final int Game_ExperienceNature = 100;
+
+    // Game Reveal Story
+    public static final int Game_RevealStory = 100;
+
+    // Game OUrBelief
+    public static final int Game_OurBeliefSystem = 200;
+
+    public static final int Game_userTotalScore = 2500;
+
+
+    // Game OUrBelief
+    public static final int Game_AS_DistractionScore = 2;
+    public static final int Game_AS_TractionScore = 3;
+    public static final int Game_AS_TotDistraction = 4;
+    public static final int Game_AS_TotTraction = 5;
+    public static final int Game_AS_DayOfTheYear = 6;
+    public static final int Game_AS_Year = 7;
+    public static final int Game_AS_Status = 8;
+
+    // Game Eat Healthy
+    public static final int Game_AS_EatFoodScore = 2;
+    public static final int Game_AS_AvoidFoodScore = 3;
+    public static final int Game_AS_TotEatFoodScore = 4;
+    public static final int Game_AS_TotAvoidFoodScore = 5;
 
 
 }

@@ -15,12 +15,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import app.actionnation.actionapp.Database_Content.UserGame;
 import app.actionnation.actionapp.Storage.Constants;
 import app.actionnation.actionapp.data.DbHelper;
+import app.actionnation.actionapp.data.DbHelperClass;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -95,9 +98,7 @@ public class gratitude extends Fragment implements View.OnClickListener {
 
 
         Cursor res = db.getGratitudeDayList(String.valueOf(dayOfYear));
-        if (res.getCount() == 0) {
-            // return;
-        } else {
+        if (res.getCount() > 0) {
             while (res.moveToNext()) {
 
                 if (res.getString(3).equals("1")) {
@@ -128,7 +129,18 @@ public class gratitude extends Fragment implements View.OnClickListener {
 
                 CommonClass cls = new CommonClass();
                 cls.SubmitHappinessGame(Constants.HP_GratitudeScore, db, usrId, dayOfYear, yr);
+
+                FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+
+                UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr);
+                userGame.setUserGratitudeScore(Constants.Game_Gratitude);
+
+                DbHelperClass dbHelperClass = new DbHelperClass();
+
+                dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userGratitudeScore), String.valueOf(Constants.Game_Gratitude));
             }
+
+
         });
 
         btnGratitude.setOnClickListener(new View.OnClickListener() {
@@ -157,15 +169,6 @@ public class gratitude extends Fragment implements View.OnClickListener {
         DbHelper dbHelper = new DbHelper(getActivity());
         Cursor res = dbHelper.getGratitudeList();
         res.moveToFirst();
-
-        /*Cursor cur = res;
-        if (res.getCount() == 0) {
-            // return;
-        } else {
-            while (res.moveToNext()) {
-                strAttPattern.add(res.getString(1));
-            }
-        }*/
         return res;
     }
 

@@ -45,6 +45,7 @@ import app.actionnation.actionapp.Database_Content.Personal_Excercise;
 import app.actionnation.actionapp.Database_Content.Personal_Habit;
 import app.actionnation.actionapp.Database_Content.Personal_Statement;
 import app.actionnation.actionapp.Database_Content.Personal_Visualization;
+import app.actionnation.actionapp.Database_Content.UserGame;
 import app.actionnation.actionapp.Database_Content.UserProfile;
 import app.actionnation.actionapp.FragmentSelfDream;
 import app.actionnation.actionapp.HabitTraking;
@@ -193,6 +194,42 @@ public class DbHelperClass {
     }
 
 
+    public void insertFireUserGame(final String collectionReference, final Context ct, final UserGame dataObject, final FirebaseFirestore db, String dataVariable, String dataObjectUpadate) {
+
+        final int i = 0;
+        Map<String, Object> userVariable = new HashMap<>();
+        userVariable.put(dataVariable, dataObjectUpadate);
+
+        db.collection(collectionReference).document(dataObject.getFb_Id() + String.valueOf(dataObject.getDayOfTheYear()) + String.valueOf(dataObject.getYear()))
+                .update(userVariable)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(ct, "Updation Success", Toast.LENGTH_LONG);
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                DocumentReference docRef = db.collection(collectionReference).document(dataObject.getFb_Id() + String.valueOf(dataObject.getDayOfTheYear()) + String.valueOf(dataObject.getYear()));
+                docRef.set(dataObject).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(ct, "Insertion Done", Toast.LENGTH_LONG);
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(ct, "Insertion failure", Toast.LENGTH_LONG);
+
+                    }
+                });
+            }
+        });
+    }
+
+
     public FirestoreRecyclerAdapter GetFireStoreAdapter(FirestoreRecyclerAdapter adapter, String collectionReference, com.google.firebase.firestore.Query query) {
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
         CollectionReference cr = rootRef.collection(collectionReference);
@@ -328,11 +365,11 @@ public class DbHelperClass {
 
                         CommonClass cls = new CommonClass();
                         if (isChecked == true) {
-                            db.insertAttention(fbId, holder.chkDistraction.getTag().toString(), 1, dayOfTheYear);
+                            db.insertAttention(fbId, holder.chkDistraction.getTag().toString(), 1, dayOfTheYear, yr);
                             cls.InsertAttentionScore(db, fbId, dayOfTheYear, yr, 1, 0, options.getSnapshots().size(), 0);
 
                         } else {
-                            db.updateDataAttention(fbId, holder.chkDistraction.getTag().toString(), 0, dayOfTheYear);
+                            db.updateDataAttention(fbId, holder.chkDistraction.getTag().toString(), 0, dayOfTheYear, yr);
                             cls.InsertAttentionScore(db, fbId, dayOfTheYear, yr, -1, 0, options.getSnapshots().size(), 0);
 
                         }
@@ -381,11 +418,13 @@ public class DbHelperClass {
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         Calendar cal = Calendar.getInstance();
                         int dayOfTheYear = cal.get(Calendar.DAY_OF_YEAR);
+                        int yr = cal.get(Calendar.YEAR);
+
                         DbHelper db = new DbHelper(ctx);
                         if (isChecked == true) {
-                            db.insertAttention("", holder.chkDistraction.getTag().toString(), 1, dayOfTheYear);
+                            db.insertAttention("", holder.chkDistraction.getTag().toString(), 1, dayOfTheYear, yr);
                         } else {
-                            db.updateDataAttention("", holder.chkDistraction.getTag().toString(), 0, dayOfTheYear);
+                            db.updateDataAttention("", holder.chkDistraction.getTag().toString(), 0, dayOfTheYear, yr);
                         }
                     }
 
@@ -622,7 +661,6 @@ public class DbHelperClass {
 
 
             private void insertWord(String usrId, int dayOfTheYear, int yr, Context ctx, int wordAgreement, int wordAgreementItems) {
-
                 DbHelper db = new DbHelper(ctx);
                 Cursor csrIntegrityGame = db.getIntegrityScore(usrId, dayOfTheYear, yr);
                 int selfWin = 0, placeWin = 0, wordAgreementDb = 0, wordAgreementItemsDb = 0;
@@ -643,7 +681,6 @@ public class DbHelperClass {
                 } else {
                     db.insertIntegrityScore(selfWin, placeWin, wordAgreement, wordAgreementItems, respectWork, usrId, dayOfTheYear, yr
                             , 1);
-
                 }
             }
 

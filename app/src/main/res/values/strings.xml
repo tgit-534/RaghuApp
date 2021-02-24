@@ -217,6 +217,33 @@
     <string name="fs_PersonalExcercise">Personal_Excercise</string>
     <string name="fs_PersonalDistraction">Personal_Distraction</string>
     <string name="fs_UserProfile">UserProfile</string>
+    <string name="fs_UserGame">UserGame</string>
+
+
+    <!-- TODO: Firestore Database Usergame fields -->
+    <string name="fs_Usergame_fb_Id"> fb_Id</string>
+    <string name="fs_Usergame_userSelfWinScore"> userSelfWinScore</string>
+    <string name="fs_Usergame_userPlaceWinScore"> userPlaceWinScore</string>
+    <string name="fs_Usergame_userWordWinScore"> userWordWinScore</string>
+    <string name="fs_Usergame_userWorkWinScore"> userWorkWinScore</string>
+    <string name="fs_Usergame_userDistractionScore"> userDistractionScore</string>
+    <string name="fs_Usergame_userTractionScore"> userTractionScore</string>
+    <string name="fs_Usergame_userMeditationScore"> userMeditationScore</string>
+    <string name="fs_Usergame_userTrueLearningScore"> userTrueLearningScore</string>
+    <string name="fs_Usergame_userGratitudeScore"> userGratitudeScore</string>
+    <string name="fs_Usergame_userForgivenessSelfScore"> userForgivenessSelfScore</string>
+    <string name="fs_Usergame_userForgivenessOutsideScore"> userForgivenessOutsideScore</string>
+    <string name="fs_Usergame_userAbundanceScore"> userAbundanceScore</string>
+    <string name="fs_Usergame_userEatHealthyScore"> userEatHealthyScore</string>
+    <string name="fs_Usergame_userExerciseScore"> userExerciseScore</string>
+    <string name="fs_Usergame_userHabitsScore"> userHabitsScore</string>
+    <string name="fs_Usergame_userExperienceNatureScore"> userExperienceNatureScore</string>
+    <string name="fs_Usergame_userRevealStoryScore"> userRevealStoryScore</string>
+    <string name="fs_Usergame_userOurBeliefScore"> userOurBeliefScore</string>
+    <string name="fs_Usergame_userTotatScore"> userTotatScore</string>
+    <string name="fs_Usergame_dayOfTheYear"> dayOfTheYear</string>
+    <string name="fs_Usergame_yeare"> year</string>
+
 
 
     <!-- TODO: Firestore Database fieldss -->
@@ -413,6 +440,7 @@
     <string name="Page_Redirect_Visualization">Visualization</string>
     <string name="Page_Redirect_Belief">Belief</string>
     <string name="Page_Redirect_Traction">Traction</string>
+    <string name="Page_Redirect_Abundance">Abundance</string>
 
 
     <!-- TODO: Integrity Xml-->
@@ -442,6 +470,7 @@
     <string name="Fragment_Tr_Heading">Traction!</string>
     <string name="Fragment_Em_Heading">Emotions!</string>
     <string name="Fragment_Abe_Heading"> Abundance(Reframe your world)!</string>
+    <string name="Fragment_Eh_Heading">Eat Healthy!</string>
 
 
     <!-- TODO:  Heading Activity Xml-->

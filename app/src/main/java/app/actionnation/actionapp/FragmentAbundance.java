@@ -16,12 +16,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import app.actionnation.actionapp.Database_Content.UserGame;
 import app.actionnation.actionapp.Storage.Constants;
 import app.actionnation.actionapp.data.DbHelper;
+import app.actionnation.actionapp.data.DbHelperClass;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -111,11 +114,19 @@ public class FragmentAbundance extends Fragment implements View.OnClickListener 
         DbHelper db = new DbHelper(getActivity());
         if (i == R.id.btn_abundance_Finish) {
             cls.SubmitHappinessGame(Constants.HP_AbundanceScore, db, usrId, dayOfYear, yr);
+
+            FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+
+            UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr);
+            userGame.setUserAbundanceScore(Constants.Game_Abundance);
+            DbHelperClass dbHelperClass = new DbHelperClass();
+            dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userAbundanceScore), String.valueOf(Constants.Game_Abundance));
+
         } else if (i == R.id.btn_abundancelist) {
             Intent homepage = new Intent(getActivity(), HappinessContent.class);
             Bundle mBundle = new Bundle();
             mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
-            mBundle.putString(getString(R.string.Page_Redirect), getString(R.string.Page_Redirect_Attention));
+            mBundle.putString(getString(R.string.Page_Redirect), getString(R.string.Page_Redirect_Abundance));
             homepage.putExtras(mBundle);
             startActivity(homepage);
         }

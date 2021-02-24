@@ -10,9 +10,12 @@ import androidx.fragment.app.FragmentManager;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import app.actionnation.actionapp.Database_Content.UserGame;
 import app.actionnation.actionapp.Storage.Constants;
 import app.actionnation.actionapp.data.DbHelper;
+import app.actionnation.actionapp.data.DbHelperClass;
 
 public class MeditationActivity extends BaseClassUser implements View.OnClickListener {
     private static FragmentManager fragmentManager;
@@ -31,11 +34,7 @@ public class MeditationActivity extends BaseClassUser implements View.OnClickLis
         generatePublicMenu();
 
 
-
-
         btnFinish = findViewById(R.id.btn_med_finish);
-
-
 
         fragmentManager = getSupportFragmentManager();
         Fragment argumentFragment = new timingset();//Get Fragment Instance
@@ -45,7 +44,6 @@ public class MeditationActivity extends BaseClassUser implements View.OnClickLis
         argumentFragment.setArguments(data);//Finally set argument bundle to fragment
         fragmentManager.beginTransaction().replace(R.id.fragmentContainerMeditation, argumentFragment).commit();
 
-
         btnFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,6 +52,15 @@ public class MeditationActivity extends BaseClassUser implements View.OnClickLis
                 yr = fetchDate(1);
                 CommonClass cls = new CommonClass();
                 cls.SubmitGenericGame(Constants.GS_meditationScore, db, usrId, dayOfTheYear, yr);
+
+                DbHelperClass dbHelperClass = new DbHelperClass();
+
+                FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+
+                String usrId = fetchUserId(FirebaseAuth.getInstance());
+                UserGame userGame = cls.loadUserGame(usrId, dayOfTheYear, yr);
+                userGame.setUserMeditationScore(Constants.Game_Meditation);
+                dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), MeditationActivity.this, userGame, rootRef, getString(R.string.fs_Usergame_userMeditationScore), String.valueOf(Constants.Game_Meditation));
             }
         });
 

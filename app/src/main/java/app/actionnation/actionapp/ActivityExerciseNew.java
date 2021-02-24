@@ -24,6 +24,7 @@ public class ActivityExerciseNew extends BaseClassUser implements View.OnClickLi
     FirebaseAuth mAuth;
     String usrId = "";
     int dayOfTheYear, yr;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,8 +41,6 @@ public class ActivityExerciseNew extends BaseClassUser implements View.OnClickLi
                 cls.SubmitGenericGame(Constants.GS_exerciseScore, db, usrId, dayOfTheYear, yr);
             }
         });
-
-
         fragmentManager = getSupportFragmentManager();
         Fragment argumentFragment = new timingset();//Get Fragment Instance
         Bundle data = new Bundle();//Use bundle to pass data

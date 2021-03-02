@@ -132,12 +132,14 @@ public class gratitude extends Fragment implements View.OnClickListener {
 
                 FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
 
-                UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr);
+                ArrayList<String> arrayCaptains = getActivity().getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
+                UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains);
+
                 userGame.setUserGratitudeScore(Constants.Game_Gratitude);
 
                 DbHelperClass dbHelperClass = new DbHelperClass();
 
-                dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userGratitudeScore), String.valueOf(Constants.Game_Gratitude));
+                dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userGratitudeScore), Constants.Game_Gratitude);
             }
 
 

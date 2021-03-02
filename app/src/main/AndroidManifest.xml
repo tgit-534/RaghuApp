@@ -18,6 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_main"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ActivityYourTeam"></activity>
         <activity android:name=".ActivityProfileComplete" />
         <activity android:name=".ActivityMainProfile" />
         <activity
@@ -33,7 +34,9 @@
         <activity android:name=".ActivityOurBelief" />
         <activity android:name=".ActivityExerciseNew" />
         <activity android:name=".HappinessContent" />
-        <activity android:name=".RespectWork" />
+        <activity
+            android:name=".RespectWork"
+            android:theme="@style/AppFab" />
         <activity android:name=".ActivityEatHealthy" />
         <activity android:name=".ActivityHappiness" />
         <activity android:name=".Activity_TrueLearning" />
@@ -44,9 +47,13 @@
         <activity android:name=".ActivityExercise" />
         <activity android:name=".ActivityVisualization" />
         <activity android:name=".MeditationActivity" />
-        <activity android:name=".ActivityIntegrity" />
+        <activity
+            android:name=".ActivityIntegrity"
+            android:theme="@style/AppFab" />
         <activity android:name=".ActivityMainObjectives" />
-        <activity android:name=".HabitTraking" />
+        <activity
+            android:name=".HabitTraking"
+            android:theme="@style/AppFab" />
         <activity android:name=".PersondetailsActivity" />
         <activity android:name=".displaydata" />
         <activity android:name=".AdminActionQuestionnare" />
@@ -131,9 +138,9 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-
-        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat"/>
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
 
         <receiver
             android:name=".AlarmReceiver"

@@ -47,6 +47,7 @@ import app.actionnation.actionapp.Database_Content.Personal_Statement;
 import app.actionnation.actionapp.Database_Content.Personal_Visualization;
 import app.actionnation.actionapp.Database_Content.UserGame;
 import app.actionnation.actionapp.Database_Content.UserProfile;
+import app.actionnation.actionapp.Database_Content.UserTeam;
 import app.actionnation.actionapp.FragmentSelfDream;
 import app.actionnation.actionapp.HabitTraking;
 import app.actionnation.actionapp.R;
@@ -171,6 +172,26 @@ public class DbHelperClass {
         });
     }
 
+    public void insertFireUserTeam(String collectionReference, final Context ct, UserTeam dataObject, FirebaseFirestore db) {
+
+        DocumentReference docRef = db.collection(collectionReference).document(dataObject.getFb_Id());
+
+        docRef.set(dataObject).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(ct, "Insertion Done", Toast.LENGTH_LONG);
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(ct, "Deletion Done", Toast.LENGTH_LONG);
+
+            }
+        });
+    }
+
+
     public void updateFireUserProfile(String collectionReference, final Context ct, String userId, String dataVariable, String dataObject, FirebaseFirestore db) {
 
         Map<String, Object> userVariable = new HashMap<>();
@@ -193,8 +214,30 @@ public class DbHelperClass {
 
     }
 
+    public void updateFireUserProfile(String collectionReference, final Context ct, String userId, String dataVariable, Object dataObject, FirebaseFirestore db) {
 
-    public void insertFireUserGame(final String collectionReference, final Context ct, final UserGame dataObject, final FirebaseFirestore db, String dataVariable, String dataObjectUpadate) {
+        Map<String, Object> userVariable = new HashMap<>();
+        userVariable.put(dataVariable, dataObject);
+
+        db.collection(collectionReference).document(userId)
+                .update(userVariable)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+
+    }
+
+
+    public void insertFireUserGame(final String collectionReference, final Context ct, final UserGame dataObject, final FirebaseFirestore db, String dataVariable, int dataObjectUpadate) {
 
         final int i = 0;
         Map<String, Object> userVariable = new HashMap<>();
@@ -311,8 +354,6 @@ public class DbHelperClass {
                         mBundle.putString(Constants.Page_Redirect, Constants.Page_Redirect_Habit);
                         mBundle.putString("Habit_Name", holder.btnHabitSubmit.getTag().toString());
                         mBundle.putString("Habit_Total", String.valueOf(options.getSnapshots().size()));
-
-
                         homepage.putExtras(mBundle);
                         ctx.startActivity(homepage);
                     }

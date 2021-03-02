@@ -1,26 +1,36 @@
 package app.actionnation.actionapp;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+
 import app.actionnation.actionapp.Database_Content.Personal_Habit;
+import app.actionnation.actionapp.Database_Content.UserGame;
+import app.actionnation.actionapp.Storage.Constants;
+import app.actionnation.actionapp.data.DbHelper;
 import app.actionnation.actionapp.data.DbHelperClass;
 
 public class HabitTraking extends BaseClassUser implements View.OnClickListener {
     RecyclerView recyclerView;
     FirestoreRecyclerAdapter adapter;
     FirebaseAuth mAuth;
+    ExtendedFloatingActionButton fab;
 
 
     @Override
@@ -29,15 +39,70 @@ public class HabitTraking extends BaseClassUser implements View.OnClickListener 
         setContentView(R.layout.activity_habit_traking);
         generatePublicMenu();
 
-        CommonClass cl = new CommonClass();
-
-        mGoogleSignInClient = cl.GoogleStart(HabitTraking.this);
-
-        mAuth = FirebaseAuth.getInstance();
         recyclerView = findViewById(R.id.listHabits);
+        fab = findViewById(R.id.fab_act_habit_finish);
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) {
+                    fab.hide();
+                } else {
+                    fab.show();
+                }
+
+
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
+
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // recyclerView.smoothScrollToPosition(0);
+                FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+                CommonClass cls = new CommonClass();
+                Calendar c = Calendar.getInstance();
+
+                int dayOfYear = c.get(Calendar.DAY_OF_YEAR);
+                int yr = c.get(Calendar.YEAR);
+                String usrId = fetchUserId();
+
+                DbHelper db = new DbHelper(HabitTraking.this);
+                Cursor cus = db.getHabitScore(usrId, dayOfYear, yr);
+
+                int HabitScore = 0;
+                int HabitTot = 0;
+                if (cus.getCount() > 0) {
+                    cus.moveToFirst();
+
+                    HabitScore = Integer.parseInt(cus.getString(Constants.Game_AS_HabitScore));
+                    HabitTot = Integer.parseInt(cus.getString(Constants.Game_AS_TotHabit));
+
+                }
+                double gameHabitScore = (double) (HabitScore) / HabitTot;
+
+                gameHabitScore = gameHabitScore * Constants.Game_Habits;
+
+                ArrayList<String> arrayCaptains = getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
+                UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains);
+
+                userGame.setUserHabitsScore((int) gameHabitScore);
+
+                DbHelperClass dbHelperClass = new DbHelperClass();
+
+                dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), HabitTraking.this, userGame, rootRef, getString(R.string.fs_Usergame_userHabitsScore), (int)gameHabitScore);
+            }
+        });
+
+        CommonClass cl = new CommonClass();
+        mGoogleSignInClient = cl.GoogleStart(HabitTraking.this);
+        mAuth = FirebaseAuth.getInstance();
         recyclerView.setLayoutManager(new LinearLayoutManager(HabitTraking.this));
         recyclerView.setHasFixedSize(false);
         fetch();
+
     }
 
     private void fetch() {

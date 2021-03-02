@@ -2,6 +2,7 @@ package app.actionnation.actionapp;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -12,20 +13,26 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 import app.actionnation.actionapp.Database_Content.Person_Integrity;
+import app.actionnation.actionapp.Database_Content.UserGame;
+import app.actionnation.actionapp.Storage.Constants;
+import app.actionnation.actionapp.data.DbHelper;
 import app.actionnation.actionapp.data.DbHelperClass;
 
 public class ActivityIntegrity extends BaseClassUser implements View.OnClickListener {
@@ -41,6 +48,8 @@ public class ActivityIntegrity extends BaseClassUser implements View.OnClickList
     RecyclerView recyclerView;
     FirestoreRecyclerAdapter adapter;
     FirebaseAuth mAuth;
+    ExtendedFloatingActionButton fab;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +60,62 @@ public class ActivityIntegrity extends BaseClassUser implements View.OnClickList
         btnDatePicker = findViewById(R.id.btn_date);
         btnTimePicker = findViewById(R.id.btn_time);
         btnSubmitIntegrity = findViewById(R.id.in_btn_submit);
+        recyclerView = findViewById(R.id.listIntegrity);
+
+        fab = findViewById(R.id.fab_act_int_finish);
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) {
+                    fab.hide();
+                } else {
+                    fab.show();
+                }
+
+
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
+
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               // recyclerView.smoothScrollToPosition(0);
+                FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+                CommonClass cls = new CommonClass();
+                Calendar c = Calendar.getInstance();
+
+                int dayOfYear = c.get(Calendar.DAY_OF_YEAR);
+                int yr = c.get(Calendar.YEAR);
+                String usrId = fetchUserId();
+
+                DbHelper db = new DbHelper(ActivityIntegrity.this);
+                Cursor cus = db.getIntegrityScore(usrId, dayOfYear, yr);
+
+                int wordScore = 0;
+                int wordTot = 0;
+                if (cus.getCount() > 0) {
+                    cus.moveToFirst();
+
+                    wordScore = Integer.parseInt(cus.getString(Constants.Game_AS_WordScore));
+                    wordTot = Integer.parseInt(cus.getString(Constants.Game_AS_TotWordScore));
+
+                }
+                double gameWordScore = (double) (wordScore) / wordTot;
+
+                gameWordScore = gameWordScore * Constants.Game_WordWin;
+
+                ArrayList<String> arrayCaptains = getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
+                UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains);                userGame.setUserWordWinScore((int)gameWordScore);
+
+                DbHelperClass dbHelperClass = new DbHelperClass();
+
+                dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), ActivityIntegrity.this, userGame, rootRef, getString(R.string.fs_Usergame_userWordWinScore),(int)gameWordScore);
+            }
+        });
+
 
         txtDate = findViewById(R.id.in_date);
         txtTime = findViewById(R.id.in_time);
@@ -58,7 +123,6 @@ public class ActivityIntegrity extends BaseClassUser implements View.OnClickList
         dtIntegrity = new Date();
 
         mAuth = FirebaseAuth.getInstance();
-        recyclerView = findViewById(R.id.listIntegrity);
         recyclerView.setLayoutManager(new LinearLayoutManager(ActivityIntegrity.this));
         recyclerView.setHasFixedSize(false);
         fetch();

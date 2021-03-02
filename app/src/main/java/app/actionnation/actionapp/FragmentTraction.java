@@ -163,12 +163,13 @@ public class FragmentTraction extends Fragment implements View.OnClickListener {
             int databaseScore = (int) gameDistractionScore;
 
 
-            UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr);
+            ArrayList<String> arrayCaptains = getActivity().getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
+            UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains);
             userGame.setUserTractionScore(databaseScore);
 
             DbHelperClass dbHelperClass = new DbHelperClass();
 
-            dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userTractionScore), String.valueOf(databaseScore));
+            dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userTractionScore), databaseScore);
         }
     }
 

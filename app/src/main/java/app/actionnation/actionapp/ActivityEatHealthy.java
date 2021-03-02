@@ -41,53 +41,6 @@ public class ActivityEatHealthy extends BaseClassUser implements View.OnClickLis
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         viewPager.setAdapter(ds);
 
-
-/*
-        mAuth = FirebaseAuth.getInstance();
-        fbUser = mAuth.getCurrentUser();
-        usrId = "";
-        if (mAuth.getCurrentUser() != null) {
-            usrId = fbUser.getUid();
-        } else {
-            return;
-        }
-
-
-        recyclerView = (RecyclerView) findViewById(R.id.listEatHealthy);
-
-
-        Calendar c = Calendar.getInstance();
-
-        int dayOfYear = c.get(Calendar.DAY_OF_YEAR);
-        int yr = c.get(Calendar.YEAR);
-        DbHelper db = new DbHelper(ActivityEatHealthy.this);
-
-        Log.d(TAG, "Enter Db");
-
-        Cursor res = db.getEatHealthyList(usrId, dayOfYear, yr);
-        if (res.getCount() == 0) {
-            Log.d(TAG, "Enter Db no count");
-            // return;
-        } else {
-            while (res.moveToNext()) {
-                Log.d(TAG, "Enter Db no count inside while" + res.getString(1));
-
-                if (res.getString(3).equals("1")) {
-                    strEHPattern.add(res.getString(2));
-                    Log.d(TAG, "Enter Db");
-                }
-            }
-        }
-
-
-        CommonClass cl = new CommonClass();
-
-        mGoogleSignInClient = cl.GoogleStart(ActivityEatHealthy.this);
-        mAuth = FirebaseAuth.getInstance();
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        recyclerView.setLayoutManager(new LinearLayoutManager(ActivityEatHealthy.this));
-        recyclerView.setHasFixedSize(false);
-        fetch(strEHPattern);*/
     }
 
     @Override

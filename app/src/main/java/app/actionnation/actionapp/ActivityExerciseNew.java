@@ -11,9 +11,14 @@ import androidx.fragment.app.FragmentManager;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+
+import app.actionnation.actionapp.Database_Content.UserGame;
 import app.actionnation.actionapp.Storage.Constants;
 import app.actionnation.actionapp.data.DbHelper;
+import app.actionnation.actionapp.data.DbHelperClass;
 
 public class ActivityExerciseNew extends BaseClassUser implements View.OnClickListener {
     private static FragmentManager fragmentManager;
@@ -39,6 +44,17 @@ public class ActivityExerciseNew extends BaseClassUser implements View.OnClickLi
                 yr = fetchDate(1);
                 CommonClass cls = new CommonClass();
                 cls.SubmitGenericGame(Constants.GS_exerciseScore, db, usrId, dayOfTheYear, yr);
+
+                DbHelperClass dbHelperClass = new DbHelperClass();
+                FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+
+
+                ArrayList<String> arrayCaptains = getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
+                UserGame userGame = cls.loadUserGame(usrId, dayOfTheYear, yr, arrayCaptains);
+
+                userGame.setUserExerciseScore(Constants.Game_Exercise);
+                dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), ActivityExerciseNew.this, userGame, rootRef, getString(R.string.fs_Usergame_userExerciseScore), Constants.Game_Exercise);
+
             }
         });
         fragmentManager = getSupportFragmentManager();

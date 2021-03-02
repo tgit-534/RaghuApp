@@ -102,6 +102,12 @@ public class Constants {
     public static final int HP_DbSql_Integrity_RespectWorkItems = 9;
 
     //Game Integrity
+
+
+    public static final int Game_Abundance = 100;
+    public static final int Game_AvoidForHealth = 100;
+
+
     public static final int Game_SelfWin = 50;
     public static final int Game_PlaceWin = 50;
     public static final int Game_WordWin = 400;
@@ -121,7 +127,6 @@ public class Constants {
     public static final int Game_Forgiveness_Self = 50;
     public static final int Game_Forgiveness_Outside = 50;
     public static final int Game_Gratitude = 100;
-    public static final int Game_Abundance = 100;
 
     //Game Eat and Exercise
     public static final int Game_EatHealthy = 100;
@@ -137,7 +142,7 @@ public class Constants {
     // Game OUrBelief
     public static final int Game_OurBeliefSystem = 200;
 
-    public static final int Game_userTotalScore = 2500;
+    public static final int Game_userTotalScore = 2600;
 
 
     // Game OUrBelief
@@ -154,6 +159,16 @@ public class Constants {
     public static final int Game_AS_AvoidFoodScore = 3;
     public static final int Game_AS_TotEatFoodScore = 4;
     public static final int Game_AS_TotAvoidFoodScore = 5;
+
+    // Game Eat Healthy
+    public static final int Game_AS_WordScore = 4;
+    public static final int Game_AS_TotWordScore = 9;
+    public static final int Game_AS_RespectWorkScore = 5;
+
+
+    // Game Habit
+    public static final int Game_AS_HabitScore = 2;
+    public static final int Game_AS_TotHabit = 3;
 
 
 }

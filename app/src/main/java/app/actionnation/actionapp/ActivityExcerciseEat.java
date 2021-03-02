@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.ArrayList;
+
 public class ActivityExcerciseEat extends BaseClassUser {
 
     Button btnExercise, btnEatProperly;
@@ -25,6 +27,8 @@ public class ActivityExcerciseEat extends BaseClassUser {
             public void onClick(View v) {
                 Intent homepage = new Intent(ActivityExcerciseEat.this, ActivityExerciseNew.class);
                 Bundle mBundle = new Bundle();
+                mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain))));
+
                 mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
                 homepage.putExtras(mBundle);
                 startActivity(homepage);
@@ -37,6 +41,8 @@ public class ActivityExcerciseEat extends BaseClassUser {
             public void onClick(View v) {
                 Intent homepage = new Intent(ActivityExcerciseEat.this, ActivityEatHealthy.class);
                 Bundle mBundle = new Bundle();
+                mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain))));
+
                 mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
                 homepage.putExtras(mBundle);
                 startActivity(homepage);

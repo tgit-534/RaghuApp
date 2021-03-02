@@ -105,12 +105,14 @@ public class Activity_TrueLearning extends BaseClassUser implements View.OnClick
                     cus.moveToFirst();
                     trueLearningBool = true;
                 }
-                UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr);
+                ArrayList<String> arrayCaptains = getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
+                UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains);
+
                 userGame.setUserTrueLearningScore(Constants.Game_TrueLearning);
                 DbHelperClass dbHelperClass = new DbHelperClass();
 
                 if (trueLearningBool)
-                    dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), Activity_TrueLearning.this, userGame, rootRef, getString(R.string.fs_Usergame_userTrueLearningScore), String.valueOf(Constants.Game_TrueLearning));
+                    dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), Activity_TrueLearning.this, userGame, rootRef, getString(R.string.fs_Usergame_userTrueLearningScore), Constants.Game_TrueLearning);
             }
         });
     }

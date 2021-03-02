@@ -12,6 +12,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+
 import app.actionnation.actionapp.Database_Content.UserGame;
 import app.actionnation.actionapp.Storage.Constants;
 import app.actionnation.actionapp.data.DbHelper;
@@ -58,9 +60,12 @@ public class MeditationActivity extends BaseClassUser implements View.OnClickLis
                 FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
 
                 String usrId = fetchUserId(FirebaseAuth.getInstance());
-                UserGame userGame = cls.loadUserGame(usrId, dayOfTheYear, yr);
+
+                ArrayList<String> arrayCaptains = getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
+                UserGame userGame = cls.loadUserGame(usrId, dayOfTheYear, yr, arrayCaptains);
+
                 userGame.setUserMeditationScore(Constants.Game_Meditation);
-                dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), MeditationActivity.this, userGame, rootRef, getString(R.string.fs_Usergame_userMeditationScore), String.valueOf(Constants.Game_Meditation));
+                dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), MeditationActivity.this, userGame, rootRef, getString(R.string.fs_Usergame_userMeditationScore), Constants.Game_Meditation);
             }
         });
 

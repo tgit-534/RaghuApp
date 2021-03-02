@@ -59,8 +59,8 @@ public class ActivityTimerWindow extends BaseClassUser implements View.OnClickLi
             int dayOfTheYear = fetchDate(0);
             int yr = fetchDate(1);
             DbHelper db = new DbHelper(ActivityTimerWindow.this);
-            db.insertHabitDayTrack(HabitName, usrId, dayOfTheYear, yr, Constants.Status_One);
             cls.SubmitHabitScore(Constants.Game_CommonScore, Integer.parseInt(HabitTotal), HabitName, db, usrId, dayOfTheYear, yr);
+            db.insertHabitDayTrack(HabitName, usrId, dayOfTheYear, yr, Constants.Status_One);
 
         }
     }

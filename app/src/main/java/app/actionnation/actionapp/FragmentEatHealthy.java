@@ -53,7 +53,7 @@ public class FragmentEatHealthy extends Fragment {
     String usrId;
     ArrayList<String> strEHPattern = new ArrayList<>();
     String TAG = "Fragment Eat Healthy";
-    int strEatStatus;
+    int ehEatStatus;
 
     private FirebaseDatabase mFirebaseDatabase;
     FirebaseRecyclerAdapter fbAdapter;
@@ -64,7 +64,7 @@ public class FragmentEatHealthy extends Fragment {
     }
 
     public FragmentEatHealthy(int EatStatus) {
-        strEatStatus = EatStatus;
+        ehEatStatus = EatStatus;
         // Required empty public constructor
     }
 
@@ -117,24 +117,44 @@ public class FragmentEatHealthy extends Fragment {
 
                 DbHelper db = new DbHelper(getActivity());
                 Cursor cus = db.getEatHealthyScore(usrId, dayOfYear, yr);
+                String strDataVariable = "";
 
-                int eatHelathyScore = 0;
-                int EatHealthyTot = 0;
+                double gameEatFoodScore = 0;
+                int eatScore = 0;
+                int EatScoreTot = 0;
                 if (cus.getCount() > 0) {
                     cus.moveToFirst();
 
-                    eatHelathyScore = Integer.parseInt(cus.getString(Constants.Game_AS_DistractionScore));
-                    EatHealthyTot = Integer.parseInt(cus.getString(Constants.Game_AS_TotDistraction));
+                    ArrayList<String> arrayCaptains = getActivity().getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
+                    UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains);
+                    if (ehEatStatus == Constants.aaq_EatHealthy_Number) {
+                        eatScore = Integer.parseInt(cus.getString(Constants.Game_AS_EatFoodScore));
+                        EatScoreTot = Integer.parseInt(cus.getString(Constants.Game_AS_TotEatFoodScore));
+                        strDataVariable = getString(R.string.fs_Usergame_userEatHealthyScore);
 
+
+                        gameEatFoodScore = (double) (eatScore) / EatScoreTot;
+                        gameEatFoodScore = gameEatFoodScore * 100;
+                        userGame.setUserEatHealthyScore((int) gameEatFoodScore);
+
+                    } else if (ehEatStatus == Constants.aaq_AvoidFood_Number) {
+                        eatScore = Integer.parseInt(cus.getString(Constants.Game_AS_AvoidFoodScore));
+                        EatScoreTot = Integer.parseInt(cus.getString(Constants.Game_AS_TotAvoidFoodScore));
+                        strDataVariable = getString(R.string.fs_Usergame_userAvoidfoodScore);
+
+                        gameEatFoodScore = (double) (eatScore) / EatScoreTot;
+                        gameEatFoodScore = gameEatFoodScore * 100;
+
+                        userGame.setUserAvoidForHealthScore((int) gameEatFoodScore);
+
+                    }
+
+
+                    DbHelperClass dbHelperClass = new DbHelperClass();
+                    dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, strDataVariable, (int)gameEatFoodScore);
                 }
-                double gameEatFoodScore = (double) (eatHelathyScore) / EatHealthyTot;
 
-                gameEatFoodScore = gameEatFoodScore * 100;
 
-                UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr);
-                userGame.setUserDistractionScore((int) gameEatFoodScore);
-                DbHelperClass dbHelperClass = new DbHelperClass();
-                dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userEatHealthyScore), String.valueOf(gameEatFoodScore));
             }
         });
 
@@ -169,7 +189,7 @@ public class FragmentEatHealthy extends Fragment {
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(false);
-        fetch(strEHPattern, strEatStatus);
+        fetch(strEHPattern, ehEatStatus);
         return view;
     }
 
@@ -178,7 +198,7 @@ public class FragmentEatHealthy extends Fragment {
 
         // Query qry = mFirebaseDatabase.getInstance().getReference().child(getString(R.string.fb_CommonData_Db)).orderByChild("status").equalTo(6);
 
-        Query qry = mFirebaseDatabase.getInstance().getReference().child(getString(R.string.fb_CommonData_Db)).orderByChild("status").equalTo(strEatStatus);
+        Query qry = mFirebaseDatabase.getInstance().getReference().child(getString(R.string.fb_CommonData_Db)).orderByChild("status").equalTo(ehEatStatus);
 
         FirebaseRecyclerOptions<CommonData> options = new FirebaseRecyclerOptions.Builder<CommonData>()
                 .setQuery(qry, CommonData.class)

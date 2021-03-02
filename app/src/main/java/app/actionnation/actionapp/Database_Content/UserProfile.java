@@ -1,5 +1,7 @@
 package app.actionnation.actionapp.Database_Content;
 
+import java.util.List;
+
 public class UserProfile {
     public UserProfile() {
 
@@ -14,6 +16,15 @@ public class UserProfile {
     String userCountry;
     String userState;
     int status;
+    List<String> teamCaptains;
+
+    public List<String> getTeamCaptains() {
+        return teamCaptains;
+    }
+
+    public void setTeamCaptains(List<String> teamCaptains) {
+        this.teamCaptains = teamCaptains;
+    }
 
     public String getUserFirstName() {
         return userFirstName;

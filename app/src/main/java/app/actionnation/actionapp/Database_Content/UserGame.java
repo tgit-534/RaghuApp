@@ -1,5 +1,7 @@
 package app.actionnation.actionapp.Database_Content;
 
+import java.util.List;
+
 public class UserGame {
     public UserGame() {
 
@@ -19,6 +21,7 @@ public class UserGame {
     int userForgivenessOutsideScore;
     int userAbundanceScore;
     int userEatHealthyScore;
+    int userAvoidForHealthScore;
     int userExerciseScore;
     int userHabitsScore;
     int userExperienceNatureScore;
@@ -27,6 +30,23 @@ public class UserGame {
     int userTotatScore;
     int dayOfTheYear;
     int year;
+    List<String> teamCaptains;
+
+    public void setTeamCaptains(List<String> teamCaptains) {
+        this.teamCaptains = teamCaptains;
+    }
+
+    public List<String> getTeamCaptains() {
+        return teamCaptains;
+    }
+
+    public int getUserAvoidForHealthScore() {
+        return userAvoidForHealthScore;
+    }
+
+    public void setUserAvoidForHealthScore(int userAvoidForHealthScore) {
+        this.userAvoidForHealthScore = userAvoidForHealthScore;
+    }
 
     public int getYear() {
         return year;

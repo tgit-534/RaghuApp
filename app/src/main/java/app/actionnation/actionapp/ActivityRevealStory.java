@@ -18,11 +18,16 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
 
 import app.actionnation.actionapp.Database_Content.CommonData;
 import app.actionnation.actionapp.Database_Content.Personal_Distraction;
+import app.actionnation.actionapp.Database_Content.UserGame;
 import app.actionnation.actionapp.Storage.Constants;
 import app.actionnation.actionapp.data.DbHelper;
+import app.actionnation.actionapp.data.DbHelperClass;
 
 public class ActivityRevealStory extends BaseClassUser {
     RecyclerView recyclerView;
@@ -37,13 +42,13 @@ public class ActivityRevealStory extends BaseClassUser {
 
     private FirebaseDatabase mFirebaseDatabase;
     FirebaseRecyclerAdapter fbAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reveal_story);
         generatePublicMenu();
         usrId = fetchUserId();
-
 
         btnFinish = findViewById(R.id.btn_story_finish);
         btnFinish.setOnClickListener(new View.OnClickListener() {
@@ -54,14 +59,19 @@ public class ActivityRevealStory extends BaseClassUser {
                 int yr = fetchDate(1);
                 CommonClass cls = new CommonClass();
                 cls.SubmitGenericGame(Constants.GS_yourStoryScore, db, usrId, dayOfTheYear, yr);
+
+                DbHelperClass dbHelperClass = new DbHelperClass();
+                FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+                ArrayList<String> arrayCaptains = getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
+                UserGame userGame = cls.loadUserGame(usrId, dayOfTheYear, yr, arrayCaptains);
+
+
+                userGame.setUserRevealStoryScore(Constants.Game_RevealStory);
+                dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), ActivityRevealStory.this, userGame, rootRef, getString(R.string.fs_Usergame_userRevealStoryScore), Constants.Game_RevealStory);
             }
         });
 
-
         recyclerView = (RecyclerView) findViewById(R.id.listStory);
-
-
-
         CommonClass cl = new CommonClass();
 
         mGoogleSignInClient = cl.GoogleStart(ActivityRevealStory.this);
@@ -98,9 +108,8 @@ public class ActivityRevealStory extends BaseClassUser {
             @Override
             protected void onBindViewHolder(@NonNull ViewHolderStory holder, int position, @NonNull CommonData model) {
                 holder.mId.setText(model.getDataContent());
-
+                holder.chk.setVisibility(View.INVISIBLE);
                 holder.chk.setTag(model.getDataContent());
-
             }
 
 

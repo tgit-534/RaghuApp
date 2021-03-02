@@ -117,7 +117,7 @@ public class BaseClassUser extends AppCompatActivity {
                 break;
 
             case R.id.testCode:
-                Intent homepage4 = new Intent(this, TestCoding.class);
+                Intent homepage4 = new Intent(this, ActivityYourTeam.class);
                 Bundle mBundle4 = new Bundle();
                 mBundle4.putString(getString(R.string.common_auth), getString(R.string.common_google));
                 homepage4.putExtras(mBundle4);

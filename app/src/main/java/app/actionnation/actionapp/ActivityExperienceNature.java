@@ -18,11 +18,16 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
 
 import app.actionnation.actionapp.Database_Content.CommonData;
 import app.actionnation.actionapp.Database_Content.Personal_Distraction;
+import app.actionnation.actionapp.Database_Content.UserGame;
 import app.actionnation.actionapp.Storage.Constants;
 import app.actionnation.actionapp.data.DbHelper;
+import app.actionnation.actionapp.data.DbHelperClass;
 
 public class ActivityExperienceNature extends BaseClassUser {
     Button btnFinish;
@@ -45,7 +50,6 @@ public class ActivityExperienceNature extends BaseClassUser {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_experience_nature);
         generatePublicMenu();
-        btnExpNature = findViewById(R.id.btn_Activity_ExperienceNature);
         mAuth = FirebaseAuth.getInstance();
         fbUser = mAuth.getCurrentUser();
         usrId = "";
@@ -55,8 +59,9 @@ public class ActivityExperienceNature extends BaseClassUser {
             return;
         }
 
-
         btnFinish = findViewById(R.id.btn_nat_finish);
+        recyclerView = findViewById(R.id.listNature);
+
         btnFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,12 +70,20 @@ public class ActivityExperienceNature extends BaseClassUser {
                 int yr = fetchDate(1);
                 CommonClass cls = new CommonClass();
                 cls.SubmitGenericGame(Constants.GS_natureScore, db, usrId, dayOfTheYear, yr);
+
+                FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+
+                ArrayList<String> arrayCaptains = getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
+                UserGame userGame = cls.loadUserGame(usrId, dayOfTheYear, yr, arrayCaptains);
+
+                userGame.setUserDistractionScore(Constants.Game_ExperienceNature);
+
+                DbHelperClass dbHelperClass = new DbHelperClass();
+
+                dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), ActivityExperienceNature.this, userGame, rootRef, getString(R.string.fs_Usergame_userExperienceNatureScore), Constants.Game_ExperienceNature);
+
             }
         });
-
-
-        recyclerView = (RecyclerView) findViewById(R.id.listNature);
-
 
         CommonClass cl = new CommonClass();
 

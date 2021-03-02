@@ -11,6 +11,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+
 import app.actionnation.actionapp.Database_Content.UserGame;
 import app.actionnation.actionapp.Storage.Constants;
 import app.actionnation.actionapp.data.DbHelper;
@@ -72,8 +74,6 @@ public class ActivityIntegrityMain extends BaseClassUser implements View.OnClick
                 }
             }
         }
-
-
     }
 
     @Override
@@ -82,17 +82,20 @@ public class ActivityIntegrityMain extends BaseClassUser implements View.OnClick
         DbHelperClass dbHelperClass = new DbHelperClass();
         rootRef = FirebaseFirestore.getInstance();
         CommonClass cls = new CommonClass();
-
         if (i == R.id.btn_int_word) {
             Intent homepage = new Intent(ActivityIntegrityMain.this, ActivityIntegrity.class);
             Bundle mBundle = new Bundle();
             mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
+            mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain))));
+
             homepage.putExtras(mBundle);
             startActivity(homepage);
         } else if (i == R.id.btn_int_targetWin) {
             Intent homepage = new Intent(ActivityIntegrityMain.this, HabitTraking.class);
             Bundle mBundle = new Bundle();
             mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
+            mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain))));
+
             homepage.putExtras(mBundle);
             startActivity(homepage);
         } else if (i == R.id.btn_int_Self) {
@@ -116,10 +119,11 @@ public class ActivityIntegrityMain extends BaseClassUser implements View.OnClick
                         fbId, dayOfTheYear, yr, Constants.Status_One);
 
             }
-            UserGame userGame = cls.loadUserGame(fbId, dayOfTheYear, yr);
+            ArrayList<String> arrayCaptains = getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
+            UserGame userGame = cls.loadUserGame(fbId, dayOfTheYear, yr, arrayCaptains);
             userGame.setUserSelfWinScore(Constants.Game_SelfWin);
 
-            dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), ActivityIntegrityMain.this, userGame, rootRef, getString(R.string.fs_Usergame_userSelfWinScore), String.valueOf(Constants.Game_SelfWin));
+            dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), ActivityIntegrityMain.this, userGame, rootRef, getString(R.string.fs_Usergame_userSelfWinScore), Constants.Game_SelfWin);
 
 
         } else if (i == R.id.btn_int_place) {
@@ -143,16 +147,18 @@ public class ActivityIntegrityMain extends BaseClassUser implements View.OnClick
                         fbId, dayOfTheYear, yr, 1);
             }
 
-            UserGame userGame = cls.loadUserGame(fbId, dayOfTheYear, yr);
+            ArrayList<String> arrayCaptains = getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
+            UserGame userGame = cls.loadUserGame(fbId, dayOfTheYear, yr, arrayCaptains);
             userGame.setUserPlaceWinScore(Constants.Game_PlaceWin);
 
-            dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), ActivityIntegrityMain.this, userGame, rootRef, getString(R.string.fs_Usergame_userPlaceWinScore), String.valueOf(Constants.Game_PlaceWin));
+            dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), ActivityIntegrityMain.this, userGame, rootRef, getString(R.string.fs_Usergame_userPlaceWinScore), Constants.Game_PlaceWin);
 
 
         } else if (i == R.id.btn_int_completion) {
             Intent homepage = new Intent(ActivityIntegrityMain.this, RespectWork.class);
             Bundle mBundle = new Bundle();
             mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
+            mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain))));
             homepage.putExtras(mBundle);
             startActivity(homepage);
 

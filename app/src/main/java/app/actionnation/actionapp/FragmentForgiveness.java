@@ -289,7 +289,9 @@ public class FragmentForgiveness extends Fragment implements View.OnClickListene
         CommonClass cls = new CommonClass();
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
 
-        UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr);
+        ArrayList<String> arrayCaptains = getActivity().getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
+        UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains);
+
         DbHelperClass dbHelperClass = new DbHelperClass();
 
 
@@ -298,7 +300,7 @@ public class FragmentForgiveness extends Fragment implements View.OnClickListene
             cls.SubmitHappinessGame(Constants.HP_ForgiveInsideScore, db, usrId, dayOfYear, yr);
 
             userGame.setUserForgivenessSelfScore(Constants.Game_Forgiveness_Self);
-            dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userForgivenessSelfScore), String.valueOf(Constants.Game_Forgiveness_Self));
+            dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userForgivenessSelfScore), Constants.Game_Forgiveness_Self);
 
 
         } else if (i == R.id.btn_forgive_Outside) {
@@ -306,7 +308,7 @@ public class FragmentForgiveness extends Fragment implements View.OnClickListene
             cls.SubmitHappinessGame(Constants.HP_ForgiveOutsideScore, db, usrId, dayOfYear, yr);
 
             userGame.setUserForgivenessOutsideScore(Constants.Game_Forgiveness_Outside);
-            dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userForgivenessOutsideScore), String.valueOf(Constants.Game_Forgiveness_Outside));
+            dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userForgivenessOutsideScore), Constants.Game_Forgiveness_Outside);
 
         }
     }

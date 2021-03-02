@@ -88,6 +88,9 @@
                     android:layout_margin="10dp"
                     android:text="Complete Profile"></Button>
 
+
+
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -170,7 +173,14 @@
                     </LinearLayout>
                 </LinearLayout>
 
+
+                <FrameLayout
+                    android:id="@+id/fragmentContainerBarChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"></FrameLayout>
+
             </LinearLayout>
+
 
 
             <!--
@@ -181,24 +191,32 @@
                 android:layout_height="wrap_content" />-->
         </RelativeLayout>
 
+
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/listMainObjective"
             android:name="com.example.myapplication.ActivityMainObjectives"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:paddingBottom="30dp"
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbars="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:contentDescription="TODO"
-            android:src="@android:drawable/ic_popup_disk_full" />
     </LinearLayout>
 
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:contentDescription="TODO"
+        android:src="@android:drawable/ic_popup_disk_full"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

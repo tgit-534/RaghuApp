@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.NumberPicker;
 
@@ -43,13 +44,21 @@ public class TestCoding extends AppCompatActivity {
                 Log.d("picker value", pickerVals[valuePicker1]);
             }
         });
-
-        /*btnCreateLink.setOnClickListener(new View.OnClickListener() {
+/*
+        btnCreateLink.setOnClickListener(new View.OnClickListener().OnClickListener() {
             @Override
             public void onClick(View v) {
                 CreateLink();
             }
         });*/
+
+        btnCreateLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CreateLink();
+
+            }
+        });
     }
 
     public void CreateLink() {

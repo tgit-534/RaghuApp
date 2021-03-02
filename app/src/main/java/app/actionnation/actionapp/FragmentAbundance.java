@@ -117,10 +117,12 @@ public class FragmentAbundance extends Fragment implements View.OnClickListener 
 
             FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
 
-            UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr);
+            ArrayList<String> arrayCaptains = getActivity().getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
+            UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains);
+
             userGame.setUserAbundanceScore(Constants.Game_Abundance);
             DbHelperClass dbHelperClass = new DbHelperClass();
-            dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userAbundanceScore), String.valueOf(Constants.Game_Abundance));
+            dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userAbundanceScore), Constants.Game_Abundance);
 
         } else if (i == R.id.btn_abundancelist) {
             Intent homepage = new Intent(getActivity(), HappinessContent.class);

@@ -166,12 +166,14 @@ public class FragmentDistraction extends Fragment implements View.OnClickListene
 
             Log.d(TAG, "Enter Db");
 
-            UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr);
+            ArrayList<String> arrayCaptains = getActivity().getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
+            UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains);
+
             userGame.setUserDistractionScore(databaseScore);
 
             DbHelperClass dbHelperClass = new DbHelperClass();
 
-            dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userDistractionScore), String.valueOf(databaseScore));
+            dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userDistractionScore), databaseScore);
 
         } else if (i == R.id.btn_distractionlist) {
             Intent homepage = new Intent(getActivity(), PersondetailsActivity.class);

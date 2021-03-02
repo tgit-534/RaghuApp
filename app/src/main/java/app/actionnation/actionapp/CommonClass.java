@@ -527,7 +527,6 @@ public class CommonClass {
                 strHabitPattern.add(csrHabitName.getString(2));
             }
         }
-
         if (!strHabitPattern.contains(strHabitName)) {
 
             Cursor csrHabitScore = db.getHabitScore(usrId, dayOfTheYear, yr);
@@ -538,9 +537,12 @@ public class CommonClass {
                     habitScoreDb = Integer.parseInt(csrHabitScore.getString(2));
                     habitTotalDb = Integer.parseInt(csrHabitScore.getString(3));
                 }
-                habitScoreDb = habitScoreDb + habitScore;
-                habitTotalDb = habitTotal;
+            }
 
+
+            habitScoreDb = habitScoreDb + habitScore;
+            habitTotalDb = habitTotal;
+            if (countData > 0) {
 
                 db.updateHabitScore(habitScoreDb, habitTotalDb, usrId, dayOfTheYear, yr, Constants.Status_One);
             } else {
@@ -549,6 +551,7 @@ public class CommonClass {
             }
         }
     }
+
 
     protected int fetchDate(int i) {
         Calendar c = Calendar.getInstance();
@@ -563,13 +566,16 @@ public class CommonClass {
 
     }
 
-    public UserGame loadUserGame(String fbId, int dayOfTheYear, int yr) {
+
+
+    public UserGame loadUserGame(String fbId, int dayOfTheYear, int yr, ArrayList<String> arrayCaptains) {
         UserGame userGame = new UserGame();
         userGame.setFb_Id(fbId);
         userGame.setDayOfTheYear(dayOfTheYear);
         userGame.setYear(yr);
         userGame.setUserTotatScore(Constants.Game_userTotalScore);
         userGame.setStatus(Constants.Status_One);
+        userGame.setTeamCaptains(arrayCaptains);
         return userGame;
     }
 

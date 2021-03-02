@@ -20,6 +20,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,7 +33,6 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
@@ -45,6 +46,9 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import app.actionnation.actionapp.Database_Content.CommonData;
 import app.actionnation.actionapp.Database_Content.UserProfile;
@@ -63,6 +67,7 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
     FirebaseFirestore rootRef;
     TextView userName, userDesc;
 
+    private static FragmentManager fragmentManager;
 
     FirebaseRecyclerAdapter fbAdapter;
 
@@ -78,12 +83,25 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
         userDesc = findViewById(R.id.et_amo_userDesc);
         mainDataUpdate();
 
+        //BarChart
+        fragmentManager = getSupportFragmentManager();
+
+        Fragment argumentFragment = new FragmentGameBar();//Get Fragment Instance
+        fragmentManager.beginTransaction().replace(R.id.fragmentContainerBarChart, argumentFragment).commit();
+
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent homepage4 = new Intent(ActivityMainObjectives.this, ActivityYourTeam.class);
+                Bundle mBundle4 = new Bundle();
+                mBundle4.putString(getString(R.string.common_auth), getString(R.string.common_google));
+                mBundle4.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) btnProfileComplete.getTag());
+
+                homepage4.putExtras(mBundle4);
+                startActivity(homepage4);
+
             }
         });
 
@@ -100,8 +118,6 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
         recyclerView = findViewById(R.id.listMainObjective);
-        // recyclerView.setLayoutManager(new LinearLayoutManager(ActivityMainObjectives.this));
-// set a GridLayoutManager with default vertical orientation and 3 number of columns
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(), 3);
         recyclerView.setLayoutManager(gridLayoutManager); // set LayoutManager to RecyclerView
 
@@ -165,60 +181,70 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
                             Intent homepage = new Intent(view.getContext(), ActivityIntegrityMain.class);
                             Bundle mBundle = new Bundle();
                             mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
+                            mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) btnProfileComplete.getTag());
                             homepage.putExtras(mBundle);
                             startActivity(homepage);
                         } else if (Integer.parseInt(holder.mImageView.getTag().toString()) == Integer.parseInt(getString(R.string.Display_fields_Attention))) {
                             Intent homepage = new Intent(view.getContext(), ActivityAttention.class);
                             Bundle mBundle = new Bundle();
                             mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
+                            mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) btnProfileComplete.getTag());
                             homepage.putExtras(mBundle);
                             startActivity(homepage);
                         } else if (Integer.parseInt(holder.mImageView.getTag().toString()) == Integer.parseInt(getString(R.string.Display_fields_Meditation))) {
                             Intent homepage = new Intent(view.getContext(), MeditationActivity.class);
                             Bundle mBundle = new Bundle();
                             mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
+                            mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) btnProfileComplete.getTag());
                             homepage.putExtras(mBundle);
                             startActivity(homepage);
                         } else if (Integer.parseInt(holder.mImageView.getTag().toString()) == Integer.parseInt(getString(R.string.Display_fields_TrueLearning))) {
                             Intent homepage = new Intent(view.getContext(), Activity_TrueLearning.class);
                             Bundle mBundle = new Bundle();
                             mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
+                            mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) btnProfileComplete.getTag());
                             homepage.putExtras(mBundle);
                             startActivity(homepage);
                         } else if (Integer.parseInt(holder.mImageView.getTag().toString()) == Integer.parseInt(getString(R.string.Display_fields_Happy))) {
                             Intent homepage = new Intent(view.getContext(), ActivityHappiness.class);
                             Bundle mBundle = new Bundle();
                             mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
+                            mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) btnProfileComplete.getTag());
                             homepage.putExtras(mBundle);
                             startActivity(homepage);
                         } else if (Integer.parseInt(holder.mImageView.getTag().toString()) == Integer.parseInt(getString(R.string.Display_fields_EatHealthy))) {
                             Intent homepage = new Intent(view.getContext(), ActivityExcerciseEat.class);
                             Bundle mBundle = new Bundle();
                             mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
+                            mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) btnProfileComplete.getTag());
                             homepage.putExtras(mBundle);
                             startActivity(homepage);
                         } else if (Integer.parseInt(holder.mImageView.getTag().toString()) == Integer.parseInt(getString(R.string.Display_fields_Habit))) {
                             Intent homepage = new Intent(view.getContext(), HabitTraking.class);
                             Bundle mBundle = new Bundle();
                             mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
+                            mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) btnProfileComplete.getTag());
                             homepage.putExtras(mBundle);
                             startActivity(homepage);
                         } else if (Integer.parseInt(holder.mImageView.getTag().toString()) == Integer.parseInt(getString(R.string.Display_fields_Excercise))) {
                             Intent homepage = new Intent(view.getContext(), ActivityExperienceNature.class);
                             Bundle mBundle = new Bundle();
                             mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
+                            mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) btnProfileComplete.getTag());
                             homepage.putExtras(mBundle);
                             startActivity(homepage);
                         } else if (Integer.parseInt(holder.mImageView.getTag().toString()) == Integer.parseInt(getString(R.string.Display_fields_Review))) {
                             Intent homepage = new Intent(view.getContext(), ActivityRevealStory.class);
                             Bundle mBundle = new Bundle();
                             mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
+                            mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) btnProfileComplete.getTag());
                             homepage.putExtras(mBundle);
                             startActivity(homepage);
                         } else if (Integer.parseInt(holder.mImageView.getTag().toString()) == Integer.parseInt(getString(R.string.Display_fields_Visualization))) {
                             Intent homepage = new Intent(view.getContext(), ActivityOurBelief.class);
                             Bundle mBundle = new Bundle();
                             mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
+                            mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) btnProfileComplete.getTag());
                             homepage.putExtras(mBundle);
                             startActivity(homepage);
                             finish();
@@ -262,6 +288,7 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
                     if (FirstName != null || LastName != null || UserDream != null) {
                         userName.setText(userProfile.getUserFirstName() + " " + userProfile.getUserLastName());
                         userDesc.setText(userProfile.getUserDream());
+                        btnProfileComplete.setTag(userProfile.getTeamCaptains());
 
                         Glide.with(ActivityMainObjectives.this)
                                 .asBitmap()
@@ -282,8 +309,6 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
                                         super.onLoadFailed(errorDrawable);
                                     }
                                 });
-
-
                     }
                 } else {
                     profileCompleteFunction();
@@ -293,6 +318,11 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
         });
 
 
+    }
+
+    protected List<String> getCaptains() {
+        List<String> captains = (List<String>) btnProfileComplete.getTag();
+        return captains;
     }
 
 
@@ -328,7 +358,6 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
             }
 
         }
-
 
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
@@ -391,7 +420,6 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
 
                                     //  dbh.updateFireUserProfile(getString(R.string.common_auth),ActivityMainObjectives.this, fetchUserId(),downloadUrl.getPath(),rootRef )
                                     dbh.updateFireUserProfile(getString(R.string.fs_UserProfile), ActivityMainObjectives.this, fetchUserId(), "userImagePath", downloadUrl.toString(), rootRef);
-
 
                                     // insertDataIntoCommonData(downloadUrl.toString());
                                 }

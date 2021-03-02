@@ -7,12 +7,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 
+import app.actionnation.actionapp.Database_Content.UserGame;
+import app.actionnation.actionapp.Storage.Constants;
 import app.actionnation.actionapp.data.DbHelper;
+import app.actionnation.actionapp.data.DbHelperClass;
 
 public class RespectWork extends BaseClassUser implements View.OnClickListener {
 
@@ -29,6 +36,8 @@ public class RespectWork extends BaseClassUser implements View.OnClickListener {
     int dayOfTheYear, yr;
     Cursor csrIntegrityGame;
     private static final String TAG = "Respect Work:Log";
+    ExtendedFloatingActionButton fab;
+
 
     String placeWin, wordAgreement, respectWork, selfWin, wordAgreementItems;
 
@@ -42,7 +51,6 @@ public class RespectWork extends BaseClassUser implements View.OnClickListener {
         btnFinished = findViewById(R.id.btn_rw_Finished);
         btnAbandoned = findViewById(R.id.btn_rw_Abandoned);
         btnUnfinished = findViewById(R.id.btn_rw_InComplete);
-
         txtFinished = findViewById(R.id.txt_rw_finished);
         txtAbandoned = findViewById(R.id.txt_rw_abandoned);
         txtincomplete = findViewById(R.id.txt_rw_Incomplete);
@@ -68,7 +76,6 @@ public class RespectWork extends BaseClassUser implements View.OnClickListener {
                 wordAgreement = csrIntegrityGame.getString(4);
                 respectWork = csrIntegrityGame.getString(5);
                 wordAgreementItems = csrIntegrityGame.getString(9);
-
             }
         }
 
@@ -79,7 +86,6 @@ public class RespectWork extends BaseClassUser implements View.OnClickListener {
         countDataRespectWork = res.getCount();
         String strExcercisePattern = "";
         if (res.getCount() > 0) {
-
             while (res.moveToNext()) {
                 //res.getString(2);
                 cls.callToast(RespectWork.this, res.getString(2));
@@ -87,8 +93,52 @@ public class RespectWork extends BaseClassUser implements View.OnClickListener {
                 txtincomplete.setText(res.getString(3));
                 txtAbandoned.setText(res.getString(4));
             }
-
         }
+
+        fab = findViewById(R.id.fab_act_respectWork);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // recyclerView.smoothScrollToPosition(0);
+                FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+                CommonClass cls = new CommonClass();
+                Calendar c = Calendar.getInstance();
+
+                int dayOfYear = c.get(Calendar.DAY_OF_YEAR);
+                int yr = c.get(Calendar.YEAR);
+                String usrId = fetchUserId();
+
+                DbHelper db = new DbHelper(RespectWork.this);
+                Cursor cus = db.getIntegrityScore(usrId, dayOfYear, yr);
+
+                double respectScore = 0;
+                if (cus.getCount() > 0) {
+                    cus.moveToFirst();
+
+                    respectScore = Integer.parseInt(cus.getString(Constants.Game_AS_RespectWorkScore));
+
+                }
+                respectScore = respectScore * 2;
+
+                ArrayList<String> arrayCaptains = getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
+                UserGame userGame = cls.loadUserGame(usrId, dayOfTheYear, yr, arrayCaptains);
+
+                userGame.setUserWorkWinScore((int)respectScore);
+                DbHelperClass dbHelperClass = new DbHelperClass();
+
+                dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), RespectWork.this, userGame, rootRef, getString(R.string.fs_Usergame_userWorkWinScore), (int)respectScore);
+            }
+        });
+
+
+
+
+
+
+
+
+
 
 
     }
@@ -131,14 +181,9 @@ public class RespectWork extends BaseClassUser implements View.OnClickListener {
     private void insertWorkStatus(String usrId, int finished, int incomplete, int abandoned, int dayOfTheYear) {
         if (countDataRespectWork > 0) {
             db.updateRespectWork(usrId, finished, incomplete, abandoned, dayOfTheYear);
-
-            //Insert
         } else {
             db.insertRespectWork(usrId, finished, incomplete, abandoned, dayOfTheYear);
-
         }
-
-
     }
 
 

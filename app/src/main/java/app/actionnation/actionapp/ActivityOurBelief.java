@@ -11,11 +11,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
+import app.actionnation.actionapp.Database_Content.UserGame;
 import app.actionnation.actionapp.Storage.Constants;
 import app.actionnation.actionapp.data.DbHelper;
+import app.actionnation.actionapp.data.DbHelperClass;
 
 public class ActivityOurBelief extends BaseClassUser implements View.OnClickListener {
 
@@ -23,12 +26,10 @@ public class ActivityOurBelief extends BaseClassUser implements View.OnClickList
     ArrayList<String> strAttPattern = new ArrayList<>();
     FirebaseAuth mAuth;
     String usrId;
-    FirebaseUser fbUser;
     DbHelper db = new DbHelper(ActivityOurBelief.this);
 
     String TAG = "Belief System";
     Button btnFinish;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +49,23 @@ public class ActivityOurBelief extends BaseClassUser implements View.OnClickList
                 int yr = fetchDate(1);
                 CommonClass cls = new CommonClass();
                 cls.SubmitGenericGame(Constants.GS_ourBeliefScore, db, usrId, dayOfTheYear, yr);
+
+                DbHelperClass dbHelperClass = new DbHelperClass();
+                FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+
+
+                ArrayList<String> arrayCaptains = getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
+                UserGame userGame = cls.loadUserGame(usrId, dayOfTheYear, yr, arrayCaptains);
+
+
+                userGame.setUserOurBeliefScore(Constants.Game_OurBeliefSystem);
+                dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), ActivityOurBelief.this, userGame, rootRef, getString(R.string.fs_Usergame_userOurBeliefScore), Constants.Game_OurBeliefSystem);
+
+
             }
         });
         Cursor res = db.getBeliefList(usrId);
-        if (res.getCount() == 0) {
-            // return;
-        } else {
+        if (res.getCount() > 0) {
             while (res.moveToNext()) {
 
                 strAttPattern.add(res.getString(1));
@@ -68,8 +80,6 @@ public class ActivityOurBelief extends BaseClassUser implements View.OnClickList
         recyclerView.setLayoutManager(new LinearLayoutManager(ActivityOurBelief.this));
         BeliefAdapter mAdapter = new BeliefAdapter(ActivityOurBelief.this, res);
         recyclerView.setAdapter(mAdapter);
-
-
     }
 
     protected String fetchUserId() {

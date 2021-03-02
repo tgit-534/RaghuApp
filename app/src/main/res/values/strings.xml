@@ -187,6 +187,7 @@
     <string name="Intent_Auth">auth</string>
     <string name="Intent_GetChallengeId">get_ChallengeId</string>
     <string name="Intent_CommonDataId">CommonDataId</string>
+    <string name="Intent_ArrayCaptain">arrayCaptain</string>
 
 
     <!-- TODO: Error Messages -->
@@ -218,6 +219,7 @@
     <string name="fs_PersonalDistraction">Personal_Distraction</string>
     <string name="fs_UserProfile">UserProfile</string>
     <string name="fs_UserGame">UserGame</string>
+    <string name="fs_UserTeam">UserTeam</string>
 
 
     <!-- TODO: Firestore Database Usergame fields -->
@@ -235,6 +237,8 @@
     <string name="fs_Usergame_userForgivenessOutsideScore"> userForgivenessOutsideScore</string>
     <string name="fs_Usergame_userAbundanceScore"> userAbundanceScore</string>
     <string name="fs_Usergame_userEatHealthyScore"> userEatHealthyScore</string>
+    <string name="fs_Usergame_userAvoidfoodScore"> userAvoidForHealthScore</string>
+
     <string name="fs_Usergame_userExerciseScore"> userExerciseScore</string>
     <string name="fs_Usergame_userHabitsScore"> userHabitsScore</string>
     <string name="fs_Usergame_userExperienceNatureScore"> userExperienceNatureScore</string>
@@ -245,11 +249,11 @@
     <string name="fs_Usergame_yeare"> year</string>
 
 
-
     <!-- TODO: Firestore Database fieldss -->
     <string name="fs_PersonalHabits_Habitdays">habitDays</string>
     <string name="fs_PersonalIntegrity_PromiseDate">promiseDate</string>
     <string name="fs_PersonalVisualization_columnn">personVisualStatement</string>
+    <string name="fs_UserProfile_teamCaptains">teamCaptains</string>
 
 
     <!-- TODO: Status Active -->
@@ -599,7 +603,6 @@
     <string name="fpd_state"> State</string>
 
     <string name="fpd_title">Your Profile</string>
-
 
 
 </resources>

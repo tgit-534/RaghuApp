@@ -51,6 +51,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import app.actionnation.actionapp.Database_Content.CommonData;
+import app.actionnation.actionapp.Database_Content.UserGame;
 import app.actionnation.actionapp.Database_Content.UserProfile;
 import app.actionnation.actionapp.data.DbHelperClass;
 
@@ -66,6 +67,8 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
     Uri uri;
     FirebaseFirestore rootRef;
     TextView userName, userDesc;
+    UserGame userGame = new UserGame();
+    ArrayList<Integer> userGameArray = new ArrayList<>();
 
     private static FragmentManager fragmentManager;
 
@@ -81,7 +84,7 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
         btnProfileComplete = findViewById(R.id.btn_activity_finish_Profile);
         userName = findViewById(R.id.et_amo_username);
         userDesc = findViewById(R.id.et_amo_userDesc);
-        mainDataUpdate();
+        userGameArray = mainDataUpdate();
 
         //BarChart
         fragmentManager = getSupportFragmentManager();
@@ -123,7 +126,7 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
 
 
         recyclerView.setHasFixedSize(false);
-        fetch();
+        fetch(userGame);
     }
 
     private void profileCompleteFunction() {
@@ -137,7 +140,7 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
     }
 
 
-    private void fetch() {
+    private void fetch(final UserGame userGame) {
         Query query = mFirebaseDatabase.getInstance().getReference().child(getString(R.string.fb_CommonData_Db)).orderByChild(getString(R.string.fb_status)).equalTo(Integer.valueOf(getString(R.string.aaq_Display_fields_Number)));
         //Query query = mFirebaseDatabase.getInstance().getReference().child(getString(R.string.fb_CommonData_Db)).orderByChild("dataNumber");
 
@@ -182,12 +185,16 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
                             Bundle mBundle = new Bundle();
                             mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
                             mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) btnProfileComplete.getTag());
+                            mBundle.putIntegerArrayList(getString(R.string.Intent_ArrayGameScore), userGameArray);
+
+
                             homepage.putExtras(mBundle);
                             startActivity(homepage);
                         } else if (Integer.parseInt(holder.mImageView.getTag().toString()) == Integer.parseInt(getString(R.string.Display_fields_Attention))) {
                             Intent homepage = new Intent(view.getContext(), ActivityAttention.class);
                             Bundle mBundle = new Bundle();
                             mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
+                            mBundle.putIntegerArrayList(getString(R.string.Intent_ArrayGameScore), userGameArray);
                             mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) btnProfileComplete.getTag());
                             homepage.putExtras(mBundle);
                             startActivity(homepage);
@@ -196,6 +203,8 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
                             Bundle mBundle = new Bundle();
                             mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
                             mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) btnProfileComplete.getTag());
+                            mBundle.putIntegerArrayList(getString(R.string.Intent_ArrayGameScore), userGameArray);
+
                             homepage.putExtras(mBundle);
                             startActivity(homepage);
                         } else if (Integer.parseInt(holder.mImageView.getTag().toString()) == Integer.parseInt(getString(R.string.Display_fields_TrueLearning))) {
@@ -203,6 +212,8 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
                             Bundle mBundle = new Bundle();
                             mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
                             mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) btnProfileComplete.getTag());
+                            mBundle.putIntegerArrayList(getString(R.string.Intent_ArrayGameScore), userGameArray);
+
                             homepage.putExtras(mBundle);
                             startActivity(homepage);
                         } else if (Integer.parseInt(holder.mImageView.getTag().toString()) == Integer.parseInt(getString(R.string.Display_fields_Happy))) {
@@ -210,6 +221,8 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
                             Bundle mBundle = new Bundle();
                             mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
                             mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) btnProfileComplete.getTag());
+                            mBundle.putIntegerArrayList(getString(R.string.Intent_ArrayGameScore), userGameArray);
+
                             homepage.putExtras(mBundle);
                             startActivity(homepage);
                         } else if (Integer.parseInt(holder.mImageView.getTag().toString()) == Integer.parseInt(getString(R.string.Display_fields_EatHealthy))) {
@@ -217,6 +230,8 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
                             Bundle mBundle = new Bundle();
                             mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
                             mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) btnProfileComplete.getTag());
+                            mBundle.putIntegerArrayList(getString(R.string.Intent_ArrayGameScore), userGameArray);
+
                             homepage.putExtras(mBundle);
                             startActivity(homepage);
                         } else if (Integer.parseInt(holder.mImageView.getTag().toString()) == Integer.parseInt(getString(R.string.Display_fields_Habit))) {
@@ -224,6 +239,8 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
                             Bundle mBundle = new Bundle();
                             mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
                             mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) btnProfileComplete.getTag());
+                            mBundle.putIntegerArrayList(getString(R.string.Intent_ArrayGameScore), userGameArray);
+
                             homepage.putExtras(mBundle);
                             startActivity(homepage);
                         } else if (Integer.parseInt(holder.mImageView.getTag().toString()) == Integer.parseInt(getString(R.string.Display_fields_Excercise))) {
@@ -231,6 +248,8 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
                             Bundle mBundle = new Bundle();
                             mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
                             mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) btnProfileComplete.getTag());
+                            mBundle.putIntegerArrayList(getString(R.string.Intent_ArrayGameScore), userGameArray);
+
                             homepage.putExtras(mBundle);
                             startActivity(homepage);
                         } else if (Integer.parseInt(holder.mImageView.getTag().toString()) == Integer.parseInt(getString(R.string.Display_fields_Review))) {
@@ -238,6 +257,8 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
                             Bundle mBundle = new Bundle();
                             mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
                             mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) btnProfileComplete.getTag());
+                            mBundle.putIntegerArrayList(getString(R.string.Intent_ArrayGameScore), userGameArray);
+
                             homepage.putExtras(mBundle);
                             startActivity(homepage);
                         } else if (Integer.parseInt(holder.mImageView.getTag().toString()) == Integer.parseInt(getString(R.string.Display_fields_Visualization))) {
@@ -245,6 +266,8 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
                             Bundle mBundle = new Bundle();
                             mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
                             mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) btnProfileComplete.getTag());
+                            mBundle.putIntegerArrayList(getString(R.string.Intent_ArrayGameScore), userGameArray);
+
                             homepage.putExtras(mBundle);
                             startActivity(homepage);
                             finish();
@@ -271,7 +294,7 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
     }
 
     //Update the User Data
-    private void mainDataUpdate() {
+    private ArrayList<Integer> mainDataUpdate() {
         rootRef = FirebaseFirestore.getInstance();
 
         DocumentReference docRef = rootRef.collection(getString(R.string.fs_UserProfile)).document(fetchUserId());
@@ -317,6 +340,10 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
             }
         });
 
+
+        CommonClass cls = new CommonClass();
+        userGameArray = cls.getUserGameLocal(ActivityMainObjectives.this, fetchUserId());
+        return userGameArray;
 
     }
 

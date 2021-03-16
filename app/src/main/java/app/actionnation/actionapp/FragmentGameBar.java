@@ -37,7 +37,6 @@ public class FragmentGameBar extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     NumberProgressBar numberProgressBar;
-    private Timer timer;
     FirebaseFirestore rootRef;
     FirebaseAuth mAuth;
     TextView textViewGame;

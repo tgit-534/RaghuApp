@@ -142,10 +142,12 @@ public class FragmentDistraction extends Fragment implements View.OnClickListene
 
             int dayOfYear = c.get(Calendar.DAY_OF_YEAR);
             int yr = c.get(Calendar.YEAR);
-            String usrId = fetchUserId(FirebaseAuth.getInstance());
-
+            ArrayList<String> userArray = cls.fetchUserArray(FirebaseAuth.getInstance());
+            String usrId = userArray.get(0);
+            String userName = userArray.get(1);
             DbHelper db = new DbHelper(getActivity());
             Cursor cus = db.getAttentionScore(usrId, dayOfYear, yr);
+            int totalGameScore = 0;
 
             int attentionScore = 0;
             int attentionTot = 0;
@@ -161,19 +163,34 @@ public class FragmentDistraction extends Fragment implements View.OnClickListene
             gameDistractionScore = gameDistractionScore * 100;
 
             int databaseScore = (int) gameDistractionScore;
-            if(databaseScore == 0)
+            if (databaseScore == 0)
                 databaseScore = 100;
 
             Log.d(TAG, "Enter Db");
 
             ArrayList<String> arrayCaptains = getActivity().getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
-            UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains);
+            UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains, userName);
 
             userGame.setUserDistractionScore(databaseScore);
 
+            ArrayList<Integer> arrayGameScore = getActivity().getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore)));
+
+            ArrayList<Integer> arrayNewGameScore = cls.createGameScore(Constants.Game_CP__UserDistractionScore, databaseScore, arrayGameScore, userGame, getContext());
+
+            if (arrayNewGameScore.size() == 20) {
+                userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Game_CP__UserTotatScore));
+                arrayGameScore = arrayNewGameScore;
+                totalGameScore = arrayGameScore.get(Constants.Game_CP__UserTotatScore);
+            } else {
+                userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Status_Zero));
+                totalGameScore = arrayNewGameScore.get(Constants.Status_Zero);
+
+            }
+
+
             DbHelperClass dbHelperClass = new DbHelperClass();
 
-            dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userDistractionScore), databaseScore);
+            dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userDistractionScore), databaseScore, totalGameScore);
 
         } else if (i == R.id.btn_distractionlist) {
             Intent homepage = new Intent(getActivity(), PersondetailsActivity.class);

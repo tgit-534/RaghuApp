@@ -188,6 +188,7 @@
     <string name="Intent_GetChallengeId">get_ChallengeId</string>
     <string name="Intent_CommonDataId">CommonDataId</string>
     <string name="Intent_ArrayCaptain">arrayCaptain</string>
+    <string name="Intent_ArrayGameScore">arrayGameScore</string>
 
 
     <!-- TODO: Error Messages -->
@@ -247,13 +248,20 @@
     <string name="fs_Usergame_userTotatScore"> userTotatScore</string>
     <string name="fs_Usergame_dayOfTheYear"> dayOfTheYear</string>
     <string name="fs_Usergame_yeare"> year</string>
+    <string name="fs_Usergame_teamCaptains">teamCaptains</string>
 
 
     <!-- TODO: Firestore Database fieldss -->
     <string name="fs_PersonalHabits_Habitdays">habitDays</string>
     <string name="fs_PersonalIntegrity_PromiseDate">promiseDate</string>
     <string name="fs_PersonalVisualization_columnn">personVisualStatement</string>
+
+
     <string name="fs_UserProfile_teamCaptains">teamCaptains</string>
+
+
+    <string name="fs_UserTeam_teamMembers">teamMembers</string>
+
 
 
     <!-- TODO: Status Active -->
@@ -489,6 +497,7 @@
     <string name="Activity_Belief_Heading">Our Belief System</string>
     <string name="Activity_Nature_Heading">Experience Nature!</string>
     <string name="Activity_Story_Heading">Story!</string>
+    <string name="Activity_your_team">Team</string>
 
 
     <!-- TODO: Integrity Xml-->

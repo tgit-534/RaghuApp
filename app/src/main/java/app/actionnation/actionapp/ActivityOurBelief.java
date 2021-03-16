@@ -44,7 +44,9 @@ public class ActivityOurBelief extends BaseClassUser implements View.OnClickList
         btnFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                usrId = fetchUserId();
+                ArrayList<String> userArray = fetchUserArray();
+
+                usrId = userArray.get(0);
                 int dayOfTheYear = fetchDate(0);
                 int yr = fetchDate(1);
                 CommonClass cls = new CommonClass();
@@ -55,11 +57,25 @@ public class ActivityOurBelief extends BaseClassUser implements View.OnClickList
 
 
                 ArrayList<String> arrayCaptains = getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
-                UserGame userGame = cls.loadUserGame(usrId, dayOfTheYear, yr, arrayCaptains);
-
-
+                UserGame userGame = cls.loadUserGame(usrId, dayOfTheYear, yr, arrayCaptains, userArray.get(1));
                 userGame.setUserOurBeliefScore(Constants.Game_OurBeliefSystem);
-                dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), ActivityOurBelief.this, userGame, rootRef, getString(R.string.fs_Usergame_userOurBeliefScore), Constants.Game_OurBeliefSystem);
+
+
+                int totalGameScore = 0;
+                ArrayList<Integer> arrayGameScore = getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore)));
+
+                ArrayList<Integer> arrayNewGameScore = cls.createGameScore(Constants.Game_CP__UserOurBeliefScore, Constants.Game_OurBeliefSystem, arrayGameScore, userGame, ActivityOurBelief.this);
+
+                if (arrayNewGameScore.size() == 20) {
+                    userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Game_CP__UserTotatScore));
+                    arrayGameScore = arrayNewGameScore;
+                    totalGameScore = arrayGameScore.get(Constants.Game_CP__UserTotatScore);
+                } else {
+                    userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Status_Zero));
+                    totalGameScore = arrayNewGameScore.get(Constants.Status_Zero);
+                }
+
+                dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), ActivityOurBelief.this, userGame, rootRef, getString(R.string.fs_Usergame_userOurBeliefScore), Constants.Game_OurBeliefSystem, totalGameScore);
 
 
             }

@@ -54,7 +54,7 @@ public class ActivityRevealStory extends BaseClassUser {
         btnFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                usrId = fetchUserId();
+                ArrayList<String> userArray = fetchUserArray();
                 int dayOfTheYear = fetchDate(0);
                 int yr = fetchDate(1);
                 CommonClass cls = new CommonClass();
@@ -63,11 +63,24 @@ public class ActivityRevealStory extends BaseClassUser {
                 DbHelperClass dbHelperClass = new DbHelperClass();
                 FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
                 ArrayList<String> arrayCaptains = getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
-                UserGame userGame = cls.loadUserGame(usrId, dayOfTheYear, yr, arrayCaptains);
-
-
+                UserGame userGame = cls.loadUserGame(userArray.get(0), dayOfTheYear, yr, arrayCaptains, userArray.get(1));
                 userGame.setUserRevealStoryScore(Constants.Game_RevealStory);
-                dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), ActivityRevealStory.this, userGame, rootRef, getString(R.string.fs_Usergame_userRevealStoryScore), Constants.Game_RevealStory);
+
+                int totalGameScore = 0;
+                ArrayList<Integer> arrayGameScore = getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore)));
+
+                ArrayList<Integer> arrayNewGameScore = cls.createGameScore(Constants.Game_CP__UserRevealStoryScore, Constants.Game_RevealStory, arrayGameScore, userGame, ActivityRevealStory.this);
+
+                if (arrayNewGameScore.size() == 20) {
+                    userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Game_CP__UserTotatScore));
+                    arrayGameScore = arrayNewGameScore;
+                    totalGameScore = arrayGameScore.get(Constants.Game_CP__UserTotatScore);
+                } else {
+                    userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Status_Zero));
+                    totalGameScore = arrayNewGameScore.get(Constants.Status_Zero);
+                }
+
+                dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), ActivityRevealStory.this, userGame, rootRef, getString(R.string.fs_Usergame_userRevealStoryScore), Constants.Game_RevealStory, totalGameScore);
             }
         });
 

@@ -1,6 +1,8 @@
 package app.actionnation.actionapp.data;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -24,6 +26,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -37,6 +40,7 @@ import app.actionnation.actionapp.ActivityExercise;
 import app.actionnation.actionapp.ActivityIntegrity;
 import app.actionnation.actionapp.ActivityReading;
 import app.actionnation.actionapp.ActivityTimerWindow;
+import app.actionnation.actionapp.ActivityYourTeam;
 import app.actionnation.actionapp.CommonClass;
 import app.actionnation.actionapp.Database_Content.Person_Integrity;
 import app.actionnation.actionapp.Database_Content.Personal_Book;
@@ -236,12 +240,56 @@ public class DbHelperClass {
 
     }
 
-
-    public void insertFireUserGame(final String collectionReference, final Context ct, final UserGame dataObject, final FirebaseFirestore db, String dataVariable, int dataObjectUpadate) {
+    public void insertFireUserGame(final String collectionReference, final Context ct, final UserGame dataObject, final FirebaseFirestore db, String dataVariable, int dataObjectUpdate, int totalScore) {
 
         final int i = 0;
         Map<String, Object> userVariable = new HashMap<>();
-        userVariable.put(dataVariable, dataObjectUpadate);
+        userVariable.put(dataVariable, dataObjectUpdate);
+        userVariable.put("userTotatScore", totalScore);
+
+        db.collection(collectionReference).document(dataObject.getFb_Id() + String.valueOf(dataObject.getDayOfTheYear()) + String.valueOf(dataObject.getYear()))
+                .update(userVariable)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(ct, "Updation Success", Toast.LENGTH_LONG);
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                DocumentReference docRef = db.collection(collectionReference).document(dataObject.getFb_Id() + String.valueOf(dataObject.getDayOfTheYear()) + String.valueOf(dataObject.getYear()));
+                docRef.set(dataObject).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(ct, "Insertion Done", Toast.LENGTH_LONG);
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(ct, "Insertion failure", Toast.LENGTH_LONG);
+
+                    }
+                });
+            }
+        });
+    }
+
+
+
+
+
+
+
+
+
+
+    public void insertFireUserGame(final String collectionReference, final Context ct, final UserGame dataObject, final FirebaseFirestore db, String dataVariable, int dataObjectUpdate) {
+
+        final int i = 0;
+        Map<String, Object> userVariable = new HashMap<>();
+        userVariable.put(dataVariable, dataObjectUpdate);
 
         db.collection(collectionReference).document(dataObject.getFb_Id() + String.valueOf(dataObject.getDayOfTheYear()) + String.valueOf(dataObject.getYear()))
                 .update(userVariable)
@@ -321,6 +369,156 @@ public class DbHelperClass {
             public FragmentSelfDream.ViewHolderSelfDream onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.actionphilosophy_list, parent, false);
                 return new FragmentSelfDream.ViewHolderSelfDream(view);
+            }
+        };
+        return adapter;
+    }
+
+
+    public FirestoreRecyclerAdapter GetFireStoreAdapterCaptains(FirestoreRecyclerAdapter adapter, final String collectionReference, com.google.firebase.firestore.Query query, final Context ctx, final ArrayList<String> strCaptains, final String fbId) {
+        final FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+        Log.d(TAG, "Enter Db firestore");
+        CollectionReference cr = rootRef.collection(collectionReference);
+        FirestoreRecyclerOptions<UserTeam> options = new FirestoreRecyclerOptions.Builder<UserTeam>()
+                .setQuery(query, UserTeam.class)
+                .build();
+        Log.d(TAG, "Enter Db 1 firestore");
+
+        adapter = new FirestoreRecyclerAdapter<UserTeam, ActivityYourTeam.ViewHolderSelectCaptain>(options) {
+
+            @Override
+            protected void onBindViewHolder(@NonNull final ActivityYourTeam.ViewHolderSelectCaptain holder, int position, @NonNull final UserTeam model) {
+                holder.mIdCaptainName.setText(model.getTeamName());
+                if (strCaptains.contains(model.getFb_Id())) {
+                    holder.mIdSelectCaptain.setChecked(true);
+                }
+
+                holder.mIdSelectCaptain.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+
+                        if (isChecked == true) {
+
+
+                            DocumentReference docRef = rootRef.collection("UserProfile").document(fbId);
+
+                            docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                @Override
+                                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                    UserProfile userProfile = documentSnapshot.toObject(UserProfile.class);
+
+
+                                    if (userProfile.getTeamCaptains().size() > 0) {
+
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+
+                                        builder.setTitle("Already you have a captain!!");
+                                        builder.setMessage("Are you sure?");
+
+                                        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                ArrayList<String> newCaptain = new ArrayList<>();
+
+                                                newCaptain.add(fbId);
+                                                newCaptain.add(model.getFb_Id());
+                                                newCaptain.add(model.getTeamName());
+                                                DbHelperClass dbh = new DbHelperClass();
+                                                dbh.updateFireUserProfile("UserProfile", ctx, fbId, "teamCaptains", newCaptain, rootRef);
+
+                                                Toast.makeText(ctx, "Added to the new Captain team!", Toast.LENGTH_SHORT);
+                                                dialog.dismiss();
+
+                                            }
+                                        });
+
+                                        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+
+
+                                                Toast.makeText(ctx, "Not Added to the team!", Toast.LENGTH_SHORT);
+                                                // Do nothing
+                                                dialog.dismiss();
+                                            }
+                                        });
+
+                                        AlertDialog alert = builder.create();
+                                        alert.show();
+
+
+                                    } else {
+                                        ArrayList<String> newCaptain = new ArrayList<>();
+
+                                        newCaptain.add(fbId);
+                                        newCaptain.add(model.getFb_Id());
+                                        DbHelperClass dbh = new DbHelperClass();
+                                        dbh.updateFireUserProfile("UserProfile", ctx, fbId, "teamCaptains", newCaptain, rootRef);
+
+                                        Toast.makeText(ctx, "Added to the new Captain team!", Toast.LENGTH_SHORT);
+
+                                    }
+
+
+                                }
+                            });
+
+                            Toast.makeText(ctx, "A new Captain!", Toast.LENGTH_LONG);
+
+                        } else {
+                            ArrayList<String> newCaptain = new ArrayList<>();
+
+                            DbHelperClass dbh = new DbHelperClass();
+                            dbh.updateFireUserProfile("UserProfile", ctx, fbId, "teamCaptains", newCaptain, rootRef);
+
+                            Toast.makeText(ctx, "Captain deleted!", Toast.LENGTH_LONG);
+
+                        }
+                    }
+                });
+
+
+            }
+
+/*
+            @Override
+            protected void onBindViewHolder(@NonNull final ActivityAttention.ViewHolderDistraction holder, int position, @NonNull final Personal_Distraction model) {
+                holder.mIdDistraction.setText(model.getDistrationName());
+
+                Log.d(TAG, "Enter Db inside Bind");
+
+                if (strAttn != null) {
+                    if (strAttn.contains(model.getDistrationName())) {
+                        holder.chkDistraction.setChecked(true);
+                    }
+                }
+
+                holder.chkDistraction.setTag(model.getDistrationName());
+                holder.chkDistraction.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        Calendar cal = Calendar.getInstance();
+                        int dayOfTheYear = cal.get(Calendar.DAY_OF_YEAR);
+                        int yr = cal.get(Calendar.YEAR);
+
+                        DbHelper db = new DbHelper(ctx);
+                        if (isChecked == true) {
+                            db.insertAttention("", holder.chkDistraction.getTag().toString(), 1, dayOfTheYear, yr);
+                        } else {
+                            db.updateDataAttention("", holder.chkDistraction.getTag().toString(), 0, dayOfTheYear, yr);
+                        }
+                    }
+
+                });
+            }*/
+
+            @NonNull
+            @Override
+            public ActivityYourTeam.ViewHolderSelectCaptain onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lb_layout_selectcaptain, parent, false);
+                return new ActivityYourTeam.ViewHolderSelectCaptain(view);
             }
         };
         return adapter;
@@ -745,6 +943,39 @@ public class DbHelperClass {
             public void onComplete(@NonNull Task<Void> task) {
             }
         });
+    }
+
+
+    public FirestoreRecyclerAdapter GetFireStoreAdapterTeamGame(FirestoreRecyclerAdapter adapter, final String collectionReference, com.google.firebase.firestore.Query query, final Context ctx, final String fbId) {
+
+        FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+
+        final FirestoreRecyclerOptions<UserGame> options = new FirestoreRecyclerOptions.Builder<UserGame>()
+                .setQuery(query, UserGame.class)
+                .build();
+
+        adapter = new FirestoreRecyclerAdapter<UserGame, ActivityYourTeam.ViewHolderTeam>(options) {
+
+            @Override
+            protected void onBindViewHolder(@NonNull ActivityYourTeam.ViewHolderTeam holder, int position, @NonNull UserGame model) {
+
+                CommonClass cls = new CommonClass();
+                int TotalScore = cls.userGameScore(model);
+                holder.mIdGameScore.setText(String.valueOf(TotalScore));
+                //holder.btnHabitSubmit.setTag(getSnapshots().getSnapshot(position).getId() + "," + model.getHabitDayOfTheYear() + "," + model.getHabitDays() + "," + model.getPowerLimit());
+                holder.mIdPlayerName.setText(model.getUserName());
+            }
+
+
+            @NonNull
+            @Override
+            public ActivityYourTeam.ViewHolderTeam onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lf_captainplayerdisplay, parent, false);
+                return new ActivityYourTeam.ViewHolderTeam(view);
+            }
+        };
+        
+        return adapter;
     }
 
 

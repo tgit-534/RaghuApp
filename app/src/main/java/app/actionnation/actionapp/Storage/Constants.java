@@ -171,4 +171,28 @@ public class Constants {
     public static final int Game_AS_TotHabit = 3;
 
 
+
+
+    //Game Array
+    public static final int Game_CP__UserSelfWinScore = 0;
+    public static final int Game_CP__UserPlaceWinScore = 1;
+    public static final int Game_CP__UserWordWinScore = 2;
+    public static final int Game_CP__UserWorkWinScore = 3;
+    public static final int Game_CP__UserDistractionScore = 4;
+    public static final int Game_CP__UserTractionScore = 5;
+    public static final int Game_CP__UserMeditationScore = 6;
+    public static final int Game_CP__UserTrueLearningScore = 7;
+    public static final int Game_CP__UserGratitudeScore = 8;
+    public static final int Game_CP__UserForgivenessSelfScore = 9;
+    public static final int Game_CP__UserForgivenessOutsideScore = 10;
+    public static final int Game_CP__UserAbundanceScore = 11;
+    public static final int Game_CP__UserEatHealthyScore = 12;
+    public static final int Game_CP__UserAvoidForHealthScore = 13;
+    public static final int Game_CP__UserExerciseScore = 14;
+    public static final int Game_CP__UserHabitsScore = 15;
+    public static final int Game_CP__UserExperienceNatureScore = 16;
+    public static final int Game_CP__UserRevealStoryScore = 17;
+    public static final int Game_CP__UserOurBeliefScore = 18;
+    public static final int Game_CP__UserTotatScore = 19;
+
 }

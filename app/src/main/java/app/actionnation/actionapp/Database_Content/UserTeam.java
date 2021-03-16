@@ -11,6 +11,15 @@ public class UserTeam {
     String teamName;
     List<String> teamMembers;
     int Status;
+    String captainName;
+
+    public String getCaptainName() {
+        return captainName;
+    }
+
+    public void setCaptainName(String captainName) {
+        this.captainName = captainName;
+    }
 
     public String getFb_Id() {
         return fb_Id;

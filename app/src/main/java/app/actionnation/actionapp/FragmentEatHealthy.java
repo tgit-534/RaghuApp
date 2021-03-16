@@ -113,11 +113,13 @@ public class FragmentEatHealthy extends Fragment {
 
                 int dayOfYear = c.get(Calendar.DAY_OF_YEAR);
                 int yr = c.get(Calendar.YEAR);
-                String usrId = fetchUserId();
-
+                ArrayList<String> userArray = cls.fetchUserArray(FirebaseAuth.getInstance());
+                usrId = userArray.get(0);
+                String userName = userArray.get(1);
                 DbHelper db = new DbHelper(getActivity());
                 Cursor cus = db.getEatHealthyScore(usrId, dayOfYear, yr);
                 String strDataVariable = "";
+                int healthGamePointer = 0;
 
                 double gameEatFoodScore = 0;
                 int eatScore = 0;
@@ -126,7 +128,7 @@ public class FragmentEatHealthy extends Fragment {
                     cus.moveToFirst();
 
                     ArrayList<String> arrayCaptains = getActivity().getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
-                    UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains);
+                    UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains, userName);
                     if (ehEatStatus == Constants.aaq_EatHealthy_Number) {
                         eatScore = Integer.parseInt(cus.getString(Constants.Game_AS_EatFoodScore));
                         EatScoreTot = Integer.parseInt(cus.getString(Constants.Game_AS_TotEatFoodScore));
@@ -136,6 +138,7 @@ public class FragmentEatHealthy extends Fragment {
                         gameEatFoodScore = (double) (eatScore) / EatScoreTot;
                         gameEatFoodScore = gameEatFoodScore * 100;
                         userGame.setUserEatHealthyScore((int) gameEatFoodScore);
+                        healthGamePointer = Constants.Game_CP__UserEatHealthyScore;
 
                     } else if (ehEatStatus == Constants.aaq_AvoidFood_Number) {
                         eatScore = Integer.parseInt(cus.getString(Constants.Game_AS_AvoidFoodScore));
@@ -146,12 +149,26 @@ public class FragmentEatHealthy extends Fragment {
                         gameEatFoodScore = gameEatFoodScore * 100;
 
                         userGame.setUserAvoidForHealthScore((int) gameEatFoodScore);
+                        healthGamePointer = Constants.Game_CP__UserAvoidForHealthScore;
 
                     }
 
+                    int totalGameScore = 0;
+                    ArrayList<Integer> arrayGameScore = getActivity().getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore)));
+
+                    ArrayList<Integer> arrayNewGameScore = cls.createGameScore(healthGamePointer, (int) gameEatFoodScore, arrayGameScore, userGame, getContext());
+
+                    if (arrayNewGameScore.size() == 20) {
+                        userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Game_CP__UserTotatScore));
+                        arrayGameScore = arrayNewGameScore;
+                        totalGameScore = arrayGameScore.get(Constants.Game_CP__UserTotatScore);
+                    } else {
+                        userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Status_Zero));
+                        totalGameScore = arrayNewGameScore.get(Constants.Status_Zero);
+                    }
 
                     DbHelperClass dbHelperClass = new DbHelperClass();
-                    dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, strDataVariable, (int)gameEatFoodScore);
+                    dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, strDataVariable, (int) gameEatFoodScore, totalGameScore);
                 }
 
 

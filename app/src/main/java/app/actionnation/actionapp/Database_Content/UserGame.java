@@ -8,6 +8,7 @@ public class UserGame {
     }
 
     String fb_Id;
+    String userName;
     int userSelfWinScore;
     int userPlaceWinScore;
     int userWordWinScore;
@@ -31,6 +32,14 @@ public class UserGame {
     int dayOfTheYear;
     int year;
     List<String> teamCaptains;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     public void setTeamCaptains(List<String> teamCaptains) {
         this.teamCaptains = teamCaptains;

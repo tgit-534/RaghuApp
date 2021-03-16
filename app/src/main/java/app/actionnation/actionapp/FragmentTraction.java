@@ -142,7 +142,11 @@ public class FragmentTraction extends Fragment implements View.OnClickListener {
 
             int dayOfYear = c.get(Calendar.DAY_OF_YEAR);
             int yr = c.get(Calendar.YEAR);
-            String usrId = fetchUserId(FirebaseAuth.getInstance());
+            ArrayList<String> userArray = cls.fetchUserArray(FirebaseAuth.getInstance());
+            usrId = userArray.get(0);
+            String userName = userArray.get(1);
+            int totalGameScore = 0;
+
 
             DbHelper db = new DbHelper(getActivity());
             Cursor cus = db.getAttentionScore(usrId, dayOfYear, yr);
@@ -164,12 +168,27 @@ public class FragmentTraction extends Fragment implements View.OnClickListener {
 
 
             ArrayList<String> arrayCaptains = getActivity().getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
-            UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains);
+            UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains, userName);
             userGame.setUserTractionScore(databaseScore);
+
+            ArrayList<Integer> arrayGameScore = getActivity().getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore)));
+
+            ArrayList<Integer> arrayNewGameScore = cls.createGameScore(Constants.Game_CP__UserTractionScore, databaseScore, arrayGameScore, userGame, getContext());
+
+            if (arrayNewGameScore.size() == 20) {
+                userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Game_CP__UserTotatScore));
+                arrayGameScore = arrayNewGameScore;
+                totalGameScore = arrayGameScore.get(Constants.Game_CP__UserTotatScore);
+            } else {
+                userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Status_Zero));
+                totalGameScore = arrayNewGameScore.get(Constants.Status_Zero);
+
+            }
+
 
             DbHelperClass dbHelperClass = new DbHelperClass();
 
-            dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userTractionScore), databaseScore);
+            dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userTractionScore), databaseScore, totalGameScore);
         }
     }
 

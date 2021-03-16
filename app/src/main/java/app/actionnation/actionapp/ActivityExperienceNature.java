@@ -65,7 +65,9 @@ public class ActivityExperienceNature extends BaseClassUser {
         btnFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                usrId = fetchUserId();
+                ArrayList<String> userArray = fetchUserArray();
+                String usrId = userArray.get(0);
+                String userName = userArray.get(1);
                 int dayOfTheYear = fetchDate(0);
                 int yr = fetchDate(1);
                 CommonClass cls = new CommonClass();
@@ -74,13 +76,26 @@ public class ActivityExperienceNature extends BaseClassUser {
                 FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
 
                 ArrayList<String> arrayCaptains = getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
-                UserGame userGame = cls.loadUserGame(usrId, dayOfTheYear, yr, arrayCaptains);
+                UserGame userGame = cls.loadUserGame(usrId, dayOfTheYear, yr, arrayCaptains, userName);
 
                 userGame.setUserDistractionScore(Constants.Game_ExperienceNature);
 
+                int totalGameScore = 0;
+                ArrayList<Integer> arrayGameScore = getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore)));
+
+                ArrayList<Integer> arrayNewGameScore = cls.createGameScore(Constants.Game_CP__UserExperienceNatureScore, (int) Constants.Game_ExperienceNature, arrayGameScore, userGame, ActivityExperienceNature.this);
+
+                if (arrayNewGameScore.size() == 20) {
+                    userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Game_CP__UserTotatScore));
+                    arrayGameScore = arrayNewGameScore;
+                    totalGameScore = arrayGameScore.get(Constants.Game_CP__UserTotatScore);
+                } else {
+                    userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Status_Zero));
+                    totalGameScore = arrayNewGameScore.get(Constants.Status_Zero);
+                }
                 DbHelperClass dbHelperClass = new DbHelperClass();
 
-                dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), ActivityExperienceNature.this, userGame, rootRef, getString(R.string.fs_Usergame_userExperienceNatureScore), Constants.Game_ExperienceNature);
+                dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), ActivityExperienceNature.this, userGame, rootRef, getString(R.string.fs_Usergame_userExperienceNatureScore), Constants.Game_ExperienceNature, totalGameScore);
 
             }
         });

@@ -67,7 +67,9 @@ public class HabitTraking extends BaseClassUser implements View.OnClickListener 
 
                 int dayOfYear = c.get(Calendar.DAY_OF_YEAR);
                 int yr = c.get(Calendar.YEAR);
-                String usrId = fetchUserId();
+                ArrayList<String> userArray = fetchUserArray();
+                String usrId = userArray.get(0);
+                String userName = userArray.get(1);
 
                 DbHelper db = new DbHelper(HabitTraking.this);
                 Cursor cus = db.getHabitScore(usrId, dayOfYear, yr);
@@ -86,13 +88,28 @@ public class HabitTraking extends BaseClassUser implements View.OnClickListener 
                 gameHabitScore = gameHabitScore * Constants.Game_Habits;
 
                 ArrayList<String> arrayCaptains = getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
-                UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains);
+                UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains, userName);
 
                 userGame.setUserHabitsScore((int) gameHabitScore);
 
-                DbHelperClass dbHelperClass = new DbHelperClass();
 
-                dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), HabitTraking.this, userGame, rootRef, getString(R.string.fs_Usergame_userHabitsScore), (int)gameHabitScore);
+                int totalGameScore = 0;
+                ArrayList<Integer> arrayGameScore = getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore)));
+
+                ArrayList<Integer> arrayNewGameScore = cls.createGameScore(Constants.Game_CP__UserHabitsScore, (int) gameHabitScore, arrayGameScore, userGame, HabitTraking.this);
+
+                if (arrayNewGameScore.size() == 20) {
+                    userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Game_CP__UserTotatScore));
+                    arrayGameScore = arrayNewGameScore;
+                    totalGameScore = arrayGameScore.get(Constants.Game_CP__UserTotatScore);
+                } else {
+                    userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Status_Zero));
+                    totalGameScore = arrayNewGameScore.get(Constants.Status_Zero);
+
+                }
+
+                DbHelperClass dbHelperClass = new DbHelperClass();
+                dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), HabitTraking.this, userGame, rootRef, getString(R.string.fs_Usergame_userHabitsScore), (int) gameHabitScore, totalGameScore);
             }
         });
 

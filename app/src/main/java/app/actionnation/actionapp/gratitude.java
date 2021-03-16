@@ -120,26 +120,43 @@ public class gratitude extends Fragment implements View.OnClickListener {
             @Override
             public void onClick(View v) {
 
+                CommonClass cls = new CommonClass();
 
                 Calendar c = Calendar.getInstance();
 
                 dayOfYear = c.get(Calendar.DAY_OF_YEAR);
                 yr = c.get(Calendar.YEAR);
-                String usrId = fetchUserId();
+                ArrayList<String> userArray = cls.fetchUserArray(FirebaseAuth.getInstance());
+                String usrId = userArray.get(0);
+                String userName = userArray.get(1);
 
-                CommonClass cls = new CommonClass();
+
                 cls.SubmitHappinessGame(Constants.HP_GratitudeScore, db, usrId, dayOfYear, yr);
 
                 FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
 
                 ArrayList<String> arrayCaptains = getActivity().getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
-                UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains);
+                UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains, userName);
 
                 userGame.setUserGratitudeScore(Constants.Game_Gratitude);
 
+                int totalGameScore = 0;
+                ArrayList<Integer> arrayGameScore = getActivity().getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore)));
+
+                ArrayList<Integer> arrayNewGameScore = cls.createGameScore(Constants.Game_CP__UserGratitudeScore, Constants.Game_Gratitude, arrayGameScore, userGame, getContext());
+
+                if (arrayNewGameScore.size() == 20) {
+                    userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Game_CP__UserTotatScore));
+                    arrayGameScore = arrayNewGameScore;
+                    totalGameScore = arrayGameScore.get(Constants.Game_CP__UserTotatScore);
+                } else {
+                    userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Status_Zero));
+                    totalGameScore = arrayNewGameScore.get(Constants.Status_Zero);
+
+                }
                 DbHelperClass dbHelperClass = new DbHelperClass();
 
-                dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userGratitudeScore), Constants.Game_Gratitude);
+                dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userGratitudeScore), Constants.Game_Gratitude, totalGameScore);
             }
 
 

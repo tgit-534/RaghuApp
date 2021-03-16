@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -39,7 +38,7 @@ public class ActivityExerciseNew extends BaseClassUser implements View.OnClickLi
         btnFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                usrId = fetchUserId();
+                ArrayList<String> strUser = fetchUserArray();
                 dayOfTheYear = fetchDate(0);
                 yr = fetchDate(1);
                 CommonClass cls = new CommonClass();
@@ -50,10 +49,29 @@ public class ActivityExerciseNew extends BaseClassUser implements View.OnClickLi
 
 
                 ArrayList<String> arrayCaptains = getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
-                UserGame userGame = cls.loadUserGame(usrId, dayOfTheYear, yr, arrayCaptains);
+                UserGame userGame = cls.loadUserGame(strUser.get(0), dayOfTheYear, yr, arrayCaptains,strUser.get(1));
 
                 userGame.setUserExerciseScore(Constants.Game_Exercise);
-                dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), ActivityExerciseNew.this, userGame, rootRef, getString(R.string.fs_Usergame_userExerciseScore), Constants.Game_Exercise);
+
+
+                int totalGameScore = 0;
+                ArrayList<Integer> arrayGameScore = getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore)));
+
+                ArrayList<Integer> arrayNewGameScore = cls.createGameScore(Constants.Game_CP__UserExerciseScore, Constants.Game_Exercise, arrayGameScore, userGame, ActivityExerciseNew.this);
+
+                if (arrayNewGameScore.size() == 20) {
+                    userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Game_CP__UserTotatScore));
+                    arrayGameScore = arrayNewGameScore;
+                    totalGameScore = arrayGameScore.get(Constants.Game_CP__UserTotatScore);
+                } else {
+                    userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Status_Zero));
+                    totalGameScore = arrayNewGameScore.get(Constants.Status_Zero);
+
+                }
+
+
+
+                dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), ActivityExerciseNew.this, userGame, rootRef, getString(R.string.fs_Usergame_userExerciseScore), Constants.Game_Exercise, totalGameScore);
 
             }
         });
@@ -67,15 +85,7 @@ public class ActivityExerciseNew extends BaseClassUser implements View.OnClickLi
 
     }
 
-    protected String fetchUserId() {
-        mAuth = FirebaseAuth.getInstance();
-        final FirebaseUser fbUser = mAuth.getCurrentUser();
-        String usrId = "";
-        if (mAuth.getCurrentUser() != null) {
-            usrId = fbUser.getUid();
-        }
-        return usrId;
-    }
+
 
 
     @Override

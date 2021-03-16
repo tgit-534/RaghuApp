@@ -27,7 +27,6 @@ public class ActivityAttention extends BaseClassUser implements View.OnClickList
         setContentView(R.layout.activity_attention);
         generatePublicMenu();
 
-
         viewPager = findViewById(R.id.view_pager_attention);
         tabLayout = findViewById(R.id.tab_attention);
         tabLayout.addTab(tabLayout.newTab().setText("Gratitude"));

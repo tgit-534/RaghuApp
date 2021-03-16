@@ -279,36 +279,76 @@ public class FragmentForgiveness extends Fragment implements View.OnClickListene
     @Override
     public void onClick(View v) {
         int i = v.getId();
+        CommonClass cls = new CommonClass();
 
-        String usrId = fetchUserId();
+        ArrayList<String> userArray = cls.fetchUserArray(FirebaseAuth.getInstance());
+        String usrId = userArray.get(0);
+        String userName = userArray.get(1);
         Calendar c = Calendar.getInstance();
 
         dayOfYear = c.get(Calendar.DAY_OF_YEAR);
         yr = c.get(Calendar.YEAR);
         DbHelper db = new DbHelper(getActivity());
-        CommonClass cls = new CommonClass();
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
 
         ArrayList<String> arrayCaptains = getActivity().getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
-        UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains);
+        UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains, userName);
 
         DbHelperClass dbHelperClass = new DbHelperClass();
+
+        int totalGameScore = 0;
+        ArrayList<Integer> arrayGameScore = new ArrayList<>();
+        if (btn_finish_Forgiveness_Inside.getTag() == null) {
+            arrayGameScore = getActivity().getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore)));
+            btn_finish_Forgiveness_Inside.setTag(arrayGameScore);
+        }
+        else
+        {
+            arrayGameScore = (ArrayList<Integer>)btn_finish_Forgiveness_Inside.getTag();
+        }
 
 
         if (i == R.id.btn_forgive_Self) {
             btn_finish_Forgiveness_Inside.setTextColor(Color.RED);
             cls.SubmitHappinessGame(Constants.HP_ForgiveInsideScore, db, usrId, dayOfYear, yr);
-
             userGame.setUserForgivenessSelfScore(Constants.Game_Forgiveness_Self);
-            dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userForgivenessSelfScore), Constants.Game_Forgiveness_Self);
+
+
+            ArrayList<Integer> arrayNewGameScore = cls.createGameScore(Constants.Game_CP__UserForgivenessSelfScore, Constants.Game_Forgiveness_Self, arrayGameScore, userGame, getContext());
+
+            if (arrayNewGameScore.size() == 20) {
+                userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Game_CP__UserTotatScore));
+                arrayGameScore = arrayNewGameScore;
+                totalGameScore = arrayGameScore.get(Constants.Game_CP__UserTotatScore);
+            } else {
+                userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Status_Zero));
+                totalGameScore = arrayNewGameScore.get(Constants.Status_Zero);
+
+            }
+            btn_finish_Forgiveness_Inside.setTag(arrayGameScore);
+
+            dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userForgivenessSelfScore), Constants.Game_Forgiveness_Self, totalGameScore);
 
 
         } else if (i == R.id.btn_forgive_Outside) {
             btn_finish_Forgiveness_outside.setTextColor(Color.RED);
             cls.SubmitHappinessGame(Constants.HP_ForgiveOutsideScore, db, usrId, dayOfYear, yr);
-
             userGame.setUserForgivenessOutsideScore(Constants.Game_Forgiveness_Outside);
-            dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userForgivenessOutsideScore), Constants.Game_Forgiveness_Outside);
+
+            ArrayList<Integer> arrayNewGameScore = cls.createGameScore(Constants.Game_CP__UserForgivenessOutsideScore, Constants.Game_Forgiveness_Outside, arrayGameScore, userGame, getContext());
+
+            if (arrayNewGameScore.size() == 20) {
+                userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Game_CP__UserTotatScore));
+                arrayGameScore = arrayNewGameScore;
+                totalGameScore = arrayGameScore.get(Constants.Game_CP__UserTotatScore);
+            } else {
+                userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Status_Zero));
+                totalGameScore = arrayNewGameScore.get(Constants.Status_Zero);
+
+            }
+            btn_finish_Forgiveness_Inside.setTag(arrayGameScore);
+
+            dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userForgivenessOutsideScore), Constants.Game_Forgiveness_Outside,totalGameScore);
 
         }
     }

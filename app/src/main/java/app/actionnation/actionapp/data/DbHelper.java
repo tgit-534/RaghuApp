@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.HashMap;
 
+import app.actionnation.actionapp.Database_Content.UserGame;
+
 public class DbHelper extends SQLiteOpenHelper {
 
 
@@ -38,6 +40,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_PERSONAL_HabitDayTrack);
         db.execSQL(CREATE_TABLE_PERSONAL_AbundanceList);
         db.execSQL(CREATE_TABLE_PERSONAL_EatHealthyScore);
+        db.execSQL(CREATE_TABLE_PERSONAL_GAMESCORE);
     }
 
     @Override
@@ -63,13 +66,14 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS Personal_HabitScore");
         db.execSQL("DROP TABLE IF EXISTS Personal_Abundance_List");
         db.execSQL("DROP TABLE IF EXISTS Personal_EatHealthy_Score");
+        db.execSQL("DROP TABLE IF EXISTS Personal_Game_Score");
 
 
 
         onCreate(db);
     }
 
-    private static final int VERSION = 25;
+    private static final int VERSION = 26;
 
     private HashMap hp;
 
@@ -192,23 +196,6 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String Exe_IG_Status = "status";
 
 
-    //Personal Personal Game Score
-    public static final String Exe_TABLE_GameScore = "Personal_Game_Score";
-    public static final String Exe_Game_COLUMN_ID = "id";
-    public static final String Exe_Game_Fb_Id = "fb_Id";
-    public static final String Exe_Game_Integrity = "G_Integrity";
-    public static final String Exe_Game_Attention = "G_Attention";
-    public static final String Exe_Game_Meditation = "G_Meditation";
-    public static final String Exe_Game_TrueLearning = "G_TrueLearning";
-    public static final String Exe_Game_Happiness = "G_Happiness";
-    public static final String Exe_Game_EatExcercise = "G_EatExercise";
-    public static final String Exe_Game_Habits = "G_Habits";
-    public static final String Exe_Game_ExpNature = "G_Nature";
-    public static final String Exe_Game_RevealStory = "G_RevealStory";
-    public static final String Exe_Game_OurBelief = "G_OurBelief";
-    public static final String Exe_Game_DayOfTheYear = "dayOfTheYear";
-    public static final String Exe_Game_Year = "year";
-    public static final String Exe_Game_Status = "status";
 
     // Personal Attention Score
     public static final String Exe_TABLE_AttentionScore = "Personal_Attention_Score";
@@ -755,47 +742,99 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
 
+
+    //Personal Game Score
+    public static final String Exe_TABLE_GameScore = "Personal_Game_Score";
+    public static final String Exe_Game_COLUMN_ID = "id";
+    public static final String Exe_Game_Fb_Id = "fb_Id";
+    public static final String Exe_Game_SelfWinScore = "G_SelfWinScore";
+    public static final String Exe_Game_PlaceWinScore = "G_PlaceWinScore";
+    public static final String Exe_Game_WordWinScore = "G_WordWinScore";
+    public static final String Exe_Game_WorkWinScore = "G_WorkWinScore";
+    public static final String Exe_Game_DistractionScore = "G_DistractionScore";
+    public static final String Exe_Game_TractionScore = "G_TractionScore";
+    public static final String Exe_Game_Meditation = "G_MeditationScore";
+    public static final String Exe_Game_TrueLearning = "G_TrueLearningScore";
+    public static final String Exe_Game_GratitudeScore = "G_GratitudeScore";
+    public static final String Exe_Game_ForgivenessSelfScore = "G_ForgivenessSelfScore";
+    public static final String Exe_Game_ForgivenessOutsideScore = "G_ForgivenessOutsideScore";
+    public static final String Exe_Game_AbundanceScore = "G_AbundanceScore";
+    public static final String Exe_Game_EatHealty = "G_EatHealthyScore";
+    public static final String Exe_Game_AvoidUnHealty = "G_AvoidUnHealtyScore";
+    public static final String Exe_Game_Exercise = "G_ExerciseScore";
+    public static final String Exe_Game_Habits = "G_HabitsScore";
+    public static final String Exe_Game_ExpNature = "G_ExperienceNatureScore";
+    public static final String Exe_Game_RevealStory = "G_RevealStoryScore";
+    public static final String Exe_Game_OurBelief = "G_OurBeliefScore";
+    public static final String Exe_Game_TotalScore = "G_TotalScore";
+    public static final String Exe_Game_DayOfTheYear = "dayOfTheYear";
+    public static final String Exe_Game_Year = "year";
+    public static final String Exe_Game_Status = "status";
+
+
+
     //Traction List Insert and all
     private static final String CREATE_TABLE_PERSONAL_GAMESCORE = "CREATE TABLE "
             + Exe_TABLE_GameScore + "("
             + Exe_Game_COLUMN_ID + " INTEGER PRIMARY KEY,"
             + Exe_Game_Fb_Id + " TEXT,"
-            + Exe_Game_Integrity + " DECIMAL(3,2),"
-            + Exe_Game_Attention + " DECIMAL(3,2),"
+            + Exe_Game_SelfWinScore + " INTEGER,"
+            + Exe_Game_PlaceWinScore + " INTEGER,"
+            + Exe_Game_WordWinScore + " INTEGER,"
+            + Exe_Game_WorkWinScore + " INTEGER,"
+            + Exe_Game_DistractionScore + " INTEGER,"
+            + Exe_Game_TractionScore + " INTEGER,"
             + Exe_Game_Meditation + " INTEGER,"
             + Exe_Game_TrueLearning + " INTEGER,"
-            + Exe_Game_Happiness + " DECIMAL(3,2),"
-            + Exe_Game_EatExcercise + " INTEGER,"
-            + Exe_Game_Habits + " DECIMAL(3,2),"
+            + Exe_Game_GratitudeScore + " INTEGER,"
+            + Exe_Game_ForgivenessSelfScore + " INTEGER,"
+            + Exe_Game_ForgivenessOutsideScore + " INTEGER,"
+            + Exe_Game_AbundanceScore + " INTEGER,"
+            + Exe_Game_EatHealty + " INTEGER,"
+            + Exe_Game_AvoidUnHealty + " INTEGER,"
+            + Exe_Game_Exercise + " INTEGER,"
+            + Exe_Game_Habits + " INTEGER,"
             + Exe_Game_ExpNature + " INTEGER,"
             + Exe_Game_RevealStory + " INTEGER,"
             + Exe_Game_OurBelief + " INTEGER,"
+            + Exe_Game_TotalScore + " INTEGER,"
             + Exe_Game_DayOfTheYear + " INTEGER,"
             + Exe_Game_Year + " INTEGER,"
             + Exe_Game_Status + " INTEGER"
             + ")";
 
 
-    public boolean insertGameScore(float integrityNum, float attentionNumber, int meditationNumber,
-                                   int trueLearning, float happinessNumber, int excerciseNumber, float habitsNumber,
-                                   int expNatureNumber, int revealStoryNumber, int beliefNumber,
-                                   String fbId, int dayOfTheYear, int year, int status) {
+    public boolean insertGameScore(UserGame userGame) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(Exe_Game_Fb_Id, fbId);
-        contentValues.put(Exe_Game_Integrity, integrityNum);
-        contentValues.put(Exe_Game_Attention, attentionNumber);
-        contentValues.put(Exe_Game_Meditation, meditationNumber);
-        contentValues.put(Exe_Game_TrueLearning, trueLearning);
-        contentValues.put(Exe_Game_Happiness, happinessNumber);
-        contentValues.put(Exe_Game_EatExcercise, excerciseNumber);
-        contentValues.put(Exe_Game_Habits, habitsNumber);
-        contentValues.put(Exe_Game_ExpNature, expNatureNumber);
-        contentValues.put(Exe_Game_RevealStory, revealStoryNumber);
-        contentValues.put(Exe_Game_OurBelief, beliefNumber);
-        contentValues.put(Exe_Game_DayOfTheYear, dayOfTheYear);
-        contentValues.put(Exe_Game_Year, year);
-        contentValues.put(Exe_Game_Status, status);
+        contentValues.put(Exe_Game_Fb_Id, userGame.getFb_Id());
+        contentValues.put(Exe_Game_SelfWinScore, userGame.getUserSelfWinScore());
+        contentValues.put(Exe_Game_PlaceWinScore, userGame.getUserPlaceWinScore());
+        contentValues.put(Exe_Game_WordWinScore, userGame.getUserWordWinScore());
+        contentValues.put(Exe_Game_WorkWinScore, userGame.getUserWorkWinScore());
+        contentValues.put(Exe_Game_DistractionScore, userGame.getUserDistractionScore());
+        contentValues.put(Exe_Game_TractionScore, userGame.getUserTractionScore());
+        contentValues.put(Exe_Game_Meditation, userGame.getUserMeditationScore());
+        contentValues.put(Exe_Game_TrueLearning, userGame.getUserTrueLearningScore());
+        contentValues.put(Exe_Game_GratitudeScore, userGame.getUserGratitudeScore());
+        contentValues.put(Exe_Game_ForgivenessSelfScore, userGame.getUserForgivenessSelfScore());
+        contentValues.put(Exe_Game_ForgivenessOutsideScore, userGame.getUserForgivenessOutsideScore());
+        contentValues.put(Exe_Game_AbundanceScore, userGame.getUserAbundanceScore());
+        contentValues.put(Exe_Game_EatHealty, userGame.getUserEatHealthyScore());
+        contentValues.put(Exe_Game_AvoidUnHealty, userGame.getUserAvoidForHealthScore());
+        contentValues.put(Exe_Game_Exercise, userGame.getUserExerciseScore());
+
+        contentValues.put(Exe_Game_Habits, userGame.getUserHabitsScore());
+        contentValues.put(Exe_Game_ExpNature, userGame.getUserExperienceNatureScore());
+        contentValues.put(Exe_Game_RevealStory, userGame.getUserRevealStoryScore());
+        contentValues.put(Exe_Game_OurBelief, userGame.getUserOurBeliefScore());
+        contentValues.put(Exe_Game_TotalScore, userGame.getUserTotatScore());
+
+
+
+        contentValues.put(Exe_Game_DayOfTheYear, userGame.getDayOfTheYear());
+        contentValues.put(Exe_Game_Year, userGame.getYear());
+        contentValues.put(Exe_Game_Status, userGame.getStatus());
 
         db.insert(Exe_TABLE_GameScore, null, contentValues);
         return true;
@@ -806,7 +845,7 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         //   Cursor res = db.rawQuery("select * from Personal_Gratitude_List", null);
 
-        Cursor res1 = db.query(Exe_TABLE_IntegrityScore,
+        Cursor res1 = db.query(Exe_TABLE_GameScore,
                 null,
                 "dayOfTheYear = ? and fb_Id = ? and year = ?",
                 new String[]{String.valueOf(dayOfTheYear), fbId, String.valueOf(year)},
@@ -818,29 +857,40 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
 
-    public boolean updateGameScore(float integrityNum, float attentionNumber, int meditationNumber,
-                                   int trueLearning, float happinessNumber, int excerciseNumber, float habitsNumber,
-                                   int expNatureNumber, int revealStoryNumber, int beliefNumber,
-                                   String fbId, int dayOfTheYear, int year, int status) {
+    public boolean updateGameScore(UserGame userGame) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(Exe_Game_Fb_Id, fbId);
-        contentValues.put(Exe_Game_Integrity, integrityNum);
-        contentValues.put(Exe_Game_Attention, attentionNumber);
-        contentValues.put(Exe_Game_Meditation, meditationNumber);
-        contentValues.put(Exe_Game_TrueLearning, trueLearning);
-        contentValues.put(Exe_Game_Happiness, happinessNumber);
-        contentValues.put(Exe_Game_EatExcercise, excerciseNumber);
-        contentValues.put(Exe_Game_Habits, habitsNumber);
-        contentValues.put(Exe_Game_ExpNature, expNatureNumber);
-        contentValues.put(Exe_Game_RevealStory, revealStoryNumber);
-        contentValues.put(Exe_Game_OurBelief, beliefNumber);
-        contentValues.put(Exe_Game_DayOfTheYear, dayOfTheYear);
-        contentValues.put(Exe_Game_Year, year);
-        contentValues.put(Exe_Game_Status, status);
+        contentValues.put(Exe_Game_Fb_Id, userGame.getFb_Id());
+        contentValues.put(Exe_Game_SelfWinScore, userGame.getUserSelfWinScore());
+        contentValues.put(Exe_Game_PlaceWinScore, userGame.getUserPlaceWinScore());
+        contentValues.put(Exe_Game_WordWinScore, userGame.getUserWordWinScore());
+        contentValues.put(Exe_Game_WorkWinScore, userGame.getUserWorkWinScore());
+        contentValues.put(Exe_Game_DistractionScore, userGame.getUserDistractionScore());
+        contentValues.put(Exe_Game_TractionScore, userGame.getUserTractionScore());
+        contentValues.put(Exe_Game_Meditation, userGame.getUserMeditationScore());
+        contentValues.put(Exe_Game_TrueLearning, userGame.getUserTrueLearningScore());
+        contentValues.put(Exe_Game_GratitudeScore, userGame.getUserGratitudeScore());
+        contentValues.put(Exe_Game_ForgivenessSelfScore, userGame.getUserForgivenessSelfScore());
+        contentValues.put(Exe_Game_ForgivenessOutsideScore, userGame.getUserForgivenessOutsideScore());
+        contentValues.put(Exe_Game_AbundanceScore, userGame.getUserAbundanceScore());
+        contentValues.put(Exe_Game_EatHealty, userGame.getUserEatHealthyScore());
+        contentValues.put(Exe_Game_AvoidUnHealty, userGame.getUserAvoidForHealthScore());
+        contentValues.put(Exe_Game_Exercise, userGame.getUserExerciseScore());
 
-        db.update(Exe_TABLE_GameScore, contentValues, "dayOfTheYear = ? AND fb_Id = ? and year = ?", new String[]{String.valueOf(dayOfTheYear), fbId, String.valueOf(year)});
+        contentValues.put(Exe_Game_Habits, userGame.getUserHabitsScore());
+        contentValues.put(Exe_Game_ExpNature, userGame.getUserExperienceNatureScore());
+        contentValues.put(Exe_Game_RevealStory, userGame.getUserRevealStoryScore());
+        contentValues.put(Exe_Game_OurBelief, userGame.getUserOurBeliefScore());
+        contentValues.put(Exe_Game_TotalScore, userGame.getUserTotatScore());
+
+
+
+        contentValues.put(Exe_Game_DayOfTheYear, userGame.getDayOfTheYear());
+        contentValues.put(Exe_Game_Year, userGame.getYear());
+        contentValues.put(Exe_Game_Status, userGame.getStatus());
+
+        db.update(Exe_TABLE_GameScore, contentValues, "dayOfTheYear = ? AND fb_Id = ? and year = ?", new String[]{String.valueOf(userGame.getDayOfTheYear()), userGame.getFb_Id(), String.valueOf(userGame.getYear())});
         return true;
     }
 

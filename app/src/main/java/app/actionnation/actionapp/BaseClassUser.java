@@ -14,6 +14,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class BaseClassUser extends AppCompatActivity {
@@ -52,13 +53,23 @@ public class BaseClassUser extends AppCompatActivity {
         return usrId;
     }
 
-
+    protected ArrayList<String> fetchUserArray() {
+        ArrayList<String> strUser = new ArrayList<>();
+        mAuth = FirebaseAuth.getInstance();
+        final FirebaseUser fbUser = mAuth.getCurrentUser();
+        String usrId = "";
+        if (mAuth.getCurrentUser() != null) {
+            usrId = fbUser.getUid();
+            strUser.add(usrId);
+            strUser.add(fbUser.getDisplayName());
+        }
+        return strUser;
+    }
 
 
     // 0 day 1 year
     protected int fetchDate(int i) {
         Calendar c = Calendar.getInstance();
-
 
         int returnvalue = 0;
         if (i == 0)

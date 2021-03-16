@@ -28,6 +28,8 @@ public class ActivityExcerciseEat extends BaseClassUser {
                 Intent homepage = new Intent(ActivityExcerciseEat.this, ActivityExerciseNew.class);
                 Bundle mBundle = new Bundle();
                 mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain))));
+                mBundle.putIntegerArrayList(getString(R.string.Intent_ArrayGameScore), getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore))));
+
 
                 mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
                 homepage.putExtras(mBundle);
@@ -42,7 +44,7 @@ public class ActivityExcerciseEat extends BaseClassUser {
                 Intent homepage = new Intent(ActivityExcerciseEat.this, ActivityEatHealthy.class);
                 Bundle mBundle = new Bundle();
                 mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain))));
-
+                mBundle.putIntegerArrayList(getString(R.string.Intent_ArrayGameScore), getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore))));
                 mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
                 homepage.putExtras(mBundle);
                 startActivity(homepage);

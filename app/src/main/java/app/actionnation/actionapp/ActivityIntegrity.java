@@ -82,14 +82,18 @@ public class ActivityIntegrity extends BaseClassUser implements View.OnClickList
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // recyclerView.smoothScrollToPosition(0);
+                // recyclerView.smoothScrollToPosition(0);
                 FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
                 CommonClass cls = new CommonClass();
                 Calendar c = Calendar.getInstance();
-
+                int totalGameScore = 0;
                 int dayOfYear = c.get(Calendar.DAY_OF_YEAR);
                 int yr = c.get(Calendar.YEAR);
                 String usrId = fetchUserId();
+                ArrayList<String> userArray = fetchUserArray();
+                usrId = userArray.get(0);
+                String userName = userArray.get(1);
+
 
                 DbHelper db = new DbHelper(ActivityIntegrity.this);
                 Cursor cus = db.getIntegrityScore(usrId, dayOfYear, yr);
@@ -108,11 +112,27 @@ public class ActivityIntegrity extends BaseClassUser implements View.OnClickList
                 gameWordScore = gameWordScore * Constants.Game_WordWin;
 
                 ArrayList<String> arrayCaptains = getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
-                UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains);                userGame.setUserWordWinScore((int)gameWordScore);
+                UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains, userName);
+                userGame.setUserWordWinScore((int) gameWordScore);
+
+
+                ArrayList<Integer> arrayGameScore = getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore)));
+
+                ArrayList<Integer> arrayNewGameScore = cls.createGameScore(Constants.Game_CP__UserWordWinScore, (int) gameWordScore, arrayGameScore, userGame, ActivityIntegrity.this);
+
+                if (arrayNewGameScore.size() == 20) {
+                    userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Game_CP__UserTotatScore));
+                    arrayGameScore = arrayNewGameScore;
+                    totalGameScore = arrayGameScore.get(Constants.Game_CP__UserTotatScore);
+                } else {
+                    userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Status_Zero));
+                    totalGameScore = arrayNewGameScore.get(Constants.Status_Zero);
+
+                }
 
                 DbHelperClass dbHelperClass = new DbHelperClass();
 
-                dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), ActivityIntegrity.this, userGame, rootRef, getString(R.string.fs_Usergame_userWordWinScore),(int)gameWordScore);
+                dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), ActivityIntegrity.this, userGame, rootRef, getString(R.string.fs_Usergame_userWordWinScore), (int) gameWordScore, totalGameScore);
             }
         });
 

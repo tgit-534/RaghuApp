@@ -53,7 +53,7 @@ public class Activity_TrueLearning extends BaseClassUser implements View.OnClick
         recyclerView = findViewById(R.id.listTrueLearning);
         btnTrueLearning = findViewById(R.id.btn_trueLearning_Submit);
 
-        String usrId = fetchUserId();
+        final String usrId = fetchUserId();
 
         Calendar c = Calendar.getInstance();
         int dayOfYear = c.get(Calendar.DAY_OF_YEAR);
@@ -91,11 +91,15 @@ public class Activity_TrueLearning extends BaseClassUser implements View.OnClick
 
                 FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
                 CommonClass cls = new CommonClass();
+                int totalGameScore = 0;
+
                 Calendar c = Calendar.getInstance();
 
                 int dayOfYear = c.get(Calendar.DAY_OF_YEAR);
                 int yr = c.get(Calendar.YEAR);
-                String usrId = fetchUserId();
+                ArrayList<String> userArray = fetchUserArray();
+                String userName = userArray.get(1);
+
 
                 DbHelper db = new DbHelper(Activity_TrueLearning.this);
                 Cursor cus = db.getDataTrueLearning(String.valueOf(dayOfYear), String.valueOf(yr), usrId);
@@ -106,13 +110,28 @@ public class Activity_TrueLearning extends BaseClassUser implements View.OnClick
                     trueLearningBool = true;
                 }
                 ArrayList<String> arrayCaptains = getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
-                UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains);
+                UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains, userName);
 
                 userGame.setUserTrueLearningScore(Constants.Game_TrueLearning);
+
+                ArrayList<Integer> arrayGameScore = getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore)));
+
+                ArrayList<Integer> arrayNewGameScore = cls.createGameScore(Constants.Game_CP__UserTrueLearningScore, Constants.Game_TrueLearning, arrayGameScore, userGame, Activity_TrueLearning.this);
+
+                if (arrayNewGameScore.size() == 20) {
+                    userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Game_CP__UserTotatScore));
+                    arrayGameScore = arrayNewGameScore;
+                    totalGameScore = arrayGameScore.get(Constants.Game_CP__UserTotatScore);
+                } else {
+                    userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Status_Zero));
+                    totalGameScore = arrayNewGameScore.get(Constants.Status_Zero);
+
+                }
+
                 DbHelperClass dbHelperClass = new DbHelperClass();
 
                 if (trueLearningBool)
-                    dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), Activity_TrueLearning.this, userGame, rootRef, getString(R.string.fs_Usergame_userTrueLearningScore), Constants.Game_TrueLearning);
+                    dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), Activity_TrueLearning.this, userGame, rootRef, getString(R.string.fs_Usergame_userTrueLearningScore), Constants.Game_TrueLearning, totalGameScore);
             }
         });
     }

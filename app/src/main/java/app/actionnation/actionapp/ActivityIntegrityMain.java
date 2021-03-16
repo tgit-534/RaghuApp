@@ -51,11 +51,14 @@ public class ActivityIntegrityMain extends BaseClassUser implements View.OnClick
 
         dbHelper = new DbHelper(ActivityIntegrityMain.this);
 
-        fbId = fetchUserId();
+        ArrayList<String> userArray = fetchUserArray();
+
+        fbId = userArray.get(0);
         dayOfTheYear = fetchDate(Constants.Status_Zero);
         yr = fetchDate(Constants.Status_One);
         //csrIntegrityGame = dbHelper.getIntegrityScore();
         csrIntegrityGame = dbHelper.getIntegrityScore(fbId, dayOfTheYear, yr);
+
 
         if (csrIntegrityGame.getCount() > Constants.Status_Zero) {
 
@@ -66,10 +69,12 @@ public class ActivityIntegrityMain extends BaseClassUser implements View.OnClick
                 wordAgreement = csrIntegrityGame.getString(Constants.DbSql_Integrity_WordAgreement);
                 respectWork = csrIntegrityGame.getString(Constants.DbSql_Integrity_RespectWork);
                 wordAgreementItems = csrIntegrityGame.getString(Constants.HP_DbSql_Integrity_RespectWorkItems);
-                if (selfWin.equals(getString(R.string.Game_SelfWin_Number))) {
+
+
+                if (selfWin.equals(String.valueOf(Constants.Game_SelfWin))) {
                     btnSelf.setTextColor(Color.RED);
                 }
-                if (placeWin.equals(getString(R.string.Game_PlaceWin_Number))) {
+                if (placeWin.equals(String.valueOf(Constants.Game_SelfWin))) {
                     BtnPlace.setTextColor(Color.RED);
                 }
             }
@@ -82,11 +87,27 @@ public class ActivityIntegrityMain extends BaseClassUser implements View.OnClick
         DbHelperClass dbHelperClass = new DbHelperClass();
         rootRef = FirebaseFirestore.getInstance();
         CommonClass cls = new CommonClass();
+        ArrayList<String> userArray = fetchUserArray();
+        String fbId = userArray.get(0);
+        String userName = userArray.get(1);
+        int totalGameScore = 0;
+        ArrayList<Integer> arrayGameScore = new ArrayList<>();
+        if (btnSelf.getTag() == null) {
+            arrayGameScore = getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore)));
+            btnSelf.setTag(arrayGameScore);
+
+        }
+        else
+        {
+            arrayGameScore = (ArrayList<Integer>)btnSelf.getTag();
+        }
+
         if (i == R.id.btn_int_word) {
             Intent homepage = new Intent(ActivityIntegrityMain.this, ActivityIntegrity.class);
             Bundle mBundle = new Bundle();
             mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
-            mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain))));
+            mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain))));
+            mBundle.putIntegerArrayList(getString(R.string.Intent_ArrayGameScore), (ArrayList<Integer>) btnSelf.getTag());
 
             homepage.putExtras(mBundle);
             startActivity(homepage);
@@ -95,6 +116,7 @@ public class ActivityIntegrityMain extends BaseClassUser implements View.OnClick
             Bundle mBundle = new Bundle();
             mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
             mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain))));
+            mBundle.putIntegerArrayList(getString(R.string.Intent_ArrayGameScore), (ArrayList<Integer>) btnSelf.getTag());
 
             homepage.putExtras(mBundle);
             startActivity(homepage);
@@ -110,7 +132,7 @@ public class ActivityIntegrityMain extends BaseClassUser implements View.OnClick
                 respectWork = csrIntegrityGame.getString(Constants.DbSql_Integrity_RespectWork);
                 wordAgreementItems = csrIntegrityGame.getString(Constants.HP_DbSql_Integrity_RespectWorkItems);
 
-                dbHelper.updateIntegrityScore(25, Integer.parseInt(placeWin), Integer.parseInt(wordAgreement), Integer.parseInt(wordAgreementItems), Float.parseFloat(respectWork), fbId, dayOfTheYear, yr, 1);
+                dbHelper.updateIntegrityScore(Constants.Game_SelfWin, Integer.parseInt(selfWin), Integer.parseInt(wordAgreement), Integer.parseInt(wordAgreementItems), Float.parseFloat(respectWork), fbId, dayOfTheYear, yr, 1);
 
             } else {
 
@@ -119,11 +141,27 @@ public class ActivityIntegrityMain extends BaseClassUser implements View.OnClick
                         fbId, dayOfTheYear, yr, Constants.Status_One);
 
             }
+
             ArrayList<String> arrayCaptains = getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
-            UserGame userGame = cls.loadUserGame(fbId, dayOfTheYear, yr, arrayCaptains);
+
+            UserGame userGame = cls.loadUserGame(fbId, dayOfTheYear, yr, arrayCaptains, userName);
             userGame.setUserSelfWinScore(Constants.Game_SelfWin);
 
-            dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), ActivityIntegrityMain.this, userGame, rootRef, getString(R.string.fs_Usergame_userSelfWinScore), Constants.Game_SelfWin);
+
+            ArrayList<Integer> arrayNewGameScore = cls.createGameScore(Constants.Game_CP__UserSelfWinScore, Constants.Game_SelfWin, arrayGameScore, userGame, ActivityIntegrityMain.this);
+
+            if (arrayNewGameScore.size() == 20) {
+                userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Game_CP__UserTotatScore));
+                arrayGameScore = arrayNewGameScore;
+                totalGameScore = arrayGameScore.get(Constants.Game_CP__UserTotatScore);
+            } else {
+                userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Status_Zero));
+                totalGameScore = arrayNewGameScore.get(Constants.Status_Zero);
+
+            }
+            btnSelf.setTag(arrayGameScore);
+
+            dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), ActivityIntegrityMain.this, userGame, rootRef, getString(R.string.fs_Usergame_userSelfWinScore), Constants.Game_SelfWin, totalGameScore);
 
 
         } else if (i == R.id.btn_int_place) {
@@ -140,25 +178,42 @@ public class ActivityIntegrityMain extends BaseClassUser implements View.OnClick
                 wordAgreement = csrIntegrityGame.getString(Constants.DbSql_Integrity_WordAgreement);
                 respectWork = csrIntegrityGame.getString(Constants.DbSql_Integrity_RespectWork);
                 wordAgreementItems = csrIntegrityGame.getString(Constants.HP_DbSql_Integrity_RespectWorkItems);
-                dbHelper.updateIntegrityScore(Integer.parseInt(selfWin), 25, Integer.parseInt(wordAgreement), Integer.parseInt(wordAgreementItems), Double.parseDouble(respectWork), fbId, dayOfTheYear, yr, 1);
+                dbHelper.updateIntegrityScore(Integer.parseInt(selfWin), Constants.Game_PlaceWin, Integer.parseInt(wordAgreement), Integer.parseInt(wordAgreementItems), Double.parseDouble(respectWork), fbId, dayOfTheYear, yr, 1);
             } else {
-                dbHelper.insertIntegrityScore(0, 25,
+                dbHelper.insertIntegrityScore(0, Constants.Game_PlaceWin,
                         0, 0, 0,
                         fbId, dayOfTheYear, yr, 1);
             }
 
             ArrayList<String> arrayCaptains = getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
-            UserGame userGame = cls.loadUserGame(fbId, dayOfTheYear, yr, arrayCaptains);
+            UserGame userGame = cls.loadUserGame(fbId, dayOfTheYear, yr, arrayCaptains, userName);
             userGame.setUserPlaceWinScore(Constants.Game_PlaceWin);
 
+
+
+            ArrayList<Integer> arrayNewGameScore = cls.createGameScore(Constants.Game_CP__UserPlaceWinScore, Constants.Game_PlaceWin, arrayGameScore, userGame, ActivityIntegrityMain.this);
+
+            if (arrayNewGameScore.size() == 20) {
+                userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Game_CP__UserTotatScore));
+                arrayGameScore = arrayNewGameScore;
+                totalGameScore = arrayGameScore.get(Constants.Game_CP__UserTotatScore);
+
+            } else {
+                userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Status_Zero));
+                totalGameScore = arrayNewGameScore.get(Constants.Status_Zero);
+
+            }
+            btnSelf.setTag(arrayGameScore);
             dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), ActivityIntegrityMain.this, userGame, rootRef, getString(R.string.fs_Usergame_userPlaceWinScore), Constants.Game_PlaceWin);
 
-
         } else if (i == R.id.btn_int_completion) {
+
             Intent homepage = new Intent(ActivityIntegrityMain.this, RespectWork.class);
             Bundle mBundle = new Bundle();
             mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
             mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain))));
+            mBundle.putIntegerArrayList(getString(R.string.Intent_ArrayGameScore), (ArrayList<Integer>) btnSelf.getTag());
+
             homepage.putExtras(mBundle);
             startActivity(homepage);
 

@@ -512,6 +512,20 @@ public class CommonClass {
     }
 
 
+    public ArrayList<String> fetchUserArray(FirebaseAuth mAuth) {
+        final FirebaseUser fbUser = mAuth.getCurrentUser();
+
+        ArrayList<String> strUser = new ArrayList<>();
+
+        String usrId = "";
+        if (mAuth.getCurrentUser() != null) {
+            usrId = fbUser.getUid();
+            strUser.add(usrId);
+            strUser.add(fbUser.getDisplayName());
+        }
+        return strUser;
+    }
+
     public void SubmitHabitScore(int habitScore, int habitTotal, String strHabitName, DbHelper db, String usrId, int dayOfTheYear, int yr) {
 
         int countData = 0;
@@ -567,16 +581,114 @@ public class CommonClass {
     }
 
 
-
-    public UserGame loadUserGame(String fbId, int dayOfTheYear, int yr, ArrayList<String> arrayCaptains) {
+    public UserGame loadUserGame(String fbId, int dayOfTheYear, int yr, ArrayList<String> arrayCaptains, String userName) {
         UserGame userGame = new UserGame();
         userGame.setFb_Id(fbId);
         userGame.setDayOfTheYear(dayOfTheYear);
         userGame.setYear(yr);
-        userGame.setUserTotatScore(Constants.Game_userTotalScore);
         userGame.setStatus(Constants.Status_One);
         userGame.setTeamCaptains(arrayCaptains);
+        userGame.setUserName(userName);
         return userGame;
+    }
+
+    public int userGameScore(UserGame userGame) {
+        int totalscore = Integer.valueOf(userGame.getUserAbundanceScore()) + Integer.valueOf(userGame.getUserAvoidForHealthScore()) + Integer.valueOf(userGame.getUserDistractionScore()) + Integer.valueOf(userGame.getUserEatHealthyScore())
+                + Integer.valueOf(userGame.getUserExerciseScore()) + Integer.valueOf(userGame.getUserExperienceNatureScore()) + Integer.valueOf(userGame.getUserForgivenessOutsideScore())
+                + Integer.valueOf(userGame.getUserForgivenessSelfScore()) + Integer.valueOf(userGame.getUserGratitudeScore()) + Integer.valueOf(userGame.getUserHabitsScore()) + Integer.valueOf(userGame.getUserMeditationScore())
+                + Integer.valueOf(userGame.getUserOurBeliefScore()) + Integer.valueOf(userGame.getUserPlaceWinScore()) + Integer.valueOf(userGame.getUserRevealStoryScore()) + Integer.valueOf(userGame.getUserSelfWinScore())
+                + Integer.valueOf(userGame.getUserTractionScore()) + Integer.valueOf(userGame.getUserTrueLearningScore()) + Integer.valueOf(userGame.getUserWordWinScore())
+                + Integer.valueOf(userGame.getUserWorkWinScore());
+
+        return totalscore;
+    }
+
+
+    public ArrayList<Integer> getUserGameLocal(Context ctx, String fbId) {
+
+        DbHelper dbHelper = new DbHelper(ctx);
+        UserGame userGame = new UserGame();
+        ArrayList<Integer> userGameArray = new ArrayList<>();
+
+        Cursor cur = dbHelper.getGameScore(fbId, fetchDate(0), fetchDate(1));
+        if (cur != null && cur.getCount() > 0) {
+            cur.moveToFirst();
+            userGameArray.add(Constants.Game_CP__UserSelfWinScore, Integer.valueOf(cur.getString(2)));
+            userGameArray.add(Constants.Game_CP__UserPlaceWinScore, Integer.valueOf(cur.getString(3)));
+            userGameArray.add(Constants.Game_CP__UserWordWinScore, Integer.valueOf(cur.getString(4)));
+            userGameArray.add(Constants.Game_CP__UserWorkWinScore, Integer.valueOf(cur.getString(5)));
+            userGameArray.add(Constants.Game_CP__UserDistractionScore, Integer.valueOf(cur.getString(6)));
+            userGameArray.add(Constants.Game_CP__UserTractionScore, Integer.valueOf(cur.getString(7)));
+            userGameArray.add(Constants.Game_CP__UserMeditationScore, Integer.valueOf(cur.getString(8)));
+            userGameArray.add(Constants.Game_CP__UserTrueLearningScore, Integer.valueOf(cur.getString(9)));
+            userGameArray.add(Constants.Game_CP__UserGratitudeScore, Integer.valueOf(cur.getString(10)));
+            userGameArray.add(Constants.Game_CP__UserForgivenessSelfScore, Integer.valueOf(cur.getString(11)));
+            userGameArray.add(Constants.Game_CP__UserForgivenessOutsideScore, Integer.valueOf(cur.getString(12)));
+            userGameArray.add(Constants.Game_CP__UserAbundanceScore, Integer.valueOf(cur.getString(13)));
+            userGameArray.add(Constants.Game_CP__UserEatHealthyScore, Integer.valueOf(cur.getString(14)));
+            userGameArray.add(Constants.Game_CP__UserAvoidForHealthScore, Integer.valueOf(cur.getString(15)));
+            userGameArray.add(Constants.Game_CP__UserExerciseScore, Integer.valueOf(cur.getString(16)));
+            userGameArray.add(Constants.Game_CP__UserHabitsScore, Integer.valueOf(cur.getString(17)));
+            userGameArray.add(Constants.Game_CP__UserExperienceNatureScore, Integer.valueOf(cur.getString(18)));
+            userGameArray.add(Constants.Game_CP__UserRevealStoryScore, Integer.valueOf(cur.getString(19)));
+            userGameArray.add(Constants.Game_CP__UserOurBeliefScore, Integer.valueOf(cur.getString(20)));
+            userGameArray.add(Constants.Game_CP__UserTotatScore, Integer.valueOf(cur.getString(21)));
+
+        }
+
+
+        return userGameArray;
+
+    }
+
+    public ArrayList<Integer> createGameScore(int gameScoreCursorPointer, int value, ArrayList<Integer> arrayGameList, UserGame userGame, Context ctx) {
+
+        DbHelper dbHelper = new DbHelper(ctx);
+        int sumGame = 0;
+
+
+        if (arrayGameList != null && arrayGameList.size() > 0) {
+
+            arrayGameList.set(Constants.Game_CP__UserTotatScore, Constants.Status_Zero);
+            arrayGameList.set(gameScoreCursorPointer, value);
+
+            for (int counter = 0; counter < arrayGameList.size(); counter++) {
+                sumGame = arrayGameList.get(counter) + sumGame;
+            }
+
+            arrayGameList.set(Constants.Game_CP__UserTotatScore, sumGame);
+
+
+            userGame.setUserSelfWinScore(Integer.valueOf(arrayGameList.get(0)));
+            userGame.setUserPlaceWinScore(Integer.valueOf(arrayGameList.get(1)));
+            userGame.setUserWordWinScore(Integer.valueOf(arrayGameList.get(2)));
+            userGame.setUserWorkWinScore(Integer.valueOf(arrayGameList.get(3)));
+            userGame.setUserDistractionScore(Integer.valueOf(arrayGameList.get(4)));
+            userGame.setUserTractionScore(Integer.valueOf(arrayGameList.get(5)));
+            userGame.setUserMeditationScore(Integer.valueOf(arrayGameList.get(6)));
+            userGame.setUserTrueLearningScore(Integer.valueOf(arrayGameList.get(7)));
+            userGame.setUserGratitudeScore(Integer.valueOf(arrayGameList.get(8)));
+            userGame.setUserForgivenessSelfScore(Integer.valueOf(arrayGameList.get(9)));
+            userGame.setUserForgivenessOutsideScore(Integer.valueOf(arrayGameList.get(10)));
+            userGame.setUserAbundanceScore(Integer.valueOf(arrayGameList.get(11)));
+            userGame.setUserEatHealthyScore(Integer.valueOf(arrayGameList.get(12)));
+            userGame.setUserAvoidForHealthScore(Integer.valueOf(arrayGameList.get(13)));
+            userGame.setUserExerciseScore(Integer.valueOf(arrayGameList.get(14)));
+            userGame.setUserHabitsScore(Integer.valueOf(arrayGameList.get(15)));
+            userGame.setUserExperienceNatureScore(Integer.valueOf(arrayGameList.get(16)));
+            userGame.setUserRevealStoryScore(Integer.valueOf(arrayGameList.get(17)));
+            userGame.setUserOurBeliefScore(Integer.valueOf(arrayGameList.get(18)));
+            userGame.setUserTotatScore(Integer.valueOf(arrayGameList.get(19)));
+
+            dbHelper.updateGameScore(userGame);
+        } else {
+            arrayGameList = new ArrayList<>();
+            arrayGameList.add(sumGame);
+            dbHelper.insertGameScore(userGame);
+
+            sumGame = value;
+        }
+        return arrayGameList;
     }
 
 

@@ -49,7 +49,10 @@ public class MeditationActivity extends BaseClassUser implements View.OnClickLis
         btnFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                usrId = fetchUserId(FirebaseAuth.getInstance());
+                ArrayList<String> userArray = fetchUserArray();
+                int totalGameScore = 0;
+                usrId = userArray.get(0);
+                String userName = userArray.get(1);
                 dayOfTheYear = fetchDate(0);
                 yr = fetchDate(1);
                 CommonClass cls = new CommonClass();
@@ -62,10 +65,24 @@ public class MeditationActivity extends BaseClassUser implements View.OnClickLis
                 String usrId = fetchUserId(FirebaseAuth.getInstance());
 
                 ArrayList<String> arrayCaptains = getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
-                UserGame userGame = cls.loadUserGame(usrId, dayOfTheYear, yr, arrayCaptains);
-
+                UserGame userGame = cls.loadUserGame(usrId, dayOfTheYear, yr, arrayCaptains, userName);
                 userGame.setUserMeditationScore(Constants.Game_Meditation);
-                dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), MeditationActivity.this, userGame, rootRef, getString(R.string.fs_Usergame_userMeditationScore), Constants.Game_Meditation);
+
+                ArrayList<Integer> arrayGameScore = getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore)));
+
+                ArrayList<Integer> arrayNewGameScore = cls.createGameScore(Constants.Game_CP__UserMeditationScore, Constants.Game_Meditation, arrayGameScore, userGame, MeditationActivity.this);
+
+                if (arrayNewGameScore.size() == 20) {
+                    userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Game_CP__UserTotatScore));
+                    arrayGameScore = arrayNewGameScore;
+                    totalGameScore = arrayGameScore.get(Constants.Game_CP__UserTotatScore);
+                } else {
+                    userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Status_Zero));
+                    totalGameScore = arrayNewGameScore.get(Constants.Status_Zero);
+
+                }
+
+                dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), MeditationActivity.this, userGame, rootRef, getString(R.string.fs_Usergame_userMeditationScore), Constants.Game_Meditation, totalGameScore);
             }
         });
 

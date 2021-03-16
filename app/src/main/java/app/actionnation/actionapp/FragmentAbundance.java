@@ -107,7 +107,10 @@ public class FragmentAbundance extends Fragment implements View.OnClickListener 
     public void onClick(View v) {
         int i = v.getId();
         CommonClass cls = new CommonClass();
-        String usrId = fetchUserId();
+        ArrayList<String> userArray = cls.fetchUserArray(FirebaseAuth.getInstance());
+
+        String usrId =  userArray.get(0);
+        String userName = userArray.get(1);
         Calendar c = Calendar.getInstance();
         int dayOfYear = c.get(Calendar.DAY_OF_YEAR);
         int yr = c.get(Calendar.YEAR);
@@ -118,11 +121,27 @@ public class FragmentAbundance extends Fragment implements View.OnClickListener 
             FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
 
             ArrayList<String> arrayCaptains = getActivity().getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
-            UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains);
+            UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains, userName);
 
             userGame.setUserAbundanceScore(Constants.Game_Abundance);
+
+            int totalGameScore = 0;
+            ArrayList<Integer> arrayGameScore = getActivity().getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore)));
+
+            ArrayList<Integer> arrayNewGameScore = cls.createGameScore(Constants.Game_CP__UserAbundanceScore, Constants.Game_Gratitude, arrayGameScore, userGame, getContext());
+
+            if (arrayNewGameScore.size() == 20) {
+                userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Game_CP__UserTotatScore));
+                arrayGameScore = arrayNewGameScore;
+                totalGameScore = arrayGameScore.get(Constants.Game_CP__UserTotatScore);
+            } else {
+                userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Status_Zero));
+                totalGameScore = arrayNewGameScore.get(Constants.Status_Zero);
+
+            }
+
             DbHelperClass dbHelperClass = new DbHelperClass();
-            dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userAbundanceScore), Constants.Game_Abundance);
+            dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userAbundanceScore), Constants.Game_Abundance, totalGameScore);
 
         } else if (i == R.id.btn_abundancelist) {
             Intent homepage = new Intent(getActivity(), HappinessContent.class);

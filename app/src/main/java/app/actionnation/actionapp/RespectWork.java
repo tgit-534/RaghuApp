@@ -104,10 +104,13 @@ public class RespectWork extends BaseClassUser implements View.OnClickListener {
                 FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
                 CommonClass cls = new CommonClass();
                 Calendar c = Calendar.getInstance();
+                int totalGameScore = 0;
 
                 int dayOfYear = c.get(Calendar.DAY_OF_YEAR);
                 int yr = c.get(Calendar.YEAR);
-                String usrId = fetchUserId();
+                ArrayList<String> userArray = fetchUserArray();
+                String usrId = userArray.get(0);
+                String userName = userArray.get(1);
 
                 DbHelper db = new DbHelper(RespectWork.this);
                 Cursor cus = db.getIntegrityScore(usrId, dayOfYear, yr);
@@ -122,12 +125,28 @@ public class RespectWork extends BaseClassUser implements View.OnClickListener {
                 respectScore = respectScore * 2;
 
                 ArrayList<String> arrayCaptains = getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
-                UserGame userGame = cls.loadUserGame(usrId, dayOfTheYear, yr, arrayCaptains);
+                UserGame userGame = cls.loadUserGame(usrId, dayOfTheYear, yr, arrayCaptains, userName);
 
                 userGame.setUserWorkWinScore((int)respectScore);
+
+                ArrayList<Integer> arrayGameScore = getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore)));
+
+                ArrayList<Integer> arrayNewGameScore = cls.createGameScore(Constants.Game_CP__UserWorkWinScore, (int) respectScore, arrayGameScore, userGame, RespectWork.this);
+
+                if (arrayNewGameScore.size() == 20) {
+                    userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Game_CP__UserTotatScore));
+                    arrayGameScore = arrayNewGameScore;
+                    totalGameScore = arrayGameScore.get(Constants.Game_CP__UserTotatScore);
+                } else {
+                    userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Status_Zero));
+                    totalGameScore = arrayNewGameScore.get(Constants.Status_Zero);
+
+                }
+
+
                 DbHelperClass dbHelperClass = new DbHelperClass();
 
-                dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), RespectWork.this, userGame, rootRef, getString(R.string.fs_Usergame_userWorkWinScore), (int)respectScore);
+                dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), RespectWork.this, userGame, rootRef, getString(R.string.fs_Usergame_userWorkWinScore), (int)respectScore, totalGameScore);
             }
         });
 

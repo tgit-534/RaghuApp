@@ -189,6 +189,7 @@
     <string name="Intent_CommonDataId">CommonDataId</string>
     <string name="Intent_ArrayCaptain">arrayCaptain</string>
     <string name="Intent_ArrayGameScore">arrayGameScore</string>
+    <string name="Intent_ArrayRating">arrayRating</string>
 
 
     <!-- TODO: Error Messages -->
@@ -221,6 +222,8 @@
     <string name="fs_UserProfile">UserProfile</string>
     <string name="fs_UserGame">UserGame</string>
     <string name="fs_UserTeam">UserTeam</string>
+    <string name="fs_UserCaptainRatings">UserCaptainRatings</string>
+    <string name="fs_UserStories">UserStories</string>
 
 
     <!-- TODO: Firestore Database Usergame fields -->
@@ -261,7 +264,6 @@
 
 
     <string name="fs_UserTeam_teamMembers">teamMembers</string>
-
 
 
     <!-- TODO: Status Active -->
@@ -484,6 +486,8 @@
     <string name="Fragment_Abe_Heading"> Abundance(Reframe your world)!</string>
     <string name="Fragment_Eh_Heading">Eat Healthy!</string>
 
+    <string name="Dialog_Heading">Select Your Captain!</string>
+
 
     <!-- TODO:  Heading Activity Xml-->
     <string name="Meditation_Heading">Meditation</string>
@@ -498,6 +502,7 @@
     <string name="Activity_Nature_Heading">Experience Nature!</string>
     <string name="Activity_Story_Heading">Story!</string>
     <string name="Activity_your_team">Team</string>
+    <string name="Activity_YourTeam_Heading">Create Your Team</string>
 
 
     <!-- TODO: Integrity Xml-->
@@ -524,6 +529,9 @@
     <string name="Hint_Belief_Desc">Type Belief Description</string>
     <string name="Hint_Traction_Name">Type Traction Name</string>
     <string name="title_activity_reveal_story">ActivityRevealStory</string>
+
+    <string name="Hint_fm_commentCaptain">Comments for your captain!</string>
+
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
@@ -579,8 +587,8 @@
 
 
     <string name="action_settings">Settings</string>
-    <string name="profile_desc">Rowan Sebastian Atkinson CBE is an English actor,  comedian and screenwriter</string>
-    <string name="profile_title">Mr Bean</string>
+    <string name="profile_desc">User Name</string>
+    <string name="profile_title">Mr/Miss</string>
     <string name="posts">posts</string>
     <string name="followers">followers</string>
     <string name="following">following</string>

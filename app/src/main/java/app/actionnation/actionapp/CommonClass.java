@@ -28,6 +28,7 @@ import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -107,7 +108,12 @@ public class CommonClass {
     }
 
     public void signOut(Context ct, GoogleSignInClient mGoogleSignInClient) {
-        mGoogleSignInClient.signOut();
+        mGoogleSignInClient.signOut().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+            }
+        });
         FirebaseAuth.getInstance().signOut();
         LoginManager.getInstance().logOut();
         Intent intent = new Intent(ct, GoFbLogin.class);

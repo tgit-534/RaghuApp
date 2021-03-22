@@ -3,6 +3,7 @@ package app.actionnation.actionapp;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -23,6 +25,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -52,6 +55,8 @@ public class ActivityYourTeam extends BaseClassUser implements View.OnClickListe
     ViewPager viewPager;
     TabLayout tabLayout;
     ArrayList<String> arrayCaptain = new ArrayList<>();
+    ExtendedFloatingActionButton fab;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +66,8 @@ public class ActivityYourTeam extends BaseClassUser implements View.OnClickListe
         coordinatorLayout = findViewById(R.id.coordinatorLayout);
         btnSubmitEmail = findViewById(R.id.btn_team_invite);
         btnChooseCaptain = findViewById(R.id.btn_team_chooseCaptain);
+        fab = findViewById(R.id.fab_act_rate_captain);
+
         etEmail = findViewById(R.id.etInviteForTeam);
         arrayCaptain = getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
 
@@ -112,6 +119,17 @@ public class ActivityYourTeam extends BaseClassUser implements View.OnClickListe
                 }
             }
         });
+
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showEditDialog();
+            }
+
+        });
+
+
     }
 
     //Update the User Data
@@ -230,15 +248,14 @@ public class ActivityYourTeam extends BaseClassUser implements View.OnClickListe
         int i = v.getId();
         if (i == R.id.btn_team_chooseCaptain) {
             Dialog dialog = new Dialog(ActivityYourTeam.this, R.style.DialogSlideAnim);
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+
             dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             dialog.setContentView(R.layout.dialog_recycler);
             dialog.setCanceledOnTouchOutside(true);
             dialog.setCancelable(true);
             dialog.show();
-
-            rvTest = (RecyclerView) dialog.findViewById(R.id.recyclerDialog);
-
+            rvTest = dialog.findViewById(R.id.recyclerDialog);
             rvTest.setLayoutManager(new LinearLayoutManager(ActivityYourTeam.this));
             rvTest.setHasFixedSize(false);
             fetchChooseCaptain();
@@ -273,81 +290,12 @@ public class ActivityYourTeam extends BaseClassUser implements View.OnClickListe
         rvTest.setAdapter(adapter);
         adapter.startListening();
 
+    }
 
-
-       /* db = FirebaseFirestore.getInstance();
-        mAuth = FirebaseAuth.getInstance();
-
-        etEmail.setTag(strArrayCaptain);
-
-        if (strArrayCaptain == null) {
-            Task<QuerySnapshot> docRef = db.collection(getString(R.string.fs_UserTeam))
-                    .whereArrayContains(getString(R.string.fs_UserTeam_teamMembers), mAuth.getCurrentUser().getEmail()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-
-                            if (task.isSuccessful()) {
-
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    UserTeam userTeam = document.toObject(UserTeam.class);
-                                    ArrayList<String> loopArrayCaptains = new ArrayList<>();
-
-                                    loopArrayCaptains.add(fetchUserId());
-                                    loopArrayCaptains.add(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
-                                    loopArrayCaptains.add(document.getId());
-
-
-                                    etEmail.setTag(loopArrayCaptains);
-                                    FirebaseUser user1 = FirebaseAuth.getInstance().getCurrentUser();
-                                    // Upload upload = new Upload(user1.getUid(), downloadUrl.getPath());
-                                    Log.d(TAG, document.getId() + " => " + document.getData() + " =" + userTeam.getFb_Id() + "james bond");
-                                }
-                            } else {
-                                Log.d(TAG, "Error getting documents: ", task.getException());
-                            }
-
-
-                            if (etEmail.getTag() != null) {
-
-                                AlertDialog.Builder builder = new AlertDialog.Builder(ActivityYourTeam.this);
-
-                                builder.setTitle("Captain requested you to join the team!");
-                                builder.setMessage("Are you sure?");
-
-                                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        DbHelperClass dbh = new DbHelperClass();
-                                        ArrayList<String> loopArrayCaptains = (ArrayList<String>) etEmail.getTag();
-                                        dbh.updateFireUserProfile(getString(R.string.fs_UserProfile), ActivityYourTeam.this, fetchUserId(), getString(R.string.fs_UserProfile_teamCaptains), loopArrayCaptains, db);
-                                        dialog.dismiss();
-
-
-                                        Snackbar snackbar1 = Snackbar.make(coordinatorLayout, "Added to the team!", Snackbar.LENGTH_SHORT);
-                                        snackbar1.show();
-                                    }
-                                });
-
-                                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-
-                                        Snackbar snackbar1 = Snackbar.make(coordinatorLayout, "Not Added to the team!", Snackbar.LENGTH_SHORT);
-                                        snackbar1.show();
-
-                                        // Do nothing
-                                        dialog.dismiss();
-                                    }
-                                });
-
-                                AlertDialog alert = builder.create();
-                                alert.show();
-                            }
-                        }
-                    });
-
-        }*/
+    private void showEditDialog() {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentRateCaptain editNameDialogFragment = FragmentRateCaptain.newInstance("Some Title");
+        editNameDialogFragment.show(fm, "fragment_edit_name");
     }
 
 
@@ -374,7 +322,6 @@ public class ActivityYourTeam extends BaseClassUser implements View.OnClickListe
 
     public static class ViewHolderSelectCaptain extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdCaptainName;
         public final CheckBox mIdSelectCaptain;
 
         public UserTeam mItem;
@@ -382,14 +329,14 @@ public class ActivityYourTeam extends BaseClassUser implements View.OnClickListe
         public ViewHolderSelectCaptain(View view) {
             super(view);
             mView = view;
-            mIdCaptainName = view.findViewById(R.id.tv_CaptainName);
             mIdSelectCaptain = view.findViewById(R.id.chk_selectCaptain);
 
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mIdCaptainName.getText() + "'";
+            return super.toString() + " '" +
+                    " "+ "'";
         }
     }
 

@@ -195,4 +195,11 @@ public class Constants {
     public static final int Game_CP__UserOurBeliefScore = 18;
     public static final int Game_CP__UserTotatScore = 19;
 
+
+
+    public  static final String UserProfile_UserNoOfRatings = "userNoOfRatings";
+    public  static final String UserProfile_UserRating = "userRating";
+    public  static final int UserProfile_Array_Rating = 0;
+    public  static final int UserProfile_Array_NoOfRatings = 1;
+
 }

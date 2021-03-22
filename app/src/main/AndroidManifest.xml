@@ -18,43 +18,114 @@
         android:roundIcon="@mipmap/ic_launcher_main"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ActivityYourTeam"></activity>
-        <activity android:name=".ActivityProfileComplete" />
-        <activity android:name=".ActivityMainProfile" />
+        <activity android:name=".ActivityUserStory"></activity>
+        <activity
+            android:name=".ActivityYourTeam"
+            android:parentActivityName=".ActivityMainObjectives"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppFab" />
+        <activity
+            android:name=".ActivityProfileComplete"
+            android:parentActivityName=".ActivityMainObjectives"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityMainProfile"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ActivityYourStory"
             android:label="@string/title_activity_your_story"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ActivityRevealStory"
             android:label="@string/title_activity_reveal_story"
+            android:parentActivityName=".ActivityMainObjectives"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ActivityExperienceNature" />
-        <activity android:name=".ActivityExcerciseEat" />
-        <activity android:name=".ActivityOurBelief" />
-        <activity android:name=".ActivityExerciseNew" />
-        <activity android:name=".HappinessContent" />
+        <activity
+            android:name=".ActivityExperienceNature"
+            android:parentActivityName=".ActivityMainObjectives"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityExcerciseEat"
+            android:parentActivityName=".ActivityMainObjectives"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityOurBelief"
+            android:launchMode="singleTop"
+            android:parentActivityName=".ActivityMainObjectives"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityExerciseNew"
+            android:parentActivityName=".ActivityExcerciseEat"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".HappinessContent"
+            android:parentActivityName=".ActivityMainObjectives"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".RespectWork"
+            android:parentActivityName=".ActivityIntegrityMain"
+            android:screenOrientation="portrait"
             android:theme="@style/AppFab" />
-        <activity android:name=".ActivityEatHealthy" />
-        <activity android:name=".ActivityHappiness" />
-        <activity android:name=".Activity_TrueLearning" />
-        <activity android:name=".ActivityIntegrityMain" />
-        <activity android:name=".ActivityTimerWindow" />
-        <activity android:name=".ActivityAttention" />
-        <activity android:name=".ActivityReading" />
-        <activity android:name=".ActivityExercise" />
-        <activity android:name=".ActivityVisualization" />
-        <activity android:name=".MeditationActivity" />
+        <activity
+            android:name=".ActivityEatHealthy"
+            android:parentActivityName=".ActivityExcerciseEat"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityHappiness"
+            android:parentActivityName=".ActivityMainObjectives"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity_TrueLearning"
+            android:parentActivityName=".ActivityMainObjectives"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityIntegrityMain"
+            android:parentActivityName=".ActivityMainObjectives"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityTimerWindow"
+            android:parentActivityName=".HabitTraking"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityAttention"
+            android:parentActivityName=".ActivityMainObjectives"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityReading"
+            android:parentActivityName=".ActivityMainObjectives"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityExercise"
+            android:parentActivityName=".ActivityMainObjectives"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityVisualization"
+            android:parentActivityName=".ActivityMainObjectives"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MeditationActivity"
+            android:parentActivityName=".ActivityMainObjectives"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ActivityIntegrity"
+            android:parentActivityName=".ActivityIntegrityMain"
+            android:screenOrientation="portrait"
             android:theme="@style/AppFab" />
-        <activity android:name=".ActivityMainObjectives" />
+        <activity
+            android:name=".ActivityMainObjectives"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppFab" />
         <activity
             android:name=".HabitTraking"
+            android:parentActivityName=".ActivityMainObjectives"
+            android:screenOrientation="portrait"
             android:theme="@style/AppFab" />
-        <activity android:name=".PersondetailsActivity" />
+        <activity
+            android:name=".PersondetailsActivity"
+            android:parentActivityName=".ActivityMainObjectives"
+            android:screenOrientation="portrait" />
         <activity android:name=".displaydata" />
         <activity android:name=".AdminActionQuestionnare" />
         <activity android:name=".knowyourcareer" />

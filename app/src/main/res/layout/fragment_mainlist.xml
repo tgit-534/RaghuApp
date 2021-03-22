@@ -1,25 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-
+    android:gravity="center"
     android:background="@android:color/white"
     card_view:cardCornerRadius="10dp"
     card_view:cardElevation="0dp">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
+        android:layout_gravity="center"
+        android:id="@+id/ll_ShowPowers"
+        android:gravity="center"
         android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/imgBtn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@android:color/white"></ImageButton>
+
+        <RelativeLayout
+            android:layout_width="@dimen/toolbar_profile_width"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/imgBtn"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@android:color/white"></ImageButton>
+
+
+
+            <ImageView
+                android:id="@+id/imgTick"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_alignTop="@+id/imgBtn"
+                android:layout_alignParentRight="true"
+                android:visibility="gone"
+                android:src="@drawable/ic_baseline_check_28"
+                ></ImageView>
+        </RelativeLayout>
+
 
         <TextView
             android:id="@+id/item_name"

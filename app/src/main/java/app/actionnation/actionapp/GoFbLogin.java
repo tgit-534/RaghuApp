@@ -52,8 +52,12 @@ public class GoFbLogin extends BaseActivity
 
 
         //  mDetailTextView = findViewById(R.id.detail);
-        editTextEmail = (EditText) findViewById(R.id.editTextEmail);
-        editTextPassword = (EditText) findViewById(R.id.editTextPassword);
+        editTextEmail = findViewById(R.id.editTextEmail);
+        editTextPassword = findViewById(R.id.editTextPassword);
+        btnAdmin = findViewById(R.id.btnAdmin);
+        btnRegister = findViewById(R.id.btn_register);
+
+
 
         // Button listeners
         SignInButton btnSignIn = findViewById(R.id.signInButton);
@@ -91,11 +95,9 @@ public class GoFbLogin extends BaseActivity
                 RedirectToNext(getString(R.string.common_firebase));
             }
         }
-        btnRegister = (Button) findViewById(R.id.btn_register);
 
         progressDialog = new ProgressDialog(this);
 
-        btnAdmin = findViewById(R.id.btnAdmin);
         //attaching listener to button
         btnAdmin.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
@@ -194,7 +196,6 @@ public class GoFbLogin extends BaseActivity
         mBundle.putString(getString(R.string.common_auth), str);
         homepage.putExtras(mBundle);
         startActivity(homepage);
-        finish();
     }
 
     private void login() {

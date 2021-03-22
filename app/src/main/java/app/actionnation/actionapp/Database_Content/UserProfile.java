@@ -17,6 +17,35 @@ public class UserProfile {
     String userState;
     int status;
     List<String> teamCaptains;
+    float userRating;
+    int userNoOfRatings;
+    int userMemberType;
+    int userFollowers;
+    int userFollowing;
+
+    public float getUserRating() {
+        return userRating;
+    }
+
+    public void setUserRating(float userRating) {
+        this.userRating = userRating;
+    }
+
+    public int getUserNoOfRatings() {
+        return userNoOfRatings;
+    }
+
+    public void setUserNoOfRatings(int userNoOfRatings) {
+        this.userNoOfRatings = userNoOfRatings;
+    }
+
+    public int getUserMemberType() {
+        return userMemberType;
+    }
+
+    public void setUserMemberType(int userMemberType) {
+        this.userMemberType = userMemberType;
+    }
 
     public List<String> getTeamCaptains() {
         return teamCaptains;

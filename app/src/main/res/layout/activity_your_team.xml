@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="@string/Activity_Excercise_Heading"></TextView>
+            android:text="@string/Activity_YourTeam_Heading"></TextView>
 
 
         <Button
@@ -36,6 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:text="Choose Captain!"></Button>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -43,13 +44,6 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="Email"></TextView>
 
             <EditText
                 android:id="@+id/etInviteForTeam"
@@ -92,4 +86,12 @@
     </LinearLayout>
 
 
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fab_act_rate_captain"
+        style="@style/MyMaterialTheme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:text="Actions"
+        app:icon="@drawable/ic_baseline_search_12" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -25,10 +25,6 @@
             android:layout_height="wrap_content"
             android:background="@color/an_text">
 
-
-            <!--tools:context="app.actionnation.actionapp.ActivityMainObjectives"
-            tools:listitem="@layout/fragment_mainlist"-->
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -59,12 +55,9 @@
 
                 <TextView
                     android:id="@+id/et_amo_username"
-
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@string/font_family_medium"
-
-                    android:text="@string/profile_title"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/profile_title" />
 
@@ -72,7 +65,7 @@
                     android:id="@+id/et_amo_userDesc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/dimen_40dp"
+                    android:layout_marginBottom="@dimen/dimen_20dp"
                     android:gravity="center_horizontal"
                     android:paddingLeft="@dimen/dimen_20dp"
                     android:paddingRight="@dimen/dimen_20dp"
@@ -80,15 +73,88 @@
                     android:textColor="@color/profile_desc"
                     android:textSize="@dimen/profile_desc" />
 
-                <Button
-                    android:id="@+id/btn_activity_finish_Profile"
-                    style="@style/ButtonStyle"
+                <RatingBar
+                    android:id="@+id/rb_captainRatings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"></RatingBar>
+
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:text="Complete Profile"></Button>
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/activity_padding"
+                    android:paddingBottom="@dimen/activity_padding"
+                    android:weightSum="3">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Profile Complete!"
+                            android:textColor="@android:color/background_dark"
+                            android:textSize="@dimen/activity_IconHeadings"
+                            android:textStyle="bold" />
+
+                        <ImageButton
+                            android:id="@+id/imgBtn_profile"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_plus"></ImageButton>
 
 
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Your Captain!"
+                            android:textColor="@android:color/background_dark"
+                            android:textSize="@dimen/activity_IconHeadings"
+                            android:textStyle="bold" />
+
+                        <ImageButton
+                            android:id="@+id/imgBtn_Captain"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_plus"></ImageButton>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Your Story!"
+                            android:textColor="@android:color/background_dark"
+                            android:textSize="@dimen/activity_IconHeadings"
+                            android:textStyle="bold" />
+
+                        <ImageButton
+                            android:id="@+id/imgBtn_YourStory"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_plus"></ImageButton>
+                    </LinearLayout>
+                </LinearLayout>
 
 
                 <LinearLayout
@@ -182,7 +248,6 @@
             </LinearLayout>
 
 
-
             <!--
             <fragment
                 android:id="@+id/fooFragment"
@@ -192,20 +257,26 @@
         </RelativeLayout>
 
 
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/listMainObjective"
-            android:name="com.example.myapplication.ActivityMainObjectives"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clipToPadding="false"
-            android:paddingBottom="30dp"
-            android:scrollbarStyle="outsideOverlay"
-            android:scrollbars="vertical"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/listMainObjective"
+                android:name="com.example.myapplication.ActivityMainObjectives"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:clipToPadding="false"
+                android:paddingBottom="30dp"
+                android:scrollbarStyle="outsideOverlay"
+                android:scrollbars="vertical"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        </LinearLayout>
     </LinearLayout>
-
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

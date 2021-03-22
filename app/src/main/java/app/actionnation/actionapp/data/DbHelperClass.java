@@ -49,8 +49,10 @@ import app.actionnation.actionapp.Database_Content.Personal_Excercise;
 import app.actionnation.actionapp.Database_Content.Personal_Habit;
 import app.actionnation.actionapp.Database_Content.Personal_Statement;
 import app.actionnation.actionapp.Database_Content.Personal_Visualization;
+import app.actionnation.actionapp.Database_Content.UserCaptainRatings;
 import app.actionnation.actionapp.Database_Content.UserGame;
 import app.actionnation.actionapp.Database_Content.UserProfile;
+import app.actionnation.actionapp.Database_Content.UserStories;
 import app.actionnation.actionapp.Database_Content.UserTeam;
 import app.actionnation.actionapp.FragmentSelfDream;
 import app.actionnation.actionapp.HabitTraking;
@@ -176,6 +178,48 @@ public class DbHelperClass {
         });
     }
 
+    public void insertFireCaptainRatings(String collectionReference, final Context ct, UserCaptainRatings dataObject, FirebaseFirestore db) {
+
+        DocumentReference docRef = db.collection(collectionReference).document(dataObject.getFb_Id() + dataObject.getUserCaptainFb_Id());
+
+        docRef.set(dataObject).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(ct, "Insertion Done", Toast.LENGTH_LONG);
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(ct, "Deletion Done", Toast.LENGTH_LONG);
+
+            }
+        });
+    }
+
+    public void insertFireUserStories
+            (String collectionReference, final Context ct, UserStories dataObject, FirebaseFirestore db) {
+
+        Long tsLong = System.currentTimeMillis()/1000;
+        String ts = tsLong.toString();
+
+        DocumentReference docRef = db.collection(collectionReference).document(dataObject.getFb_Id() + ts);
+
+        docRef.set(dataObject).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(ct, "Insertion Done", Toast.LENGTH_LONG);
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(ct, "Deletion Done", Toast.LENGTH_LONG);
+
+            }
+        });
+    }
+
     public void insertFireUserTeam(String collectionReference, final Context ct, UserTeam dataObject, FirebaseFirestore db) {
 
         DocumentReference docRef = db.collection(collectionReference).document(dataObject.getFb_Id());
@@ -200,6 +244,29 @@ public class DbHelperClass {
 
         Map<String, Object> userVariable = new HashMap<>();
         userVariable.put(dataVariable, dataObject);
+
+        db.collection(collectionReference).document(userId)
+                .update(userVariable)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+
+    }
+
+    public void updateFireUserProfileRating(String collectionReference, final Context ct, String userId, float captainRating, int totalNumberOfUsers, FirebaseFirestore db) {
+
+        Map<String, Object> userVariable = new HashMap<>();
+        userVariable.put(Constants.UserProfile_UserRating, captainRating);
+        userVariable.put(Constants.UserProfile_UserNoOfRatings, totalNumberOfUsers);
 
         db.collection(collectionReference).document(userId)
                 .update(userVariable)
@@ -275,14 +342,6 @@ public class DbHelperClass {
             }
         });
     }
-
-
-
-
-
-
-
-
 
 
     public void insertFireUserGame(final String collectionReference, final Context ct, final UserGame dataObject, final FirebaseFirestore db, String dataVariable, int dataObjectUpdate) {
@@ -388,7 +447,8 @@ public class DbHelperClass {
 
             @Override
             protected void onBindViewHolder(@NonNull final ActivityYourTeam.ViewHolderSelectCaptain holder, int position, @NonNull final UserTeam model) {
-                holder.mIdCaptainName.setText(model.getTeamName());
+                holder.mIdSelectCaptain.setText(model.getTeamName());
+
                 if (strCaptains.contains(model.getFb_Id())) {
                     holder.mIdSelectCaptain.setChecked(true);
                 }
@@ -974,7 +1034,7 @@ public class DbHelperClass {
                 return new ActivityYourTeam.ViewHolderTeam(view);
             }
         };
-        
+
         return adapter;
     }
 

@@ -13,7 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +34,7 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -53,6 +56,7 @@ import java.util.List;
 import app.actionnation.actionapp.Database_Content.CommonData;
 import app.actionnation.actionapp.Database_Content.UserGame;
 import app.actionnation.actionapp.Database_Content.UserProfile;
+import app.actionnation.actionapp.Storage.Constants;
 import app.actionnation.actionapp.data.DbHelperClass;
 
 public class ActivityMainObjectives extends BaseClassUser implements View.OnClickListener {
@@ -63,12 +67,21 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
     private static final String TAG = "ActionPhilosophy:Log";
     de.hdodenhof.circleimageview.CircleImageView profileImage, profileImagePlus;
     Button btnProfileComplete;
+    FloatingActionButton fab;
+    RatingBar ratingBar;
     // ImageView imageView;
     Uri uri;
     FirebaseFirestore rootRef;
     TextView userName, userDesc;
     UserGame userGame = new UserGame();
     ArrayList<Integer> userGameArray = new ArrayList<>();
+    ArrayList<String> userRatingArray = new ArrayList<>();
+    ExtendedFloatingActionButton extFab;
+    ImageButton imgProfile, imgCaptain, imgStory;
+
+
+    String strUserRating;
+    float[] userRatingFloatArray = new float[2];
 
     private static FragmentManager fragmentManager;
 
@@ -79,11 +92,20 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_objectives);
         generatePublicMenu();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+
         profileImageWork();
 
-        btnProfileComplete = findViewById(R.id.btn_activity_finish_Profile);
+        imgProfile = findViewById(R.id.imgBtn_profile);
+
+        imgCaptain = findViewById(R.id.imgBtn_Captain);
+        imgStory = findViewById(R.id.imgBtn_YourStory);
+        ratingBar = findViewById(R.id.rb_captainRatings);
         userName = findViewById(R.id.et_amo_username);
         userDesc = findViewById(R.id.et_amo_userDesc);
+
         userGameArray = mainDataUpdate();
 
         //BarChart
@@ -93,23 +115,32 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
         fragmentManager.beginTransaction().replace(R.id.fragmentContainerBarChart, argumentFragment).commit();
 
 
-        FloatingActionButton fab = findViewById(R.id.fab);
+        fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                showEditDialog();
+            }
+        });
+
+        imgCaptain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                userRatingFloatArray = (float[]) fab.getTag();
                 Intent homepage4 = new Intent(ActivityMainObjectives.this, ActivityYourTeam.class);
                 Bundle mBundle4 = new Bundle();
                 mBundle4.putString(getString(R.string.common_auth), getString(R.string.common_google));
-                mBundle4.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) btnProfileComplete.getTag());
-
+                mBundle4.putFloatArray(getString(R.string.Intent_ArrayRating), (float[]) fab.getTag());
+                mBundle4.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) imgProfile.getTag());
+                // mBundle4.putStringArrayList(getString(R.string.Intent_ArrayRating), (ArrayList<String>) fab.getTag());
+                // mBundle4.putFloatArray(getString(R.string.Intent_ArrayRating), userRatingFloatArray);
                 homepage4.putExtras(mBundle4);
                 startActivity(homepage4);
-
             }
         });
 
 
-        btnProfileComplete.setOnClickListener(new View.OnClickListener() {
+        imgProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 profileCompleteFunction();
@@ -124,9 +155,15 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(), 3);
         recyclerView.setLayoutManager(gridLayoutManager); // set LayoutManager to RecyclerView
 
-
         recyclerView.setHasFixedSize(false);
-        fetch(userGame);
+        fetch(userGameArray);
+    }
+
+
+    private void showEditDialog() {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentCreateStory editNameDialogFragment = FragmentCreateStory.newInstance("Some Title");
+        editNameDialogFragment.show(fm, "fragment_edit_name");
     }
 
     private void profileCompleteFunction() {
@@ -140,7 +177,7 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
     }
 
 
-    private void fetch(final UserGame userGame) {
+    private void fetch(final ArrayList<Integer> userGameArray) {
         Query query = mFirebaseDatabase.getInstance().getReference().child(getString(R.string.fb_CommonData_Db)).orderByChild(getString(R.string.fb_status)).equalTo(Integer.valueOf(getString(R.string.aaq_Display_fields_Number)));
         //Query query = mFirebaseDatabase.getInstance().getReference().child(getString(R.string.fb_CommonData_Db)).orderByChild("dataNumber");
 
@@ -154,6 +191,84 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
                 //holder.mIdView.setText(model.getDataContent());
                 holder.mIdView.setText(model.getDataString());
                 holder.mImageView.setTag(model.getDataNumber());
+
+                //Setting the check when things are done
+
+                switch (position) {
+                    case 0:
+                        if (userGameArray == null || userGameArray.size() == 0)
+                            break;
+                        if (userGameArray.get(Constants.Game_CP__UserPlaceWinScore) > 0 && userGameArray.get(Constants.Game_CP__UserSelfWinScore) > 0 && userGameArray.get(Constants.Game_CP__UserWordWinScore) > 0 && userGameArray.get(Constants.Game_CP__UserWorkWinScore) > 0) {
+                            holder.mImageViewCheck.setVisibility(View.VISIBLE);
+                        }
+                        break;
+                    case 1:
+                        if (userGameArray == null || userGameArray.size() == 0)
+                            break;
+                        if (userGameArray.get(Constants.Game_CP__UserDistractionScore) > 0 && userGameArray.get(Constants.Game_CP__UserTractionScore) > 0) {
+                            holder.mImageViewCheck.setVisibility(View.VISIBLE);
+                        }
+                        break;
+                    case 2:
+                        if (userGameArray == null || userGameArray.size() == 0)
+                            break;
+                        if (userGameArray.get(Constants.Game_CP__UserMeditationScore) > 0) {
+                            holder.mImageViewCheck.setVisibility(View.VISIBLE);
+                        }
+                        break;
+                    case 3:
+                        if (userGameArray == null || userGameArray.size() == 0)
+                            break;
+                        if (userGameArray.get(Constants.Game_CP__UserTrueLearningScore) > 0) {
+                            holder.mImageViewCheck.setVisibility(View.VISIBLE);
+                        }
+                        break;
+                    case 4:
+                        if (userGameArray == null || userGameArray.size() == 0)
+                            break;
+                        if (userGameArray.get(Constants.Game_CP__UserGratitudeScore) > 0 && userGameArray.get(Constants.Game_CP__UserForgivenessOutsideScore) > 0 && userGameArray.get(Constants.Game_CP__UserForgivenessSelfScore) > 0 && userGameArray.get(Constants.Game_CP__UserAbundanceScore) > 0) {
+                            holder.mImageViewCheck.setVisibility(View.VISIBLE);
+                        }
+                        break;
+                    case 5:
+                        if (userGameArray == null || userGameArray.size() == 0)
+                            break;
+                        if (userGameArray.get(Constants.Game_CP__UserEatHealthyScore) > 0 && userGameArray.get(Constants.Game_CP__UserAvoidForHealthScore) > 0 && userGameArray.get(Constants.Game_CP__UserExerciseScore) > 0) {
+                            holder.mImageViewCheck.setVisibility(View.VISIBLE);
+                        }
+                        break;
+                    case 6:
+                        if (userGameArray == null || userGameArray.size() == 0)
+                            break;
+                        if (userGameArray.get(Constants.Game_CP__UserHabitsScore) > 0) {
+                            holder.mImageViewCheck.setVisibility(View.VISIBLE);
+                        }
+                        break;
+                    case 7:
+                        if (userGameArray == null || userGameArray.size() == 0)
+                            break;
+                        if (userGameArray.get(Constants.Game_CP__UserExperienceNatureScore) > 0) {
+                            holder.mImageViewCheck.setVisibility(View.VISIBLE);
+                        }
+                        break;
+                    case 8:
+                        if (userGameArray == null || userGameArray.size() == 0)
+                            break;
+                        if (userGameArray.get(Constants.Game_CP__UserRevealStoryScore) > 0) {
+                            holder.mImageViewCheck.setVisibility(View.VISIBLE);
+                        }
+                        break;
+                    case 9:
+                        if (userGameArray == null || userGameArray.size() == 0)
+                            break;
+                        if (userGameArray.get(Constants.Game_CP__UserOurBeliefScore) > 0) {
+                            holder.mImageViewCheck.setVisibility(View.VISIBLE);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+
 
                 // final String key =  userList.get(position).getKey();
 
@@ -184,10 +299,8 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
                             Intent homepage = new Intent(view.getContext(), ActivityIntegrityMain.class);
                             Bundle mBundle = new Bundle();
                             mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
-                            mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) btnProfileComplete.getTag());
+                            mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) imgProfile.getTag());
                             mBundle.putIntegerArrayList(getString(R.string.Intent_ArrayGameScore), userGameArray);
-
-
                             homepage.putExtras(mBundle);
                             startActivity(homepage);
                         } else if (Integer.parseInt(holder.mImageView.getTag().toString()) == Integer.parseInt(getString(R.string.Display_fields_Attention))) {
@@ -195,14 +308,14 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
                             Bundle mBundle = new Bundle();
                             mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
                             mBundle.putIntegerArrayList(getString(R.string.Intent_ArrayGameScore), userGameArray);
-                            mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) btnProfileComplete.getTag());
+                            mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) imgProfile.getTag());
                             homepage.putExtras(mBundle);
                             startActivity(homepage);
                         } else if (Integer.parseInt(holder.mImageView.getTag().toString()) == Integer.parseInt(getString(R.string.Display_fields_Meditation))) {
                             Intent homepage = new Intent(view.getContext(), MeditationActivity.class);
                             Bundle mBundle = new Bundle();
                             mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
-                            mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) btnProfileComplete.getTag());
+                            mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) imgProfile.getTag());
                             mBundle.putIntegerArrayList(getString(R.string.Intent_ArrayGameScore), userGameArray);
 
                             homepage.putExtras(mBundle);
@@ -211,7 +324,7 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
                             Intent homepage = new Intent(view.getContext(), Activity_TrueLearning.class);
                             Bundle mBundle = new Bundle();
                             mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
-                            mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) btnProfileComplete.getTag());
+                            mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) imgProfile.getTag());
                             mBundle.putIntegerArrayList(getString(R.string.Intent_ArrayGameScore), userGameArray);
 
                             homepage.putExtras(mBundle);
@@ -220,7 +333,7 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
                             Intent homepage = new Intent(view.getContext(), ActivityHappiness.class);
                             Bundle mBundle = new Bundle();
                             mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
-                            mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) btnProfileComplete.getTag());
+                            mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) imgProfile.getTag());
                             mBundle.putIntegerArrayList(getString(R.string.Intent_ArrayGameScore), userGameArray);
 
                             homepage.putExtras(mBundle);
@@ -229,7 +342,7 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
                             Intent homepage = new Intent(view.getContext(), ActivityExcerciseEat.class);
                             Bundle mBundle = new Bundle();
                             mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
-                            mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) btnProfileComplete.getTag());
+                            mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) imgProfile.getTag());
                             mBundle.putIntegerArrayList(getString(R.string.Intent_ArrayGameScore), userGameArray);
 
                             homepage.putExtras(mBundle);
@@ -238,7 +351,7 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
                             Intent homepage = new Intent(view.getContext(), HabitTraking.class);
                             Bundle mBundle = new Bundle();
                             mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
-                            mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) btnProfileComplete.getTag());
+                            mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) imgProfile.getTag());
                             mBundle.putIntegerArrayList(getString(R.string.Intent_ArrayGameScore), userGameArray);
 
                             homepage.putExtras(mBundle);
@@ -247,7 +360,7 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
                             Intent homepage = new Intent(view.getContext(), ActivityExperienceNature.class);
                             Bundle mBundle = new Bundle();
                             mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
-                            mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) btnProfileComplete.getTag());
+                            mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) imgProfile.getTag());
                             mBundle.putIntegerArrayList(getString(R.string.Intent_ArrayGameScore), userGameArray);
 
                             homepage.putExtras(mBundle);
@@ -256,7 +369,7 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
                             Intent homepage = new Intent(view.getContext(), ActivityRevealStory.class);
                             Bundle mBundle = new Bundle();
                             mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
-                            mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) btnProfileComplete.getTag());
+                            mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) imgProfile.getTag());
                             mBundle.putIntegerArrayList(getString(R.string.Intent_ArrayGameScore), userGameArray);
 
                             homepage.putExtras(mBundle);
@@ -265,12 +378,10 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
                             Intent homepage = new Intent(view.getContext(), ActivityOurBelief.class);
                             Bundle mBundle = new Bundle();
                             mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
-                            mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) btnProfileComplete.getTag());
+                            mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) imgProfile.getTag());
                             mBundle.putIntegerArrayList(getString(R.string.Intent_ArrayGameScore), userGameArray);
-
                             homepage.putExtras(mBundle);
                             startActivity(homepage);
-                            finish();
                         }
                     }
                 });
@@ -308,10 +419,23 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
                     String FirstName = userProfile.getUserFirstName();
                     String LastName = userProfile.getUserLastName(), UserDream = userProfile.getUserDream();
 
+                    float userRating = userProfile.getUserRating();
+                    int totalNoOfraters = userProfile.getUserNoOfRatings();
+
+                    strUserRating = String.valueOf(userRating) + "," + String.valueOf(totalNoOfraters);
+                    userRatingFloatArray[0] = userRating;
+                    userRatingFloatArray[1] = totalNoOfraters;
+
+                    userRating = userRating / totalNoOfraters;
+
+                    ratingBar.setRating(userRating);
+                    ratingBar.setEnabled(false);
+                    fab.setTag(userRatingFloatArray);
+
                     if (FirstName != null || LastName != null || UserDream != null) {
                         userName.setText(userProfile.getUserFirstName() + " " + userProfile.getUserLastName());
                         userDesc.setText(userProfile.getUserDream());
-                        btnProfileComplete.setTag(userProfile.getTeamCaptains());
+                        imgProfile.setTag(userProfile.getTeamCaptains());
 
                         Glide.with(ActivityMainObjectives.this)
                                 .asBitmap()
@@ -348,7 +472,7 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
     }
 
     protected List<String> getCaptains() {
-        List<String> captains = (List<String>) btnProfileComplete.getTag();
+        List<String> captains = (List<String>) imgProfile.getTag();
         return captains;
     }
 
@@ -481,6 +605,7 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
         public final View mView;
         public final TextView mIdView;
         public final ImageView mImageView;
+        public final ImageView mImageViewCheck;
         public CommonData mItem;
 
         public ViewHolderMainObjective(View view) {
@@ -488,6 +613,7 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
             mView = view;
             mIdView = view.findViewById(R.id.item_name);
             mImageView = view.findViewById(R.id.imgBtn);
+            mImageViewCheck = view.findViewById(R.id.imgTick);
 
         }
 

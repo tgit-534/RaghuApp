@@ -29,7 +29,7 @@ public class FragmentCreateStory extends DialogFragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM1 = "userUrl";
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
@@ -39,16 +39,16 @@ public class FragmentCreateStory extends DialogFragment {
     private EditText etUserStory;
     private FirebaseFirestore firebaseFirestore;
     private FirebaseAuth mAuth;
-
+    private String userImageUrl;
 
     public FragmentCreateStory() {
         // Required empty public constructor
     }
 
-    public static FragmentCreateStory newInstance(String title) {
+    public static FragmentCreateStory newInstance(String fragmentUserImageUrl) {
         FragmentCreateStory frag = new FragmentCreateStory();
         Bundle args = new Bundle();
-        args.putString("title", title);
+        args.putString(ARG_PARAM1, fragmentUserImageUrl);
         frag.setArguments(args);
         return frag;
     }
@@ -79,13 +79,16 @@ public class FragmentCreateStory extends DialogFragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
+    String userUrl;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // mEditText = (EditText) view.findViewById(R.id.et_fm_captainComments);
         // Fetch arguments from bundle and set title
         String title = getArguments().getString("title", "Enter Name");
+        userUrl = getArguments().getString(mParam1);
+
+
 
         getDialog().setTitle(title);
         // Show soft keyboard automatically and request focus to field
@@ -125,7 +128,7 @@ public class FragmentCreateStory extends DialogFragment {
                     US.setTimestamp(null);
                     US.setUserName(mAuth.getCurrentUser().getDisplayName());
                     US.setUserStory(etUserStory.getText().toString());
-
+                    US.setUserProfilePicUrl(mParam1);
 
                     Db.insertFireUserStories(getString(R.string.fs_UserStories), getContext(), US, firebaseFirestore);
 

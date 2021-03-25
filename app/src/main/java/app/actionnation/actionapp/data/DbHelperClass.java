@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,7 +18,11 @@ import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -53,8 +59,10 @@ import app.actionnation.actionapp.Database_Content.UserCaptainRatings;
 import app.actionnation.actionapp.Database_Content.UserGame;
 import app.actionnation.actionapp.Database_Content.UserProfile;
 import app.actionnation.actionapp.Database_Content.UserStories;
+import app.actionnation.actionapp.Database_Content.UserStoryLikes;
 import app.actionnation.actionapp.Database_Content.UserTeam;
 import app.actionnation.actionapp.FragmentSelfDream;
+import app.actionnation.actionapp.FragmentShowUserStory;
 import app.actionnation.actionapp.HabitTraking;
 import app.actionnation.actionapp.R;
 import app.actionnation.actionapp.Storage.Constants;
@@ -200,7 +208,7 @@ public class DbHelperClass {
     public void insertFireUserStories
             (String collectionReference, final Context ct, UserStories dataObject, FirebaseFirestore db) {
 
-        Long tsLong = System.currentTimeMillis()/1000;
+        Long tsLong = System.currentTimeMillis() / 1000;
         String ts = tsLong.toString();
 
         DocumentReference docRef = db.collection(collectionReference).document(dataObject.getFb_Id() + ts);
@@ -941,14 +949,7 @@ public class DbHelperClass {
 
                             insertWord(usrId, dayOfTheYear, yr, ctx, 1, pos);
                         } else {
-                            FirebaseFirestore db = FirebaseFirestore.getInstance();
-                            DocumentReference noteRef = db.collection(collectionReference).document(holder.chkSelect.getTag().toString());
-                            int bookStatus = 1;
-                            noteRef.update("status", bookStatus).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                }
-                            });
+
                             insertWord(usrId, dayOfTheYear, yr, ctx, -1, pos);
 
                         }
@@ -1036,6 +1037,150 @@ public class DbHelperClass {
         };
 
         return adapter;
+    }
+
+
+    public FirestoreRecyclerAdapter GetFireStoreAdapterUserStories(final String collectionReference, com.google.firebase.firestore.Query query, final Context ctx, final String fbId) {
+
+        FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+
+        final FirestoreRecyclerOptions<UserStories> options = new FirestoreRecyclerOptions.Builder<UserStories>()
+                .setQuery(query, UserStories.class)
+                .build();
+
+        FirestoreRecyclerAdapter adapter = new FirestoreRecyclerAdapter<UserStories, FragmentShowUserStory.ViewHolderUserStory>(options) {
+
+            @Override
+            protected void onBindViewHolder(@NonNull final FragmentShowUserStory.ViewHolderUserStory holder, int position, @NonNull UserStories model) {
+                holder.mIdStory.setText(model.getUserStory());
+                holder.mNoOfComments.setText(String.valueOf(model.getUserCommentCount()));
+                holder.mNoOfLikes.setText(String.valueOf(model.getUserLikeCount()));
+                holder.mNoOfShares.setText(String.valueOf(model.getUserReshareCount()));
+                holder.mUserName.setText(String.valueOf(model.getUserName()));
+                holder.mIdStory.setTag(getSnapshots().getSnapshot(position).getId());
+
+                holder.mBtnLikes.setTag(model.getUserLikeCount());
+                holder.mBtnComments.setTag(model.getUserCommentCount());
+                holder.mBtnShares.setTag(model.getUserReshareCount());
+
+                Glide.with(ctx)
+                        .asBitmap()
+                        .load(model.getUserProfilePicUrl())
+                        //  .override(180, 180)
+                        .into(new CustomTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                holder.mUserImage.setImageBitmap(resource);
+                            }
+
+                            @Override
+                            public void onLoadCleared(@Nullable Drawable placeholder) {
+                            }
+
+                            @Override
+                            public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                                super.onLoadFailed(errorDrawable);
+                            }
+                        });
+
+                holder.mBtnLikes.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+                        DocumentReference noteRef = db.collection(collectionReference).document(holder.mIdStory.getTag().toString());
+                        int likeCount = Integer.valueOf(holder.mBtnLikes.getTag().toString());
+                        createStoryLikes(db,likeCount,holder.mIdStory.getTag().toString(),"UserStoryLikes", fbId);
+
+                    }
+                });
+
+                holder.mBtnShares.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+                        DocumentReference noteRef = db.collection(collectionReference).document(holder.mIdStory.getTag().toString());
+                        int shareCount = Integer.valueOf(holder.mBtnShares.getTag().toString());
+                        noteRef.update("userReshareCount", shareCount + 1).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                            }
+                        });
+                    }
+                });
+
+                holder.mNoOfComments.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+                        DocumentReference noteRef = db.collection(collectionReference).document(holder.mIdStory.getTag().toString());
+                        int commentCount = Integer.valueOf(holder.mNoOfComments.getTag().toString());
+                        noteRef.update("userCommentCount", commentCount + 1).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                            }
+                        });
+                    }
+                });
+
+
+            }
+
+            @NonNull
+            @Override
+            public FragmentShowUserStory.ViewHolderUserStory onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lf_showstory, parent, false);
+                return new FragmentShowUserStory.ViewHolderUserStory(view);
+            }
+        };
+        return adapter;
+    }
+
+    private void createStoryLikes(final FirebaseFirestore db, final int count, final String documentId, String collectionReference, String fbId)
+    {
+        DocumentReference docRef = db.collection(collectionReference).document(fbId +"_"+ documentId);
+
+        UserStoryLikes usl = new UserStoryLikes();
+        usl.setFb_Id(fbId);
+        usl.setTimestamp(null);
+        usl.setUserStoryId(documentId);
+
+        docRef.set(usl).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                DocumentReference noteRef = db.collection("UserStories").document(documentId);
+                int commentCount = count;
+                noteRef.update("userLikeCount", commentCount + 1).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+
+      //  uf.se
+
+
+        /*docRef.set(dataObject).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(ct, "Insertion Done", Toast.LENGTH_LONG);
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(ct, "Deletion Done", Toast.LENGTH_LONG);
+
+            }
+        });*/
+
+
     }
 
 

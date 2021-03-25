@@ -18,12 +18,13 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:background="@color/an_text"
+
             android:elevation="6dp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/an_text">
+            android:background="@drawable/com_facebook_button_send_icon_white">
 
             <LinearLayout
                 android:layout_width="match_parent"

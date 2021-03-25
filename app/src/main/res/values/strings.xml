@@ -190,6 +190,8 @@
     <string name="Intent_ArrayCaptain">arrayCaptain</string>
     <string name="Intent_ArrayGameScore">arrayGameScore</string>
     <string name="Intent_ArrayRating">arrayRating</string>
+    <string name="Intent_UserImagePath">userImagePath</string>
+    <string name="Intent_UserFullName">userFullName</string>
 
 
     <!-- TODO: Error Messages -->

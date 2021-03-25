@@ -18,7 +18,16 @@ public class UserStories {
     int userLikeCount;
     int userReshareCount;
     int userCommentCount;
+    String userProfilePicUrl;
     @ServerTimestamp Date timestamp;
+
+    public String getUserProfilePicUrl() {
+        return userProfilePicUrl;
+    }
+
+    public void setUserProfilePicUrl(String userProfilePicUrl) {
+        this.userProfilePicUrl = userProfilePicUrl;
+    }
 
     public String getFb_Id() {
         return fb_Id;

@@ -18,7 +18,11 @@
         android:roundIcon="@mipmap/ic_launcher_main"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ActivityUserStory"></activity>
+        <activity
+            android:name=".ActivityUserStory"
+            android:parentActivityName=".ActivityMainObjectives"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppFab"></activity>
         <activity
             android:name=".ActivityYourTeam"
             android:parentActivityName=".ActivityMainObjectives"
@@ -34,6 +38,8 @@
         <activity
             android:name=".ActivityYourStory"
             android:label="@string/title_activity_your_story"
+            android:parentActivityName=".ActivityMainObjectives"
+
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -178,7 +184,6 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

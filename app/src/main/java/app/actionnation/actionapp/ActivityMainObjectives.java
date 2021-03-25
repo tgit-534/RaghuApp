@@ -148,6 +148,18 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
         });
 
 
+        imgStory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent homepage4 = new Intent(ActivityMainObjectives.this, ActivityUserStory.class);
+                Bundle mBundle4 = new Bundle();
+                mBundle4.putString(getString(R.string.common_auth), getString(R.string.common_google));
+               // mBundle4.putString(getString(R.string.Intent_UserFullName), strUserDetails[1]);
+                homepage4.putExtras(mBundle4);
+                startActivity(homepage4);
+            }
+        });
+
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
@@ -162,7 +174,7 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
 
     private void showEditDialog() {
         FragmentManager fm = getSupportFragmentManager();
-        FragmentCreateStory editNameDialogFragment = FragmentCreateStory.newInstance("Some Title");
+        FragmentCreateStory editNameDialogFragment = FragmentCreateStory.newInstance(imgStory.getTag().toString());
         editNameDialogFragment.show(fm, "fragment_edit_name");
     }
 
@@ -436,7 +448,7 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
                         userName.setText(userProfile.getUserFirstName() + " " + userProfile.getUserLastName());
                         userDesc.setText(userProfile.getUserDream());
                         imgProfile.setTag(userProfile.getTeamCaptains());
-
+                        imgStory.setTag(userProfile.getUserImagePath());
                         Glide.with(ActivityMainObjectives.this)
                                 .asBitmap()
                                 .load(userProfile.getUserImagePath())

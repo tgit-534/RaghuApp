@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -34,7 +33,6 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -66,7 +64,6 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
     RecyclerView recyclerView;
     private static final String TAG = "ActionPhilosophy:Log";
     de.hdodenhof.circleimageview.CircleImageView profileImage, profileImagePlus;
-    Button btnProfileComplete;
     FloatingActionButton fab;
     RatingBar ratingBar;
     // ImageView imageView;
@@ -75,8 +72,6 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
     TextView userName, userDesc;
     UserGame userGame = new UserGame();
     ArrayList<Integer> userGameArray = new ArrayList<>();
-    ArrayList<String> userRatingArray = new ArrayList<>();
-    ExtendedFloatingActionButton extFab;
     ImageButton imgProfile, imgCaptain, imgStory;
 
 
@@ -154,7 +149,7 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
                 Intent homepage4 = new Intent(ActivityMainObjectives.this, ActivityUserStory.class);
                 Bundle mBundle4 = new Bundle();
                 mBundle4.putString(getString(R.string.common_auth), getString(R.string.common_google));
-               // mBundle4.putString(getString(R.string.Intent_UserFullName), strUserDetails[1]);
+               mBundle4.putString(getString(R.string.Intent_UserImagePath), imgStory.getTag().toString());
                 homepage4.putExtras(mBundle4);
                 startActivity(homepage4);
             }
@@ -174,6 +169,8 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
 
     private void showEditDialog() {
         FragmentManager fm = getSupportFragmentManager();
+
+
         FragmentCreateStory editNameDialogFragment = FragmentCreateStory.newInstance(imgStory.getTag().toString());
         editNameDialogFragment.show(fm, "fragment_edit_name");
     }

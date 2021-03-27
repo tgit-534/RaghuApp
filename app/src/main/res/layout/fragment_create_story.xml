@@ -20,12 +20,21 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-
             <TextView
                 android:id="@+id/lbl_your_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Express your story!" />
+                android:text="Express your story!"
+                />
+            <Button
+                android:id="@+id/btn_fm_submitComment"
+                style="@style/ButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="Your Comments!"
+                android:visibility="gone"
+                ></Button>
 
             <Button
                 android:id="@+id/btn_fm_submitStory"

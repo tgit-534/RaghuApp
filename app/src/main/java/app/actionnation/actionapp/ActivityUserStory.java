@@ -17,9 +17,15 @@ public class ActivityUserStory extends BaseClassUser implements View.OnClickList
         setContentView(R.layout.activity_user_story);
         generatePublicMenu();
 
+
+/*
         fragmentManager = getSupportFragmentManager();
 
-        Fragment argumentFragment = new FragmentShowUserStory();//Get Fragment Instance
+        Fragment argumentOneStoryFragment = FragmentShowOneStory.newInstance( parentStory);
+        fragmentManager.beginTransaction().replace(R.id.fragmentContainerShowOneStory, argumentOneStoryFragment).commit();*/
+
+        fragmentManager = getSupportFragmentManager();
+        Fragment argumentFragment = FragmentShowUserStory.newInstance(getIntent().getStringExtra(getString(R.string.Intent_UserImagePath)));
         fragmentManager.beginTransaction().replace(R.id.fragmentContainerShowStory, argumentFragment).commit();
 
     }
@@ -28,4 +34,6 @@ public class ActivityUserStory extends BaseClassUser implements View.OnClickList
     public void onClick(View v) {
 
     }
+
+
 }

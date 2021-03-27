@@ -29,6 +29,4 @@ public class Upload {
     public String getUrl() {
         return url;
     }
-
-
 }

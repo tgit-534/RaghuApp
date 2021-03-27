@@ -226,6 +226,7 @@
     <string name="fs_UserTeam">UserTeam</string>
     <string name="fs_UserCaptainRatings">UserCaptainRatings</string>
     <string name="fs_UserStories">UserStories</string>
+    <string name="fs_UserStoryComments">UserStoryComments</string>
 
 
     <!-- TODO: Firestore Database Usergame fields -->

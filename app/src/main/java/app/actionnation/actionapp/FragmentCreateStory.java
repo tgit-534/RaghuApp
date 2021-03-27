@@ -17,6 +17,8 @@ import androidx.fragment.app.Fragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+
 import app.actionnation.actionapp.Database_Content.UserStories;
 import app.actionnation.actionapp.data.DbHelperClass;
 
@@ -32,14 +34,27 @@ public class FragmentCreateStory extends DialogFragment {
     private static final String ARG_PARAM1 = "userUrl";
     private static final String ARG_PARAM2 = "param2";
 
+    private static final String ARG_DOCUMENTID = "documentId";
+    private static final String ARG_FBID = "fbId";
+    private static final String ARG_USERIMAGE = "userImage";
+    private static final String ARG_USERNAME = "userName";
+    private static final String ARG_SHARECOUNT = "shareCount";
+
+//Name
+
+    //Distance
+    //Bodhpur
+
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private Button btnStorySubmit;
+
+    private String mDocumentId, mFbId, mUserImageUrl, mUserName, mCommentCount, mCommentId;
+    private Button btnStorySubmit, btnCommentSubmit;
     private EditText etUserStory;
     private FirebaseFirestore firebaseFirestore;
     private FirebaseAuth mAuth;
-    private String userImageUrl;
 
     public FragmentCreateStory() {
         // Required empty public constructor
@@ -48,10 +63,24 @@ public class FragmentCreateStory extends DialogFragment {
     public static FragmentCreateStory newInstance(String fragmentUserImageUrl) {
         FragmentCreateStory frag = new FragmentCreateStory();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, fragmentUserImageUrl);
+        args.putString(ARG_USERIMAGE, fragmentUserImageUrl);
         frag.setArguments(args);
         return frag;
     }
+
+    public static FragmentCreateStory newInstance(ArrayList<String> storyCommentObject) {
+        FragmentCreateStory frag = new FragmentCreateStory();
+        Bundle args = new Bundle();
+        args.putString(ARG_DOCUMENTID, storyCommentObject.get(0));
+        args.putString(ARG_FBID, storyCommentObject.get(1));
+        args.putString(ARG_USERIMAGE, storyCommentObject.get(2));
+        args.putString(ARG_USERNAME, storyCommentObject.get(3));
+        args.putString(ARG_SHARECOUNT, storyCommentObject.get(4));
+
+        frag.setArguments(args);
+        return frag;
+    }
+
 
     /**
      * Use this factory method to create a new instance of
@@ -65,7 +94,7 @@ public class FragmentCreateStory extends DialogFragment {
     public static FragmentCreateStory newInstance(String param1, String param2) {
         FragmentCreateStory fragment = new FragmentCreateStory();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_USERIMAGE, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
@@ -75,11 +104,18 @@ public class FragmentCreateStory extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mUserImageUrl = getArguments().getString(ARG_USERIMAGE);
+            mDocumentId = getArguments().getString(ARG_DOCUMENTID);
+            mCommentCount = getArguments().getString(ARG_SHARECOUNT);
+            mUserName = getArguments().getString(ARG_USERNAME);
+            mFbId = getArguments().getString(ARG_FBID);
+
+
         }
     }
+
     String userUrl;
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -87,7 +123,6 @@ public class FragmentCreateStory extends DialogFragment {
         // Fetch arguments from bundle and set title
         String title = getArguments().getString("title", "Enter Name");
         userUrl = getArguments().getString(mParam1);
-
 
 
         getDialog().setTitle(title);
@@ -108,7 +143,18 @@ public class FragmentCreateStory extends DialogFragment {
         View view = inflater.inflate(R.layout.fragment_create_story, container, false);
         btnStorySubmit = view.findViewById(R.id.btn_fm_submitStory);
         etUserStory = view.findViewById(R.id.et_fm_story);
+        btnCommentSubmit = view.findViewById(R.id.btn_fm_submitComment);
 
+
+        if (mDocumentId != null) {
+            if (!mDocumentId.isEmpty()) {
+                btnStorySubmit.setVisibility(View.INVISIBLE);
+                btnCommentSubmit.setVisibility(View.VISIBLE);
+            } else {
+                btnStorySubmit.setVisibility(View.VISIBLE);
+                btnCommentSubmit.setVisibility(View.INVISIBLE);
+            }
+        }
 
         btnStorySubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,7 +174,7 @@ public class FragmentCreateStory extends DialogFragment {
                     US.setTimestamp(null);
                     US.setUserName(mAuth.getCurrentUser().getDisplayName());
                     US.setUserStory(etUserStory.getText().toString());
-                    US.setUserProfilePicUrl(mParam1);
+                    US.setUserProfilePicUrl(mUserImageUrl);
 
                     Db.insertFireUserStories(getString(R.string.fs_UserStories), getContext(), US, firebaseFirestore);
 
@@ -137,6 +183,41 @@ public class FragmentCreateStory extends DialogFragment {
                 }
             }
         });
+
+        btnCommentSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                DbHelperClass Db = new DbHelperClass();
+                mAuth = FirebaseAuth.getInstance();
+                firebaseFirestore = FirebaseFirestore.getInstance();
+
+
+                CommonClass cls = new CommonClass();
+                String usrId = cls.fetchUserId(mAuth);
+
+                if (TextUtils.isEmpty(etUserStory.getText().toString())) {
+                    cls.callToast(getContext(), "You have not given rating for the Captain!");
+                } else {
+
+                    UserStories usc = new UserStories();
+                    usc.setFb_Id(mFbId);
+                    usc.setUserProfilePicUrl(mUserImageUrl);
+                    usc.setUserName(mUserName);
+                    usc.setUserStory(etUserStory.getText().toString());
+                    usc.setTimestamp(null);
+                    usc.setUserStoryId(mDocumentId);
+
+                    Db.insertFireUserComments(getString(R.string.fs_UserStories), getContext(), usc, firebaseFirestore, Integer.parseInt(mCommentCount));
+                    etUserStory.setText("");
+
+                }
+
+
+            }
+        });
+
+
         return view;
 
 

@@ -19,7 +19,18 @@ public class UserStories {
     int userReshareCount;
     int userCommentCount;
     String userProfilePicUrl;
+    String userStoryId;
     @ServerTimestamp Date timestamp;
+
+
+    public String getUserStoryId() {
+        return userStoryId;
+    }
+
+    public void setUserStoryId(String userStoryId) {
+        this.userStoryId = userStoryId;
+    }
+
 
     public String getUserProfilePicUrl() {
         return userProfilePicUrl;

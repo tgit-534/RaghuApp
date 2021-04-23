@@ -6,10 +6,12 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -49,6 +51,8 @@ public class ActivityIntegrity extends BaseClassUser implements View.OnClickList
     FirestoreRecyclerAdapter adapter;
     FirebaseAuth mAuth;
     ExtendedFloatingActionButton fab;
+    LinearLayout linearLayout;
+
 
 
     @Override
@@ -56,7 +60,10 @@ public class ActivityIntegrity extends BaseClassUser implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_integrity);
         generatePublicMenu();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+        linearLayout = findViewById(R.id.ll_Integrity);
         btnDatePicker = findViewById(R.id.btn_date);
         btnTimePicker = findViewById(R.id.btn_time);
         btnSubmitIntegrity = findViewById(R.id.in_btn_submit);
@@ -72,8 +79,6 @@ public class ActivityIntegrity extends BaseClassUser implements View.OnClickList
                 } else {
                     fab.show();
                 }
-
-
                 super.onScrolled(recyclerView, dx, dy);
             }
         });
@@ -125,7 +130,7 @@ public class ActivityIntegrity extends BaseClassUser implements View.OnClickList
                     arrayGameScore = arrayNewGameScore;
                     totalGameScore = arrayGameScore.get(Constants.Game_CP__UserTotatScore);
                 } else {
-                    userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Status_Zero));
+                    userGame.setUserTotatScore((int) gameWordScore);
                     totalGameScore = arrayNewGameScore.get(Constants.Status_Zero);
 
                 }
@@ -133,6 +138,8 @@ public class ActivityIntegrity extends BaseClassUser implements View.OnClickList
                 DbHelperClass dbHelperClass = new DbHelperClass();
 
                 dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), ActivityIntegrity.this, userGame, rootRef, getString(R.string.fs_Usergame_userWordWinScore), (int) gameWordScore, totalGameScore);
+                makeSnackBar(linearLayout);
+
             }
         });
 
@@ -141,6 +148,10 @@ public class ActivityIntegrity extends BaseClassUser implements View.OnClickList
         txtTime = findViewById(R.id.in_time);
         txtIntegrityDesc = findViewById(R.id.in_et_Promise);
         dtIntegrity = new Date();
+      //  btnDatePicker.setBackgroundResource(R.drawable.button_border);
+        btnDatePicker.setBackground(getResources().getDrawable(R.drawable.button_border));
+
+
 
         mAuth = FirebaseAuth.getInstance();
         recyclerView.setLayoutManager(new LinearLayoutManager(ActivityIntegrity.this));
@@ -267,10 +278,31 @@ public class ActivityIntegrity extends BaseClassUser implements View.OnClickList
                 pi.setPromiseDescription(txtIntegrityDesc.getText().toString());
                 pi.setStatus(1);
                 Db.insertFireStoreDataIntegrity(getString(R.string.fs_PersonIntegrity), ActivityIntegrity.this, pi, db);
+                clearForm(linearLayout);
+
+                mAuth = FirebaseAuth.getInstance();
+                recyclerView.setLayoutManager(new LinearLayoutManager(ActivityIntegrity.this));
+                recyclerView.setHasFixedSize(false);
+                fetch();
+
+
             }
         }
 
 
+    }
+
+
+    private void clearForm(ViewGroup group) {
+        for (int i = 0, count = group.getChildCount(); i < count; ++i) {
+            View view = group.getChildAt(i);
+            if (view instanceof EditText) {
+                ((EditText) view).setText("");
+            }
+
+            if (view instanceof ViewGroup && (((ViewGroup) view).getChildCount() > 0))
+                clearForm((ViewGroup) view);
+        }
     }
 
     public static class ViewHolderIntegrity extends RecyclerView.ViewHolder {

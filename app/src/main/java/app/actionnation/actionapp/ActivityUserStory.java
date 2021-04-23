@@ -6,9 +6,15 @@ import android.view.View;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
+
 public class ActivityUserStory extends BaseClassUser implements View.OnClickListener {
 
     private static FragmentManager fragmentManager;
+    Fragment fragmentOneStoryShow;
+    FloatingActionButton fab;
 
 
     @Override
@@ -18,16 +24,39 @@ public class ActivityUserStory extends BaseClassUser implements View.OnClickList
         generatePublicMenu();
 
 
-/*
+        int showStoryStatus = 0;
+        String documentId = "";
+        ArrayList<String> storyDetails = getIntent().getStringArrayListExtra(getString(R.string.Intent_ArrayOneStory));
         fragmentManager = getSupportFragmentManager();
 
-        Fragment argumentOneStoryFragment = FragmentShowOneStory.newInstance( parentStory);
-        fragmentManager.beginTransaction().replace(R.id.fragmentContainerShowOneStory, argumentOneStoryFragment).commit();*/
+        if (storyDetails != null) {
+            if (storyDetails.size() > 0) {
 
-        fragmentManager = getSupportFragmentManager();
-        Fragment argumentFragment = FragmentShowUserStory.newInstance(getIntent().getStringExtra(getString(R.string.Intent_UserImagePath)));
+                Fragment argumentOneStoryFragment = FragmentShowOneStory.newInstance(storyDetails);
+                fragmentManager.beginTransaction().replace(R.id.fragmentContainerShowOneStory, argumentOneStoryFragment).commit();
+                showStoryStatus = 1;
+                documentId = storyDetails.get(0);
+            }
+        }
+        fab = findViewById(R.id.fabStory);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showEditDialog();
+            }
+        });
+
+        Fragment argumentFragment = FragmentShowUserStory.newInstance(getIntent().getStringExtra(getString(R.string.Intent_UserImagePath)), showStoryStatus, documentId);
         fragmentManager.beginTransaction().replace(R.id.fragmentContainerShowStory, argumentFragment).commit();
 
+    }
+
+
+    private void showEditDialog() {
+        FragmentManager fm = getSupportFragmentManager();
+        String imgUrl = getIntent().getStringExtra(getString(R.string.Intent_UserImagePath));
+        FragmentCreateStory editNameDialogFragment = FragmentCreateStory.newInstance(imgUrl);
+        editNameDialogFragment.show(fm, "fragment_edit_name");
     }
 
     @Override

@@ -1,6 +1,5 @@
 package app.actionnation.actionapp;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,8 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -81,6 +82,7 @@ public class gratitude extends Fragment implements View.OnClickListener {
 
     RecyclerView recyclerView;
     Button btnGratitude;
+    LinearLayout linearLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -89,6 +91,8 @@ public class gratitude extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_gratitude, container, false);
 
         btnFinish = view.findViewById(R.id.btn_happiness_finish);
+        linearLayout = view.findViewById(R.id.ll_gratitude);
+
         db = new DbHelper(getActivity());
 
 
@@ -107,7 +111,6 @@ public class gratitude extends Fragment implements View.OnClickListener {
                 }
             }
         }
-
 
         recyclerView = view.findViewById(R.id.listGratitude);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -150,13 +153,14 @@ public class gratitude extends Fragment implements View.OnClickListener {
                     arrayGameScore = arrayNewGameScore;
                     totalGameScore = arrayGameScore.get(Constants.Game_CP__UserTotatScore);
                 } else {
-                    userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Status_Zero));
+                    userGame.setUserTotatScore(Constants.Game_Gratitude);
                     totalGameScore = arrayNewGameScore.get(Constants.Status_Zero);
 
                 }
                 DbHelperClass dbHelperClass = new DbHelperClass();
 
                 dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userGratitudeScore), Constants.Game_Gratitude, totalGameScore);
+                cls.makeSnackBar(linearLayout);
             }
 
 
@@ -165,12 +169,14 @@ public class gratitude extends Fragment implements View.OnClickListener {
         btnGratitude.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent homepage = new Intent(getActivity(), HappinessContent.class);
+                showEditDialog();
+
+                /*Intent homepage = new Intent(getActivity(), HappinessContent.class);
                 Bundle mBundle = new Bundle();
                 mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
                 mBundle.putString(getString(R.string.Page_Redirect), getString(R.string.Page_Redirect_Gratitude));
                 homepage.putExtras(mBundle);
-                startActivity(homepage);
+                startActivity(homepage);*/
             }
         });
 
@@ -180,6 +186,12 @@ public class gratitude extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
 
+    }
+
+    private void showEditDialog() {
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        FragmentDataInsertion editNameFragment = FragmentDataInsertion.newInstance(getString(R.string.Page_Redirect_Gratitude));
+        editNameFragment.show(fm, "fragment_edit_name");
     }
 
     ArrayList<String> strAttPattern = new ArrayList<>();

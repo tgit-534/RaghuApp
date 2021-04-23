@@ -9,9 +9,7 @@
 
 
     <color name="grey_100">#F5F5F5</color>
-
     <color name="grey_300">#E0E0E0</color>
-
     <color name="grey_500">#9E9E9E</color>
 
 
@@ -19,13 +17,23 @@
     <color name="viewBg">#f1f5f8</color>
     <color name="album_title">#4c4c4c</color>
     <color name="an_mainmenu">#ffe90a</color>
-    <color name="an_text">#FFE90A</color>
+    <color name="an_text">#02b89a</color>
     <color name="an_tabtext">#202932</color>
     <color name="main_color">#4c4c4c</color>
 
+<!--    <color name="an_text">#FFE90A</color>-->
+    <color name="an_white">#ffffff</color>
+
+    <color name="menu_textColor">#ffffff</color>
+    <color name="statusBarColor">#4c4c4c</color>
+    <!--<color name="firstColor">#EF4F29</color>-->
+    <color name="firstColor">#EF4F29</color>
+
+    <color name="secondColor">#F2812C</color>
 
 
-
+    <color name="plain_white">#ffffff</color>
+    <color name="floatingActionbuttion_Icon_Color">#ffffff</color>
 
 
     <color name="colorPrimary">#5770f3</color>

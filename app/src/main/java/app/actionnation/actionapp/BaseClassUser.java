@@ -2,24 +2,28 @@ package app.actionnation.actionapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import app.actionnation.actionapp.Storage.Constants;
+
 public class BaseClassUser extends AppCompatActivity {
     GoogleSignInClient mGoogleSignInClient;
-    FirestoreRecyclerAdapter adapter;
+
     FirebaseAuth mAuth;
 
 
@@ -30,9 +34,11 @@ public class BaseClassUser extends AppCompatActivity {
         // Sets the Toolbar to act as the ActionBar for this Activity window.
         // Make sure the toolbar exists in the activity and is not null
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //  getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         CommonClass cl = new CommonClass();
         mGoogleSignInClient = cl.GoogleStart(this);
+        int i = 0;
+
     }
 
     @Override
@@ -62,6 +68,7 @@ public class BaseClassUser extends AppCompatActivity {
             usrId = fbUser.getUid();
             strUser.add(usrId);
             strUser.add(fbUser.getDisplayName());
+            strUser.add(fbUser.getEmail());
         }
         return strUser;
     }
@@ -78,24 +85,45 @@ public class BaseClassUser extends AppCompatActivity {
             returnvalue = c.get(Calendar.YEAR);
         }
         return returnvalue;
-
     }
 
+    private static final String TAG = "BaseClassUser: Logs:";
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
             case R.id.menulogout:
+                Log.d(TAG, "1");
                 Intent in = getIntent();
                 String StrData = in.getStringExtra(getString(R.string.common_auth));
+                Log.d(TAG, StrData);
                 CommonClass cl = new CommonClass();
                 if (StrData.equals(getString(R.string.common_google))) {
                     cl.signOut(this, mGoogleSignInClient);
+                    finish();
+                    Intent intent = new Intent(this, GoFbLogin.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                 }
                 break;
             case android.R.id.home:
-                Intent homepage = new Intent(this, RedirectFromMain.class);
+                String className = this.getClass().getName();
+                Intent homepage = null;
+                switch (className) {
+                    case Constants.ClassName_HabitInside:
+                        homepage = new Intent(this, HabitTraking.class);
+                        break;
+                    case Constants.ClassName_RespectYourWorkWin:
+                        homepage = new Intent(this, ActivityIntegrityMain.class);
+                        break;
+                    case Constants.ClassName_WordWin:
+                        homepage = new Intent(this, ActivityIntegrityMain.class);
+                        break;
+                    default:
+                        homepage = new Intent(this, ActivityMainObjectives.class);
+                        break;
+                }
                 Bundle mBundle = new Bundle();
                 mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
                 homepage.putExtras(mBundle);
@@ -119,6 +147,21 @@ public class BaseClassUser extends AppCompatActivity {
                 homepage2.putExtras(mBundle2);
                 startActivity(homepage2);
                 break;
+
+            case R.id.Support:
+
+                ArrayList<String> arrayListUser = fetchUserArray();
+                Intent homepage5 = new Intent(this, ActivitySupport.class);
+                Bundle mBundle5 = new Bundle();
+                mBundle5.putString(getString(R.string.common_auth), getString(R.string.common_google));
+                mBundle5.putString(getString(R.string.common_name), arrayListUser.get(1));
+                mBundle5.putString(getString(R.string.common_enterEmail), arrayListUser.get(2));
+
+
+                homepage5.putExtras(mBundle5);
+                startActivity(homepage5);
+                break;
+
             case R.id.PersonalObjectives:
                 Intent homepage3 = new Intent(this, ActivityMainObjectives.class);
                 Bundle mBundle3 = new Bundle();
@@ -128,7 +171,7 @@ public class BaseClassUser extends AppCompatActivity {
                 break;
 
             case R.id.testCode:
-                Intent homepage4 = new Intent(this, ActivityYourTeam.class);
+                Intent homepage4 = new Intent(this, ActivitySupport.class);
                 Bundle mBundle4 = new Bundle();
                 mBundle4.putString(getString(R.string.common_auth), getString(R.string.common_google));
                 homepage4.putExtras(mBundle4);
@@ -136,6 +179,16 @@ public class BaseClassUser extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    protected void makeSnackBar(View cl)
+    {
+
+        Snackbar snackbar = Snackbar
+                .make(cl, "Well Done!", Snackbar.LENGTH_LONG);
+
+        snackbar.show();
     }
 
 

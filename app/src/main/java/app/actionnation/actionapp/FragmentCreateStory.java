@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -52,6 +53,7 @@ public class FragmentCreateStory extends DialogFragment {
 
     private String mDocumentId, mFbId, mUserImageUrl, mUserName, mCommentCount, mCommentId;
     private Button btnStorySubmit, btnCommentSubmit;
+    private ImageButton imgCancel;
     private EditText etUserStory;
     private FirebaseFirestore firebaseFirestore;
     private FirebaseAuth mAuth;
@@ -109,8 +111,6 @@ public class FragmentCreateStory extends DialogFragment {
             mCommentCount = getArguments().getString(ARG_SHARECOUNT);
             mUserName = getArguments().getString(ARG_USERNAME);
             mFbId = getArguments().getString(ARG_FBID);
-
-
         }
     }
 
@@ -144,6 +144,7 @@ public class FragmentCreateStory extends DialogFragment {
         btnStorySubmit = view.findViewById(R.id.btn_fm_submitStory);
         etUserStory = view.findViewById(R.id.et_fm_story);
         btnCommentSubmit = view.findViewById(R.id.btn_fm_submitComment);
+        imgCancel = view.findViewById(R.id.ImgBtnDialogCancel);
 
 
         if (mDocumentId != null) {
@@ -214,6 +215,13 @@ public class FragmentCreateStory extends DialogFragment {
                 }
 
 
+            }
+        });
+
+        imgCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDialog().cancel();
             }
         });
 

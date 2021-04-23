@@ -18,7 +18,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
-import java.util.Timer;
 
 import app.actionnation.actionapp.Database_Content.UserGame;
 import app.actionnation.actionapp.Storage.Constants;
@@ -152,7 +151,6 @@ public class FragmentGameBar extends Fragment {
         int yr = c.get(Calendar.YEAR);
         DbHelper db = new DbHelper(getActivity());
         CommonClass cls = new CommonClass();
-
         DocumentReference docRef = rootRef.collection(getString(R.string.fs_UserGame)).document(fetchUserId() + String.valueOf(dayOfYear) + String.valueOf(yr));
 
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -161,12 +159,7 @@ public class FragmentGameBar extends Fragment {
                 UserGame userGame = documentSnapshot.toObject(UserGame.class);
 
                 if (userGame != null) {
-                    int totalscore = Integer.valueOf(userGame.getUserAbundanceScore()) + Integer.valueOf(userGame.getUserAvoidForHealthScore()) + Integer.valueOf(userGame.getUserDistractionScore()) + Integer.valueOf(userGame.getUserEatHealthyScore())
-                            + Integer.valueOf(userGame.getUserExerciseScore()) + Integer.valueOf(userGame.getUserExperienceNatureScore()) + Integer.valueOf(userGame.getUserForgivenessOutsideScore())
-                            + Integer.valueOf(userGame.getUserForgivenessSelfScore()) + Integer.valueOf(userGame.getUserGratitudeScore()) + Integer.valueOf(userGame.getUserHabitsScore()) + Integer.valueOf(userGame.getUserMeditationScore())
-                            + Integer.valueOf(userGame.getUserOurBeliefScore()) + Integer.valueOf(userGame.getUserPlaceWinScore()) + Integer.valueOf(userGame.getUserRevealStoryScore()) + Integer.valueOf(userGame.getUserSelfWinScore())
-                            + Integer.valueOf(userGame.getUserTractionScore()) + Integer.valueOf(userGame.getUserTrueLearningScore()) + Integer.valueOf(userGame.getUserWordWinScore())
-                            + Integer.valueOf(userGame.getUserWorkWinScore());
+                    int totalscore = Integer.valueOf(userGame.getUserTotatScore());
                     textViewGame.setTag(totalscore);
                     numberProgressBar.setMax(Constants.Game_userTotalScore);
                     numberProgressBar.setProgress(totalscore);
@@ -181,7 +174,6 @@ public class FragmentGameBar extends Fragment {
                 }
             }
         });
-
     }
 
     protected String fetchUserId() {

@@ -62,7 +62,7 @@ public class FragmentProfile extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        btnProfile = view.findViewById(R.id.btn_fragment_finish_Profile);
+     //   btnProfile = view.findViewById(R.id.btn_fragment_finish_Profile);
 
         CommonClass cls = new CommonClass();
        // cls.callToast(getActivity(), "Hi How are you doing?");

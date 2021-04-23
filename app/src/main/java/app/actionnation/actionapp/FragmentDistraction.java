@@ -1,15 +1,17 @@
 package app.actionnation.actionapp;
 
-import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -45,6 +47,7 @@ public class FragmentDistraction extends Fragment implements View.OnClickListene
     FirebaseAuth mAuth;
     ArrayList<String> strAttPattern = new ArrayList<>();
     String TAG = "attention";
+    LinearLayout linearLayout;
 
 
     // TODO: Rename and change types of parameters
@@ -88,7 +91,10 @@ public class FragmentDistraction extends Fragment implements View.OnClickListene
         // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.fragment_distraction, container, false);
+        btnDistractionList = view.findViewById(R.id.btn_distractionlist);
+        linearLayout = view.findViewById(R.id.ll_distraction);
 
+        btnSubmit = view.findViewById(R.id.btn_att_Submit);
         CommonClass cl = new CommonClass();
 
         Calendar c = Calendar.getInstance();
@@ -99,6 +105,16 @@ public class FragmentDistraction extends Fragment implements View.OnClickListene
         DbHelper db = new DbHelper(getActivity());
 
         Log.d(TAG, "Enter Db");
+
+        ArrayList<Integer> arrayGameScore = getActivity().getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore)));
+
+        if(arrayGameScore!=null && arrayGameScore.size()>0)
+        {
+            if(arrayGameScore.get(Constants.Game_CP__UserDistractionScore)>0)
+            {
+                btnSubmit.setTextColor(Color.RED);
+            }
+        }
 
         String usrId = fetchUserId(FirebaseAuth.getInstance());
 
@@ -121,14 +137,21 @@ public class FragmentDistraction extends Fragment implements View.OnClickListene
         Log.d(TAG, "Enter Db fetch");
 
         fetch();
-        btnDistractionList = view.findViewById(R.id.btn_distractionlist);
-        btnSubmit = view.findViewById(R.id.btn_att_Submit);
+
 
         btnSubmit.setOnClickListener(this);
 
         btnDistractionList.setOnClickListener(this);
 
         return view;
+    }
+
+
+
+    private void showEditDialog() {
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        FragmentDataInsertion editNameFragment = FragmentDataInsertion.newInstance(getString(R.string.Page_Redirect_Attention));
+        editNameFragment.show(fm, "fragment_edit_name");
     }
 
 
@@ -182,23 +205,25 @@ public class FragmentDistraction extends Fragment implements View.OnClickListene
                 arrayGameScore = arrayNewGameScore;
                 totalGameScore = arrayGameScore.get(Constants.Game_CP__UserTotatScore);
             } else {
-                userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Status_Zero));
+                userGame.setUserTotatScore(databaseScore);
                 totalGameScore = arrayNewGameScore.get(Constants.Status_Zero);
 
             }
 
-
             DbHelperClass dbHelperClass = new DbHelperClass();
 
             dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userDistractionScore), databaseScore, totalGameScore);
+          cls.makeSnackBar(linearLayout);
 
         } else if (i == R.id.btn_distractionlist) {
-            Intent homepage = new Intent(getActivity(), PersondetailsActivity.class);
+
+            showEditDialog();
+            /*Intent homepage = new Intent(getActivity(), PersondetailsActivity.class);
             Bundle mBundle = new Bundle();
             mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
             mBundle.putString(getString(R.string.Page_Redirect), getString(R.string.Page_Redirect_Attention));
             homepage.putExtras(mBundle);
-            startActivity(homepage);
+            startActivity(homepage);*/
         }
 
     }
@@ -219,7 +244,20 @@ public class FragmentDistraction extends Fragment implements View.OnClickListene
         adapter = dbh.GetFireStoreAdapterDistraction(adapter, getString(R.string.fs_PersonalDistraction), query1, getActivity(), strAttPattern, usrId);
 
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         adapter.startListening();
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapter.stopListening();
+
     }
 
     private String fetchUserId(FirebaseAuth mAuth) {

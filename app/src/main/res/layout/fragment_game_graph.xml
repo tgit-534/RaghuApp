@@ -14,7 +14,6 @@
         android:id="@+id/fg_tv_TeamName"
         android:text="Player Name"></TextView>
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_20dp"

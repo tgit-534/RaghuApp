@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -37,7 +39,7 @@ public class RespectWork extends BaseClassUser implements View.OnClickListener {
     Cursor csrIntegrityGame;
     private static final String TAG = "Respect Work:Log";
     ExtendedFloatingActionButton fab;
-
+ CoordinatorLayout coordinatorLayout;
 
     String placeWin, wordAgreement, respectWork, selfWin, wordAgreementItems;
 
@@ -47,6 +49,7 @@ public class RespectWork extends BaseClassUser implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_respect_work);
         generatePublicMenu();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         btnFinished = findViewById(R.id.btn_rw_Finished);
         btnAbandoned = findViewById(R.id.btn_rw_Abandoned);
@@ -54,6 +57,7 @@ public class RespectWork extends BaseClassUser implements View.OnClickListener {
         txtFinished = findViewById(R.id.txt_rw_finished);
         txtAbandoned = findViewById(R.id.txt_rw_abandoned);
         txtincomplete = findViewById(R.id.txt_rw_Incomplete);
+        coordinatorLayout   = findViewById(R.id.cl_respectWork);
 
 
         btnFinished.setOnClickListener(this);
@@ -127,7 +131,7 @@ public class RespectWork extends BaseClassUser implements View.OnClickListener {
                 ArrayList<String> arrayCaptains = getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
                 UserGame userGame = cls.loadUserGame(usrId, dayOfTheYear, yr, arrayCaptains, userName);
 
-                userGame.setUserWorkWinScore((int)respectScore);
+                userGame.setUserWorkWinScore((int) respectScore);
 
                 ArrayList<Integer> arrayGameScore = getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore)));
 
@@ -138,26 +142,16 @@ public class RespectWork extends BaseClassUser implements View.OnClickListener {
                     arrayGameScore = arrayNewGameScore;
                     totalGameScore = arrayGameScore.get(Constants.Game_CP__UserTotatScore);
                 } else {
-                    userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Status_Zero));
-                    totalGameScore = arrayNewGameScore.get(Constants.Status_Zero);
-
+                    userGame.setUserTotatScore((int) respectScore);
                 }
 
 
                 DbHelperClass dbHelperClass = new DbHelperClass();
 
-                dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), RespectWork.this, userGame, rootRef, getString(R.string.fs_Usergame_userWorkWinScore), (int)respectScore, totalGameScore);
+                dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), RespectWork.this, userGame, rootRef, getString(R.string.fs_Usergame_userWorkWinScore), (int) respectScore, totalGameScore);
+                makeSnackBar(coordinatorLayout);
             }
         });
-
-
-
-
-
-
-
-
-
 
 
     }

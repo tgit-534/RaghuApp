@@ -1,12 +1,10 @@
 package app.actionnation.actionapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,6 +16,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+
+import java.util.ArrayList;
 
 import app.actionnation.actionapp.Database_Content.UserStories;
 import app.actionnation.actionapp.Storage.UserStorageStoryObject;
@@ -34,7 +34,7 @@ public class FragmentShowUserStory extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    private static final String ARG_PARAM3 = "param3";
 
 
     RecyclerView recyclerView;
@@ -45,7 +45,7 @@ public class FragmentShowUserStory extends Fragment {
     private String mParam1;
     private String mParam2;
     private String mDocumentId, mFbId, mUserImageUrl, mUserName, mCommentCount, mCommentId;
-
+    private int mStoryStaus;
 
     public FragmentShowUserStory() {
         // Required empty public constructor
@@ -53,10 +53,13 @@ public class FragmentShowUserStory extends Fragment {
 
 
     // TODO: Rename and change types and number of parameters
-    public static FragmentShowUserStory newInstance(String param1) {
+    public static FragmentShowUserStory newInstance(String param1, int storyStatus, String documentId) {
         FragmentShowUserStory fragment = new FragmentShowUserStory();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
+        args.putInt(ARG_PARAM2, storyStatus);
+        args.putString(ARG_PARAM3, documentId);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -84,7 +87,9 @@ public class FragmentShowUserStory extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mStoryStaus = getArguments().getInt(ARG_PARAM2);
+            mDocumentId = getArguments().getString(ARG_PARAM3);
+
         }
     }
 
@@ -112,9 +117,19 @@ public class FragmentShowUserStory extends Fragment {
             return;
         }
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
-        com.google.firebase.firestore.Query query = rootRef.collection(getString(R.string.fs_UserStories))
-                .whereEqualTo(getString(R.string.fb_Column_Fb_Id), usrId).whereEqualTo("userStoryId", null)
-                .orderBy("timestamp", Query.Direction.DESCENDING);
+        com.google.firebase.firestore.Query query = null;
+
+        if (mStoryStaus == 0) {
+            query = rootRef.collection(getString(R.string.fs_UserStories))
+                    .whereEqualTo(getString(R.string.fb_Column_Fb_Id), usrId).whereEqualTo("userStoryId", null)
+                    .orderBy("timestamp", Query.Direction.DESCENDING);
+        } else if (mStoryStaus == 1) {
+
+            query = rootRef.collection(getString(R.string.fs_UserStories))
+                    .whereEqualTo("userStoryId", mDocumentId)
+                    .orderBy("timestamp", Query.Direction.DESCENDING);
+
+        }
 
         FirestoreRecyclerOptions<UserStories> options = new FirestoreRecyclerOptions.Builder<UserStories>()
                 .setQuery(query, UserStories.class)
@@ -143,12 +158,30 @@ public class FragmentShowUserStory extends Fragment {
                 UserStories userStories = documentSnapshot.toObject(UserStories.class);
                 String id = documentSnapshot.getId();
 
-                String path = documentSnapshot.getReference().getPath();
-                Toast.makeText(getContext(),
-                        "Position: " + position + " ID: " + id, Toast.LENGTH_SHORT).show();
+                ArrayList<String> arrayUserOneStory = new ArrayList<>();
+                arrayUserOneStory.add(0, id);
+                arrayUserOneStory.add(1, String.valueOf(userStories.getFb_Id()));
+                arrayUserOneStory.add(2, String.valueOf(userStories.getUserProfilePicUrl()));
+                arrayUserOneStory.add(3, String.valueOf(userStories.getUserName()));
+                arrayUserOneStory.add(4, String.valueOf(userStories.getUserStory()));
+                arrayUserOneStory.add(5, String.valueOf(userStories.getUserLikeCount()));
+                arrayUserOneStory.add(6, String.valueOf(userStories.getUserCommentCount()));
+                arrayUserOneStory.add(7, String.valueOf(userStories.getUserReshareCount()));
+
+
+                Intent showUserOneStory = new Intent(getContext(), ActivityUserStory.class);
+                Bundle mBundle4 = new Bundle();
+                mBundle4.putString(getString(R.string.common_auth), getString(R.string.common_google));
+                mBundle4.putStringArrayList(getString(R.string.Intent_ArrayOneStory), arrayUserOneStory);
+                // mBundle4.putStringArrayList(getString(R.string.Intent_ArrayRating), (ArrayList<String>) fab.getTag());
+                // mBundle4.putFloatArray(getString(R.string.Intent_ArrayRating), userRatingFloatArray);
+                showUserOneStory.putExtras(mBundle4);
+                startActivity(showUserOneStory);
+
+
             }
         });
-        adapter.startListening();
+
     }
 
     @Override
@@ -162,67 +195,8 @@ public class FragmentShowUserStory extends Fragment {
     public void onStop() {
         super.onStop();
         adapter.stopListening();
-    }
-
-    public static class ViewHolderUserStory extends RecyclerView.ViewHolder {
-        public final View mView;
-        public final TextView mIdStory;
-        public final TextView mNoOfLikes;
-        public final TextView mNoOfComments;
-        public final TextView mNoOfShares;
-
-        public final ImageButton mBtnLikes;
-        public final ImageButton mBtnShares;
-        public final ImageButton mBtnComments;
-
-        public final de.hdodenhof.circleimageview.CircleImageView mUserImage;
-        public final TextView mUserName;
-
-       /*
-        public final ImageButton mLikes;
-        public final ImageButton mReshare;
-        public final ImageButton mComment;*/
-
-        public ViewHolderUserStory mItem;
-
-        public ViewHolderUserStory(View view) {
-            super(view);
-            mView = view;
-            mIdStory = view.findViewById(R.id.tv_lo_userStory);
-            mNoOfLikes = view.findViewById(R.id.tv_lo_countUserLikes);
-            mNoOfComments = view.findViewById(R.id.tv_lo_countUserComments);
-            mNoOfShares = view.findViewById(R.id.tv_lo_countUserShares);
-            mUserImage = view.findViewById(R.id.profile_lo_image);
-            mUserName = view.findViewById(R.id.tv_lo_userName);
-            mBtnLikes = view.findViewById(R.id.imgBtn_lo_countUserLikes);
-            mBtnShares = view.findViewById(R.id.imgBtn_lo_countUserShares);
-            mBtnComments = view.findViewById(R.id.imgBtn_lo_countUserComments);
-
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                }
-            });
-
-
-        }
-
-        @Override
-        public String toString() {
-            return super.toString() + " '" + mIdStory.getText() + "'";
-        }
-
 
     }
 
-    public interface OnItemClickListener {
-        void onItemClick(DocumentSnapshot documentSnapshot, int position);
-    }
-
-
-    public void setOnItemClickListener(OnItemClickListener listener) {
-
-    }
 
 }

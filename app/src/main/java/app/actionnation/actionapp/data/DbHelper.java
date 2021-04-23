@@ -12,6 +12,36 @@ import app.actionnation.actionapp.Database_Content.UserGame;
 
 public class DbHelper extends SQLiteOpenHelper {
 
+    private static DbHelper mInstance = null;
+
+
+    public static DbHelper getInstance(Context ctx) {
+
+        // Use the application context, which will ensure that you
+        // don't accidentally leak an Activity's context.
+        // See this article for more information: http://bit.ly/6LRzfx
+        if (mInstance == null) {
+            mInstance = new DbHelper(ctx.getApplicationContext());
+        }
+        return mInstance;
+    }
+
+    /**
+     * Constructor should be private to prevent direct instantiation.
+     * make call to static factory method "getInstance()" instead.
+     */
+
+
+
+    private static final int VERSION = 26;
+
+    private HashMap hp;
+
+    public DbHelper(Context context) {
+        super(context, DATABASE_NAME, null, VERSION);
+    }
+
+
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -73,13 +103,6 @@ public class DbHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    private static final int VERSION = 26;
-
-    private HashMap hp;
-
-    public DbHelper(Context context) {
-        super(context, DATABASE_NAME, null, VERSION);
-    }
 
     //Personal Habits Table
     public static final String DATABASE_NAME = "MyDBName.db";

@@ -1,0 +1,509 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".FragmentDataInsertion">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ViewFlipper
+            android:id="@+id/vf_fm_PersonalDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <TextView
+                    style="@style/TextTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="@string/pa_title"></TextView>
+
+                <EditText
+                    android:id="@+id/txtPdPurpose"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/my_border"
+                    android:gravity="top|left"
+                    android:hint="@string/pd_purpose"
+                    android:inputType="textMultiLine"
+                    android:lines="4"
+                    android:maxLines="10"
+                    android:minLines="6"
+                    android:outlineAmbientShadowColor="@color/main_color"
+                    android:scrollbars="vertical" />
+
+                <EditText
+                    android:id="@+id/txtPdMission"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/my_border"
+                    android:gravity="top|left"
+                    android:hint="@string/pd_mission"
+                    android:inputType="textMultiLine"
+                    android:lines="4"
+                    android:maxLines="10"
+                    android:minLines="6"
+                    android:outlineAmbientShadowColor="@color/main_color"
+                    android:scrollbars="vertical" />
+
+                <EditText
+                    android:id="@+id/txtPdVision"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/my_border"
+                    android:gravity="top|left"
+                    android:hint="@string/pd_vision"
+                    android:inputType="textMultiLine"
+                    android:lines="4"
+                    android:maxLines="10"
+                    android:minLines="6"
+                    android:outlineAmbientShadowColor="@color/main_color"
+                    android:scrollbars="vertical" />
+
+                <Button
+                    android:id="@+id/btnPdSubmit"
+                    style="@style/ButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="Save" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+                <ImageButton
+                    android:id="@+id/ImgBtnDialogHabitCancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:background="#0000"
+                    android:src="@drawable/ic_baseline_cancel_24">
+
+                </ImageButton>
+
+                <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    app:cardCornerRadius="5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/TextTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:text="@string/pa_HabitsTitle"></TextView>
+
+                        <EditText
+                            android:id="@+id/et_fm_Habit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/my_border"
+                            android:gravity="top|left"
+                            android:hint="@string/pd_habitName"
+                            android:inputType="textMultiLine"
+                            android:lines="4"
+                            android:maxLines="10"
+                            android:minLines="6"
+                            android:outlineAmbientShadowColor="@color/main_color"
+                            android:scrollbars="vertical" />
+
+                        <EditText
+                            android:id="@+id/et_fm_HabitDescription"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/my_border"
+                            android:gravity="top|left"
+                            android:hint="@string/pd_habitDesc"
+                            android:inputType="textMultiLine"
+                            android:lines="4"
+                            android:maxLines="10"
+                            android:minLines="6"
+                            android:outlineAmbientShadowColor="@color/main_color"
+                            android:scrollbars="vertical" />
+
+                        <Button
+                            android:id="@+id/btn_fm_SaveHabit"
+                            style="@style/ButtonStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:text="Save"></Button>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/ImgBtnDialogDistractionCancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:background="#0000"
+                    android:src="@drawable/ic_baseline_cancel_24" />
+
+                <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    app:cardCornerRadius="5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+
+                        <TextView
+                            style="@style/TextTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:text="@string/pd_Distration"></TextView>
+
+                        <EditText
+                            android:id="@+id/et_fm_Distration"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/my_border"
+                            android:gravity="top|left"
+                            android:hint="@string/pd_Distration_Hint"
+                            android:inputType="textMultiLine"
+                            android:lines="4"
+                            android:maxLines="10"
+                            android:minLines="6"
+                            android:outlineAmbientShadowColor="@color/main_color"
+                            android:scrollbars="vertical" />
+
+                        <Button
+                            android:id="@+id/btn_fm_PdSaveDistration"
+                            style="@style/ButtonStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:text="Save"></Button>
+
+
+                    </LinearLayout>
+
+
+                </androidx.cardview.widget.CardView>
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/ImgBtnDialogTractionCancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:background="#0000"
+                    android:src="@drawable/ic_baseline_cancel_24" />
+
+                <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    app:cardCornerRadius="5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/TextTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:text="Traction"></TextView>
+
+
+                        <EditText
+                            android:id="@+id/et_fm_TractionName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/my_border"
+                            android:gravity="top|left"
+                            android:hint="@string/Hint_Traction_Name"
+                            android:inputType="textMultiLine"
+                            android:lines="4"
+                            android:maxLines="10"
+                            android:minLines="6"
+                            android:outlineAmbientShadowColor="@color/main_color"
+                            android:scrollbars="vertical" />
+
+
+                        <Button
+                            android:id="@+id/btn_fm_SaveTraction"
+                            style="@style/ButtonStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:text="Save"></Button>
+
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/ImgBtnDialogGratitudeCancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:background="#0000"
+                    android:src="@drawable/ic_baseline_cancel_24" />
+
+                <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    app:cardCornerRadius="5dp">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/TextTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:text="@string/Hc_Gratitude_Heading"></TextView>
+
+
+                        <EditText
+                            android:id="@+id/et_fm_Gratitude"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/my_border"
+                            android:gravity="top|left"
+                            android:hint="@string/Hc_Gratitide_Hint"
+                            android:inputType="textMultiLine"
+                            android:lines="4"
+                            android:maxLines="10"
+                            android:minLines="6"
+                            android:outlineAmbientShadowColor="@color/main_color"
+                            android:scrollbars="vertical" />
+
+                        <Button
+                            android:id="@+id/btn_fm_SaveGratitude"
+                            style="@style/ButtonStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:text="Save"></Button>
+
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/ImgBtnDialogReframeCancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:background="#0000"
+                    android:src="@drawable/ic_baseline_cancel_24" />
+
+                <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    app:cardCornerRadius="5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/TextTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:text="Reframe"></TextView>
+
+
+                        <EditText
+                            android:id="@+id/et_fm_ReframeName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/my_border"
+                            android:gravity="top|left"
+                            android:hint="@string/Hint_reframe"
+                            android:inputType="textMultiLine"
+                            android:lines="4"
+                            android:maxLines="10"
+                            android:minLines="6"
+                            android:outlineAmbientShadowColor="@color/main_color"
+                            android:scrollbars="vertical" />
+
+
+                        <Button
+                            android:id="@+id/btn_fm_SaveReframe"
+                            style="@style/ButtonStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:text="Save"></Button>
+
+
+                    </LinearLayout>
+
+
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/ImgBtnDialogBeliefCancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:background="#0000"
+                    android:src="@drawable/ic_baseline_cancel_24" />
+
+                <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    app:cardCornerRadius="5dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/TextTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:text="@string/Hc_Belief_Heading"></TextView>
+                        <EditText
+                            android:id="@+id/et_fm_BelieveName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/my_border"
+                            android:gravity="top|left"
+                            android:hint="@string/Hint_Belief_Name"
+                            android:inputType="textMultiLine"
+                            android:lines="4"
+                            android:maxLines="10"
+                            android:minLines="6"
+                            android:outlineAmbientShadowColor="@color/main_color"
+                            android:scrollbars="vertical" />
+                        <EditText
+                            android:id="@+id/et_fm_BelieveDesc"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/my_border"
+                            android:gravity="top|left"
+                            android:hint="@string/Hint_Belief_Desc"
+                            android:inputType="textMultiLine"
+                            android:lines="4"
+                            android:maxLines="10"
+                            android:minLines="6"
+                            android:outlineAmbientShadowColor="@color/main_color"
+                            android:scrollbars="vertical" />
+                        <Button
+                            android:id="@+id/btn_fm_SaveBelief"
+                            style="@style/ButtonStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:text="Save"></Button>
+
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+        </ViewFlipper>
+    </LinearLayout>
+</FrameLayout>

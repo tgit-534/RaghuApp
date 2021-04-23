@@ -36,7 +36,6 @@ public class HappinessContent extends BaseClassUser implements View.OnClickListe
         btnSaveGratitude = findViewById(R.id.btnHpSaveGratitude);
         btnNavigatePrevious = findViewById(R.id.btnHpPrev);
         btnTractionSubmit = findViewById(R.id.btnHpSaveTraction);
-        btnReframe = findViewById(R.id.btnHpSaveReframe);
 
         btnNavigateNext = findViewById(R.id.btnHpNext);
         etGratitudeName = findViewById(R.id.etGratitude);
@@ -45,6 +44,8 @@ public class HappinessContent extends BaseClassUser implements View.OnClickListe
         etBeliefName = findViewById(R.id.etBelieveName);
         etTraction = findViewById(R.id.etTractionName);
         etReframe = findViewById(R.id.etReframeName);
+        btnReframe = findViewById(R.id.btnHpSaveReframe);
+
 
         Bundle extras = getIntent().getExtras();
         String pageRedirect = "";

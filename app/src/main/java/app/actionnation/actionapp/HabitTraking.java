@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,16 +33,29 @@ public class HabitTraking extends BaseClassUser implements View.OnClickListener 
     FirestoreRecyclerAdapter adapter;
     FirebaseAuth mAuth;
     ExtendedFloatingActionButton fab;
-
+    Button btnAddHabit;
+    CoordinatorLayout coordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_habit_traking);
         generatePublicMenu();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         recyclerView = findViewById(R.id.listHabits);
         fab = findViewById(R.id.fab_act_habit_finish);
+        btnAddHabit = findViewById(R.id.btn_addHabit);
+        coordinatorLayout = findViewById(R.id.cl_habits);
+
+        btnAddHabit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showEditDialog();
+            }
+        });
+
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -103,13 +118,14 @@ public class HabitTraking extends BaseClassUser implements View.OnClickListener 
                     arrayGameScore = arrayNewGameScore;
                     totalGameScore = arrayGameScore.get(Constants.Game_CP__UserTotatScore);
                 } else {
-                    userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Status_Zero));
+                    userGame.setUserTotatScore((int) gameHabitScore);
                     totalGameScore = arrayNewGameScore.get(Constants.Status_Zero);
 
                 }
 
                 DbHelperClass dbHelperClass = new DbHelperClass();
                 dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), HabitTraking.this, userGame, rootRef, getString(R.string.fs_Usergame_userHabitsScore), (int) gameHabitScore, totalGameScore);
+                makeSnackBar(coordinatorLayout);
             }
         });
 
@@ -154,6 +170,13 @@ public class HabitTraking extends BaseClassUser implements View.OnClickListener 
         startActivity(homepage);
     }
 
+
+    private void showEditDialog() {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentDataInsertion editNameFragment = FragmentDataInsertion.newInstance(getString(R.string.Page_Redirect_Habit));
+        editNameFragment.show(fm, "fragment_edit_name");
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -164,6 +187,8 @@ public class HabitTraking extends BaseClassUser implements View.OnClickListener 
     @Override
     protected void onStop() {
         super.onStop();
+
+        adapter.stopListening();
     }
 
     public static class ViewHolderHabit extends RecyclerView.ViewHolder {

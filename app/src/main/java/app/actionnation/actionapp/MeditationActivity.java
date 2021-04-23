@@ -1,10 +1,12 @@
 package app.actionnation.actionapp;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -28,15 +30,32 @@ public class MeditationActivity extends BaseClassUser implements View.OnClickLis
     FirebaseAuth mAuth;
     String usrId = "";
     int dayOfTheYear, yr;
+    ArrayList<Integer> arrayGameScore = new ArrayList<>();
+    CoordinatorLayout coordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meditation);
         generatePublicMenu();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        CommonClass cls = new CommonClass();
 
         btnFinish = findViewById(R.id.btn_med_finish);
+        coordinatorLayout = findViewById(R.id.cl_Meditation);
+
+        usrId = fetchUserId(FirebaseAuth.getInstance());
+
+        if (arrayGameScore.size() == 0 || arrayGameScore == null) {
+            arrayGameScore = cls.getUserGameLocal(MeditationActivity.this, usrId);
+        }
+        if (arrayGameScore != null && arrayGameScore.size() > 0) {
+            if (arrayGameScore.get(Constants.Game_CP__UserMeditationScore) > 0) {
+                btnFinish.setTextColor(Color.RED);
+            }
+        }
+
 
         fragmentManager = getSupportFragmentManager();
         Fragment argumentFragment = new timingset();//Get Fragment Instance
@@ -68,7 +87,7 @@ public class MeditationActivity extends BaseClassUser implements View.OnClickLis
                 UserGame userGame = cls.loadUserGame(usrId, dayOfTheYear, yr, arrayCaptains, userName);
                 userGame.setUserMeditationScore(Constants.Game_Meditation);
 
-                ArrayList<Integer> arrayGameScore = getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore)));
+                arrayGameScore = getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore)));
 
                 ArrayList<Integer> arrayNewGameScore = cls.createGameScore(Constants.Game_CP__UserMeditationScore, Constants.Game_Meditation, arrayGameScore, userGame, MeditationActivity.this);
 
@@ -77,12 +96,13 @@ public class MeditationActivity extends BaseClassUser implements View.OnClickLis
                     arrayGameScore = arrayNewGameScore;
                     totalGameScore = arrayGameScore.get(Constants.Game_CP__UserTotatScore);
                 } else {
-                    userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Status_Zero));
+                    userGame.setUserTotatScore(Constants.Game_Meditation);
                     totalGameScore = arrayNewGameScore.get(Constants.Status_Zero);
 
                 }
 
                 dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), MeditationActivity.this, userGame, rootRef, getString(R.string.fs_Usergame_userMeditationScore), Constants.Game_Meditation, totalGameScore);
+                makeSnackBar(coordinatorLayout);
             }
         });
 

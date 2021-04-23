@@ -5,9 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,13 +16,7 @@ import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -61,15 +53,11 @@ import app.actionnation.actionapp.Database_Content.UserCaptainRatings;
 import app.actionnation.actionapp.Database_Content.UserGame;
 import app.actionnation.actionapp.Database_Content.UserProfile;
 import app.actionnation.actionapp.Database_Content.UserStories;
-import app.actionnation.actionapp.Database_Content.UserStoryLikes;
 import app.actionnation.actionapp.Database_Content.UserTeam;
-import app.actionnation.actionapp.FragmentCreateStory;
 import app.actionnation.actionapp.FragmentSelfDream;
-import app.actionnation.actionapp.FragmentShowUserStory;
 import app.actionnation.actionapp.HabitTraking;
 import app.actionnation.actionapp.R;
 import app.actionnation.actionapp.Storage.Constants;
-import app.actionnation.actionapp.Storage.UserStorageStoryObject;
 import app.actionnation.actionapp.displaydata;
 
 public class DbHelperClass {
@@ -233,10 +221,6 @@ public class DbHelperClass {
     }
 
 
-
-
-
-
     public void insertFireUserTeam(String collectionReference, final Context ct, UserTeam dataObject, FirebaseFirestore db) {
 
         DocumentReference docRef = db.collection(collectionReference).document(dataObject.getFb_Id());
@@ -358,6 +342,9 @@ public class DbHelperClass {
                 });
             }
         });
+
+
+
     }
 
 
@@ -459,15 +446,16 @@ public class DbHelperClass {
                 .setQuery(query, UserTeam.class)
                 .build();
         Log.d(TAG, "Enter Db 1 firestore");
-
         adapter = new FirestoreRecyclerAdapter<UserTeam, ActivityYourTeam.ViewHolderSelectCaptain>(options) {
 
             @Override
             protected void onBindViewHolder(@NonNull final ActivityYourTeam.ViewHolderSelectCaptain holder, int position, @NonNull final UserTeam model) {
                 holder.mIdSelectCaptain.setText(model.getTeamName());
 
-                if (strCaptains.contains(model.getFb_Id())) {
-                    holder.mIdSelectCaptain.setChecked(true);
+                if (strCaptains != null) {
+                    if (strCaptains.contains(model.getFb_Id())) {
+                        holder.mIdSelectCaptain.setChecked(true);
+                    }
                 }
 
                 holder.mIdSelectCaptain.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -477,7 +465,6 @@ public class DbHelperClass {
 
                         if (isChecked == true) {
 
-
                             DocumentReference docRef = rootRef.collection("UserProfile").document(fbId);
 
                             docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -486,7 +473,7 @@ public class DbHelperClass {
                                     UserProfile userProfile = documentSnapshot.toObject(UserProfile.class);
 
 
-                                    if (userProfile.getTeamCaptains().size() > 0) {
+                                    if (userProfile.getTeamCaptains() != null && userProfile.getTeamCaptains().size() > 0) {
 
                                         AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
 
@@ -555,8 +542,6 @@ public class DbHelperClass {
                         }
                     }
                 });
-
-
             }
 
 /*
@@ -1031,7 +1016,9 @@ public class DbHelperClass {
 
                 CommonClass cls = new CommonClass();
                 int TotalScore = cls.userGameScore(model);
-                holder.mIdGameScore.setText(String.valueOf(TotalScore));
+                float percentScore = ((float) model.getUserTotatScore() / Constants.Game_userTotalScore) * 100;
+                int finalPercent = (int) percentScore;
+                holder.mIdGameScore.setText(String.valueOf(finalPercent) + "%");
                 //holder.btnHabitSubmit.setTag(getSnapshots().getSnapshot(position).getId() + "," + model.getHabitDayOfTheYear() + "," + model.getHabitDays() + "," + model.getPowerLimit());
                 holder.mIdPlayerName.setText(model.getUserName());
             }
@@ -1049,196 +1036,8 @@ public class DbHelperClass {
     }
 
 
-
-    public FirestoreRecyclerAdapter GetFireStoreAdapterUserStories(final String collectionReference, com.google.firebase.firestore.Query query, final Context ctx, final UserStorageStoryObject userStorageStoryObject) {
-
-        FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
-
-
-        final String fbId = userStorageStoryObject.getFb_Id();
-        final String userImg = userStorageStoryObject.getUserProfilePicUrl();
-        final String userName = userStorageStoryObject.getUserName();
-
-
-        final FirestoreRecyclerOptions<UserStories> options = new FirestoreRecyclerOptions.Builder<UserStories>()
-                .setQuery(query, UserStories.class)
-                .build();
-
-        FirestoreRecyclerAdapter adapter = new FirestoreRecyclerAdapter<UserStories, FragmentShowUserStory.ViewHolderUserStory>(options) {
-
-            @Override
-            protected void onBindViewHolder(@NonNull final FragmentShowUserStory.ViewHolderUserStory holder, int position, @NonNull UserStories model) {
-                ArrayList<String> dataForButtonClicks = new ArrayList<>();
-                dataForButtonClicks.add(0, getSnapshots().getSnapshot(position).getId());
-                dataForButtonClicks.add(1, fbId);
-                dataForButtonClicks.add(2, userImg);
-                dataForButtonClicks.add(3, userName);
-                dataForButtonClicks.add(4, String.valueOf(model.getUserLikeCount()));
-
-                holder.mIdStory.setText(model.getUserStory());
-                holder.mNoOfComments.setText(String.valueOf(model.getUserCommentCount()));
-                holder.mNoOfLikes.setText(String.valueOf(model.getUserLikeCount()));
-                holder.mNoOfShares.setText(String.valueOf(model.getUserReshareCount()));
-                holder.mUserName.setText(String.valueOf(model.getUserName()));
-                holder.mIdStory.setTag(getSnapshots().getSnapshot(position).getId());
-
-                holder.mBtnLikes.setTag(dataForButtonClicks);
-                dataForButtonClicks.remove(4);
-                dataForButtonClicks.add(4, String.valueOf(model.getUserCommentCount()));
-                holder.mBtnComments.setTag(dataForButtonClicks);
-                dataForButtonClicks.remove(4);
-                dataForButtonClicks.add(4, String.valueOf(model.getUserReshareCount()));
-                holder.mBtnShares.setTag(model.getUserReshareCount());
-
-                Glide.with(ctx)
-                        .asBitmap()
-                        .load(model.getUserProfilePicUrl())
-                        //  .override(180, 180)
-                        .into(new CustomTarget<Bitmap>() {
-                            @Override
-                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                                holder.mUserImage.setImageBitmap(resource);
-                            }
-
-                            @Override
-                            public void onLoadCleared(@Nullable Drawable placeholder) {
-                            }
-
-                            @Override
-                            public void onLoadFailed(@Nullable Drawable errorDrawable) {
-                                super.onLoadFailed(errorDrawable);
-                            }
-                        });
-
-                holder.mBtnLikes.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        final FirebaseFirestore db = FirebaseFirestore.getInstance();
-                        final int likeCount = Integer.parseInt( ((ArrayList<String>)holder.mBtnLikes.getTag()).get(4));
-
-                        // createStoryLikes(db, likeCount, holder.mIdStory.getTag().toString(), "UserStoryLikes", fbId, holder.mNoOfLikes);
-
-                        ArrayList<String> getDataArrayList = (ArrayList<String>) holder.mBtnLikes.getTag();
-                        final String documentId = getDataArrayList.get(0);
-
-                        final DocumentReference docRef = db.collection("UserStoryLikes").document(fbId + "_" + documentId);
-
-                        int commentCount = 0;
-                        Map<String, Object> userVariable = new HashMap<>();
-                        userVariable.put("fb_Id", fbId);
-
-                        docRef.update(userVariable).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                UserStoryLikes usl = new UserStoryLikes();
-                                usl.setFb_Id(fbId);
-                                usl.setTimestamp(null);
-                                usl.setUserStoryId(documentId);
-                                docRef.set(usl).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        DocumentReference noteRef = db.collection("UserStories").document(documentId);
-                                        noteRef.update("userLikeCount", likeCount + 1).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                holder.mNoOfLikes.setText(String.valueOf(likeCount + 1));
-                                            }
-                                        });
-                                    }
-                                });
-                            }
-                        });
-
-
-                    }
-                });
-
-                holder.mBtnShares.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-
-
-                        ArrayList<String> getDataArrayList = (ArrayList<String>) holder.mBtnShares.getTag();
-/*
-                        UserStorageStoryObject userStorageStoryObject1 = new UserStorageStoryObject();
-
-
-                        userStorageStoryObject.setFb_Id(getDataArrayList.get(1));
-                        userStorageStoryObject.setUserProfilePicUrl(getDataArrayList.get(2));
-                        userStorageStoryObject.setUserName(getDataArrayList.get(3));*/
-
-                        String documentId = getDataArrayList.get(0);
-                        String shareCount = getDataArrayList.get(4);
-
-
-                        FragmentManager fm =
-                                ((FragmentActivity) ctx).getSupportFragmentManager();
-                        FragmentCreateStory editNameDialogFragment = FragmentCreateStory.newInstance(getDataArrayList);
-                        editNameDialogFragment.show(fm, "fragment_edit_name");
-
-                       /* FirebaseFirestore db = FirebaseFirestore.getInstance();
-                        DocumentReference noteRef = db.collection(collectionReference).document(holder.mIdStory.getTag().toString());
-                        int shareCount = Integer.valueOf(holder.mBtnShares.getTag().toString());
-                        noteRef.update("userReshareCount", shareCount + 1).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                            }
-                        });*/
-                    }
-                });
-
-                holder.mBtnComments.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        ArrayList<String> getDataArrayList = (ArrayList<String>) holder.mBtnComments.getTag();
-
-
-                        /*
-                        UserStorageStoryObject userStorageStoryObject1 = new UserStorageStoryObject();
-
-
-                        userStorageStoryObject.setFb_Id(getDataArrayList.get(1));
-                        userStorageStoryObject.setUserProfilePicUrl(getDataArrayList.get(2));
-                        userStorageStoryObject.setUserName(getDataArrayList.get(3));*/
-
-                        String documentId = getDataArrayList.get(0);
-                        String shareCount = getDataArrayList.get(4);
-
-
-                        FragmentManager fm =
-                                ((FragmentActivity) ctx).getSupportFragmentManager();
-                        FragmentCreateStory editNameDialogFragment = FragmentCreateStory.newInstance(getDataArrayList);
-                        editNameDialogFragment.show(fm, "fragment_edit_name");
-
-                    }
-                });
-
-
-            }
-
-            @NonNull
-            @Override
-            public FragmentShowUserStory.ViewHolderUserStory onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lf_showstory, parent, false);
-                return new FragmentShowUserStory.ViewHolderUserStory(view);
-
-
-            }
-        };
-        return adapter;
-    }
-
-
     public void insertFireUserComments
-            (String collectionReference, final Context ct, UserStories dataObject,final FirebaseFirestore db, final int commentCount) {
+            (String collectionReference, final Context ct, UserStories dataObject, final FirebaseFirestore db, final int commentCount) {
 
         Long tsLong = System.currentTimeMillis() / 1000;
         String ts = tsLong.toString();
@@ -1258,7 +1057,6 @@ public class DbHelperClass {
                         Toast.makeText(ct, "Insertion Done", Toast.LENGTH_LONG);
                     }
                 });
-
 
 
             }

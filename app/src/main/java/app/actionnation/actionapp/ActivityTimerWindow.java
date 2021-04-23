@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -26,8 +27,12 @@ public class ActivityTimerWindow extends BaseClassUser implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timer_window);
         generatePublicMenu();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         txtHeading = findViewById(R.id.timeWindowHeading);
         btnFinish = findViewById(R.id.btn_hbt_finish);
+        coordinatorLayout = findViewById(R.id.cl_timerWindow);
+
         btnFinish.setOnClickListener(this);
 
         Bundle extras = getIntent().getExtras();
@@ -50,6 +55,7 @@ public class ActivityTimerWindow extends BaseClassUser implements View.OnClickLi
 
     }
 
+    CoordinatorLayout coordinatorLayout;
     @Override
     public void onClick(View v) {
         int i = v.getId();
@@ -61,7 +67,7 @@ public class ActivityTimerWindow extends BaseClassUser implements View.OnClickLi
             DbHelper db = new DbHelper(ActivityTimerWindow.this);
             cls.SubmitHabitScore(Constants.Game_CommonScore, Integer.parseInt(HabitTotal), HabitName, db, usrId, dayOfTheYear, yr);
             db.insertHabitDayTrack(HabitName, usrId, dayOfTheYear, yr, Constants.Status_One);
-
+            makeSnackBar(coordinatorLayout);
         }
     }
 

@@ -22,13 +22,14 @@ import android.provider.AlarmClock;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -108,17 +109,11 @@ public class CommonClass {
     }
 
     public void signOut(Context ct, GoogleSignInClient mGoogleSignInClient) {
-        mGoogleSignInClient.signOut().addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-
-            }
-        });
         FirebaseAuth.getInstance().signOut();
+
+        mGoogleSignInClient.signOut();
         LoginManager.getInstance().logOut();
-        Intent intent = new Intent(ct, GoFbLogin.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        ct.startActivity(intent);
+
     }
 
 
@@ -138,11 +133,9 @@ public class CommonClass {
 
         Intent myIntent = new Intent(Intent.ACTION_SEND);
         myIntent.setType("text/plain");
-        String shareBody = "Your body is here";
-        String shareSub = "Your subject";
-        myIntent.putExtra(Intent.EXTRA_SUBJECT, shareBody);
-        myIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
-        ct.startActivity(Intent.createChooser(myIntent, "Share using"));
+        myIntent.putExtra(Intent.EXTRA_SUBJECT, ShareSubject);
+        myIntent.putExtra(Intent.EXTRA_TEXT, ShareBody);
+        ct.startActivity(Intent.createChooser(myIntent, strTitle));
     }
 
     public MenuItem menuGenerationGeneral(Activity ct, MenuItem item, GoogleSignInClient mGoogleSignInClient) {
@@ -652,7 +645,6 @@ public class CommonClass {
         DbHelper dbHelper = new DbHelper(ctx);
         int sumGame = 0;
 
-
         if (arrayGameList != null && arrayGameList.size() > 0) {
 
             arrayGameList.set(Constants.Game_CP__UserTotatScore, Constants.Status_Zero);
@@ -661,9 +653,7 @@ public class CommonClass {
             for (int counter = 0; counter < arrayGameList.size(); counter++) {
                 sumGame = arrayGameList.get(counter) + sumGame;
             }
-
             arrayGameList.set(Constants.Game_CP__UserTotatScore, sumGame);
-
 
             userGame.setUserSelfWinScore(Integer.valueOf(arrayGameList.get(0)));
             userGame.setUserPlaceWinScore(Integer.valueOf(arrayGameList.get(1)));
@@ -695,6 +685,15 @@ public class CommonClass {
             sumGame = value;
         }
         return arrayGameList;
+    }
+
+    protected void makeSnackBar(View cl)
+    {
+
+        Snackbar snackbar = Snackbar
+                .make(cl, "Well Done!", Snackbar.LENGTH_LONG);
+
+        snackbar.show();
     }
 
 

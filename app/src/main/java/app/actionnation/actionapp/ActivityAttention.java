@@ -26,6 +26,8 @@ public class ActivityAttention extends BaseClassUser implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attention);
         generatePublicMenu();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         viewPager = findViewById(R.id.view_pager_attention);
         tabLayout = findViewById(R.id.tab_attention);

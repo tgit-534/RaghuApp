@@ -9,6 +9,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,6 +36,7 @@ public class ActivityRevealStory extends BaseClassUser {
     String usrId;
     FirebaseUser fbUser;
     DbHelper db = new DbHelper(ActivityRevealStory.this);
+    CoordinatorLayout coordinatorLayout;
 
     String TAG = "Activity Reveal Story";
     Button btnFinish;
@@ -48,7 +50,11 @@ public class ActivityRevealStory extends BaseClassUser {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reveal_story);
         generatePublicMenu();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
         usrId = fetchUserId();
+        coordinatorLayout = findViewById(R.id.cl_revealStory);
 
         btnFinish = findViewById(R.id.btn_story_finish);
         btnFinish.setOnClickListener(new View.OnClickListener() {
@@ -76,11 +82,12 @@ public class ActivityRevealStory extends BaseClassUser {
                     arrayGameScore = arrayNewGameScore;
                     totalGameScore = arrayGameScore.get(Constants.Game_CP__UserTotatScore);
                 } else {
-                    userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Status_Zero));
+                    userGame.setUserTotatScore(Constants.Game_RevealStory);
                     totalGameScore = arrayNewGameScore.get(Constants.Status_Zero);
                 }
 
                 dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), ActivityRevealStory.this, userGame, rootRef, getString(R.string.fs_Usergame_userRevealStoryScore), Constants.Game_RevealStory, totalGameScore);
+                makeSnackBar(coordinatorLayout);
             }
         });
 

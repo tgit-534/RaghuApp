@@ -4,31 +4,58 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
+    android:layout_margin="5dp"
     android:gravity="center"
-    android:background="@android:color/white"
+    card_view:cardBackgroundColor="@color/firstColor"
     card_view:cardCornerRadius="10dp"
     card_view:cardElevation="0dp">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:id="@+id/ll_ShowPowers"
+        android:layout_width="120dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
         android:gravity="center"
         android:orientation="vertical">
 
-
         <RelativeLayout
-            android:layout_width="@dimen/toolbar_profile_width"
-            android:layout_height="wrap_content">
+            android:layout_width="120dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:padding="10dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/item_name_FirstLetter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:gravity="top"
+                    android:textColor="#ffffff"
+                    android:textSize="45sp" />
+
+                <TextView
+                    android:id="@+id/item_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:gravity="bottom"
+                    android:textColor="#ffffff"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
 
             <ImageButton
                 android:id="@+id/imgBtn"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:background="@android:color/white"></ImageButton>
-
-
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="gone"></ImageButton>
 
             <ImageView
                 android:id="@+id/imgTick"
@@ -36,20 +63,9 @@
                 android:layout_height="28dp"
                 android:layout_alignTop="@+id/imgBtn"
                 android:layout_alignParentRight="true"
-                android:visibility="gone"
                 android:src="@drawable/ic_baseline_check_28"
-                ></ImageView>
+                android:visibility="gone"></ImageView>
         </RelativeLayout>
 
-
-        <TextView
-            android:id="@+id/item_name"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center_horizontal"
-            android:textColor="@color/an_tabtext"
-            android:autoLink="web" android:linksClickable="true"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

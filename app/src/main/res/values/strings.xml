@@ -98,6 +98,8 @@
 
     <!-- Facebook   <string name="facebook_app_id">1315362295337602</string> -->
     <string name="facebook_app_id">1315362295337602</string>
+    <string name="razorPayId">rzp_live_4tKuJnMW1SURjb</string>
+
 
     <!-- TODO: Leadership Initiative -->
     <string name="li_step1">Step 1: \n</string>
@@ -165,6 +167,7 @@
     <string name="common_no">NO</string>
     <string name="common_confirm">Confirm</string>
     <string name="common_facebook">fb</string>
+    <string name="common_name">name</string>
 
 
     <!-- TODO: Common Notations Xml -->
@@ -192,6 +195,7 @@
     <string name="Intent_ArrayRating">arrayRating</string>
     <string name="Intent_UserImagePath">userImagePath</string>
     <string name="Intent_UserFullName">userFullName</string>
+    <string name="Intent_ArrayOneStory">OneStory</string>
 
 
     <!-- TODO: Error Messages -->
@@ -478,6 +482,9 @@
     <string name="Integrity_Date">Pick Date</string>
     <string name="Integrity_Time">Pick Time</string>
 
+    <string name="Common_Win">WIN</string>
+
+
 
     <!-- TODO:  Heading  Xml-->
     <string name="Fragment_Gr_Heading">Gratitude!</string>
@@ -490,6 +497,9 @@
     <string name="Fragment_Eh_Heading">Eat Healthy!</string>
 
     <string name="Dialog_Heading">Select Your Captain!</string>
+
+    <string name="Data_ADD">ADD</string>
+    <string name="Data_START">START</string>
 
 
     <!-- TODO:  Heading Activity Xml-->
@@ -531,9 +541,12 @@
     <string name="Hint_Belief_Name">Type Belief Name</string>
     <string name="Hint_Belief_Desc">Type Belief Description</string>
     <string name="Hint_Traction_Name">Type Traction Name</string>
+    <string name="Hint_reframe">Reframe Your Thought</string>
+
     <string name="title_activity_reveal_story">ActivityRevealStory</string>
 
     <string name="Hint_fm_commentCaptain">Comments for your captain!</string>
+    <string name="Hint_fm_shareStory">Share Your Dream Story!</string>
 
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.firebase.crashlytics'
 
 
 android {
@@ -12,7 +13,7 @@ android {
     buildToolsVersion "29.0.0"
     defaultConfig {
         applicationId "app.actionnation.actionapp"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 29
         versionCode 7
         versionName "1.7"
@@ -105,11 +106,23 @@ dependencies {
 
     implementation 'com.daimajia.numberprogressbar:library:1.4@aar'
 
+    implementation 'com.razorpay:checkout:1.6.6'
 
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
 
+
     api 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
+
+   //Crashlytics
+
+    implementation platform('com.google.firebase:firebase-bom:26.8.0')
+
+    // Declare the dependencies for the Crashlytics and Analytics libraries
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.firebase:firebase-analytics'
+
 
 
 

@@ -19,6 +19,8 @@ public class ActivityHappiness extends BaseClassUser {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_happiness);
         generatePublicMenu();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         Log.d(TAG, "1");
 

@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/ll_forgiveness"
     tools:context=".FragmentForgiveness">
 
 
@@ -36,7 +37,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:text="@string/Fragment_Em_Heading"></TextView>
+        android:text="@string/Fragment_Em_Heading"
+        android:visibility="gone"
+        ></TextView>
 
     <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -45,7 +48,8 @@
         android:name="com.example.myapplication.ActivityAttention"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-         />
+        android:visibility="gone"
+        />
 
 
 

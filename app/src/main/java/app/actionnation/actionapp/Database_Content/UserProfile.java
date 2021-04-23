@@ -23,6 +23,22 @@ public class UserProfile {
     int userFollowers;
     int userFollowing;
 
+    public int getUserFollowers() {
+        return userFollowers;
+    }
+
+    public void setUserFollowers(int userFollowers) {
+        this.userFollowers = userFollowers;
+    }
+
+    public int getUserFollowing() {
+        return userFollowing;
+    }
+
+    public void setUserFollowing(int userFollowing) {
+        this.userFollowing = userFollowing;
+    }
+
     public float getUserRating() {
         return userRating;
     }

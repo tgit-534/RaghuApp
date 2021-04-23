@@ -1,15 +1,11 @@
 package app.actionnation.actionapp;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -18,10 +14,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -56,6 +52,7 @@ public class ActivityYourTeam extends BaseClassUser implements View.OnClickListe
     TabLayout tabLayout;
     ArrayList<String> arrayCaptain = new ArrayList<>();
     ExtendedFloatingActionButton fab;
+    FirestoreRecyclerAdapter adapter;
 
 
     @Override
@@ -86,14 +83,7 @@ public class ActivityYourTeam extends BaseClassUser implements View.OnClickListe
 
                 if (TextUtils.isEmpty(etEmail.getText().toString())) {
                     Snackbar snackbar = Snackbar
-                            .make(coordinatorLayout, "Message is deleted", Snackbar.LENGTH_LONG)
-                            .setAction("UNDO", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Snackbar snackbar1 = Snackbar.make(coordinatorLayout, "Message is restored!", Snackbar.LENGTH_SHORT);
-                                    snackbar1.show();
-                                }
-                            });
+                            .make(coordinatorLayout, "Enter Email of your prospective player!", Snackbar.LENGTH_LONG);
 
                     snackbar.show();
                 } else {
@@ -116,6 +106,7 @@ public class ActivityYourTeam extends BaseClassUser implements View.OnClickListe
                     mAuth = FirebaseAuth.getInstance();
                     ut.setTeamName(mAuth.getCurrentUser().getDisplayName());
                     dbh.insertFireUserTeam(getString(R.string.fs_UserTeam), ActivityYourTeam.this, ut, db);
+                    etEmail.setText("");
                 }
             }
         });
@@ -247,7 +238,12 @@ public class ActivityYourTeam extends BaseClassUser implements View.OnClickListe
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.btn_team_chooseCaptain) {
-            Dialog dialog = new Dialog(ActivityYourTeam.this, R.style.DialogSlideAnim);
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentSelectCaptain editNameDialogFragment = FragmentSelectCaptain.newInstance((ArrayList<String>) getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain))));
+            editNameDialogFragment.show(fm, "fragment_edit_name");
+
+
+            /*Dialog dialog = new Dialog(ActivityYourTeam.this, R.style.DialogSlideAnim);
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
 
             dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -258,7 +254,7 @@ public class ActivityYourTeam extends BaseClassUser implements View.OnClickListe
             rvTest = dialog.findViewById(R.id.recyclerDialog);
             rvTest.setLayoutManager(new LinearLayoutManager(ActivityYourTeam.this));
             rvTest.setHasFixedSize(false);
-            fetchChooseCaptain();
+            fetchChooseCaptain();*/
 
         }
     }
@@ -336,7 +332,7 @@ public class ActivityYourTeam extends BaseClassUser implements View.OnClickListe
         @Override
         public String toString() {
             return super.toString() + " '" +
-                    " "+ "'";
+                    " " + "'";
         }
     }
 

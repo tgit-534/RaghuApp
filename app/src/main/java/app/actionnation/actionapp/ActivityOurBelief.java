@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,19 +27,33 @@ public class ActivityOurBelief extends BaseClassUser implements View.OnClickList
     RecyclerView recyclerView;
     ArrayList<String> strAttPattern = new ArrayList<>();
     FirebaseAuth mAuth;
+    CoordinatorLayout coordinatorLayout;
+
     String usrId;
     DbHelper db = new DbHelper(ActivityOurBelief.this);
 
     String TAG = "Belief System";
-    Button btnFinish;
+    Button btnFinish, btnBelief;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_our_belief);
         generatePublicMenu();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         usrId = fetchUserId();
+
+        btnBelief = findViewById(R.id.btn_addBelief);
+        coordinatorLayout = findViewById(R.id.cl_belief);
+
+        btnBelief.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showEditDialog();
+            }
+        });
 
 
         btnFinish = findViewById(R.id.btn_belief_finish);
@@ -71,12 +87,12 @@ public class ActivityOurBelief extends BaseClassUser implements View.OnClickList
                     arrayGameScore = arrayNewGameScore;
                     totalGameScore = arrayGameScore.get(Constants.Game_CP__UserTotatScore);
                 } else {
-                    userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Status_Zero));
+                    userGame.setUserTotatScore(Constants.Game_OurBeliefSystem);
                     totalGameScore = arrayNewGameScore.get(Constants.Status_Zero);
                 }
 
                 dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), ActivityOurBelief.this, userGame, rootRef, getString(R.string.fs_Usergame_userOurBeliefScore), Constants.Game_OurBeliefSystem, totalGameScore);
-
+                makeSnackBar(coordinatorLayout);
 
             }
         });
@@ -111,6 +127,12 @@ public class ActivityOurBelief extends BaseClassUser implements View.OnClickList
     @Override
     public void onClick(View v) {
 
+    }
+
+    private void showEditDialog() {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentDataInsertion editNameFragment = FragmentDataInsertion.newInstance(getString(R.string.Page_Redirect_Belief));
+        editNameFragment.show(fm, "fragment_edit_name");
     }
 
     public void RedirectBelief(View view) {

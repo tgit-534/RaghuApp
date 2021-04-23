@@ -32,6 +32,11 @@
                 app:showAsAction="never"></item>
 
             <item
+                android:id="@+id/Support"
+                android:title="Support Us!"
+                app:showAsAction="never"></item>
+
+            <item
                 android:id="@+id/menulogout"
                 android:title="Logout"
                 app:showAsAction="never"></item>

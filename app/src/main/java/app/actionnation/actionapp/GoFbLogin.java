@@ -35,7 +35,7 @@ public class GoFbLogin extends BaseActivity
 
     private GoogleSignInClient mGoogleSignInClient;
     public FirebaseAuth mAuth;
-    private static final String TAG = "GoogleActivity";
+    private static final String TAG = "GoFbLogin: Logs:";
     private static final int RC_SIGN_IN = 9001;
     //defining view objects
     private EditText editTextEmail;
@@ -57,12 +57,14 @@ public class GoFbLogin extends BaseActivity
         btnAdmin = findViewById(R.id.btnAdmin);
         btnRegister = findViewById(R.id.btn_register);
 
+        Log.d(TAG, "0");
 
 
         // Button listeners
         SignInButton btnSignIn = findViewById(R.id.signInButton);
         btnSignIn.setSize(SignInButton.SIZE_WIDE);
         btnSignIn.setOnClickListener(this);
+        Log.d(TAG, "1");
 
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
@@ -73,7 +75,12 @@ public class GoFbLogin extends BaseActivity
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
+        Log.d(TAG, "2");
+
+
         FirebaseApp.initializeApp(GoFbLogin.this);
+
+        Log.d(TAG, "3");
         // [START initialize_au
         // th]
         // Initialize Firebase Auth
@@ -81,8 +88,11 @@ public class GoFbLogin extends BaseActivity
         // [END initialize_auth]
         //Normal way of getting data
         //initializing views
+        Log.d(TAG, "4");
+
         Intent mIntent = getIntent();
         String previousActivity = mIntent.getStringExtra(getString(R.string.common_key_activity_name));
+        Log.d(TAG, "5");
 
 
         if (mAuth.getCurrentUser() != null) {
@@ -92,15 +102,22 @@ public class GoFbLogin extends BaseActivity
                     }
                 }
             } else {
+                Log.d(TAG, "4-firebase before");
                 RedirectToNext(getString(R.string.common_firebase));
+                Log.d(TAG, "4-firebase");
+
             }
         }
+        Log.d(TAG, "4 Bond");
 
         progressDialog = new ProgressDialog(this);
 
         //attaching listener to button
         btnAdmin.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
+
+        Log.d(TAG, "5 Bond");
+
     }
 
     // [START on_start_check_user]
@@ -112,6 +129,9 @@ public class GoFbLogin extends BaseActivity
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+
+        Log.d(TAG, "6 Bond");
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
@@ -189,7 +209,7 @@ public class GoFbLogin extends BaseActivity
 
 
     private void RedirectToNext(String str) {
-       // Intent homepage = new Intent(GoFbLogin.this, RedirectFromMain.class);
+        // Intent homepage = new Intent(GoFbLogin.this, RedirectFromMain.class);
         Intent homepage = new Intent(GoFbLogin.this, ActivityMainObjectives.class);
 
         Bundle mBundle = new Bundle();
@@ -235,7 +255,10 @@ public class GoFbLogin extends BaseActivity
                                 startActivity(intent);
                                 finish();
                             } else {
-                                RedirectToNext(getString(R.string.common_firebase));
+                                RedirectToNext(getString(R.string.common_google));
+
+                                //RedirectToNext(getString(R.string.common_firebase));
+
                             }
                         }
                     }

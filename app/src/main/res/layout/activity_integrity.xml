@@ -7,14 +7,13 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".ActivityIntegrity"
-    tools:showIn="@layout/activity_integrity">
+    tools:context=".ActivityIntegrity">
 
     <LinearLayout
+        android:id="@+id/ll_Integrity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
 
         <include
             layout="@layout/toolbar_main"
@@ -51,7 +50,6 @@
 
             <Button
                 android:id="@+id/btn_date"
-                style="@style/MediumButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/in_date"
@@ -80,7 +78,6 @@
 
             <Button
                 android:id="@+id/btn_time"
-                style="@style/MediumButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/btn_date"
@@ -98,7 +95,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
-            android:layout_margin="2dp"
+            android:layout_margin="5dp"
             android:layout_marginBottom="2dp"
             android:background="@drawable/my_border"
             android:gravity="top|left"
@@ -110,10 +107,10 @@
 
         <Button
             android:id="@+id/in_btn_submit"
-            style="@style/SmallButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
+            android:background="@drawable/button_border_material"
             android:text="Submit" />
 
         <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -139,6 +136,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
-        android:text="Actions"
-        app:icon="@drawable/ic_baseline_search_12" />
+        android:text="@string/Common_Win"
+        app:icon="@drawable/ic_baseline_task_24" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

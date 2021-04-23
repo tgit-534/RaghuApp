@@ -18,6 +18,7 @@
             android:layout_height="match_parent"
             android:gravity="center_horizontal"
             android:orientation="vertical">
+
             <include
                 layout="@layout/layout_showlogo"
                 android:layout_width="match_parent"
@@ -90,8 +91,7 @@
                         android:layout_marginRight="8dp"
                         android:onClick="ForgotPassword"
                         android:text="@string/go_fb_forgotPwd"
-                        android:textColor="@android:color/holo_blue_light">
-                    </TextView>
+                        android:textColor="@android:color/holo_blue_light"></TextView>
                 </LinearLayout>
 
             </LinearLayout>

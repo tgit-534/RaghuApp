@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -55,6 +56,7 @@ public class FragmentForgiveness extends Fragment implements View.OnClickListene
     String TAG = "True Learning";
     int dayOfYear, yr;
     private ArrayList<String> strEmotionData = new ArrayList<>();
+    LinearLayout linearLayout;
 
 
     private FirebaseDatabase mFirebaseDatabase;
@@ -103,6 +105,9 @@ public class FragmentForgiveness extends Fragment implements View.OnClickListene
         recyclerViewEmotions = view.findViewById(R.id.listEmotions);
         btn_finish_Forgiveness_Inside = view.findViewById(R.id.btn_forgive_Self);
         btn_finish_Forgiveness_outside = view.findViewById(R.id.btn_forgive_Outside);
+        linearLayout = view.findViewById(R.id.ll_forgiveness);
+
+
         btn_finish_Forgiveness_outside.setOnClickListener(this);
         btn_finish_Forgiveness_Inside.setOnClickListener(this);
 
@@ -139,6 +144,7 @@ public class FragmentForgiveness extends Fragment implements View.OnClickListene
                 strEmotionData.add(res.getString(12));
             }
         }
+        res.close();
 
         CommonClass cl = new CommonClass();
 
@@ -301,10 +307,8 @@ public class FragmentForgiveness extends Fragment implements View.OnClickListene
         if (btn_finish_Forgiveness_Inside.getTag() == null) {
             arrayGameScore = getActivity().getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore)));
             btn_finish_Forgiveness_Inside.setTag(arrayGameScore);
-        }
-        else
-        {
-            arrayGameScore = (ArrayList<Integer>)btn_finish_Forgiveness_Inside.getTag();
+        } else {
+            arrayGameScore = (ArrayList<Integer>) btn_finish_Forgiveness_Inside.getTag();
         }
 
 
@@ -321,14 +325,14 @@ public class FragmentForgiveness extends Fragment implements View.OnClickListene
                 arrayGameScore = arrayNewGameScore;
                 totalGameScore = arrayGameScore.get(Constants.Game_CP__UserTotatScore);
             } else {
-                userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Status_Zero));
+                userGame.setUserTotatScore(Constants.Game_Forgiveness_Self);
                 totalGameScore = arrayNewGameScore.get(Constants.Status_Zero);
 
             }
             btn_finish_Forgiveness_Inside.setTag(arrayGameScore);
 
             dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userForgivenessSelfScore), Constants.Game_Forgiveness_Self, totalGameScore);
-
+            cls.makeSnackBar(linearLayout);
 
         } else if (i == R.id.btn_forgive_Outside) {
             btn_finish_Forgiveness_outside.setTextColor(Color.RED);
@@ -342,13 +346,14 @@ public class FragmentForgiveness extends Fragment implements View.OnClickListene
                 arrayGameScore = arrayNewGameScore;
                 totalGameScore = arrayGameScore.get(Constants.Game_CP__UserTotatScore);
             } else {
-                userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Status_Zero));
+                userGame.setUserTotatScore(Constants.Game_Forgiveness_Outside);
                 totalGameScore = arrayNewGameScore.get(Constants.Status_Zero);
 
             }
             btn_finish_Forgiveness_Inside.setTag(arrayGameScore);
 
-            dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userForgivenessOutsideScore), Constants.Game_Forgiveness_Outside,totalGameScore);
+            dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userForgivenessOutsideScore), Constants.Game_Forgiveness_Outside, totalGameScore);
+            cls.makeSnackBar(linearLayout);
 
         }
     }

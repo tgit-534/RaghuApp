@@ -6,6 +6,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,15 +28,20 @@ public class ActivityIntegrityMain extends BaseClassUser implements View.OnClick
     String fbId, placeWin, wordAgreement, respectWork, selfWin, wordAgreementItems;
     int dayOfTheYear, yr;
     Cursor csrIntegrityGame;
+    Cursor csrGame;
+    ArrayList<Integer> arrayGameScore = new ArrayList<>();
     FirebaseFirestore rootRef;
 
+    CoordinatorLayout coordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_integrity_main);
         generatePublicMenu();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        coordinatorLayout = findViewById(R.id.cl_integrity);
 
         btnSelf = findViewById(R.id.btn_int_Self);
         BtnPlace = findViewById(R.id.btn_int_place);
@@ -41,24 +49,46 @@ public class ActivityIntegrityMain extends BaseClassUser implements View.OnClick
         BtnWork = findViewById(R.id.btn_int_completion);
         BtnDreamWin = findViewById(R.id.btn_int_targetWin);
 
-
         btnSelf.setOnClickListener(this);
         BtnPlace.setOnClickListener(this);
         BtnWord.setOnClickListener(this);
         BtnWork.setOnClickListener(this);
         BtnDreamWin.setOnClickListener(this);
 
-
+        CommonClass cls = new CommonClass();
         dbHelper = new DbHelper(ActivityIntegrityMain.this);
-
         ArrayList<String> userArray = fetchUserArray();
 
         fbId = userArray.get(0);
         dayOfTheYear = fetchDate(Constants.Status_Zero);
         yr = fetchDate(Constants.Status_One);
-        //csrIntegrityGame = dbHelper.getIntegrityScore();
-        csrIntegrityGame = dbHelper.getIntegrityScore(fbId, dayOfTheYear, yr);
 
+        arrayGameScore = getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore)));
+        if (arrayGameScore == null) {
+            arrayGameScore = cls.getUserGameLocal(ActivityIntegrityMain.this, fbId);
+        }
+
+        if (arrayGameScore != null && arrayGameScore.size() > 0) {
+            btnSelf.setTag(arrayGameScore);
+
+            if (arrayGameScore.get(Constants.Game_CP__UserSelfWinScore) > 0) {
+                btnSelf.setTextColor(Color.RED);
+            }
+            if (arrayGameScore.get(Constants.Game_CP__UserPlaceWinScore) > 0) {
+                BtnPlace.setTextColor(Color.RED);
+            }
+            if (arrayGameScore.get(Constants.Game_CP__UserWordWinScore) > 0) {
+                BtnWord.setTextColor(Color.RED);
+            }
+            if (arrayGameScore.get(Constants.Game_CP__UserWorkWinScore) > 0) {
+                BtnWork.setTextColor(Color.RED);
+            }
+            if (arrayGameScore.get(Constants.Game_CP__UserHabitsScore) > 0) {
+                BtnDreamWin.setTextColor(Color.RED);
+            }
+        }
+
+        /*csrIntegrityGame = dbHelper.getIntegrityScore(fbId, dayOfTheYear, yr);
 
         if (csrIntegrityGame.getCount() > Constants.Status_Zero) {
 
@@ -78,7 +108,7 @@ public class ActivityIntegrityMain extends BaseClassUser implements View.OnClick
                     BtnPlace.setTextColor(Color.RED);
                 }
             }
-        }
+        }*/
     }
 
     @Override
@@ -91,15 +121,12 @@ public class ActivityIntegrityMain extends BaseClassUser implements View.OnClick
         String fbId = userArray.get(0);
         String userName = userArray.get(1);
         int totalGameScore = 0;
-        ArrayList<Integer> arrayGameScore = new ArrayList<>();
         if (btnSelf.getTag() == null) {
             arrayGameScore = getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore)));
             btnSelf.setTag(arrayGameScore);
 
-        }
-        else
-        {
-            arrayGameScore = (ArrayList<Integer>)btnSelf.getTag();
+        } else {
+            arrayGameScore = (ArrayList<Integer>) btnSelf.getTag();
         }
 
         if (i == R.id.btn_int_word) {
@@ -147,21 +174,21 @@ public class ActivityIntegrityMain extends BaseClassUser implements View.OnClick
             UserGame userGame = cls.loadUserGame(fbId, dayOfTheYear, yr, arrayCaptains, userName);
             userGame.setUserSelfWinScore(Constants.Game_SelfWin);
 
-
             ArrayList<Integer> arrayNewGameScore = cls.createGameScore(Constants.Game_CP__UserSelfWinScore, Constants.Game_SelfWin, arrayGameScore, userGame, ActivityIntegrityMain.this);
-
+            arrayGameScore = arrayNewGameScore;
             if (arrayNewGameScore.size() == 20) {
                 userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Game_CP__UserTotatScore));
-                arrayGameScore = arrayNewGameScore;
                 totalGameScore = arrayGameScore.get(Constants.Game_CP__UserTotatScore);
             } else {
-                userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Status_Zero));
+                userGame.setUserTotatScore(Constants.Game_SelfWin);
                 totalGameScore = arrayNewGameScore.get(Constants.Status_Zero);
 
             }
             btnSelf.setTag(arrayGameScore);
 
             dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), ActivityIntegrityMain.this, userGame, rootRef, getString(R.string.fs_Usergame_userSelfWinScore), Constants.Game_SelfWin, totalGameScore);
+
+            makeSnackBar(coordinatorLayout);
 
 
         } else if (i == R.id.btn_int_place) {
@@ -189,22 +216,22 @@ public class ActivityIntegrityMain extends BaseClassUser implements View.OnClick
             UserGame userGame = cls.loadUserGame(fbId, dayOfTheYear, yr, arrayCaptains, userName);
             userGame.setUserPlaceWinScore(Constants.Game_PlaceWin);
 
-
-
             ArrayList<Integer> arrayNewGameScore = cls.createGameScore(Constants.Game_CP__UserPlaceWinScore, Constants.Game_PlaceWin, arrayGameScore, userGame, ActivityIntegrityMain.this);
+            arrayGameScore = arrayNewGameScore;
 
             if (arrayNewGameScore.size() == 20) {
                 userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Game_CP__UserTotatScore));
-                arrayGameScore = arrayNewGameScore;
                 totalGameScore = arrayGameScore.get(Constants.Game_CP__UserTotatScore);
 
             } else {
-                userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Status_Zero));
+                userGame.setUserTotatScore(Constants.Game_PlaceWin);
                 totalGameScore = arrayNewGameScore.get(Constants.Status_Zero);
 
             }
             btnSelf.setTag(arrayGameScore);
-            dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), ActivityIntegrityMain.this, userGame, rootRef, getString(R.string.fs_Usergame_userPlaceWinScore), Constants.Game_PlaceWin);
+            dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), ActivityIntegrityMain.this, userGame, rootRef, getString(R.string.fs_Usergame_userPlaceWinScore), Constants.Game_PlaceWin, totalGameScore);
+
+            makeSnackBar(coordinatorLayout);
 
         } else if (i == R.id.btn_int_completion) {
 
@@ -213,13 +240,16 @@ public class ActivityIntegrityMain extends BaseClassUser implements View.OnClick
             mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
             mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain))));
             mBundle.putIntegerArrayList(getString(R.string.Intent_ArrayGameScore), (ArrayList<Integer>) btnSelf.getTag());
-
             homepage.putExtras(mBundle);
             startActivity(homepage);
 
         }
     }
 
+
+    protected void getToastGamePlayed() {
+        Toast.makeText(this, "Game Played Well!", Toast.LENGTH_LONG);
+    }
 
     protected String fetchUserId() {
         mAuth = FirebaseAuth.getInstance();

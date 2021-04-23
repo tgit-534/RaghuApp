@@ -27,7 +27,8 @@ public class Constants {
     public static final String attention_Datatabs_traction = "Traction";
 
     public static final String eatHealthy_Datatabs_Avoid = "Avoid";
-    public static final String eatHealty_Datatabs_Eat = "Perform";
+    public static final String eatHealty_Datatabs_Eat = "Eat";
+    public static final String eatHealty_Datatabs_Exercise = "Exercise";
 
     public static final String ar_BookToRead = "Book To Be Read";
     public static final String ar_BookAlRead = "Book Already Read";
@@ -50,6 +51,8 @@ public class Constants {
     public static final String common_google = "google";
     public static final String Page_Redirect = "PageRedirect";
     public static final String Page_Redirect_Habit = "Habit";
+    public static final String Intent_ArrayCaptain = "arrayCaptain";
+    public static final String Intent_ArrayGameScore = "arrayGameScore";
 
 
     //Generic Score
@@ -171,8 +174,6 @@ public class Constants {
     public static final int Game_AS_TotHabit = 3;
 
 
-
-
     //Game Array
     public static final int Game_CP__UserSelfWinScore = 0;
     public static final int Game_CP__UserPlaceWinScore = 1;
@@ -196,10 +197,28 @@ public class Constants {
     public static final int Game_CP__UserTotatScore = 19;
 
 
+    public static final String UserProfile_UserNoOfRatings = "userNoOfRatings";
+    public static final String UserProfile_UserRating = "userRating";
+    public static final int UserProfile_Array_Rating = 0;
+    public static final int UserProfile_Array_NoOfRatings = 1;
 
-    public  static final String UserProfile_UserNoOfRatings = "userNoOfRatings";
-    public  static final String UserProfile_UserRating = "userRating";
-    public  static final int UserProfile_Array_Rating = 0;
-    public  static final int UserProfile_Array_NoOfRatings = 1;
+
+    public static final int Display_fields_Integrity = 0;
+    public static final int Display_fields_Attention = 1;
+    public static final int Display_fields_Meditation = 2;
+    public static final int Display_fields_TrueLearning = 3;
+    public static final int Display_fields_Happy = 4;
+    public static final int Display_fields_EatHealthy = 5;
+    public static final int Display_fields_Habit = 6;
+    public static final int Display_fields_ExPNature = 7;
+    public static final int Display_fields_RevealStory = 8;
+    public static final int Display_fields_OurBelief = 9;
+
+
+    public static final String ClassName_WordWin = "app.actionnation.actionapp.ActivityIntegrity";
+    public static final String ClassName_RespectYourWorkWin = "app.actionnation.actionapp.RespectWork";
+    public static final String ClassName_HabitInside = "app.actionnation.actionapp.ActivityTimerWindow";
+
+
 
 }

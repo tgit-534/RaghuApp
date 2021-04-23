@@ -9,6 +9,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,7 +39,7 @@ public class ActivityExperienceNature extends BaseClassUser {
     FirebaseUser fbUser;
     String TAG = "Experience Nature";
     DbHelper db = new DbHelper(ActivityExperienceNature.this);
-
+    CoordinatorLayout coordinatorLayout;
 
     private FirebaseDatabase mFirebaseDatabase;
     FirebaseRecyclerAdapter fbAdapter;
@@ -50,6 +51,9 @@ public class ActivityExperienceNature extends BaseClassUser {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_experience_nature);
         generatePublicMenu();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
         mAuth = FirebaseAuth.getInstance();
         fbUser = mAuth.getCurrentUser();
         usrId = "";
@@ -61,6 +65,7 @@ public class ActivityExperienceNature extends BaseClassUser {
 
         btnFinish = findViewById(R.id.btn_nat_finish);
         recyclerView = findViewById(R.id.listNature);
+        coordinatorLayout = findViewById(R.id.cl_expNature);
 
         btnFinish.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,13 +95,13 @@ public class ActivityExperienceNature extends BaseClassUser {
                     arrayGameScore = arrayNewGameScore;
                     totalGameScore = arrayGameScore.get(Constants.Game_CP__UserTotatScore);
                 } else {
-                    userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Status_Zero));
+                    userGame.setUserTotatScore(Constants.Game_ExperienceNature);
                     totalGameScore = arrayNewGameScore.get(Constants.Status_Zero);
                 }
                 DbHelperClass dbHelperClass = new DbHelperClass();
 
                 dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), ActivityExperienceNature.this, userGame, rootRef, getString(R.string.fs_Usergame_userExperienceNatureScore), Constants.Game_ExperienceNature, totalGameScore);
-
+                makeSnackBar(coordinatorLayout);
             }
         });
 

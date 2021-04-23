@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RatingBar;
 
 import androidx.annotation.NonNull;
@@ -44,6 +45,7 @@ public class FragmentRateCaptain extends DialogFragment {
     private FirebaseFirestore firebaseFirestore;
     private FirebaseAuth mAuth;
     private RatingBar ratingBar;
+    private ImageButton imgCancel;
 
 
     public FragmentRateCaptain() {
@@ -93,6 +95,15 @@ public class FragmentRateCaptain extends DialogFragment {
 
 
         btnRate = view.findViewById(R.id.btn_fm_rateCaptain);
+        imgCancel = view.findViewById(R.id.ImgBtnDialogRateCaptainCancel);
+
+        imgCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDialog().cancel();
+            }
+        });
+
         ratingBar = view.findViewById(R.id.rb_fm_captainRater);
         btnRate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,7 +133,7 @@ public class FragmentRateCaptain extends DialogFragment {
                     int noOfRatings = (int)userRatingFloatArray[Constants.UserProfile_Array_NoOfRatings];
                     userRating = userRating + ratingBar.getRating();
                     noOfRatings = noOfRatings + 1;
-                    Db.updateFireUserProfileRating(getString(R.string.fs_UserProfile), getContext(), usrId, userRating, noOfRatings, firebaseFirestore);
+                    Db.updateFireUserProfileRating(getString(R.string.fs_UserProfile), getContext(), activityArrayCaptains.get(1), userRating, noOfRatings, firebaseFirestore);
                     clearForm();
 
                 }

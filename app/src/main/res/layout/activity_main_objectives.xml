@@ -17,14 +17,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:background="@color/an_text"
-
+            android:background="#02b89a"
             android:elevation="6dp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/com_facebook_button_send_icon_white">
+            android:background="#ffffff">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -40,8 +39,8 @@
                         android:id="@+id/profile_image"
                         android:layout_width="@dimen/toolbar_profile_width"
                         android:layout_height="@dimen/toolbar_profile_width"
-                        android:layout_marginTop="@dimen/activity_padding"
-                        android:layout_marginBottom="@dimen/activity_padding"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="@dimen/activity_padding_mainObjectives"
                         android:src="@drawable/baseline_account_circle_black_48"
                         app:civ_border_width="2dp" />
 
@@ -51,7 +50,7 @@
                         android:layout_height="@dimen/ic_plus_width"
                         android:layout_alignBottom="@+id/profile_image"
                         android:layout_alignParentRight="true"
-                        android:src="@drawable/ic_plus" />
+                        android:src="@drawable/ic_upload_circle_24" />
                 </RelativeLayout>
 
                 <TextView
@@ -59,33 +58,35 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@string/font_family_medium"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/an_tabtext"
                     android:textSize="@dimen/profile_title" />
 
                 <TextView
                     android:id="@+id/et_amo_userDesc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/dimen_20dp"
+                    android:layout_marginBottom="@dimen/activity_padding_mainObjectives"
                     android:gravity="center_horizontal"
                     android:paddingLeft="@dimen/dimen_20dp"
                     android:paddingRight="@dimen/dimen_20dp"
                     android:text="@string/profile_desc"
-                    android:textColor="@color/profile_desc"
+                    android:textColor="@color/an_tabtext"
                     android:textSize="@dimen/profile_desc" />
 
                 <RatingBar
                     android:id="@+id/rb_captainRatings"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"></RatingBar>
+                    android:layout_height="wrap_content"
+
+                    ></RatingBar>
 
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingTop="@dimen/activity_padding"
-                    android:paddingBottom="@dimen/activity_padding"
+                    android:paddingTop="@dimen/activity_padding_mainObjectives"
+                    android:paddingBottom="@dimen/activity_padding_mainObjectives"
                     android:weightSum="3">
 
                     <LinearLayout
@@ -103,12 +104,13 @@
                             android:textSize="@dimen/activity_IconHeadings"
                             android:textStyle="bold" />
 
+
                         <ImageButton
                             android:id="@+id/imgBtn_profile"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/ic_plus"></ImageButton>
-
+                            android:background="#0000"
+                            android:src="@drawable/ic_manage_accounts_24px"></ImageButton>
 
                     </LinearLayout>
 
@@ -131,7 +133,9 @@
                             android:id="@+id/imgBtn_Captain"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/ic_plus"></ImageButton>
+                            android:background="#0000"
+
+                            android:src="@drawable/ic_captain_24"></ImageButton>
                     </LinearLayout>
 
                     <LinearLayout
@@ -153,90 +157,8 @@
                             android:id="@+id/imgBtn_YourStory"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/ic_plus"></ImageButton>
-                    </LinearLayout>
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/bg_meta_container"
-                    android:orientation="horizontal"
-                    android:paddingTop="@dimen/activity_padding"
-                    android:paddingBottom="@dimen/activity_padding"
-                    android:weightSum="3">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="1320"
-                            android:textColor="@android:color/white"
-                            android:textSize="@dimen/meta_count"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@string/font_family_condensed"
-                            android:text="@string/posts"
-                            android:textColor="@android:color/white"
-                            android:textSize="@dimen/meta_label" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="4.3m"
-                            android:textColor="@android:color/white"
-                            android:textSize="@dimen/meta_count"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@string/font_family_condensed"
-                            android:text="@string/followers"
-                            android:textColor="@android:color/white"
-                            android:textSize="@dimen/meta_label" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="123"
-                            android:textColor="@android:color/white"
-                            android:textSize="@dimen/meta_count"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@string/font_family_condensed"
-                            android:text="@string/following"
-                            android:textColor="@android:color/white"
-                            android:textSize="@dimen/meta_label" />
+                            android:background="@color/plain_white"
+                            android:src="@drawable/ic_yourstory_24"></ImageButton>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -244,7 +166,9 @@
                 <FrameLayout
                     android:id="@+id/fragmentContainerBarChart"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"></FrameLayout>
+                    android:layout_height="match_parent"
+
+                    ></FrameLayout>
 
             </LinearLayout>
 
@@ -287,8 +211,10 @@
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:contentDescription="TODO"
-        android:src="@android:drawable/ic_popup_disk_full"
-
+        android:foregroundTint="@color/plain_white"
+        android:src="@drawable/ic_baseline_post_add_24"
+        app:rippleColor="@color/plain_white"
+        app:backgroundTint="@color/firstColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

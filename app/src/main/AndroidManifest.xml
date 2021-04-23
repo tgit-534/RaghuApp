@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="app.actionnation.actionapp">
 
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -11,6 +12,7 @@
 
     <protected-broadcast android:name="android.intent.action.MEDIA_MOUNTED" />
 
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/logo"
@@ -18,119 +20,154 @@
         android:roundIcon="@mipmap/ic_launcher_main"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ActivitySupport"></activity>
         <activity
             android:name=".ActivityUserStory"
-            android:parentActivityName=".ActivityMainObjectives"
             android:screenOrientation="portrait"
-            android:theme="@style/AppFab"></activity>
+            android:theme="@style/NewMyMaterialTheme"
+
+            />
         <activity
             android:name=".ActivityYourTeam"
-            android:parentActivityName=".ActivityMainObjectives"
             android:screenOrientation="portrait"
-            android:theme="@style/AppFab" />
+            android:theme="@style/NewMyMaterialTheme"
+
+            />
         <activity
             android:name=".ActivityProfileComplete"
-            android:parentActivityName=".ActivityMainObjectives"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/NewMyMaterialTheme"
+
+            />
         <activity
             android:name=".ActivityMainProfile"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/NewMyMaterialTheme"
+
+            />
         <activity
             android:name=".ActivityYourStory"
             android:label="@string/title_activity_your_story"
-            android:parentActivityName=".ActivityMainObjectives"
-
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/NewMyMaterialTheme"
+
+            />
         <activity
             android:name=".ActivityRevealStory"
             android:label="@string/title_activity_reveal_story"
-            android:parentActivityName=".ActivityMainObjectives"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/NewMyMaterialTheme"
+
+            />
         <activity
             android:name=".ActivityExperienceNature"
-            android:parentActivityName=".ActivityMainObjectives"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/NewMyMaterialTheme"
+
+            />
         <activity
             android:name=".ActivityExcerciseEat"
-            android:parentActivityName=".ActivityMainObjectives"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/NewMyMaterialTheme"
+
+            />
         <activity
             android:name=".ActivityOurBelief"
             android:launchMode="singleTop"
-            android:parentActivityName=".ActivityMainObjectives"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/NewMyMaterialTheme"
+
+            />
         <activity
             android:name=".ActivityExerciseNew"
-            android:parentActivityName=".ActivityExcerciseEat"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/NewMyMaterialTheme"
+
+            />
         <activity
             android:name=".HappinessContent"
             android:parentActivityName=".ActivityMainObjectives"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+
+            />
         <activity
             android:name=".RespectWork"
-            android:parentActivityName=".ActivityIntegrityMain"
             android:screenOrientation="portrait"
-            android:theme="@style/AppFab" />
+            android:theme="@style/NewMyMaterialTheme" />
         <activity
             android:name=".ActivityEatHealthy"
-            android:parentActivityName=".ActivityExcerciseEat"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/NewMyMaterialTheme"
+
+            />
         <activity
             android:name=".ActivityHappiness"
-            android:parentActivityName=".ActivityMainObjectives"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/NewMyMaterialTheme"
+
+            />
         <activity
             android:name=".Activity_TrueLearning"
-            android:parentActivityName=".ActivityMainObjectives"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/NewMyMaterialTheme"
+
+            />
         <activity
             android:name=".ActivityIntegrityMain"
-            android:parentActivityName=".ActivityMainObjectives"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/NewMyMaterialTheme"
+
+            />
         <activity
             android:name=".ActivityTimerWindow"
-            android:parentActivityName=".HabitTraking"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/NewMyMaterialTheme"
+
+            />
         <activity
             android:name=".ActivityAttention"
-            android:parentActivityName=".ActivityMainObjectives"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/NewMyMaterialTheme"
+
+            />
         <activity
             android:name=".ActivityReading"
-            android:parentActivityName=".ActivityMainObjectives"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/NewMyMaterialTheme"
+
+            />
         <activity
             android:name=".ActivityExercise"
-            android:parentActivityName=".ActivityMainObjectives"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/NewMyMaterialTheme"
+
+            />
         <activity
             android:name=".ActivityVisualization"
-            android:parentActivityName=".ActivityMainObjectives"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/NewMyMaterialTheme"
+
+            />
         <activity
             android:name=".MeditationActivity"
-            android:parentActivityName=".ActivityMainObjectives"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/NewMyMaterialTheme"
+
+            />
         <activity
             android:name=".ActivityIntegrity"
-            android:parentActivityName=".ActivityIntegrityMain"
             android:screenOrientation="portrait"
-            android:theme="@style/AppFab" />
+            android:theme="@style/NewMyMaterialTheme" />
         <activity
             android:name=".ActivityMainObjectives"
             android:screenOrientation="portrait"
-            android:theme="@style/AppFab" />
+            android:theme="@style/NewMyMaterialTheme" />
         <activity
             android:name=".HabitTraking"
-            android:parentActivityName=".ActivityMainObjectives"
             android:screenOrientation="portrait"
-            android:theme="@style/AppFab" />
+            android:theme="@style/NewMyMaterialTheme" />
         <activity
             android:name=".PersondetailsActivity"
-            android:parentActivityName=".ActivityMainObjectives"
             android:screenOrientation="portrait" />
         <activity android:name=".displaydata" />
         <activity android:name=".AdminActionQuestionnare" />
@@ -232,6 +269,14 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
+
+
+        <meta-data
+            android:name="com.razorpay.ApiKey"
+            android:value="@string/razorPayId" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

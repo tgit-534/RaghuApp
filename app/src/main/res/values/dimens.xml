@@ -46,5 +46,10 @@
     <dimen name="activity_IconHeadings">12dp</dimen>
 
 
+    <dimen name="storyImage_Display">60dp</dimen>
+
+    <dimen name="activity_5dp">5dp</dimen>
+
+    <dimen name="activity_padding_mainObjectives">5dp</dimen>
 
 </resources>

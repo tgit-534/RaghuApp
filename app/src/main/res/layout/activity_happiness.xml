@@ -1,39 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:id="@+id/cl_happiness"
+    android:orientation="vertical">
 
-    tools:context=".ActivityHappiness">
-
-
-    <include
-        layout="@layout/toolbar_main"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:background="@color/an_text"
-        android:elevation="6dp" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+
+        tools:context=".ActivityHappiness">
 
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tab_happinessData"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/an_text"
-        android:elevation="6dp"
-        app:tabBackground="@drawable/an_tabcolor"
-        app:tabIndicatorColor="@color/an_tabtext"
-        app:tabTextAppearance="@style/MyTabLayoutTextAppearance"
-        app:tabTextColor="@color/an_tabtext" />
+        <include
+            layout="@layout/toolbar_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:background="@color/an_text"
+            android:elevation="6dp" />
 
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/view_pager_happinessData"
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@id/tab_displayData" />
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_happinessData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="6dp"
+            app:tabBackground="@drawable/an_tabcolor"
+            app:tabIndicatorColor="@color/an_text"
+            app:tabTextAppearance="@style/MyTabLayoutTextAppearance"
+            app:tabTextColor="@color/an_text" />
 
-</LinearLayout>
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/view_pager_happinessData"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@id/tab_displayData" />
+
+    </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

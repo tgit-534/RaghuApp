@@ -27,14 +27,18 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
+import app.actionnation.actionapp.CommonClass;
 import app.actionnation.actionapp.Database_Content.UserStories;
 import app.actionnation.actionapp.Database_Content.UserStoryLikes;
 import app.actionnation.actionapp.FragmentCreateStory;
-import app.actionnation.actionapp.FragmentShowUserStory;
 import app.actionnation.actionapp.R;
 import app.actionnation.actionapp.Storage.UserStorageStoryObject;
 
@@ -86,7 +90,9 @@ public class showUserStoriesAdapter extends FirestoreRecyclerAdapter<UserStories
         dataForShares.add(2, userImg);
         dataForShares.add(3, userName);
         dataForShares.add(4, String.valueOf(model.getUserReshareCount()));
-        holder.mBtnShares.setTag(model.getUserReshareCount());
+        dataForShares.add(5, model.getUserStory());
+
+        holder.mBtnShares.setTag(dataForShares);
 
         Glide.with(holder.mView.getContext())
                 .asBitmap()
@@ -161,33 +167,19 @@ public class showUserStoriesAdapter extends FirestoreRecyclerAdapter<UserStories
             @Override
             public void onClick(View v) {
 
+                Calendar cal = Calendar.getInstance();
+                Date c = Calendar.getInstance().getTime();
 
+                SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+                String formattedDate = df.format(c);
                 ArrayList<String> getDataArrayList = (ArrayList<String>) holder.mBtnShares.getTag();
-/*
-                        UserStorageStoryObject userStorageStoryObject1 = new UserStorageStoryObject();
 
+                String strBody = getDataArrayList.get(5) + " #ActionNation #IamTheHero";
+                String strSubject = "MY Story " + formattedDate;
+                String strTitle = getDataArrayList.get(3) + "'s Story";
 
-                        userStorageStoryObject.setFb_Id(getDataArrayList.get(1));
-                        userStorageStoryObject.setUserProfilePicUrl(getDataArrayList.get(2));
-                        userStorageStoryObject.setUserName(getDataArrayList.get(3));*/
-
-                String documentId = getDataArrayList.get(0);
-                String shareCount = getDataArrayList.get(4);
-
-
-                FragmentManager fm =
-                        ((FragmentActivity) holder.mView.getContext()).getSupportFragmentManager();
-                FragmentCreateStory editNameDialogFragment = FragmentCreateStory.newInstance(getDataArrayList);
-                editNameDialogFragment.show(fm, "fragment_edit_name");
-
-                       /* FirebaseFirestore db = FirebaseFirestore.getInstance();
-                        DocumentReference noteRef = db.collection(collectionReference).document(holder.mIdStory.getTag().toString());
-                        int shareCount = Integer.valueOf(holder.mBtnShares.getTag().toString());
-                        noteRef.update("userReshareCount", shareCount + 1).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                            }
-                        });*/
+                CommonClass cls = new CommonClass();
+                cls.ShareToOtherPlatforms("", strBody, strSubject, strTitle, holder.mView.getContext());
             }
         });
 
@@ -250,7 +242,7 @@ public class showUserStoriesAdapter extends FirestoreRecyclerAdapter<UserStories
         public final ImageButton mReshare;
         public final ImageButton mComment;*/
 
-        public FragmentShowUserStory.ViewHolderUserStory mItem;
+        public ViewHolderUserStory mItem;
 
         public ViewHolderUserStory(View view) {
             super(view);

@@ -104,11 +104,11 @@ public class FragmentGameGraph extends Fragment {
             userId = strUser[0];
             tvTeamName.setText(strUser[1]);
         } else if (graphStatus == Constants.Status_One) {
-            if (activityArrayCaptains != null && activityArrayCaptains.size() > 0)
+            if (activityArrayCaptains != null && activityArrayCaptains.size() > 0) {
                 userId = activityArrayCaptains.get(1);
-            if (activityArrayCaptains.size() > 2)
-                tvTeamName.setText(activityArrayCaptains.get(2));
-
+                if (activityArrayCaptains.size() > 2)
+                    tvTeamName.setText(activityArrayCaptains.get(2));
+            }
         }
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

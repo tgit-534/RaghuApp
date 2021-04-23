@@ -12,6 +12,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -43,6 +44,7 @@ public class Activity_TrueLearning extends BaseClassUser implements View.OnClick
 
     private FirebaseDatabase mFirebaseDatabase;
     FirebaseRecyclerAdapter fbAdapter;
+    CoordinatorLayout coordinatorLayout;
 
 
     @Override
@@ -50,8 +52,12 @@ public class Activity_TrueLearning extends BaseClassUser implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__true_learning);
         generatePublicMenu();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
         recyclerView = findViewById(R.id.listTrueLearning);
         btnTrueLearning = findViewById(R.id.btn_trueLearning_Submit);
+        coordinatorLayout = findViewById(R.id.cl_trueLearning);
 
         final String usrId = fetchUserId();
 
@@ -123,15 +129,16 @@ public class Activity_TrueLearning extends BaseClassUser implements View.OnClick
                     arrayGameScore = arrayNewGameScore;
                     totalGameScore = arrayGameScore.get(Constants.Game_CP__UserTotatScore);
                 } else {
-                    userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Status_Zero));
+                    userGame.setUserTotatScore(Constants.Game_TrueLearning);
                     totalGameScore = arrayNewGameScore.get(Constants.Status_Zero);
-
                 }
 
                 DbHelperClass dbHelperClass = new DbHelperClass();
-
-                if (trueLearningBool)
+                if (trueLearningBool) {
                     dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), Activity_TrueLearning.this, userGame, rootRef, getString(R.string.fs_Usergame_userTrueLearningScore), Constants.Game_TrueLearning, totalGameScore);
+                    makeSnackBar(coordinatorLayout);
+
+                }
             }
         });
     }

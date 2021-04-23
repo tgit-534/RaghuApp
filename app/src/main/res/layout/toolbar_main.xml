@@ -5,8 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_alignParentTop="true"
-    android:background="@color/an_text"
+    android:background="@drawable/gradient_drawable"
     android:elevation="6dp"
     android:minHeight="?attr/actionBarSize"
-    app:titleTextColor="@color/an_tabtext" />
+    app:theme="@style/NewMyMaterialTheme"
+    app:titleTextColor="@color/menu_textColor" />
 

@@ -25,7 +25,8 @@
             style="@style/TextTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="5dp"
+            android:fontFamily="sans-serif"
             android:text="@string/Activity_YourTeam_Heading"></TextView>
 
 
@@ -47,11 +48,11 @@
 
             <EditText
                 android:id="@+id/etInviteForTeam"
-                android:layout_width="200dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-
-                android:hint="Email Id:"></EditText>
+                android:layout_margin="5dp"
+                android:hint="Email Id:"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"></EditText>
         </LinearLayout>
 
 
@@ -63,28 +64,23 @@
             android:layout_gravity="center"
             android:text="Add to your team"></Button>
 
-
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_yourTeam"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/an_text"
+            android:layout_marginBottom="5dp"
             android:elevation="6dp"
             app:tabBackground="@drawable/an_tabcolor"
-            app:tabIndicatorColor="@color/an_tabtext"
+            app:tabIndicatorColor="@color/an_text"
             app:tabTextAppearance="@style/MyTabLayoutTextAppearance"
-            app:tabTextColor="@color/an_tabtext" />
-
+            app:tabTextColor="@color/an_text" />
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/view_pager_yourTeam"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:layout_below="@id/tab_yourTeam" />
-
-
     </LinearLayout>
-
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fab_act_rate_captain"
@@ -92,6 +88,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
-        android:text="Actions"
-        app:icon="@drawable/ic_baseline_search_12" />
+        android:text="Rate Captain"
+        app:icon="@drawable/ic_baseline_star_rate_24" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

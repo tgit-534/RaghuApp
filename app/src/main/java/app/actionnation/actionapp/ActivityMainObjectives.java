@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,7 +63,7 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
     RecyclerView recyclerView;
-    private static final String TAG = "ActionPhilosophy:Log";
+    private static final String TAG = "ActionMainObjective:Log";
     de.hdodenhof.circleimageview.CircleImageView profileImage, profileImagePlus;
     FloatingActionButton fab;
     RatingBar ratingBar;
@@ -72,9 +73,8 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
     TextView userName, userDesc;
     UserGame userGame = new UserGame();
     ArrayList<Integer> userGameArray = new ArrayList<>();
+    ArrayList<String> userCaptainArray = new ArrayList<>();
     ImageButton imgProfile, imgCaptain, imgStory;
-
-
     String strUserRating;
     float[] userRatingFloatArray = new float[2];
 
@@ -90,9 +90,7 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
-
         profileImageWork();
-
         imgProfile = findViewById(R.id.imgBtn_profile);
 
         imgCaptain = findViewById(R.id.imgBtn_Captain);
@@ -100,6 +98,10 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
         ratingBar = findViewById(R.id.rb_captainRatings);
         userName = findViewById(R.id.et_amo_username);
         userDesc = findViewById(R.id.et_amo_userDesc);
+        recyclerView = findViewById(R.id.listMainObjective);
+
+        Log.d(TAG, "Uid :" + fetchUserId() + " " +String.valueOf(fetchDate(0)) +" "+ String.valueOf(fetchDate(1)));
+
 
         userGameArray = mainDataUpdate();
 
@@ -127,8 +129,6 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
                 mBundle4.putString(getString(R.string.common_auth), getString(R.string.common_google));
                 mBundle4.putFloatArray(getString(R.string.Intent_ArrayRating), (float[]) fab.getTag());
                 mBundle4.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) imgProfile.getTag());
-                // mBundle4.putStringArrayList(getString(R.string.Intent_ArrayRating), (ArrayList<String>) fab.getTag());
-                // mBundle4.putFloatArray(getString(R.string.Intent_ArrayRating), userRatingFloatArray);
                 homepage4.putExtras(mBundle4);
                 startActivity(homepage4);
             }
@@ -142,14 +142,14 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
             }
         });
 
-
         imgStory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent homepage4 = new Intent(ActivityMainObjectives.this, ActivityUserStory.class);
                 Bundle mBundle4 = new Bundle();
                 mBundle4.putString(getString(R.string.common_auth), getString(R.string.common_google));
-               mBundle4.putString(getString(R.string.Intent_UserImagePath), imgStory.getTag().toString());
+                if (imgStory.getTag() != null)
+                    mBundle4.putString(getString(R.string.Intent_UserImagePath), imgStory.getTag().toString());
                 homepage4.putExtras(mBundle4);
                 startActivity(homepage4);
             }
@@ -167,11 +167,27 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
     }
 
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        fbAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        fbAdapter.stopListening();
+
+    }
+
     private void showEditDialog() {
         FragmentManager fm = getSupportFragmentManager();
 
+        String imgUrl = "";
+        if (imgStory.getTag() != null)
+            imgUrl = imgStory.getTag().toString();
 
-        FragmentCreateStory editNameDialogFragment = FragmentCreateStory.newInstance(imgStory.getTag().toString());
+        FragmentCreateStory editNameDialogFragment = FragmentCreateStory.newInstance(imgUrl);
         editNameDialogFragment.show(fm, "fragment_edit_name");
     }
 
@@ -189,17 +205,23 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
     private void fetch(final ArrayList<Integer> userGameArray) {
         Query query = mFirebaseDatabase.getInstance().getReference().child(getString(R.string.fb_CommonData_Db)).orderByChild(getString(R.string.fb_status)).equalTo(Integer.valueOf(getString(R.string.aaq_Display_fields_Number)));
         //Query query = mFirebaseDatabase.getInstance().getReference().child(getString(R.string.fb_CommonData_Db)).orderByChild("dataNumber");
+        Log.d(TAG, "0");
 
         FirebaseRecyclerOptions<CommonData> options = new FirebaseRecyclerOptions.Builder<CommonData>()
                 .setQuery(query, CommonData.class)
                 .build();
+        Log.d(TAG, "1");
 
-        fbAdapter = new FirebaseRecyclerAdapter<CommonData, ActivityMainObjectives.ViewHolderMainObjective>(options) {
+        fbAdapter = new FirebaseRecyclerAdapter<CommonData, ViewHolderMainObjective>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull final ViewHolderMainObjective holder, int position, @NonNull CommonData model) {
+            protected void onBindViewHolder(@NonNull final ViewHolderMainObjective holder, final int position, @NonNull CommonData model) {
                 //holder.mIdView.setText(model.getDataContent());
                 holder.mIdView.setText(model.getDataString());
                 holder.mImageView.setTag(model.getDataNumber());
+                String strFirstLetter = model.getDataString().substring(0, 1);
+                Log.d(TAG, "2");
+
+                holder.mIdViewFirstLetter.setText(strFirstLetter);
 
                 //Setting the check when things are done
 
@@ -281,7 +303,7 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
 
                 // final String key =  userList.get(position).getKey();
 
-                Glide.with(ActivityMainObjectives.this)
+                /*Glide.with(ActivityMainObjectives.this)
                         .asBitmap()
                         .load(model.getDataUrl())
                         //  .override(180, 180)
@@ -299,7 +321,56 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
                             public void onLoadFailed(@Nullable Drawable errorDrawable) {
                                 super.onLoadFailed(errorDrawable);
                             }
-                        });
+                        });*/
+
+                holder.mView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        int itemPosition = position;
+                        Intent i = null;
+                        switch (position) {
+                            case 0:
+                                i = new Intent(holder.mIdView.getContext(), ActivityIntegrityMain.class);
+                                break;
+                            case 1:
+                                i = new Intent(holder.mIdView.getContext(), ActivityAttention.class);
+                                break;
+                            case 2:
+                                i = new Intent(holder.mIdView.getContext(), MeditationActivity.class);
+                                break;
+                            case 3:
+                                i = new Intent(holder.mIdView.getContext(), Activity_TrueLearning.class);
+                                break;
+                            case 4:
+                                i = new Intent(holder.mIdView.getContext(), ActivityHappiness.class);
+                                break;
+                            case 5:
+                                i = new Intent(holder.mIdView.getContext(), ActivityEatHealthy.class);
+                                break;
+                            case 6:
+                                i = new Intent(holder.mIdView.getContext(), HabitTraking.class);
+                                break;
+                            case 7:
+                                i = new Intent(holder.mIdView.getContext(), ActivityExperienceNature.class);
+                                break;
+                            case 8:
+                                i = new Intent(holder.mIdView.getContext(), ActivityRevealStory.class);
+                                break;
+                            case 9:
+                                i = new Intent(holder.mIdView.getContext(), ActivityOurBelief.class);
+                                break;
+                        }
+
+                        Bundle mBundle = new Bundle();
+                        mBundle.putString(Constants.common_auth, Constants.common_google);
+                        mBundle.putStringArrayList(Constants.Intent_ArrayCaptain, (ArrayList<String>) imgProfile.getTag());
+                        mBundle.putIntegerArrayList(Constants.Intent_ArrayGameScore, userGameArray);
+                        i.putExtras(mBundle);
+                        holder.mView.getContext().startActivity(i);
+                    }
+                });
+
 
                 holder.mImageView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -405,8 +476,8 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
             }
         };
         recyclerView.setAdapter(fbAdapter);
-        fbAdapter.startListening();
     }
+
 
     @Override
     public void onClick(View v) {
@@ -423,7 +494,6 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 UserProfile userProfile = documentSnapshot.toObject(UserProfile.class);
-
                 if (userProfile != null) {
                     String FirstName = userProfile.getUserFirstName();
                     String LastName = userProfile.getUserLastName(), UserDream = userProfile.getUserDream();
@@ -444,6 +514,7 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
                     if (FirstName != null || LastName != null || UserDream != null) {
                         userName.setText(userProfile.getUserFirstName() + " " + userProfile.getUserLastName());
                         userDesc.setText(userProfile.getUserDream());
+                        userCaptainArray = (ArrayList<String>) userProfile.getTeamCaptains();
                         imgProfile.setTag(userProfile.getTeamCaptains());
                         imgStory.setTag(userProfile.getUserImagePath());
                         Glide.with(ActivityMainObjectives.this)
@@ -465,6 +536,8 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
                                         super.onLoadFailed(errorDrawable);
                                     }
                                 });
+
+
                     }
                 } else {
                     profileCompleteFunction();
@@ -472,7 +545,6 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
 
             }
         });
-
 
         CommonClass cls = new CommonClass();
         userGameArray = cls.getUserGameLocal(ActivityMainObjectives.this, fetchUserId());
@@ -609,12 +681,13 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
 
     }
 
-
     public static class ViewHolderMainObjective extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mIdView;
         public final ImageView mImageView;
         public final ImageView mImageViewCheck;
+        public final TextView mIdViewFirstLetter;
+
         public CommonData mItem;
 
         public ViewHolderMainObjective(View view) {
@@ -623,6 +696,19 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
             mIdView = view.findViewById(R.id.item_name);
             mImageView = view.findViewById(R.id.imgBtn);
             mImageViewCheck = view.findViewById(R.id.imgTick);
+            mIdViewFirstLetter = view.findViewById(R.id.item_name_FirstLetter);
+
+            /*
+            mView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION && listener != null) {
+                        listener.onItemClick(getAdapterPosition(), v);
+
+                    }
+                }
+            });*/
 
         }
 
@@ -631,4 +717,6 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
             return super.toString() + " '" + mIdView.getText() + "'";
         }
     }
+
+
 }

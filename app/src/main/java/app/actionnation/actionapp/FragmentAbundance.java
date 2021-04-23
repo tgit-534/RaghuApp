@@ -1,6 +1,5 @@
 package app.actionnation.actionapp;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,8 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -49,6 +50,7 @@ public class FragmentAbundance extends Fragment implements View.OnClickListener 
     FirebaseAuth mAuth;
     ArrayList<String> strAttPattern = new ArrayList<>();
     String TAG = "attention";
+    LinearLayout linearLayout;
 
     public FragmentAbundance() {
         // Required empty public constructor
@@ -86,9 +88,14 @@ public class FragmentAbundance extends Fragment implements View.OnClickListener 
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
+
         View view = inflater.inflate(R.layout.fragment_abundance, container, false);
 
         recyclerView = view.findViewById(R.id.listAbundance);
+        linearLayout = view.findViewById(R.id.ll_abundance);
+
+
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         AbundanceAdapter mAdapter = new AbundanceAdapter(getActivity(), getAllItems());
         recyclerView.setAdapter(mAdapter);
@@ -109,7 +116,7 @@ public class FragmentAbundance extends Fragment implements View.OnClickListener 
         CommonClass cls = new CommonClass();
         ArrayList<String> userArray = cls.fetchUserArray(FirebaseAuth.getInstance());
 
-        String usrId =  userArray.get(0);
+        String usrId = userArray.get(0);
         String userName = userArray.get(1);
         Calendar c = Calendar.getInstance();
         int dayOfYear = c.get(Calendar.DAY_OF_YEAR);
@@ -135,22 +142,31 @@ public class FragmentAbundance extends Fragment implements View.OnClickListener 
                 arrayGameScore = arrayNewGameScore;
                 totalGameScore = arrayGameScore.get(Constants.Game_CP__UserTotatScore);
             } else {
-                userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Status_Zero));
+                userGame.setUserTotatScore(Constants.Game_Abundance);
                 totalGameScore = arrayNewGameScore.get(Constants.Status_Zero);
 
             }
 
             DbHelperClass dbHelperClass = new DbHelperClass();
             dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userAbundanceScore), Constants.Game_Abundance, totalGameScore);
+            cls.makeSnackBar(linearLayout);
+
 
         } else if (i == R.id.btn_abundancelist) {
-            Intent homepage = new Intent(getActivity(), HappinessContent.class);
+            showEditDialog();
+            /* Intent homepage = new Intent(getActivity(), HappinessContent.class);
             Bundle mBundle = new Bundle();
             mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
             mBundle.putString(getString(R.string.Page_Redirect), getString(R.string.Page_Redirect_Abundance));
             homepage.putExtras(mBundle);
-            startActivity(homepage);
+            startActivity(homepage);*/
         }
+    }
+
+    private void showEditDialog() {
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        FragmentDataInsertion editNameFragment = FragmentDataInsertion.newInstance(getString(R.string.Page_Redirect_Abundance));
+        editNameFragment.show(fm, "fragment_edit_name");
     }
 
     private Cursor getAllItems() {

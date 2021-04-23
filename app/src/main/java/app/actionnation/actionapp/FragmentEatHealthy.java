@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -54,6 +55,7 @@ public class FragmentEatHealthy extends Fragment {
     ArrayList<String> strEHPattern = new ArrayList<>();
     String TAG = "Fragment Eat Healthy";
     int ehEatStatus;
+    LinearLayout linearLayout;
 
     private FirebaseDatabase mFirebaseDatabase;
     FirebaseRecyclerAdapter fbAdapter;
@@ -103,6 +105,8 @@ public class FragmentEatHealthy extends Fragment {
 
         recyclerView = view.findViewById(R.id.listEatHealthy);
         btn_Submit_Score = view.findViewById(R.id.btn_EatHealthy_Submit);
+        linearLayout = view.findViewById(R.id.ll_eatHealthy);
+
 
         btn_Submit_Score.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,12 +167,14 @@ public class FragmentEatHealthy extends Fragment {
                         arrayGameScore = arrayNewGameScore;
                         totalGameScore = arrayGameScore.get(Constants.Game_CP__UserTotatScore);
                     } else {
-                        userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Status_Zero));
+                        userGame.setUserTotatScore((int) gameEatFoodScore);
                         totalGameScore = arrayNewGameScore.get(Constants.Status_Zero);
                     }
 
                     DbHelperClass dbHelperClass = new DbHelperClass();
                     dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, strDataVariable, (int) gameEatFoodScore, totalGameScore);
+                    cls.makeSnackBar(linearLayout);
+
                 }
 
 

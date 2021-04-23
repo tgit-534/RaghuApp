@@ -1,65 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/coordinatorLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".FragmentProfile">
+        android:background="@drawable/com_facebook_button_send_icon_white">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:background="@color/an_mainmenu"></View>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/imgProfile"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"></ImageView>
+    <RelativeLayout
+        android:layout_width="@dimen/toolbar_profile_width"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profile_image"
+            android:layout_width="@dimen/toolbar_profile_width"
+            android:layout_height="@dimen/toolbar_profile_width"
+            android:layout_marginTop="@dimen/activity_padding"
+            android:layout_marginBottom="@dimen/activity_padding"
+            android:src="@drawable/baseline_account_circle_black_48"
+            app:civ_border_width="2dp" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/et_amo_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@string/font_family_medium"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/profile_title" />
+
+    <TextView
+        android:id="@+id/et_amo_userDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dimen_20dp"
+        android:gravity="center_horizontal"
+        android:paddingLeft="@dimen/dimen_20dp"
+        android:paddingRight="@dimen/dimen_20dp"
+        android:text="@string/profile_desc"
+        android:textColor="@color/profile_desc"
+        android:textSize="@dimen/profile_desc" />
+
+    <RatingBar
+        android:id="@+id/rb_captainRatings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></RatingBar>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/activity_padding"
+        android:paddingBottom="@dimen/activity_padding"
+        android:weightSum="3">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:gravity="bottom"
-                android:orientation="horizontal">
-
-                <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/profile_image"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_marginLeft="20dp"
-                    android:src="@mipmap/ic_launcher_main_round"
-                    app:civ_border_width="2dp" />
-            </LinearLayout>
-
             <TextView
-                style="@style/TextNormal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:text="Raghunandan Vadla"></TextView>
+                android:text="Profile Complete!"
+                android:textColor="@android:color/background_dark"
+                android:textSize="@dimen/activity_IconHeadings"
+                android:textStyle="bold" />
 
-
-            <TextView
-                style="@style/TextNormal"
+            <ImageButton
+                android:id="@+id/imgBtn_profile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:text="My Dream Is to Live Many Dreams in my life">
-            </TextView>
+                android:src="@drawable/ic_plus"></ImageButton>
 
-            <Button
-                android:id="@+id/btn_fragment_finish_Profile"
-                style="@style/ButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="Complete Profile"></Button>
+
         </LinearLayout>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Your Captain!"
+                android:textColor="@android:color/background_dark"
+                android:textSize="@dimen/activity_IconHeadings"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/imgBtn_Captain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_plus"></ImageButton>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Your Story!"
+                android:textColor="@android:color/background_dark"
+                android:textSize="@dimen/activity_IconHeadings"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/imgBtn_YourStory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_plus"></ImageButton>
+        </LinearLayout>
+    </LinearLayout>
+
+    </LinearLayout>
+    </RelativeLayout>
 

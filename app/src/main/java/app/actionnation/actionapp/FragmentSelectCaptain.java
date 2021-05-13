@@ -18,8 +18,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import app.actionnation.actionapp.data.DbHelperClass;
+import app.actionnation.actionapp.data.DbHelperClass2;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,6 +39,8 @@ public class FragmentSelectCaptain extends DialogFragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    FirestoreRecyclerAdapter adapter;
 
     public FragmentSelectCaptain() {
         // Required empty public constructor
@@ -100,9 +104,54 @@ public class FragmentSelectCaptain extends DialogFragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(false);
-        fetchChooseCaptain();
+
+        fetchChooseGame();
+
+        if (adapter.getItemCount() == 0) {
+            tvCaptainStatus.setVisibility(View.VISIBLE);
+            tvCaptainStatus.setText("You have no Captains to select!");
+            recyclerView.setVisibility(View.INVISIBLE);
+        }
+
+
+       /* BeliefAdapter mAdapter = new BeliefAdapter(ActivityOurBelief.this, res);
+        btnBelief.setTag(mAdapter.getItemCount());
+        recyclerView.setAdapter(mAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));*/
+
+
+        // fetchChooseCaptain();
         return view;
     }
+
+
+    private  void fetchChooseGame() {
+        FirebaseFirestore db;
+        FirebaseAuth mAuth;
+        db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        final FirebaseUser fbUser = mAuth.getCurrentUser();
+
+        Calendar cNew = Calendar.getInstance();
+
+        String usrId = "";
+        if (mAuth.getCurrentUser() != null) {
+            usrId = fbUser.getUid();
+        }
+        com.google.firebase.firestore.Query query1 = db.collection(getString(R.string.fs_TeamGame)).whereEqualTo(getString(R.string.fb_Column_Fb_Id), usrId);
+        //whereLessThan(getString(R.string.fs_TeamGame_StartDate), cNew.getTimeInMillis());
+
+        DbHelperClass2 dbh = new DbHelperClass2();
+        adapter = dbh.GetFireStoreAdapterSelectGame(query1);
+        adapter.startListening();
+        recyclerView.setAdapter(adapter);
+
+
+
+
+    }
+
+
 
     private void fetchChooseCaptain() {
         FirebaseFirestore db;
@@ -123,15 +172,31 @@ public class FragmentSelectCaptain extends DialogFragment {
         com.google.firebase.firestore.Query query1 = db.collection(getString(R.string.fs_UserTeam))
                 .whereArrayContains(getString(R.string.fs_UserTeam_teamMembers), mAuth.getCurrentUser().getEmail());
 
-        FirestoreRecyclerAdapter adapter = null;
         DbHelperClass dbh = new DbHelperClass();
+
         adapter = dbh.GetFireStoreAdapterCaptains(adapter, getString(R.string.fs_UserTeam), query1, getContext(), strArrayCaptain, usrId);
-        if (adapter == null) {
+        if (adapter.getItemCount() == 0) {
             tvCaptainStatus.setVisibility(View.VISIBLE);
             tvCaptainStatus.setText("You have no Captains to select!");
+            recyclerView.setVisibility(View.INVISIBLE);
         }
         recyclerView.setAdapter(adapter);
+
+
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         adapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapter.stopListening();
+
     }
 
 }

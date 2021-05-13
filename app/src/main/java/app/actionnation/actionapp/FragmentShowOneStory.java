@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -17,7 +18,11 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -47,6 +52,8 @@ public class FragmentShowOneStory extends Fragment {
     private TextView tv_userName, tv_userStory, tvUserLikesCount, tvUserCommentCount, tvSharesCount;
     private de.hdodenhof.circleimageview.CircleImageView imageView;
     private ImageButton imageBtnLike, imageBtnShare, imageBtnComment;
+    private Button BtnShare;
+
 
     public FragmentShowOneStory() {
         // Required empty public constructor
@@ -115,6 +122,7 @@ public class FragmentShowOneStory extends Fragment {
         imageBtnLike = view.findViewById(R.id.imgBtn_fm_oneStory_countUserLikes);
         imageBtnShare = view.findViewById(R.id.imgBtn_fm_oneStory_countUserShares);
         imageBtnComment = view.findViewById(R.id.imgBtn_fm_oneStory_countUserComments);
+        BtnShare = view.findViewById(R.id.Btn_UserShares);
 
 
 
@@ -123,6 +131,26 @@ public class FragmentShowOneStory extends Fragment {
         tvSharesCount.setText(mCountShares);
         tvUserCommentCount.setText(mCountComments);
         tvUserLikesCount.setText(mCountLikes);
+
+
+        BtnShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar cal = Calendar.getInstance();
+                Date c = Calendar.getInstance().getTime();
+
+                SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+                String formattedDate = df.format(c);
+
+                String strBody = mUserStory + " #ActionNation #IamTheHero";
+                String strSubject = "MY Story " + formattedDate;
+                String strTitle = mUserName + "'s Story";
+
+                CommonClass cls = new CommonClass();
+                cls.ShareToOtherPlatforms("", strBody, strSubject, strTitle, getContext());
+
+            }
+        });
 
 
         Glide.with(getContext())

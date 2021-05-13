@@ -139,8 +139,7 @@
     <style name="ButtonStyle">
         <item name="android:textColor">@color/plain_white</item>
         <item name="android:gravity">center</item>
-        <item name="android:background">@color/firstColor</item>
-        <item name="android:layout_margin">20dp</item>
+        <item name="android:background">@color/secondColor</item>
         <item name="android:fontFamily">@font/roboto</item>
     </style>
 
@@ -167,7 +166,7 @@
 
     <style name="SmallButtonStyle">
         <item name="android:textSize">18sp</item>
-        <item name="android:textColor">#ffe90a</item>
+        <item name="android:textColor">@color/plain_white</item>
         <item name="android:gravity">center</item>
         <item name="android:background">@drawable/button_bg</item>
         <item name="android:fontFamily">@font/roboto</item>
@@ -246,7 +245,44 @@
     </style>
 
 
+    <style name="NumberPickerStyle">
+
+        <item name="colorControlNormal">@color/statusBarColor</item>
+
+    </style>
+
     <style name="NewMyMaterialTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Add attributes here -->
+        <item name="colorPrimary">@color/secondColor</item>
+        <item name="colorSecondary">@color/secondColor</item>
+
+        <item name="android:fontFamily">@font/roboto</item>
+        <!-- Status bar color -->
+        <item name="colorPrimaryDark">@color/statusBarColor</item>
+        <item name="colorAccent">@color/firstColor</item>
+        <!-- Customize color of navigation bar icon and back arrow -->
+
+<!--
+        <item name="colorControlNormal">@color/statusBarColor</item>
+-->
+
+        <item name="colorControlNormal">@color/statusBarColor</item>
+
+
+        <!--
+                <item name="colorControlNormal">@color/firstColor</item>
+        -->
+
+        <item name="colorControlActivated">@color/firstColor</item>
+        <item name="floatingActionButtonStyle">@style/Widget.App.FloatingActionButton</item>
+        <item name="android:buttonStyle">@style/Widget.App.FloatingActionButton</item>
+
+
+
+
+    </style>
+
+    <style name="NewMyMaterialThemeDatePicker" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Add attributes here -->
         <item name="colorPrimary">@color/secondColor</item>
         <item name="colorSecondary">@color/secondColor</item>
@@ -257,7 +293,17 @@
         <item name="colorPrimaryDark">@color/statusBarColor</item>
         <item name="colorAccent">@color/firstColor</item>
         <!-- Customize color of navigation bar icon and back arrow -->
+
+
         <item name="colorControlNormal">@color/menu_textColor</item>
+
+
+
+
+
+        <!--
+                <item name="colorControlNormal">@color/firstColor</item>
+        -->
 
         <item name="colorControlActivated">@color/firstColor</item>
         <item name="floatingActionButtonStyle">@style/Widget.App.FloatingActionButton</item>
@@ -267,6 +313,7 @@
 
 
     </style>
+
 
 
     <style name="Widget.AppCompat.Button." parent="Widget.MaterialComponents.Button">

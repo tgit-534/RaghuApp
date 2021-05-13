@@ -22,7 +22,7 @@ public class ActivityUserStory extends BaseClassUser implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_story);
         generatePublicMenu();
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         int showStoryStatus = 0;
         String documentId = "";

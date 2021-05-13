@@ -60,6 +60,8 @@ public class ActivityYourTeam extends BaseClassUser implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_your_team);
         generatePublicMenu();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         coordinatorLayout = findViewById(R.id.coordinatorLayout);
         btnSubmitEmail = findViewById(R.id.btn_team_invite);
         btnChooseCaptain = findViewById(R.id.btn_team_chooseCaptain);
@@ -241,21 +243,6 @@ public class ActivityYourTeam extends BaseClassUser implements View.OnClickListe
             FragmentManager fm = getSupportFragmentManager();
             FragmentSelectCaptain editNameDialogFragment = FragmentSelectCaptain.newInstance((ArrayList<String>) getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain))));
             editNameDialogFragment.show(fm, "fragment_edit_name");
-
-
-            /*Dialog dialog = new Dialog(ActivityYourTeam.this, R.style.DialogSlideAnim);
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
-
-            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            dialog.setContentView(R.layout.dialog_recycler);
-            dialog.setCanceledOnTouchOutside(true);
-            dialog.setCancelable(true);
-            dialog.show();
-            rvTest = dialog.findViewById(R.id.recyclerDialog);
-            rvTest.setLayoutManager(new LinearLayoutManager(ActivityYourTeam.this));
-            rvTest.setHasFixedSize(false);
-            fetchChooseCaptain();*/
-
         }
     }
 

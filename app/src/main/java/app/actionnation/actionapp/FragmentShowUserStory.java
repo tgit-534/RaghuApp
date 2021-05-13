@@ -145,7 +145,10 @@ public class FragmentShowUserStory extends Fragment {
 
         adapter = new showUserStoriesAdapter(options, userStorageStoryObject);
 
-/*
+
+
+
+        /*
         DbHelperClass dbh = new DbHelperClass();
         adapter = dbh.GetFireStoreAdapterUserStories(getString(R.string.fs_UserStories), query1, getContext(), userStorageStoryObject);*/
 

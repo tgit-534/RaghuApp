@@ -2,18 +2,20 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".FragmentShowOneStory"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:layout_margin="15dp"
+    android:layout_margin="5dp"
     android:background="@android:color/white"
     card_view:cardCornerRadius="10dp"
-    card_view:cardElevation="0dp">
+    card_view:cardElevation="0dp"
+    tools:context=".FragmentShowOneStory">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/my_border"
+
         android:orientation="vertical">
 
         <LinearLayout
@@ -28,10 +30,9 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/profile_fm_oneStory_image"
-                    android:layout_width="@dimen/toolbar_profile_width"
-                    android:layout_height="@dimen/toolbar_profile_width"
-                    android:layout_marginTop="@dimen/activity_padding"
-                    android:layout_marginBottom="@dimen/activity_padding"
+                    android:layout_width="@dimen/storyImage_Display"
+                    android:layout_height="@dimen/storyImage_Display"
+                    android:layout_margin="10dp"
                     android:src="@drawable/ic_baseline_person_24"
                     app:civ_border_width="2dp" />
             </LinearLayout>
@@ -40,23 +41,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/tv_fm_oneStory_userName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/TextHeading"/>
+                    android:textColor="@color/an_tabtext"
+                    android:textSize="25sp" />
+
                 <TextView
                     android:id="@+id/tv_fm_oneStory_userStory"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    />
+                    android:layout_height="wrap_content" />
             </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:paddingTop="@dimen/activity_padding"
             android:paddingBottom="@dimen/activity_padding"
             android:weightSum="3">
@@ -64,9 +69,11 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/tv_fm_oneStory_countUserLikes"
@@ -75,21 +82,25 @@
                     android:text="Profile Complete!"
                     android:textColor="@android:color/background_dark"
                     android:textSize="@dimen/activity_IconHeadings"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="gone" />
 
                 <ImageButton
                     android:id="@+id/imgBtn_fm_oneStory_countUserLikes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_plus"></ImageButton>
+                    android:src="@drawable/ic_plus"
+                    android:visibility="gone"></ImageButton>
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:layout_gravity="center"
                 android:orientation="vertical">
+
 
                 <TextView
                     android:id="@+id/tv_fm_oneStory_countUserShares"
@@ -98,13 +109,21 @@
                     android:text="Your Captain!"
                     android:textColor="@android:color/background_dark"
                     android:textSize="@dimen/activity_IconHeadings"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="gone" />
 
+
+                <Button
+                    android:id="@+id/Btn_UserShares"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Button_share"></Button>
                 <ImageButton
                     android:id="@+id/imgBtn_fm_oneStory_countUserShares"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_plus"></ImageButton>
+                    android:src="@drawable/ic_plus"
+                    android:visibility="gone"></ImageButton>
             </LinearLayout>
 
             <LinearLayout
@@ -112,6 +131,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:visibility="gone"
                 android:orientation="vertical">
 
                 <TextView
@@ -120,13 +140,15 @@
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/background_dark"
                     android:textSize="@dimen/activity_IconHeadings"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="gone" />
 
                 <ImageButton
                     android:id="@+id/imgBtn_fm_oneStory_countUserComments"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_plus"></ImageButton>
+                    android:src="@drawable/ic_plus"
+                    android:visibility="gone"></ImageButton>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

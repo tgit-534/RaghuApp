@@ -80,7 +80,7 @@ public class FragmentExercise extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_exercise, container, false);
-      mAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
         btnFinish = view.findViewById(R.id.btn_fm_exe_finish);
         linearLayout = view.findViewById(R.id.ll_exercise);
@@ -101,7 +101,7 @@ public class FragmentExercise extends Fragment {
 
 
                 ArrayList<String> arrayCaptains = getActivity().getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
-                UserGame userGame = cls.loadUserGame(strUser.get(0), dayOfTheYear, yr, arrayCaptains,strUser.get(1));
+                UserGame userGame = cls.loadUserGame(strUser.get(0), dayOfTheYear, yr, arrayCaptains, strUser.get(1));
 
                 userGame.setUserExerciseScore(Constants.Game_Exercise);
 
@@ -122,10 +122,8 @@ public class FragmentExercise extends Fragment {
                 }
 
 
-
                 dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userExerciseScore), Constants.Game_Exercise, totalGameScore);
                 cls.makeSnackBar(linearLayout);
-
 
 
             }
@@ -137,7 +135,6 @@ public class FragmentExercise extends Fragment {
 
         argumentFragment.setArguments(data);//Finally set argument bundle to fragment
         fragmentManager.beginTransaction().replace(R.id.fragmentContainerExercise, argumentFragment).commit();
-
 
 
         // Inflate the layout for this fragment

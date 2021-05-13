@@ -32,15 +32,13 @@ public class DbHelper extends SQLiteOpenHelper {
      */
 
 
-
-    private static final int VERSION = 26;
+    private static final int VERSION = 27;
 
     private HashMap hp;
 
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
     }
-
 
 
     @Override
@@ -99,7 +97,6 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS Personal_Game_Score");
 
 
-
         onCreate(db);
     }
 
@@ -135,6 +132,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String Exe_Work_incomplete = "rw_incomplete";
     public static final String Exe_Work_abandoned = "rw_abandoned";
     public static final String Exe_Work_today_date = "rw_dayOfTheYear";
+    public static final String Exe_Work_Year = "year";
 
 
     //Personal Attention
@@ -217,7 +215,6 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String Exe_IG_DayOfTheYear = "dayOfTheYear";
     public static final String Exe_IG_Year = "year";
     public static final String Exe_IG_Status = "status";
-
 
 
     // Personal Attention Score
@@ -434,6 +431,18 @@ public class DbHelper extends SQLiteOpenHelper {
         db.insert(Exe_TABLE_HabitDayTrack, null, contentValues);
         return true;
     }
+
+
+    public Integer deleteHabitDayTrack(String habitName, String fbId, int dayOfTheYear, int year) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String table = Exe_TABLE_HabitDayTrack;
+        String whereClause = "dayOfTheYear = ? and fb_Id = ? and year = ? and HDT_HabitName = ?";
+        String[] whereArgs = new String[]{String.valueOf(dayOfTheYear), fbId, String.valueOf(year), habitName};
+        return db.delete(table, whereClause, whereArgs);
+    }
+
+
 
 
     public Cursor getHabitDayTrack(String fbId, int dayOfTheYear, int year) {
@@ -765,7 +774,6 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
 
-
     //Personal Game Score
     public static final String Exe_TABLE_GameScore = "Personal_Game_Score";
     public static final String Exe_Game_COLUMN_ID = "id";
@@ -793,7 +801,6 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String Exe_Game_DayOfTheYear = "dayOfTheYear";
     public static final String Exe_Game_Year = "year";
     public static final String Exe_Game_Status = "status";
-
 
 
     //Traction List Insert and all
@@ -854,7 +861,6 @@ public class DbHelper extends SQLiteOpenHelper {
         contentValues.put(Exe_Game_TotalScore, userGame.getUserTotatScore());
 
 
-
         contentValues.put(Exe_Game_DayOfTheYear, userGame.getDayOfTheYear());
         contentValues.put(Exe_Game_Year, userGame.getYear());
         contentValues.put(Exe_Game_Status, userGame.getStatus());
@@ -906,7 +912,6 @@ public class DbHelper extends SQLiteOpenHelper {
         contentValues.put(Exe_Game_RevealStory, userGame.getUserRevealStoryScore());
         contentValues.put(Exe_Game_OurBelief, userGame.getUserOurBeliefScore());
         contentValues.put(Exe_Game_TotalScore, userGame.getUserTotatScore());
-
 
 
         contentValues.put(Exe_Game_DayOfTheYear, userGame.getDayOfTheYear());
@@ -1468,6 +1473,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 null);
     }
 
+
     public Cursor getDataExcercise() {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select * from Personal_Excercise", null);
@@ -1527,10 +1533,11 @@ public class DbHelper extends SQLiteOpenHelper {
             + Exe_Work_Finised + " INTEGER,"
             + Exe_Work_incomplete + " INTEGER,"
             + Exe_Work_abandoned + " INTEGER,"
-            + Exe_Work_today_date + " INTEGER"
+            + Exe_Work_today_date + " INTEGER,"
+            + Exe_Work_Year + " INTEGER"
             + ")";
 
-    public boolean insertRespectWork(String fb_id, int workFinishedCount, int workIncompleteCount, int workAbandonedCount, int dayOfTheYear) {
+    public boolean insertRespectWork(String fb_id, int workFinishedCount, int workIncompleteCount, int workAbandonedCount, int dayOfTheYear, int yr) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(Exe_Work_Fb_Id, fb_id);
@@ -1538,17 +1545,19 @@ public class DbHelper extends SQLiteOpenHelper {
         contentValues.put(Exe_Work_incomplete, workIncompleteCount);
         contentValues.put(Exe_Work_abandoned, workAbandonedCount);
         contentValues.put(Exe_Work_today_date, dayOfTheYear);
+        contentValues.put(Exe_Work_Year, yr);
+
         db.insert(Exe_TABLE_NAME_Work, null, contentValues);
         return true;
     }
 
 
-    public Cursor getDataRespectWork(String dayOfTheYear) {
+    public Cursor getDataRespectWork(String dayOfTheYear, String yr, String fbId) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.query(Exe_TABLE_NAME_Work,
                 null,
-                "rw_dayOfTheYear = ?",
-                new String[]{dayOfTheYear},
+                "rw_dayOfTheYear = ? and fb_Id = ? and year = ?",
+                new String[]{dayOfTheYear, fbId, yr},
                 null,
                 null,
                 null);
@@ -1557,14 +1566,14 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
 
-    public boolean updateRespectWork(String fb_id, int workFinishedCount, int workIncompleteCount, int workAbandonedCount, int dayOfTheYear) {
+    public boolean updateRespectWork(String fb_id, int workFinishedCount, int workIncompleteCount, int workAbandonedCount, int dayOfTheYear, int yr) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(Exe_Work_Fb_Id, fb_id);
         contentValues.put(Exe_Work_Finised, workFinishedCount);
         contentValues.put(Exe_Work_incomplete, workIncompleteCount);
         contentValues.put(Exe_Work_abandoned, workAbandonedCount);
-        db.update(Exe_TABLE_NAME_Work, contentValues, "rw_dayOfTheYear = ? ", new String[]{Integer.toString(dayOfTheYear)});
+        db.update(Exe_TABLE_NAME_Work, contentValues, "rw_dayOfTheYear = ? and fb_Id = ? and year = ?", new String[]{Integer.toString(dayOfTheYear), fb_id, Integer.toString(yr)});
         return true;
     }
 

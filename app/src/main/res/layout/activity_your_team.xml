@@ -18,7 +18,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:background="@color/an_text"
             android:elevation="6dp" />
 
         <TextView
@@ -36,6 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
+            android:layout_marginRight="10dp"
             android:text="Choose Captain!"></Button>
 
         <LinearLayout
@@ -71,9 +71,9 @@
             android:layout_marginBottom="5dp"
             android:elevation="6dp"
             app:tabBackground="@drawable/an_tabcolor"
-            app:tabIndicatorColor="@color/an_text"
+            app:tabIndicatorColor="@color/firstColor"
             app:tabTextAppearance="@style/MyTabLayoutTextAppearance"
-            app:tabTextColor="@color/an_text" />
+            app:tabTextColor="@color/firstColor" />
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/view_pager_yourTeam"
@@ -89,5 +89,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:text="Rate Captain"
+        android:textColor="@color/plain_white"
+        app:iconTint="@color/plain_white"
         app:icon="@drawable/ic_baseline_star_rate_24" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

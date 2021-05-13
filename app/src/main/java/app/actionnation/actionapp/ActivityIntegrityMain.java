@@ -72,19 +72,19 @@ public class ActivityIntegrityMain extends BaseClassUser implements View.OnClick
             btnSelf.setTag(arrayGameScore);
 
             if (arrayGameScore.get(Constants.Game_CP__UserSelfWinScore) > 0) {
-                btnSelf.setTextColor(Color.RED);
+                btnSelf.setTextColor(Color.BLACK);
             }
             if (arrayGameScore.get(Constants.Game_CP__UserPlaceWinScore) > 0) {
-                BtnPlace.setTextColor(Color.RED);
+                BtnPlace.setTextColor(Color.BLACK);
             }
             if (arrayGameScore.get(Constants.Game_CP__UserWordWinScore) > 0) {
-                BtnWord.setTextColor(Color.RED);
+                BtnWord.setTextColor(Color.BLACK);
             }
             if (arrayGameScore.get(Constants.Game_CP__UserWorkWinScore) > 0) {
-                BtnWork.setTextColor(Color.RED);
+                BtnWork.setTextColor(Color.BLACK);
             }
             if (arrayGameScore.get(Constants.Game_CP__UserHabitsScore) > 0) {
-                BtnDreamWin.setTextColor(Color.RED);
+                BtnDreamWin.setTextColor(Color.BLACK);
             }
         }
 
@@ -127,6 +127,10 @@ public class ActivityIntegrityMain extends BaseClassUser implements View.OnClick
 
         } else {
             arrayGameScore = (ArrayList<Integer>) btnSelf.getTag();
+
+            if (arrayGameScore.size() > 0 && arrayGameScore.size() != 20)
+                arrayGameScore = cls.getUserGameLocal(ActivityIntegrityMain.this, fbId);
+
         }
 
         if (i == R.id.btn_int_word) {

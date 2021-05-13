@@ -37,6 +37,7 @@ import java.util.Map;
 
 import app.actionnation.actionapp.ActivityAttention;
 import app.actionnation.actionapp.ActivityExercise;
+import app.actionnation.actionapp.ActivityGameCreation;
 import app.actionnation.actionapp.ActivityIntegrity;
 import app.actionnation.actionapp.ActivityReading;
 import app.actionnation.actionapp.ActivityTimerWindow;
@@ -49,6 +50,7 @@ import app.actionnation.actionapp.Database_Content.Personal_Excercise;
 import app.actionnation.actionapp.Database_Content.Personal_Habit;
 import app.actionnation.actionapp.Database_Content.Personal_Statement;
 import app.actionnation.actionapp.Database_Content.Personal_Visualization;
+import app.actionnation.actionapp.Database_Content.TeamGame;
 import app.actionnation.actionapp.Database_Content.UserCaptainRatings;
 import app.actionnation.actionapp.Database_Content.UserGame;
 import app.actionnation.actionapp.Database_Content.UserProfile;
@@ -344,7 +346,6 @@ public class DbHelperClass {
         });
 
 
-
     }
 
 
@@ -382,6 +383,29 @@ public class DbHelperClass {
             }
         });
     }
+
+    public void insertFireTeamGame(final String collectionReference, final Context ct, final TeamGame dataObject, final FirebaseFirestore db) {
+
+        DocumentReference docRef = db.collection(collectionReference).document(dataObject.getFb_Id() + String.valueOf(dataObject.getStartDay()) + String.valueOf(dataObject.getStartYear()));
+
+        docRef.set(dataObject).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(ct, "Insertion Done", Toast.LENGTH_LONG);
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(ct, "Deletion Done", Toast.LENGTH_LONG);
+
+            }
+        });
+    }
+
+
+
+
 
 
     public FirestoreRecyclerAdapter GetFireStoreAdapter(FirestoreRecyclerAdapter adapter, String collectionReference, com.google.firebase.firestore.Query query) {
@@ -441,7 +465,6 @@ public class DbHelperClass {
     public FirestoreRecyclerAdapter GetFireStoreAdapterCaptains(FirestoreRecyclerAdapter adapter, final String collectionReference, com.google.firebase.firestore.Query query, final Context ctx, final ArrayList<String> strCaptains, final String fbId) {
         final FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
         Log.d(TAG, "Enter Db firestore");
-        CollectionReference cr = rootRef.collection(collectionReference);
         FirestoreRecyclerOptions<UserTeam> options = new FirestoreRecyclerOptions.Builder<UserTeam>()
                 .setQuery(query, UserTeam.class)
                 .build();
@@ -544,37 +567,6 @@ public class DbHelperClass {
                 });
             }
 
-/*
-            @Override
-            protected void onBindViewHolder(@NonNull final ActivityAttention.ViewHolderDistraction holder, int position, @NonNull final Personal_Distraction model) {
-                holder.mIdDistraction.setText(model.getDistrationName());
-
-                Log.d(TAG, "Enter Db inside Bind");
-
-                if (strAttn != null) {
-                    if (strAttn.contains(model.getDistrationName())) {
-                        holder.chkDistraction.setChecked(true);
-                    }
-                }
-
-                holder.chkDistraction.setTag(model.getDistrationName());
-                holder.chkDistraction.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        Calendar cal = Calendar.getInstance();
-                        int dayOfTheYear = cal.get(Calendar.DAY_OF_YEAR);
-                        int yr = cal.get(Calendar.YEAR);
-
-                        DbHelper db = new DbHelper(ctx);
-                        if (isChecked == true) {
-                            db.insertAttention("", holder.chkDistraction.getTag().toString(), 1, dayOfTheYear, yr);
-                        } else {
-                            db.updateDataAttention("", holder.chkDistraction.getTag().toString(), 0, dayOfTheYear, yr);
-                        }
-                    }
-
-                });
-            }*/
 
             @NonNull
             @Override
@@ -587,7 +579,7 @@ public class DbHelperClass {
     }
 
 
-    public FirestoreRecyclerAdapter GetFireStoreAdapterHabits(FirestoreRecyclerAdapter adapter, final String collectionReference, com.google.firebase.firestore.Query query, final Context ctx, final String fbId) {
+    public FirestoreRecyclerAdapter GetFireStoreAdapterHabits(FirestoreRecyclerAdapter adapter, final String collectionReference, com.google.firebase.firestore.Query query, final Context ctx, final String fbId, final ArrayList<String> habitPattern) {
 
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
 
@@ -600,9 +592,19 @@ public class DbHelperClass {
             @Override
             protected void onBindViewHolder(@NonNull final HabitTraking.ViewHolderHabit holder, int position, @NonNull final Personal_Habit model) {
 
+
+                if (habitPattern != null) {
+                    if (habitPattern.contains(model.getHabit())) {
+                        holder.mIdCheckBox.setChecked(true);
+                    }
+                }
+
                 holder.mIdHabit.setText(model.getHabit());
+                holder.mIdCheckBox.setText(model.getHabit());
+
                 //holder.btnHabitSubmit.setTag(getSnapshots().getSnapshot(position).getId() + "," + model.getHabitDayOfTheYear() + "," + model.getHabitDays() + "," + model.getPowerLimit());
                 holder.btnHabitSubmit.setTag(model.getHabit());
+                holder.mIdCheckBox.setTag(model.getHabit());
 
 
                 holder.btnHabitSubmit.setOnClickListener(new View.OnClickListener() {
@@ -616,6 +618,30 @@ public class DbHelperClass {
                         mBundle.putString("Habit_Total", String.valueOf(options.getSnapshots().size()));
                         homepage.putExtras(mBundle);
                         ctx.startActivity(homepage);
+                    }
+                });
+
+                holder.mIdCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                        Calendar cal = Calendar.getInstance();
+                        int dayOfTheYear = cal.get(Calendar.DAY_OF_YEAR);
+                        int yr = cal.get(Calendar.YEAR);
+
+                        CommonClass cls = new CommonClass();
+                        String usrId = fbId;
+
+                        DbHelper db = new DbHelper(ctx);
+                        if (isChecked == true) {
+                            cls.SubmitHabitScore(Constants.Game_CommonScore, options.getSnapshots().size(), holder.mIdCheckBox.getTag().toString(), db, usrId, dayOfTheYear, yr);
+                            db.insertHabitDayTrack(holder.mIdCheckBox.getTag().toString(), usrId, dayOfTheYear, yr, Constants.Status_One);
+                            Toast.makeText(ctx, "Well Done", Toast.LENGTH_LONG);
+                        } else {
+                            cls.SubmitHabitScore(Constants.Game_CommonScore_Negative, options.getSnapshots().size(), holder.mIdCheckBox.getTag().toString(), db, usrId, dayOfTheYear, yr);
+                            db.deleteHabitDayTrack(holder.mIdCheckBox.getTag().toString(), usrId, dayOfTheYear, yr);
+                            Toast.makeText(ctx, "Well Done", Toast.LENGTH_LONG);
+                        }
                     }
                 });
             }
@@ -1067,6 +1093,60 @@ public class DbHelperClass {
 
             }
         });
+    }
+
+    public FirestoreRecyclerAdapter GetFireStoreAdapterSelectGame(com.google.firebase.firestore.Query query) {
+        final FirestoreRecyclerOptions<TeamGame> options = new FirestoreRecyclerOptions.Builder<TeamGame>()
+                .setQuery(query, TeamGame.class)
+                .build();
+        FirestoreRecyclerAdapter adapter = new FirestoreRecyclerAdapter<TeamGame, ActivityGameCreation.ViewHolderSelectGame>(options) {
+
+            @Override
+            protected void onBindViewHolder(@NonNull ActivityGameCreation.ViewHolderSelectGame holder, int position, @NonNull TeamGame model) {
+                //      holder.mIdSelectGame.setText(model.getGameName());
+                holder.mIdGameName.setText(model.getFb_Id());
+            }
+
+            @NonNull
+            @Override
+            public ActivityGameCreation.ViewHolderSelectGame onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lf_gameselection, parent, false);
+                return new ActivityGameCreation.ViewHolderSelectGame(view);
+            }
+        };
+        return adapter;
+    }
+
+
+
+
+    public FirestoreRecyclerAdapter GetFireStoreAdapterDistraction(com.google.firebase.firestore.Query query,FirestoreRecyclerAdapter adapter ) {
+        final FirestoreRecyclerOptions<Personal_Distraction> options = new FirestoreRecyclerOptions.Builder<Personal_Distraction>()
+                .setQuery(query, Personal_Distraction.class)
+                .build();
+        Log.d(TAG, "Enter Db 1 firestore");
+
+         adapter = new FirestoreRecyclerAdapter<Personal_Distraction, ActivityAttention.ViewHolderDistraction>(options) {
+
+            @Override
+            protected void onBindViewHolder(@NonNull final ActivityAttention.ViewHolderDistraction holder, int position, @NonNull final Personal_Distraction model) {
+                holder.mIdDistraction.setText(model.getDistrationName());
+
+                Log.d(TAG, "Enter Db inside Bind");
+
+
+                holder.chkDistraction.setTag(model.getDistrationName());
+
+            }
+
+            @NonNull
+            @Override
+            public ActivityAttention.ViewHolderDistraction onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lf_distractionlist, parent, false);
+                return new ActivityAttention.ViewHolderDistraction(view);
+            }
+        };
+        return adapter;
     }
 
 }

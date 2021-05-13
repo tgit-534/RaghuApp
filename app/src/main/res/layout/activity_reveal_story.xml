@@ -39,13 +39,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <Button
-            android:id="@+id/btn_story_finish"
-            style="@style/ButtonStyle"
-            android:layout_width="match_parent"
-
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="@string/Common_Win"></Button>
     </LinearLayout>
+
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fab_act_revealStory_finish"
+        style="@style/MyMaterialTheme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        app:iconTint="@color/plain_white"
+        android:textColor="@color/plain_white"
+        android:text="@string/Common_Win"
+        app:icon="@drawable/ic_baseline_task_24" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -35,11 +35,21 @@
     </Button>
 
 
+    <androidx.recyclerview.widget.RecyclerView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/recyclerCaptainDialogTest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp" />
+
+<!--
     <NumberPicker
         android:id="@+id/numberpicker_main_picker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        ></NumberPicker>
+        ></NumberPicker>-->
 
 
 

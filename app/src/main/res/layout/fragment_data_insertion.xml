@@ -90,13 +90,13 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-
                 <ImageButton
                     android:id="@+id/ImgBtnDialogHabitCancel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:background="#0000"
+                    android:background="@color/transparentColor"
+
                     android:src="@drawable/ic_baseline_cancel_24">
 
                 </ImageButton>
@@ -131,27 +131,13 @@
                             android:gravity="top|left"
                             android:hint="@string/pd_habitName"
                             android:inputType="textMultiLine"
+                            android:padding="@dimen/activity_5dp"
                             android:lines="4"
                             android:maxLines="10"
                             android:minLines="6"
                             android:outlineAmbientShadowColor="@color/main_color"
                             android:scrollbars="vertical" />
 
-                        <EditText
-                            android:id="@+id/et_fm_HabitDescription"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:background="@drawable/my_border"
-                            android:gravity="top|left"
-                            android:hint="@string/pd_habitDesc"
-                            android:inputType="textMultiLine"
-                            android:lines="4"
-                            android:maxLines="10"
-                            android:minLines="6"
-                            android:outlineAmbientShadowColor="@color/main_color"
-                            android:scrollbars="vertical" />
 
                         <Button
                             android:id="@+id/btn_fm_SaveHabit"
@@ -175,7 +161,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:background="#0000"
+                    android:background="@color/transparentColor"
                     android:src="@drawable/ic_baseline_cancel_24" />
 
                 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -222,13 +208,8 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="10dp"
                             android:text="Save"></Button>
-
-
                     </LinearLayout>
-
-
                 </androidx.cardview.widget.CardView>
-
 
             </LinearLayout>
 
@@ -243,7 +224,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:background="#0000"
+                    android:background="@color/transparentColor"
                     android:src="@drawable/ic_baseline_cancel_24" />
 
                 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -308,7 +289,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:background="#0000"
+                    android:background="@color/transparentColor"
                     android:src="@drawable/ic_baseline_cancel_24" />
 
                 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -374,7 +355,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:background="#0000"
+                    android:background="@color/transparentColor"
                     android:src="@drawable/ic_baseline_cancel_24" />
 
                 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -441,7 +422,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:background="#0000"
+                    android:background="@color/transparentColor"
                     android:src="@drawable/ic_baseline_cancel_24" />
 
                 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -451,6 +432,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
                     app:cardCornerRadius="5dp">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -462,10 +444,12 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="10dp"
                             android:text="@string/Hc_Belief_Heading"></TextView>
+
                         <EditText
                             android:id="@+id/et_fm_BelieveName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:padding="@dimen/activity_5dp"
                             android:layout_margin="10dp"
                             android:layout_marginBottom="10dp"
                             android:background="@drawable/my_border"
@@ -477,21 +461,8 @@
                             android:minLines="6"
                             android:outlineAmbientShadowColor="@color/main_color"
                             android:scrollbars="vertical" />
-                        <EditText
-                            android:id="@+id/et_fm_BelieveDesc"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:background="@drawable/my_border"
-                            android:gravity="top|left"
-                            android:hint="@string/Hint_Belief_Desc"
-                            android:inputType="textMultiLine"
-                            android:lines="4"
-                            android:maxLines="10"
-                            android:minLines="6"
-                            android:outlineAmbientShadowColor="@color/main_color"
-                            android:scrollbars="vertical" />
+
+
                         <Button
                             android:id="@+id/btn_fm_SaveBelief"
                             style="@style/ButtonStyle"

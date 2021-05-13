@@ -22,8 +22,6 @@ public class AbundanceAdapter extends RecyclerView.Adapter<AbundanceAdapter.Abun
     public AbundanceAdapter(Context ctx, Cursor cursor) {
         mContext = ctx;
         mCursor = cursor;
-
-
     }
 
     @NonNull

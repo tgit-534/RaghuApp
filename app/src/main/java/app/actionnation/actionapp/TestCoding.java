@@ -10,18 +10,35 @@ import android.widget.NumberPicker;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.dynamiclinks.DynamicLink;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.ShortDynamicLink;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+
+import app.actionnation.actionapp.data.DbHelperClass;
+import app.actionnation.actionapp.data.DbHelperClass2;
 
 public class TestCoding extends AppCompatActivity {
 
     Button btnCreateLink, btnShareLink;
     private String[] pickerVals;
     NumberPicker picker1;
+
+    RecyclerView recyclerView;
+    FirestoreRecyclerAdapter adapter;
+    FirebaseAuth mAuth;
+    ArrayList<String> strAttPattern = new ArrayList<>();
 
 
     @Override
@@ -31,7 +48,7 @@ public class TestCoding extends AppCompatActivity {
         btnCreateLink = findViewById(R.id.btn_tc_CreateLink);
         btnShareLink = findViewById(R.id.btn_tc_ShareLink);
 
-        picker1 = findViewById(R.id.numberpicker_main_picker);
+        /*picker1 = findViewById(R.id.numberpicker_main_picker);
         picker1.setMaxValue(4);
         picker1.setMinValue(0);
         pickerVals  = new String[] {"dog", "cat", "lizard", "turtle", "axolotl"};
@@ -43,7 +60,17 @@ public class TestCoding extends AppCompatActivity {
                 int valuePicker1 = picker1.getValue();
                 Log.d("picker value", pickerVals[valuePicker1]);
             }
-        });
+        });*/
+
+
+        recyclerView = findViewById(R.id.recyclerCaptainDialogTest);
+
+        mAuth = FirebaseAuth.getInstance();
+
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setHasFixedSize(false);
+        fetchChooseGame();
 /*
         btnCreateLink.setOnClickListener(new View.OnClickListener().OnClickListener() {
             @Override
@@ -57,7 +84,10 @@ public class TestCoding extends AppCompatActivity {
             public void onClick(View v) {
 
 
+                recyclerView.setLayoutManager(new LinearLayoutManager(TestCoding.this));
+                recyclerView.setHasFixedSize(false);
 
+                fetchChooseGame();
 
               //  CreateLink();
 
@@ -65,7 +95,71 @@ public class TestCoding extends AppCompatActivity {
         });
     }
 
-    public void CreateLink() {
+
+    private void fetchChooseGame() {
+        FirebaseFirestore db;
+        FirebaseAuth mAuth;
+        db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        final FirebaseUser fbUser = mAuth.getCurrentUser();
+
+        Calendar cNew = Calendar.getInstance();
+
+        String usrId = "";
+        if (mAuth.getCurrentUser() != null) {
+            usrId = fbUser.getUid();
+        }
+        com.google.firebase.firestore.Query query1 = db.collection(getString(R.string.fs_TeamGame)).whereEqualTo(getString(R.string.fb_Column_Fb_Id), usrId);
+        //whereLessThan(getString(R.string.fs_TeamGame_StartDate), cNew.getTimeInMillis());
+
+        DbHelperClass2 dbh = new DbHelperClass2();
+        adapter = dbh.GetFireStoreAdapterSelectGame(query1);
+
+        recyclerView.setAdapter(adapter);
+
+
+
+
+    }
+
+    private void fetchDis() {
+        final FirebaseUser fbUser = mAuth.getCurrentUser();
+        String usrId = "";
+        if (mAuth.getCurrentUser() != null) {
+            usrId = fbUser.getUid();
+        }
+        FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+        com.google.firebase.firestore.Query query1 = rootRef.collection(getString(R.string.fs_PersonalDistraction)).whereEqualTo(getString(R.string.fb_Column_Fb_Id), usrId);
+
+        DbHelperClass dbh = new DbHelperClass();
+
+        strAttPattern.add("ljlj");
+
+        adapter = dbh.GetFireStoreAdapterDistraction(adapter, getString(R.string.fs_PersonalDistraction), query1, TestCoding.this, strAttPattern, usrId);
+
+
+        recyclerView.setAdapter(adapter);
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        adapter.startListening();
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        adapter.stopListening();
+
+    }
+
+
+
+
+        public void CreateLink() {
         DynamicLink dynamicLink = FirebaseDynamicLinks.getInstance().createDynamicLink()
                 .setLink(Uri.parse("https://www.thegreatindiantreasure.com/"))
                 .setDomainUriPrefix("https://actionnation.page.link")

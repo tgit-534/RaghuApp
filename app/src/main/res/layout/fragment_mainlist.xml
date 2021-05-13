@@ -6,7 +6,7 @@
     android:layout_gravity="center"
     android:layout_margin="5dp"
     android:gravity="center"
-    card_view:cardBackgroundColor="@color/firstColor"
+    card_view:cardBackgroundColor="@color/secondColor"
     card_view:cardCornerRadius="10dp"
     card_view:cardElevation="0dp">
 

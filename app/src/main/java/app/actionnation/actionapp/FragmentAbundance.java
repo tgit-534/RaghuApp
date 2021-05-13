@@ -44,7 +44,7 @@ public class FragmentAbundance extends Fragment implements View.OnClickListener 
     private String mParam2;
 
 
-    private Button btnSubmit, btnAbundanceList;
+    private Button btnAbundanceList;
     RecyclerView recyclerView;
     FirestoreRecyclerAdapter adapter;
     FirebaseAuth mAuth;
@@ -93,19 +93,18 @@ public class FragmentAbundance extends Fragment implements View.OnClickListener 
 
         recyclerView = view.findViewById(R.id.listAbundance);
         linearLayout = view.findViewById(R.id.ll_abundance);
-
-
+        btnAbundanceList = view.findViewById(R.id.btn_abundancelist);
+        btnAbundanceList.setOnClickListener(this);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         AbundanceAdapter mAdapter = new AbundanceAdapter(getActivity(), getAllItems());
+        btnAbundanceList.setTag(mAdapter.getItemCount());
+
         recyclerView.setAdapter(mAdapter);
 
         Log.d(TAG, "Enter Db fetch");
         // fetch();
-        btnAbundanceList = view.findViewById(R.id.btn_abundancelist);
-        btnSubmit = view.findViewById(R.id.btn_abundance_Finish);
-        btnSubmit.setOnClickListener(this);
-        btnAbundanceList.setOnClickListener(this);
+
         return view;
 
     }
@@ -113,6 +112,19 @@ public class FragmentAbundance extends Fragment implements View.OnClickListener 
     @Override
     public void onClick(View v) {
         int i = v.getId();
+        if (i == R.id.btn_abundancelist) {
+            showEditDialog();
+            /* Intent homepage = new Intent(getActivity(), HappinessContent.class);
+            Bundle mBundle = new Bundle();
+            mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
+            mBundle.putString(getString(R.string.Page_Redirect), getString(R.string.Page_Redirect_Abundance));
+            homepage.putExtras(mBundle);
+            startActivity(homepage);*/
+        }
+    }
+
+
+    protected void submitWin() {
         CommonClass cls = new CommonClass();
         ArrayList<String> userArray = cls.fetchUserArray(FirebaseAuth.getInstance());
 
@@ -122,45 +134,39 @@ public class FragmentAbundance extends Fragment implements View.OnClickListener 
         int dayOfYear = c.get(Calendar.DAY_OF_YEAR);
         int yr = c.get(Calendar.YEAR);
         DbHelper db = new DbHelper(getActivity());
-        if (i == R.id.btn_abundance_Finish) {
-            cls.SubmitHappinessGame(Constants.HP_AbundanceScore, db, usrId, dayOfYear, yr);
 
-            FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
-
-            ArrayList<String> arrayCaptains = getActivity().getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
-            UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains, userName);
-
-            userGame.setUserAbundanceScore(Constants.Game_Abundance);
-
-            int totalGameScore = 0;
-            ArrayList<Integer> arrayGameScore = getActivity().getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore)));
-
-            ArrayList<Integer> arrayNewGameScore = cls.createGameScore(Constants.Game_CP__UserAbundanceScore, Constants.Game_Gratitude, arrayGameScore, userGame, getContext());
-
-            if (arrayNewGameScore.size() == 20) {
-                userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Game_CP__UserTotatScore));
-                arrayGameScore = arrayNewGameScore;
-                totalGameScore = arrayGameScore.get(Constants.Game_CP__UserTotatScore);
-            } else {
-                userGame.setUserTotatScore(Constants.Game_Abundance);
-                totalGameScore = arrayNewGameScore.get(Constants.Status_Zero);
-
-            }
-
-            DbHelperClass dbHelperClass = new DbHelperClass();
-            dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userAbundanceScore), Constants.Game_Abundance, totalGameScore);
-            cls.makeSnackBar(linearLayout);
-
-
-        } else if (i == R.id.btn_abundancelist) {
-            showEditDialog();
-            /* Intent homepage = new Intent(getActivity(), HappinessContent.class);
-            Bundle mBundle = new Bundle();
-            mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
-            mBundle.putString(getString(R.string.Page_Redirect), getString(R.string.Page_Redirect_Abundance));
-            homepage.putExtras(mBundle);
-            startActivity(homepage);*/
+        if (Integer.valueOf(btnAbundanceList.getTag().toString()) == 0) {
+            cls.makeSnackBar(linearLayout, getString(R.string.snakbar_NoData));
+            return;
         }
+
+
+        cls.SubmitHappinessGame(Constants.HP_AbundanceScore, db, usrId, dayOfYear, yr);
+
+        FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+
+        ArrayList<String> arrayCaptains = getActivity().getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
+        UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains, userName);
+
+        userGame.setUserAbundanceScore(Constants.Game_Abundance);
+
+        int totalGameScore = 0;
+        ArrayList<Integer> arrayGameScore = getActivity().getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore)));
+
+        ArrayList<Integer> arrayNewGameScore = cls.createGameScore(Constants.Game_CP__UserAbundanceScore, Constants.Game_Gratitude, arrayGameScore, userGame, getContext());
+
+        if (arrayNewGameScore.size() == 20) {
+            userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Game_CP__UserTotatScore));
+            arrayGameScore = arrayNewGameScore;
+            totalGameScore = arrayGameScore.get(Constants.Game_CP__UserTotatScore);
+        } else {
+            userGame.setUserTotatScore(Constants.Game_Abundance);
+            totalGameScore = arrayNewGameScore.get(Constants.Status_Zero);
+
+        }
+        DbHelperClass dbHelperClass = new DbHelperClass();
+        dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userAbundanceScore), Constants.Game_Abundance, totalGameScore);
+        cls.makeSnackBar(linearLayout, getString(R.string.snakbar_Success));
     }
 
     private void showEditDialog() {

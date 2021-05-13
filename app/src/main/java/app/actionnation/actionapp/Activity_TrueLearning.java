@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
@@ -18,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
@@ -36,7 +36,6 @@ import app.actionnation.actionapp.data.DbHelperClass;
 
 public class Activity_TrueLearning extends BaseClassUser implements View.OnClickListener {
     RecyclerView recyclerView;
-    Button btnTrueLearning;
 
     FirebaseAuth mAuth;
     ArrayList<String> strTlPattern = new ArrayList<>();
@@ -45,6 +44,8 @@ public class Activity_TrueLearning extends BaseClassUser implements View.OnClick
     private FirebaseDatabase mFirebaseDatabase;
     FirebaseRecyclerAdapter fbAdapter;
     CoordinatorLayout coordinatorLayout;
+    ExtendedFloatingActionButton fab;
+
 
 
     @Override
@@ -56,8 +57,9 @@ public class Activity_TrueLearning extends BaseClassUser implements View.OnClick
 
 
         recyclerView = findViewById(R.id.listTrueLearning);
-        btnTrueLearning = findViewById(R.id.btn_trueLearning_Submit);
         coordinatorLayout = findViewById(R.id.cl_trueLearning);
+        fab = findViewById(R.id.fab_act_trueLearning_finish);
+
 
         final String usrId = fetchUserId();
 
@@ -91,7 +93,7 @@ public class Activity_TrueLearning extends BaseClassUser implements View.OnClick
         fetch(strTlPattern);
         //getDataFirebase();
 
-        btnTrueLearning.setOnClickListener(new View.OnClickListener() {
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 

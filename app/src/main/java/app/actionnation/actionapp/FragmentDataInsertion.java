@@ -1,5 +1,6 @@
 package app.actionnation.actionapp;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ import java.util.Calendar;
 import app.actionnation.actionapp.Database_Content.Personal_Distraction;
 import app.actionnation.actionapp.Database_Content.Personal_Habit;
 import app.actionnation.actionapp.Database_Content.Personal_Statement;
+import app.actionnation.actionapp.Storage.Constants;
 import app.actionnation.actionapp.data.DbHelper;
 import app.actionnation.actionapp.data.DbHelperClass;
 
@@ -85,6 +87,7 @@ public class FragmentDataInsertion extends DialogFragment implements View.OnClic
         frag.setArguments(args);
         return frag;
     }
+
 
     public static FragmentDataInsertion newInstance(String param1, String param2) {
         FragmentDataInsertion fragment = new FragmentDataInsertion();
@@ -147,7 +150,6 @@ public class FragmentDataInsertion extends DialogFragment implements View.OnClic
         btnSaveHabit.setOnClickListener(this);
 
         btnBeliefSubmit = view.findViewById(R.id.btn_fm_SaveBelief);
-        etBeliefDesc = view.findViewById(R.id.et_fm_BelieveDesc);
         etBeliefName = view.findViewById(R.id.et_fm_BelieveName);
         btnBeliefSubmit.setOnClickListener(this);
 
@@ -159,9 +161,9 @@ public class FragmentDataInsertion extends DialogFragment implements View.OnClic
         etMission = view.findViewById(R.id.txtPdMission);
         etPurpose = view.findViewById(R.id.txtPdPurpose);
         etHabit = view.findViewById(R.id.et_fm_Habit);
-        etHabitDescription = view.findViewById(R.id.et_fm_HabitDescription);
         etVisualization = view.findViewById(R.id.txtPdVisualizationText);
         etDistraction = view.findViewById(R.id.et_fm_Distration);
+        btnBeliefSubmit.setTag(false);
 
         etVision = view.findViewById(R.id.txtPdVision);
 
@@ -188,9 +190,104 @@ public class FragmentDataInsertion extends DialogFragment implements View.OnClic
 
     private View.OnClickListener cancel_click = new View.OnClickListener() {
         public void onClick(View v) {
+
+            if ((boolean) btnBeliefSubmit.getTag()) {
+
+                refreshHome();
+                btnBeliefSubmit.setTag(false);
+            }
+
             getDialog().cancel();
+
         }
     };
+
+    private void refreshHome() {
+        Intent i = null;
+        if (mParam1.equals(getString(R.string.Page_Redirect_Attention))) {
+
+
+        } else if (mParam1.equals(getString(R.string.Page_Redirect_Traction))) {
+
+            if (getActivity().getApplication().getClass().getName().equals(Constants.ClassName_Attention)) {
+                i = new Intent(getContext(), ActivityAttention.class);
+
+                Bundle mBundle = new Bundle();
+                mBundle.putString(Constants.common_auth, Constants.common_google);
+                mBundle.putStringArrayList(Constants.Intent_ArrayCaptain, getActivity().getIntent().getStringArrayListExtra(((getString(R.string.Intent_ArrayCaptain)))));
+                mBundle.putIntegerArrayList(Constants.Intent_ArrayGameScore, getActivity().getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore))));
+                mBundle.putString(Constants.Intent_DataInsertion, getString(R.string.Page_Redirect_Traction));
+
+                i.putExtras(mBundle);
+                getContext().startActivity(i);
+            }
+
+        } else if (mParam1.equals(getString(R.string.Page_Redirect_Gratitude))) {
+
+            if (getActivity().getApplication().getClass().getName().equals(Constants.ClassName_Happiness)) {
+
+                i = new Intent(getContext(), ActivityHappiness.class);
+
+                Bundle mBundle = new Bundle();
+                mBundle.putString(Constants.common_auth, Constants.common_google);
+                mBundle.putStringArrayList(Constants.Intent_ArrayCaptain, getActivity().getIntent().getStringArrayListExtra(((getString(R.string.Intent_ArrayCaptain)))));
+                mBundle.putIntegerArrayList(Constants.Intent_ArrayGameScore, getActivity().getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore))));
+                mBundle.putString(Constants.Intent_DataInsertion, getString(R.string.Page_Redirect_Gratitude));
+
+                i.putExtras(mBundle);
+                getContext().startActivity(i);
+            }
+        } else if (mParam1.equals(getString(R.string.Page_Redirect_Abundance))) {
+
+            if (getActivity().getApplication().getClass().getName().equals(Constants.ClassName_Happiness)) {
+
+                i = new Intent(getContext(), ActivityHappiness.class);
+
+                Bundle mBundle = new Bundle();
+                mBundle.putString(Constants.common_auth, Constants.common_google);
+                mBundle.putStringArrayList(Constants.Intent_ArrayCaptain, getActivity().getIntent().getStringArrayListExtra(((getString(R.string.Intent_ArrayCaptain)))));
+                mBundle.putIntegerArrayList(Constants.Intent_ArrayGameScore, getActivity().getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore))));
+                mBundle.putString(Constants.Intent_DataInsertion, getString(R.string.Page_Redirect_Abundance));
+                i.putExtras(mBundle);
+                getContext().startActivity(i);
+            }
+        } else if (mParam1.equals(getString(R.string.Page_Redirect_Belief))) {
+
+            if (getActivity().getApplication().getClass().getName().equals(Constants.ClassName_Belief)) {
+
+                Intent intent = getActivity().getIntent();
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK
+                        | Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                getActivity().overridePendingTransition(0, 0);
+                getActivity().finish();
+
+                startActivity(intent);
+
+            }
+
+
+            /*
+            i = new Intent(getContext(), ActivityOurBelief.class);
+            Bundle mBundle = new Bundle();
+            mBundle.putString(Constants.common_auth, Constants.common_google);
+            mBundle.putStringArrayList(Constants.Intent_ArrayCaptain, getActivity().getIntent().getStringArrayListExtra(((getString(R.string.Intent_ArrayCaptain)))));
+            mBundle.putIntegerArrayList(Constants.Intent_ArrayGameScore, getActivity().getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore))));
+            i.putExtras(mBundle);
+            getContext().startActivity(i);*/
+        }
+
+
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if ((boolean) btnBeliefSubmit.getTag()) {
+            refreshHome();
+        }
+    }
 
     @Override
     public void onClick(View v) {
@@ -236,7 +333,7 @@ public class FragmentDataInsertion extends DialogFragment implements View.OnClic
         } else if (i == R.id.btn_fm_SaveHabit) {
             DbHelperClass Db = new DbHelperClass();
 
-            if (TextUtils.isEmpty(etHabit.getText().toString()) || TextUtils.isEmpty(etHabitDescription.getText().toString())) {
+            if (TextUtils.isEmpty(etHabit.getText().toString())) {
                 cls.callToast(getContext(), "The Edit Text boxes are empty!");
             } else {
                 Personal_Habit ph = new Personal_Habit();
@@ -246,7 +343,7 @@ public class FragmentDataInsertion extends DialogFragment implements View.OnClic
                 int dayOfYear = c.get(Calendar.DAY_OF_YEAR);
 
                 ph.setHabit(etHabit.getText().toString());
-                ph.setHabitWorks(etHabitDescription.getText().toString());
+                ph.setHabitWorks(etHabit.getText().toString());
                 ph.setStatus(Integer.parseInt(getString(R.string.Status_Active_Number)));
                 ph.setHabitDayOfTheYear(dayOfYear);
                 ph.setHabitDays(Integer.parseInt(getString(R.string.ht_HabitDaysInitialization)));
@@ -254,15 +351,16 @@ public class FragmentDataInsertion extends DialogFragment implements View.OnClic
 
                 Db.insertFireStoreData(getString(R.string.fs_PersonalHabits), getContext(), ph, db);
                 dbh.insertHabit(usrId, etHabit.getText().toString(), 0, "Dummy");
+
+
             }
             clearForm((ViewGroup) getView().findViewById(R.id.vf_fm_PersonalDetails));
         } else if (i == R.id.btn_fm_PdSaveDistration) {
             DbHelperClass Db = new DbHelperClass();
             Personal_Distraction pd = new Personal_Distraction();
-
             pd.setFb_Id(usrId);
             pd.setDistrationName(etDistraction.getText().toString());
-            pd.setStatus(1);
+            pd.setStatus(Constants.Status_One);
             Db.insertFireDistraction(getString(R.string.fs_PersonalDistraction), getContext(), pd, db);
             clearForm((ViewGroup) getView().findViewById(R.id.vf_fm_PersonalDetails));
         } else if (i == R.id.btn_fm_SaveTraction) {
@@ -278,7 +376,7 @@ public class FragmentDataInsertion extends DialogFragment implements View.OnClic
             dbh.insertAbundance(etReframe.getText().toString(), usrId, 1);
             clearForm((ViewGroup) getView().findViewById(R.id.vf_fm_PersonalDetails));
         } else if (i == R.id.btn_fm_SaveBelief) {
-            dbh.insertBeliefList(etBeliefName.getText().toString(), etBeliefDesc.getText().toString(), 1, usrId);
+            dbh.insertBeliefList(etBeliefName.getText().toString(), etBeliefName.getText().toString(), 1, usrId);
             clearForm((ViewGroup) getView().findViewById(R.id.vf_fm_PersonalDetails));
 
         }
@@ -287,6 +385,8 @@ public class FragmentDataInsertion extends DialogFragment implements View.OnClic
 
 
     private void clearForm(ViewGroup group) {
+
+        btnBeliefSubmit.setTag(true);
         for (int i = 0, count = group.getChildCount(); i < count; ++i) {
             View view = group.getChildAt(i);
             if (view instanceof EditText) {

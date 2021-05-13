@@ -5,13 +5,13 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:layout_margin="5dp"
-    android:background="@android:color/white"
     card_view:cardCornerRadius="10dp"
     card_view:cardElevation="0dp">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/my_border"
         android:orientation="vertical">
 
         <LinearLayout
@@ -23,7 +23,7 @@
                 android:id="@+id/profile_lo_image"
                 android:layout_width="@dimen/storyImage_Display"
                 android:layout_height="@dimen/storyImage_Display"
-                android:layout_margin="@dimen/activity_5dp"
+                android:layout_margin="10dp"
 
                 android:src="@drawable/ic_baseline_person_24"
                 app:civ_border_width="2dp" />
@@ -40,7 +40,8 @@
                     android:textColor="@color/an_tabtext"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    />
 
                 <TextView
                     android:id="@+id/tv_lo_userStory"
@@ -98,13 +99,23 @@
                     android:text="Share!"
                     android:textColor="@android:color/background_dark"
                     android:textSize="@dimen/activity_IconHeadings"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    />
+
+
+                <Button
+                    android:id="@+id/Btn_lo_countUserShares"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Button_share"></Button>
 
                 <ImageButton
                     android:id="@+id/imgBtn_lo_countUserShares"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="#0000"
+                    android:visibility="gone"
                     android:src="@drawable/ic_baseline_share_24"></ImageButton>
             </LinearLayout>
 

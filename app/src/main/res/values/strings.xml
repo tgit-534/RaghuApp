@@ -101,6 +101,9 @@
     <string name="razorPayId">rzp_live_4tKuJnMW1SURjb</string>
 
 
+    <string name="superEmail">avanthi.kanumuri@gmail.com</string>
+
+
     <!-- TODO: Leadership Initiative -->
     <string name="li_step1">Step 1: \n</string>
     <string name="li_step2">Step 2: \n</string>
@@ -231,6 +234,7 @@
     <string name="fs_UserCaptainRatings">UserCaptainRatings</string>
     <string name="fs_UserStories">UserStories</string>
     <string name="fs_UserStoryComments">UserStoryComments</string>
+    <string name="fs_TeamGame">TeamGame</string>
 
 
     <!-- TODO: Firestore Database Usergame fields -->
@@ -271,6 +275,9 @@
 
 
     <string name="fs_UserTeam_teamMembers">teamMembers</string>
+
+    <string name="fs_TeamGame_gamePlayers">gamePlayers</string>
+    <string name="fs_TeamGame_StartDate">startDate</string>
 
 
     <!-- TODO: Status Active -->
@@ -447,6 +454,7 @@
     <!-- TODO: Habit Traking Xml-->
 
     <string name="go_HabitPage">Add Habit!</string>
+    <string name="HabitTimer">Habit Timer</string>
 
 
     <!-- TODO: Gratitide List Xml-->
@@ -483,7 +491,6 @@
     <string name="Integrity_Time">Pick Time</string>
 
     <string name="Common_Win">WIN</string>
-
 
 
     <!-- TODO:  Heading  Xml-->
@@ -636,6 +643,39 @@
     <string name="fpd_state"> State</string>
 
     <string name="fpd_title">Your Profile</string>
+
+    <string name="Button_share">Share Your Story!</string>
+
+
+    <string name="snakbar_NoData">No selection is made!</string>
+    <string name="snakbar_Success"> Well Done!</string>
+
+
+    <!-- Activity Pre Launch -->
+    <string name="act_PreLaunch_HabitHeading"> Set Your Habits!</string>
+    <string name="act_PreLaunch_DistractionHeading"> Identify Your Distractions!</string>
+    <string name="act_PreLaunch_TractionHeading"> Know Your Traction Triggers!</string>
+    <string name="act_PreLaunch_btnText"> SET!</string>
+    <string name="act_PreLaunch_GratitudeHeading"> Set Your Gratitude!</string>
+    <string name="act_PreLaunch_AbundanceHeading"> Abundance Score!</string>
+    <string name="act_PreLaunch_BeliefHeading"> Your Beliefs!</string>
+    <string name="act_PreLaunch_Heading"> SET UP!</string>
+
+
+    <!-- Menu -->
+    <string name="menu_setUp"> SetUp</string>
+
+
+    <string name="userStoryHeading"> Story Wall!</string>
+    <string name="fm_gameDefine_GameName"> Game Name!</string>
+    <string name="fm_gameDefine_Button"> Submit!</string>
+
+
+    <string name="fm_sendInvitations_Heading">Send invitations!</string>
+    <string name="fm_selectGame_Heading">Select The Game!</string>
+
+
+    <!-- Game Define -->
 
 
 </resources>

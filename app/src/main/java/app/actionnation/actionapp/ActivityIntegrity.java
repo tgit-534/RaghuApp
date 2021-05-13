@@ -54,7 +54,6 @@ public class ActivityIntegrity extends BaseClassUser implements View.OnClickList
     LinearLayout linearLayout;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,6 +111,13 @@ public class ActivityIntegrity extends BaseClassUser implements View.OnClickList
                     wordTot = Integer.parseInt(cus.getString(Constants.Game_AS_TotWordScore));
 
                 }
+                cus.close();
+
+                if (wordScore == 0) {
+                    makeSnackBar(linearLayout, getString(R.string.snakbar_NoData));
+                    return;
+                }
+
                 double gameWordScore = (double) (wordScore) / wordTot;
 
                 gameWordScore = gameWordScore * Constants.Game_WordWin;
@@ -138,7 +144,7 @@ public class ActivityIntegrity extends BaseClassUser implements View.OnClickList
                 DbHelperClass dbHelperClass = new DbHelperClass();
 
                 dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), ActivityIntegrity.this, userGame, rootRef, getString(R.string.fs_Usergame_userWordWinScore), (int) gameWordScore, totalGameScore);
-                makeSnackBar(linearLayout);
+                makeSnackBar(linearLayout, getString(R.string.snakbar_Success));
 
             }
         });
@@ -148,9 +154,8 @@ public class ActivityIntegrity extends BaseClassUser implements View.OnClickList
         txtTime = findViewById(R.id.in_time);
         txtIntegrityDesc = findViewById(R.id.in_et_Promise);
         dtIntegrity = new Date();
-      //  btnDatePicker.setBackgroundResource(R.drawable.button_border);
+        //  btnDatePicker.setBackgroundResource(R.drawable.button_border);
         btnDatePicker.setBackground(getResources().getDrawable(R.drawable.button_border));
-
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -172,6 +177,8 @@ public class ActivityIntegrity extends BaseClassUser implements View.OnClickList
         } else {
             return;
         }
+
+
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
 
         Calendar calToday = Calendar.getInstance();
@@ -241,7 +248,6 @@ public class ActivityIntegrity extends BaseClassUser implements View.OnClickList
         if (v == btnSubmitIntegrity) {
             if (TextUtils.isEmpty(txtTime.getText()) || TextUtils.isEmpty(txtDate.getText()) || TextUtils.isEmpty(txtIntegrityDesc.getText())) {
                 CommonClass cls = new CommonClass();
-                cls.callToast(ActivityIntegrity.this, "The Edit Text boxes are empty!");
             } else {
 
 

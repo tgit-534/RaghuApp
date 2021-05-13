@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
@@ -15,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
@@ -31,7 +31,6 @@ import app.actionnation.actionapp.data.DbHelper;
 import app.actionnation.actionapp.data.DbHelperClass;
 
 public class ActivityExperienceNature extends BaseClassUser {
-    Button btnFinish;
 
     RecyclerView recyclerView;
     FirebaseAuth mAuth;
@@ -40,11 +39,11 @@ public class ActivityExperienceNature extends BaseClassUser {
     String TAG = "Experience Nature";
     DbHelper db = new DbHelper(ActivityExperienceNature.this);
     CoordinatorLayout coordinatorLayout;
+    ExtendedFloatingActionButton fab;
 
     private FirebaseDatabase mFirebaseDatabase;
     FirebaseRecyclerAdapter fbAdapter;
 
-    Button btnExpNature;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +51,8 @@ public class ActivityExperienceNature extends BaseClassUser {
         setContentView(R.layout.activity_experience_nature);
         generatePublicMenu();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        fab = findViewById(R.id.fab_act_experienceNature_finish);
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -62,12 +63,10 @@ public class ActivityExperienceNature extends BaseClassUser {
         } else {
             return;
         }
-
-        btnFinish = findViewById(R.id.btn_nat_finish);
         recyclerView = findViewById(R.id.listNature);
         coordinatorLayout = findViewById(R.id.cl_expNature);
 
-        btnFinish.setOnClickListener(new View.OnClickListener() {
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ArrayList<String> userArray = fetchUserArray();

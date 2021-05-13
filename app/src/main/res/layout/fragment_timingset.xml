@@ -16,6 +16,7 @@
             android:id="@+id/numberpicker_main_picker_fragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="@style/NumberPickerStyle"
             android:layout_gravity="center"></NumberPicker>
 
         <TextView
@@ -33,6 +34,6 @@
             android:layout_margin="10dp"
             android:background="@drawable/button_border"
             android:text="@string/Data_START"
-            android:textColor="#02b89a" />
+            />
     </LinearLayout>
 </FrameLayout>

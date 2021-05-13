@@ -1,5 +1,6 @@
 package app.actionnation.actionapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -117,6 +118,14 @@ public class Fragment_ProfileData extends Fragment {
                     ph.setStatus(Integer.parseInt(getString(R.string.Status_Active_Number)));
                     Db.insertFireUserProfile(getString(R.string.fs_UserProfile), getContext(), ph, db);
                     clearForm((ViewGroup) ll);
+
+                    Intent homepage = new Intent(getContext(), ActivityPreLaunch.class);
+                    Bundle mBundle = new Bundle();
+                    mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
+                    homepage.putExtras(mBundle);
+                    startActivity(homepage);
+
+
                 }
             }
         });

@@ -133,15 +133,15 @@ public class BaseClassUser extends AppCompatActivity {
                 InviteToActionNation obj = new InviteToActionNation();
                 obj.CreateLink(this);
                 break;
-            case R.id.ActionNationPhilosophy:
-                Intent homepage1 = new Intent(this, displaydata.class);
+            case R.id.menu_SetupData:
+                Intent homepage1 = new Intent(this, ActivityPreLaunch.class);
                 Bundle mBundle1 = new Bundle();
                 mBundle1.putString(getString(R.string.common_auth), getString(R.string.common_google));
                 homepage1.putExtras(mBundle1);
                 startActivity(homepage1);
                 break;
             case R.id.PersonalDetails:
-                Intent homepage2 = new Intent(this, PersondetailsActivity.class);
+                Intent homepage2 = new Intent(this, ActivityGameTracking.class);
                 Bundle mBundle2 = new Bundle();
                 mBundle2.putString(getString(R.string.common_auth), getString(R.string.common_google));
                 homepage2.putExtras(mBundle2);
@@ -171,7 +171,7 @@ public class BaseClassUser extends AppCompatActivity {
                 break;
 
             case R.id.testCode:
-                Intent homepage4 = new Intent(this, ActivitySupport.class);
+                Intent homepage4 = new Intent(this, TestCoding.class);
                 Bundle mBundle4 = new Bundle();
                 mBundle4.putString(getString(R.string.common_auth), getString(R.string.common_google));
                 homepage4.putExtras(mBundle4);
@@ -191,5 +191,14 @@ public class BaseClassUser extends AppCompatActivity {
         snackbar.show();
     }
 
+
+    protected void makeSnackBar(View cl, String msg)
+    {
+
+        Snackbar snackbar = Snackbar
+                .make(cl, msg, Snackbar.LENGTH_SHORT);
+
+        snackbar.show();
+    }
 
 }

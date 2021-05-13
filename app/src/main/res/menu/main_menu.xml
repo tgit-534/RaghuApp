@@ -15,8 +15,8 @@
         app:showAsAction="always">
         <menu>
             <item
-                android:id="@+id/knowYourCareer"
-                android:title="Career Finder"
+                android:id="@+id/menu_SetupData"
+                android:title="@string/menu_setUp"
                 app:showAsAction="never"></item>
             <item
                 android:id="@+id/ActionNationPhilosophy"

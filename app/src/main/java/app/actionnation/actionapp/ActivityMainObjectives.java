@@ -123,14 +123,24 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
         imgCaptain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                userRatingFloatArray = (float[]) fab.getTag();
-                Intent homepage4 = new Intent(ActivityMainObjectives.this, ActivityYourTeam.class);
+
+                Intent homepage4 = new Intent(ActivityMainObjectives.this, ActivityGameCreation.class);
                 Bundle mBundle4 = new Bundle();
                 mBundle4.putString(getString(R.string.common_auth), getString(R.string.common_google));
                 mBundle4.putFloatArray(getString(R.string.Intent_ArrayRating), (float[]) fab.getTag());
                 mBundle4.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) imgProfile.getTag());
                 homepage4.putExtras(mBundle4);
                 startActivity(homepage4);
+
+
+                /*userRatingFloatArray = (float[]) fab.getTag();
+                Intent homepage4 = new Intent(ActivityMainObjectives.this, ActivityYourTeam.class);
+                Bundle mBundle4 = new Bundle();
+                mBundle4.putString(getString(R.string.common_auth), getString(R.string.common_google));
+                mBundle4.putFloatArray(getString(R.string.Intent_ArrayRating), (float[]) fab.getTag());
+                mBundle4.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) imgProfile.getTag());
+                homepage4.putExtras(mBundle4);
+                startActivity(homepage4);*/
             }
         });
 

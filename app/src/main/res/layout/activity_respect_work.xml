@@ -18,7 +18,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:background="@color/an_text"
         android:elevation="6dp" />
 
     <TextView
@@ -82,6 +81,8 @@
       android:layout_height="wrap_content"
       android:layout_gravity="bottom|right"
       android:text="@string/Common_Win"
+      android:textColor="@color/plain_white"
+      app:iconTint="@color/plain_white"
       app:icon="@drawable/ic_baseline_task_24"
       />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

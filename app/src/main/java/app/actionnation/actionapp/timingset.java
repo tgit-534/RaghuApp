@@ -110,10 +110,7 @@ public class timingset extends Fragment {
             public void onClick(View v) {
 
                 if (mTimerRunner) {
-
                     AlertBoxYesNo();
-
-
                 } else {
                     startTimer();
 

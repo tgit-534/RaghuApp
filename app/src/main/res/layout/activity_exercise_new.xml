@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:background="@color/an_text"
         android:elevation="6dp" />
     <TextView
         style="@style/TextTitle"

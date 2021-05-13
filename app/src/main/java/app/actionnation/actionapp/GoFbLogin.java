@@ -103,7 +103,7 @@ public class GoFbLogin extends BaseActivity
                 }
             } else {
                 Log.d(TAG, "4-firebase before");
-                RedirectToNext(getString(R.string.common_firebase));
+                RedirectToNext(getString(R.string.common_google));
                 Log.d(TAG, "4-firebase");
 
             }
@@ -166,6 +166,7 @@ public class GoFbLogin extends BaseActivity
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -190,7 +191,10 @@ public class GoFbLogin extends BaseActivity
     private void updateUI(FirebaseUser user) {
         hideProgressDialog();
         if (user != null) {
-            RedirectToNext(getString(R.string.common_google));
+            if (user.getEmail().equals(getString(R.string.superEmail))) {
+                AdminRedirect();
+            } else
+                RedirectToNext(getString(R.string.common_google));
         }
     }
 
@@ -250,21 +254,25 @@ public class GoFbLogin extends BaseActivity
                             }
                         } else {
 
-                            if (email.equals("raghu123@gmail.com") && password.equals(getString(R.string.common_firebase))) {
+                            if (email.equals(getString(R.string.superEmail))) {
                                 Intent intent = new Intent(GoFbLogin.this, DbMainActivity.class);
                                 startActivity(intent);
                                 finish();
                             } else {
                                 RedirectToNext(getString(R.string.common_google));
-
                                 //RedirectToNext(getString(R.string.common_firebase));
-
                             }
                         }
                     }
                 });
     }
 
+
+    private void AdminRedirect() {
+        Intent intent = new Intent(GoFbLogin.this, DbMainActivity.class);
+        startActivity(intent);
+        finish();
+    }
 
     public void ForgotPassword(View view) {
         Intent intent = new Intent(GoFbLogin.this, forgotpassword.class);

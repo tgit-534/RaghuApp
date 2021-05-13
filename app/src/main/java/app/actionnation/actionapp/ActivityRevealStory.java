@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
@@ -15,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
@@ -37,10 +37,9 @@ public class ActivityRevealStory extends BaseClassUser {
     FirebaseUser fbUser;
     DbHelper db = new DbHelper(ActivityRevealStory.this);
     CoordinatorLayout coordinatorLayout;
+    ExtendedFloatingActionButton fab;
 
     String TAG = "Activity Reveal Story";
-    Button btnFinish;
-
 
     private FirebaseDatabase mFirebaseDatabase;
     FirebaseRecyclerAdapter fbAdapter;
@@ -55,9 +54,9 @@ public class ActivityRevealStory extends BaseClassUser {
 
         usrId = fetchUserId();
         coordinatorLayout = findViewById(R.id.cl_revealStory);
+        fab = findViewById(R.id.fab_act_revealStory_finish);
 
-        btnFinish = findViewById(R.id.btn_story_finish);
-        btnFinish.setOnClickListener(new View.OnClickListener() {
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ArrayList<String> userArray = fetchUserArray();

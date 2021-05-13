@@ -17,9 +17,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginBottom="@dimen/dimen_20dp"
-            android:background="@color/an_text"
+            android:layout_marginBottom="@dimen/activity_5dp"
             android:elevation="6dp" />
+
+        <TextView
+            style="@style/TextTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/userStoryHeading"></TextView>
 
 
         <FrameLayout
@@ -31,12 +36,8 @@
             android:id="@+id/fragmentContainerShowStory"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/dimen_20dp"
-            ></FrameLayout>
-
-
+            android:layout_marginTop="@dimen/activity_5dp"></FrameLayout>
     </LinearLayout>
-
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabStory"
@@ -47,7 +48,9 @@
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:contentDescription="TODO"
         android:src="@drawable/ic_baseline_post_add_24"
+        app:backgroundTint="@color/secondColor"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:rippleColor="@color/plain_white" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

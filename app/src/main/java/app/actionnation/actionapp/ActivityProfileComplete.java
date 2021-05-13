@@ -12,6 +12,8 @@ public class ActivityProfileComplete extends BaseClassUser implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_complete);
         generatePublicMenu();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
 
 

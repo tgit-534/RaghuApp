@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:layout_margin="10dp"
+    android:layout_margin="5dp"
     android:background="@android:color/white"
     card_view:cardCornerRadius="5dp"
     card_view:cardElevation="0dp">
@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_margin="5dp"
         android:gravity="center"
         android:background="@drawable/my_border"
         android:orientation="vertical">
@@ -20,9 +19,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_margin="5dp"
+            android:padding="@dimen/activity_5dp"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="vertical">
+
+            <CheckBox
+                android:id="@+id/chkHabitSelection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextHeading"
+                />
 
             <TextView
                 android:id="@+id/habit_name"
@@ -31,15 +37,20 @@
                 android:layout_gravity="center"
                 android:gravity="center_horizontal"
                 style="@style/TextHeading"
+                android:visibility="gone"
                 android:textColor="@color/an_tabtext" />
+
+            <Button
+                android:id="@+id/btn_ht_HabitSubmit"
+                style="@style/ButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/HabitTimer"></Button>
+
+
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_ht_HabitSubmit"
-            style="@style/ButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/btn_submit"></Button>
+
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

@@ -8,6 +8,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 
 import androidx.annotation.NonNull;
@@ -46,6 +47,7 @@ public class FragmentRateCaptain extends DialogFragment {
     private FirebaseAuth mAuth;
     private RatingBar ratingBar;
     private ImageButton imgCancel;
+    private LinearLayout linearLayout;
 
 
     public FragmentRateCaptain() {
@@ -96,6 +98,7 @@ public class FragmentRateCaptain extends DialogFragment {
 
         btnRate = view.findViewById(R.id.btn_fm_rateCaptain);
         imgCancel = view.findViewById(R.id.ImgBtnDialogRateCaptainCancel);
+        linearLayout = view.findViewById(R.id.ll_fg_ratecaptain);
 
         imgCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,8 +125,15 @@ public class FragmentRateCaptain extends DialogFragment {
                     ph.setFb_Id(usrId);
                     ph.setCaptainRating(ratingBar.getRating());
                     ArrayList<String> activityArrayCaptains = getActivity().getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
-                    if (activityArrayCaptains != null && activityArrayCaptains.size() > 0)
+                    if (activityArrayCaptains != null && activityArrayCaptains.size() > 0) {
                         ph.setUserCaptainFb_Id(activityArrayCaptains.get(1));
+                    }
+                    else
+                    {
+                        cls.makeSnackBar(linearLayout, "You don't have a captain!");
+                        return;
+                    }
+
                     ph.setUserComments(mEditText.getText().toString());
                     ph.setTimestamp(null);
                     Db.insertFireCaptainRatings(getString(R.string.fs_UserCaptainRatings), getContext(), ph, firebaseFirestore);

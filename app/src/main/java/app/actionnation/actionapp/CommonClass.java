@@ -156,11 +156,6 @@ public class CommonClass {
                 InviteToActionNation obj = new InviteToActionNation();
                 obj.CreateLink(ct);
                 break;
-            case R.id.knowYourCareer:
-                Intent intent = new Intent(ct, knowyourcareer.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                ct.startActivity(intent);
-                break;
             case R.id.ActionNationPhilosophy:
                 Intent homepage1 = new Intent(ct, displaydata.class);
                 Bundle mBundle1 = new Bundle();
@@ -311,15 +306,14 @@ public class CommonClass {
         int traTotDb = 0;
         int countScore = curAttention.getCount();
         if (curAttention.getCount() > 0) {
+            curAttention.moveToFirst();
+            disScoreDb = Integer.parseInt(curAttention.getString(2));
+            traScoreDb = Integer.parseInt(curAttention.getString(3));
+            disTotalDb = Integer.parseInt(curAttention.getString(4));
+            traTotDb = Integer.parseInt(curAttention.getString(5));
 
-            while (curAttention.moveToNext()) {
-
-                disScoreDb = Integer.parseInt(curAttention.getString(2));
-                traScoreDb = Integer.parseInt(curAttention.getString(3));
-                disTotalDb = Integer.parseInt(curAttention.getString(4));
-                traTotDb = Integer.parseInt(curAttention.getString(5));
-            }
         }
+        curAttention.close();
 
         if (disTotalDb > totDistraction)
             totDistraction = disTotalDb;
@@ -327,13 +321,21 @@ public class CommonClass {
         if (traTotDb > totTraction)
             totTraction = traTotDb;
 
+        if (traTotDb == totTraction)
+            traScore = 0;
+
         if (countScore > 0) {
-            db.updateAttentionScore(disScoreDb + disScore, traScoreDb + traScore, totDistraction, totTraction, fbId, dayOfTheYear, yr, 1);
+            db.updateAttentionScore(disScoreDb + disScore,
+                    traScoreDb + traScore,
+                    totDistraction,
+                    totTraction,
+                    fbId,
+                    dayOfTheYear,
+                    yr,
+                    1);
         } else {
             db.insertAttentionScore(disScoreDb + disScore, traScoreDb + traScore, totDistraction, totTraction, fbId, dayOfTheYear, yr, 1);
-
         }
-
     }
 
 
@@ -552,11 +554,9 @@ public class CommonClass {
                 }
             }
 
-
             habitScoreDb = habitScoreDb + habitScore;
             habitTotalDb = habitTotal;
             if (countData > 0) {
-
                 db.updateHabitScore(habitScoreDb, habitTotalDb, usrId, dayOfTheYear, yr, Constants.Status_One);
             } else {
                 db.insertHabitScore(habitScoreDb, habitTotalDb, usrId, dayOfTheYear, yr, Constants.Status_One);
@@ -634,7 +634,7 @@ public class CommonClass {
             userGameArray.add(Constants.Game_CP__UserTotatScore, Integer.valueOf(cur.getString(21)));
 
         }
-
+        cur.close();
 
         return userGameArray;
 
@@ -687,14 +687,21 @@ public class CommonClass {
         return arrayGameList;
     }
 
-    protected void makeSnackBar(View cl)
-    {
-
+    protected void makeSnackBar(View cl) {
         Snackbar snackbar = Snackbar
                 .make(cl, "Well Done!", Snackbar.LENGTH_LONG);
+        snackbar.show();
+    }
+
+    protected void makeSnackBar(View cl, String msg) {
+
+        Snackbar snackbar = Snackbar
+                .make(cl, msg, Snackbar.LENGTH_SHORT);
 
         snackbar.show();
     }
+
+
 
 
 }

@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="app.actionnation.actionapp">
 
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -12,7 +11,6 @@
 
     <protected-broadcast android:name="android.intent.action.MEDIA_MOUNTED" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@drawable/logo"
@@ -20,76 +18,67 @@
         android:roundIcon="@mipmap/ic_launcher_main"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ActivitySupport"></activity>
+        <activity
+            android:name=".ActivityGameTracking"
+            android:screenOrientation="portrait"
+            android:theme="@style/NewMyMaterialTheme"
+            ></activity>
+        <activity
+            android:name=".ActivityGameCreation"
+            android:screenOrientation="portrait"
+            android:theme="@style/NewMyMaterialTheme" />
+        <activity
+            android:name=".ActivityPreLaunch"
+            android:screenOrientation="portrait"
+            android:theme="@style/NewMyMaterialTheme" />
+        <activity android:name=".ActivitySupport" />
         <activity
             android:name=".ActivityUserStory"
             android:screenOrientation="portrait"
-            android:theme="@style/NewMyMaterialTheme"
-
-            />
+            android:theme="@style/NewMyMaterialTheme" />
         <activity
             android:name=".ActivityYourTeam"
             android:screenOrientation="portrait"
-            android:theme="@style/NewMyMaterialTheme"
-
-            />
+            android:theme="@style/NewMyMaterialTheme" />
         <activity
             android:name=".ActivityProfileComplete"
             android:screenOrientation="portrait"
-            android:theme="@style/NewMyMaterialTheme"
-
-            />
+            android:theme="@style/NewMyMaterialTheme" />
         <activity
             android:name=".ActivityMainProfile"
             android:screenOrientation="portrait"
-            android:theme="@style/NewMyMaterialTheme"
-
-            />
+            android:theme="@style/NewMyMaterialTheme" />
         <activity
             android:name=".ActivityYourStory"
             android:label="@string/title_activity_your_story"
             android:screenOrientation="portrait"
-            android:theme="@style/NewMyMaterialTheme"
-
-            />
+            android:theme="@style/NewMyMaterialTheme" />
         <activity
             android:name=".ActivityRevealStory"
             android:label="@string/title_activity_reveal_story"
             android:screenOrientation="portrait"
-            android:theme="@style/NewMyMaterialTheme"
-
-            />
+            android:theme="@style/NewMyMaterialTheme" />
         <activity
             android:name=".ActivityExperienceNature"
             android:screenOrientation="portrait"
-            android:theme="@style/NewMyMaterialTheme"
-
-            />
+            android:theme="@style/NewMyMaterialTheme" />
         <activity
             android:name=".ActivityExcerciseEat"
             android:screenOrientation="portrait"
-            android:theme="@style/NewMyMaterialTheme"
-
-            />
+            android:theme="@style/NewMyMaterialTheme" />
         <activity
             android:name=".ActivityOurBelief"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/NewMyMaterialTheme"
-
-            />
+            android:theme="@style/NewMyMaterialTheme" />
         <activity
             android:name=".ActivityExerciseNew"
             android:screenOrientation="portrait"
-            android:theme="@style/NewMyMaterialTheme"
-
-            />
+            android:theme="@style/NewMyMaterialTheme" />
         <activity
             android:name=".HappinessContent"
             android:parentActivityName=".ActivityMainObjectives"
-            android:screenOrientation="portrait"
-
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".RespectWork"
             android:screenOrientation="portrait"
@@ -97,63 +86,43 @@
         <activity
             android:name=".ActivityEatHealthy"
             android:screenOrientation="portrait"
-            android:theme="@style/NewMyMaterialTheme"
-
-            />
+            android:theme="@style/NewMyMaterialTheme" />
         <activity
             android:name=".ActivityHappiness"
             android:screenOrientation="portrait"
-            android:theme="@style/NewMyMaterialTheme"
-
-            />
+            android:theme="@style/NewMyMaterialTheme" />
         <activity
             android:name=".Activity_TrueLearning"
             android:screenOrientation="portrait"
-            android:theme="@style/NewMyMaterialTheme"
-
-            />
+            android:theme="@style/NewMyMaterialTheme" />
         <activity
             android:name=".ActivityIntegrityMain"
             android:screenOrientation="portrait"
-            android:theme="@style/NewMyMaterialTheme"
-
-            />
+            android:theme="@style/NewMyMaterialTheme" />
         <activity
             android:name=".ActivityTimerWindow"
             android:screenOrientation="portrait"
-            android:theme="@style/NewMyMaterialTheme"
-
-            />
+            android:theme="@style/NewMyMaterialTheme" />
         <activity
             android:name=".ActivityAttention"
             android:screenOrientation="portrait"
-            android:theme="@style/NewMyMaterialTheme"
-
-            />
+            android:theme="@style/NewMyMaterialTheme" />
         <activity
             android:name=".ActivityReading"
             android:screenOrientation="portrait"
-            android:theme="@style/NewMyMaterialTheme"
-
-            />
+            android:theme="@style/NewMyMaterialTheme" />
         <activity
             android:name=".ActivityExercise"
             android:screenOrientation="portrait"
-            android:theme="@style/NewMyMaterialTheme"
-
-            />
+            android:theme="@style/NewMyMaterialTheme" />
         <activity
             android:name=".ActivityVisualization"
             android:screenOrientation="portrait"
-            android:theme="@style/NewMyMaterialTheme"
-
-            />
+            android:theme="@style/NewMyMaterialTheme" />
         <activity
             android:name=".MeditationActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/NewMyMaterialTheme"
-
-            />
+            android:theme="@style/NewMyMaterialTheme" />
         <activity
             android:name=".ActivityIntegrity"
             android:screenOrientation="portrait"
@@ -221,6 +190,7 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -269,8 +239,6 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-
-
         <meta-data
             android:name="com.razorpay.ApiKey"
             android:value="@string/razorPayId" />

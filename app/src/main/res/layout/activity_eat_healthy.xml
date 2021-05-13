@@ -22,7 +22,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:background="@color/an_text"
             android:elevation="6dp" />
 
 
@@ -32,9 +31,9 @@
             android:layout_height="wrap_content"
             android:elevation="6dp"
             app:tabBackground="@drawable/an_tabcolor"
-            app:tabIndicatorColor="@color/an_text"
+            app:tabIndicatorColor="@color/firstColor"
             app:tabTextAppearance="@style/MyTabLayoutTextAppearance"
-            app:tabTextColor="@color/an_text" />
+            app:tabTextColor="@color/firstColor" />
 
 
         <androidx.viewpager.widget.ViewPager
@@ -44,4 +43,28 @@
             android:layout_below="@id/tab_displayData" />
 
     </LinearLayout>
+
+
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fab_act_eatFood_finish"
+        style="@style/MyMaterialTheme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        app:iconTint="@color/plain_white"
+        android:textColor="@color/plain_white"
+        android:text="@string/Common_Win"
+        app:icon="@drawable/ic_baseline_task_24" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fab_act_avoidFood_finish"
+        style="@style/MyMaterialTheme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        app:iconTint="@color/plain_white"
+        android:textColor="@color/plain_white"
+        android:text="@string/Common_Win"
+        app:icon="@drawable/ic_baseline_task_24" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

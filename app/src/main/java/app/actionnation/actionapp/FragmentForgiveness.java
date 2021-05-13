@@ -133,7 +133,6 @@ public class FragmentForgiveness extends Fragment implements View.OnClickListene
                 if (res.getString(4).equals("1")) {
                     btn_finish_Forgiveness_outside.setTextColor(Color.RED);
                 }
-
                 strEmotionData.add(res.getString(5));
                 strEmotionData.add(res.getString(6));
                 strEmotionData.add(res.getString(7));

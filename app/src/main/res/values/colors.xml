@@ -31,6 +31,7 @@
 
     <color name="secondColor">#F2812C</color>
 
+    <color name="transparentColor">#0000</color>
 
     <color name="plain_white">#ffffff</color>
     <color name="floatingActionbuttion_Icon_Color">#ffffff</color>

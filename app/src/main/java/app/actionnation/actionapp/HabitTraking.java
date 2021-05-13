@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -35,6 +36,8 @@ public class HabitTraking extends BaseClassUser implements View.OnClickListener 
     ExtendedFloatingActionButton fab;
     Button btnAddHabit;
     CoordinatorLayout coordinatorLayout;
+    ArrayList<String> strHabitPattern = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +101,14 @@ public class HabitTraking extends BaseClassUser implements View.OnClickListener 
                     HabitTot = Integer.parseInt(cus.getString(Constants.Game_AS_TotHabit));
 
                 }
+                cus.close();
+
+                if (HabitScore == 0) {
+                    makeSnackBar(coordinatorLayout, getString(R.string.snakbar_NoData));
+                    return;
+                }
+
+
                 double gameHabitScore = (double) (HabitScore) / HabitTot;
 
                 gameHabitScore = gameHabitScore * Constants.Game_Habits;
@@ -110,6 +121,10 @@ public class HabitTraking extends BaseClassUser implements View.OnClickListener 
 
                 int totalGameScore = 0;
                 ArrayList<Integer> arrayGameScore = getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore)));
+                if (arrayGameScore == null) {
+                    arrayGameScore = cls.getUserGameLocal(HabitTraking.this, usrId);
+
+                }
 
                 ArrayList<Integer> arrayNewGameScore = cls.createGameScore(Constants.Game_CP__UserHabitsScore, (int) gameHabitScore, arrayGameScore, userGame, HabitTraking.this);
 
@@ -125,11 +140,13 @@ public class HabitTraking extends BaseClassUser implements View.OnClickListener 
 
                 DbHelperClass dbHelperClass = new DbHelperClass();
                 dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), HabitTraking.this, userGame, rootRef, getString(R.string.fs_Usergame_userHabitsScore), (int) gameHabitScore, totalGameScore);
-                makeSnackBar(coordinatorLayout);
+                makeSnackBar(coordinatorLayout, getString(R.string.snakbar_Success));
             }
         });
 
         CommonClass cl = new CommonClass();
+
+
         mGoogleSignInClient = cl.GoogleStart(HabitTraking.this);
         mAuth = FirebaseAuth.getInstance();
         recyclerView.setLayoutManager(new LinearLayoutManager(HabitTraking.this));
@@ -146,14 +163,24 @@ public class HabitTraking extends BaseClassUser implements View.OnClickListener 
         } else {
             return;
         }
+
+        DbHelper db = new DbHelper(this);
+        Cursor res1 = db.getHabitDayTrack(usrId, fetchDate(0), fetchDate(1));
+        res1.moveToFirst();
+        if (res1.getCount() > 0) {
+            do {
+                if (res1.getString(5).equals("1")) {
+                    strHabitPattern.add(res1.getString(2));
+                }
+            } while (res1.moveToNext());
+        }
+        res1.close();
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
         com.google.firebase.firestore.Query query1 = rootRef.collection(getString(R.string.fs_PersonalHabits)).whereEqualTo(getString(R.string.fb_Column_Fb_Id), usrId);
 
         DbHelperClass dbh = new DbHelperClass();
-        adapter = dbh.GetFireStoreAdapterHabits(adapter, getString(R.string.fs_PersonalHabits), query1, HabitTraking.this, usrId);
-
+        adapter = dbh.GetFireStoreAdapterHabits(adapter, getString(R.string.fs_PersonalHabits), query1, HabitTraking.this, usrId, strHabitPattern);
         recyclerView.setAdapter(adapter);
-        adapter.startListening();
     }
 
     @Override
@@ -194,6 +221,7 @@ public class HabitTraking extends BaseClassUser implements View.OnClickListener 
     public static class ViewHolderHabit extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mIdHabit;
+        public final CheckBox mIdCheckBox;
         public final Button btnHabitSubmit;
         public Personal_Habit mItem;
 
@@ -202,6 +230,7 @@ public class HabitTraking extends BaseClassUser implements View.OnClickListener 
             mView = view;
             mIdHabit = view.findViewById(R.id.habit_name);
             btnHabitSubmit = view.findViewById(R.id.btn_ht_HabitSubmit);
+            mIdCheckBox = view.findViewById(R.id.chkHabitSelection);
 
 
         }

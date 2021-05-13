@@ -47,7 +47,6 @@ public class gratitude extends Fragment implements View.OnClickListener {
     DbHelper db;
 
 
-    Button btnFinish;
 
     public gratitude() {
         // Required empty public constructor
@@ -90,8 +89,8 @@ public class gratitude extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_gratitude, container, false);
 
-        btnFinish = view.findViewById(R.id.btn_happiness_finish);
         linearLayout = view.findViewById(R.id.ll_gratitude);
+        btnGratitude = view.findViewById(R.id.gt_btn_gratitudelist);
 
         db = new DbHelper(getActivity());
 
@@ -111,60 +110,14 @@ public class gratitude extends Fragment implements View.OnClickListener {
                 }
             }
         }
+        res.close();
 
         recyclerView = view.findViewById(R.id.listGratitude);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         GratitudeAdapter mAdapter = new GratitudeAdapter(getActivity(), getAllItems(), strAttPattern);
+        btnGratitude.setTag(mAdapter.getItemCount());
         recyclerView.setAdapter(mAdapter);
-        btnGratitude = view.findViewById(R.id.gt_btn_gratitudelist);
 
-
-        btnFinish.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                CommonClass cls = new CommonClass();
-
-                Calendar c = Calendar.getInstance();
-
-                dayOfYear = c.get(Calendar.DAY_OF_YEAR);
-                yr = c.get(Calendar.YEAR);
-                ArrayList<String> userArray = cls.fetchUserArray(FirebaseAuth.getInstance());
-                String usrId = userArray.get(0);
-                String userName = userArray.get(1);
-
-
-                cls.SubmitHappinessGame(Constants.HP_GratitudeScore, db, usrId, dayOfYear, yr);
-
-                FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
-
-                ArrayList<String> arrayCaptains = getActivity().getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
-                UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains, userName);
-
-                userGame.setUserGratitudeScore(Constants.Game_Gratitude);
-
-                int totalGameScore = 0;
-                ArrayList<Integer> arrayGameScore = getActivity().getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore)));
-
-                ArrayList<Integer> arrayNewGameScore = cls.createGameScore(Constants.Game_CP__UserGratitudeScore, Constants.Game_Gratitude, arrayGameScore, userGame, getContext());
-
-                if (arrayNewGameScore.size() == 20) {
-                    userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Game_CP__UserTotatScore));
-                    arrayGameScore = arrayNewGameScore;
-                    totalGameScore = arrayGameScore.get(Constants.Game_CP__UserTotatScore);
-                } else {
-                    userGame.setUserTotatScore(Constants.Game_Gratitude);
-                    totalGameScore = arrayNewGameScore.get(Constants.Status_Zero);
-
-                }
-                DbHelperClass dbHelperClass = new DbHelperClass();
-
-                dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userGratitudeScore), Constants.Game_Gratitude, totalGameScore);
-                cls.makeSnackBar(linearLayout);
-            }
-
-
-        });
 
         btnGratitude.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -181,6 +134,53 @@ public class gratitude extends Fragment implements View.OnClickListener {
         });
 
         return view;
+    }
+
+    protected void submitWin() {
+        CommonClass cls = new CommonClass();
+
+        if (Integer.valueOf(btnGratitude.getTag().toString()) == 0) {
+            cls.makeSnackBar(linearLayout, getString(R.string.snakbar_NoData));
+            return;
+        }
+
+
+        Calendar c = Calendar.getInstance();
+
+        dayOfYear = c.get(Calendar.DAY_OF_YEAR);
+        yr = c.get(Calendar.YEAR);
+        ArrayList<String> userArray = cls.fetchUserArray(FirebaseAuth.getInstance());
+        String usrId = userArray.get(0);
+        String userName = userArray.get(1);
+
+
+        cls.SubmitHappinessGame(Constants.HP_GratitudeScore, db, usrId, dayOfYear, yr);
+
+        FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+
+        ArrayList<String> arrayCaptains = getActivity().getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
+        UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains, userName);
+
+        userGame.setUserGratitudeScore(Constants.Game_Gratitude);
+
+        int totalGameScore = 0;
+        ArrayList<Integer> arrayGameScore = getActivity().getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore)));
+
+        ArrayList<Integer> arrayNewGameScore = cls.createGameScore(Constants.Game_CP__UserGratitudeScore, Constants.Game_Gratitude, arrayGameScore, userGame, getContext());
+
+        if (arrayNewGameScore.size() == 20) {
+            userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Game_CP__UserTotatScore));
+            arrayGameScore = arrayNewGameScore;
+            totalGameScore = arrayGameScore.get(Constants.Game_CP__UserTotatScore);
+        } else {
+            userGame.setUserTotatScore(Constants.Game_Gratitude);
+            totalGameScore = arrayNewGameScore.get(Constants.Status_Zero);
+
+        }
+        DbHelperClass dbHelperClass = new DbHelperClass();
+
+        dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userGratitudeScore), Constants.Game_Gratitude, totalGameScore);
+        cls.makeSnackBar(linearLayout, getString(R.string.snakbar_Success));
     }
 
     @Override

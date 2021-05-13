@@ -32,6 +32,16 @@ public class UserGame {
     int dayOfTheYear;
     int year;
     List<String> teamCaptains;
+    int status;
+    List<String> teamPlayers;
+
+    public List<String> getTeamPlayers() {
+        return teamPlayers;
+    }
+
+    public void setTeamPlayers(List<String> teamPlayers) {
+        this.teamPlayers = teamPlayers;
+    }
 
     public String getUserName() {
         return userName;
@@ -65,7 +75,6 @@ public class UserGame {
         this.year = year;
     }
 
-    int status;
 
     public String getFb_Id() {
         return fb_Id;

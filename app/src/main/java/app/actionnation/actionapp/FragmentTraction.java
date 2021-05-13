@@ -1,7 +1,8 @@
 package app.actionnation.actionapp;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,6 +50,7 @@ public class FragmentTraction extends Fragment implements View.OnClickListener {
     String usrId;
     FirebaseUser fbUser;
     LinearLayout linearLayout;
+    Cursor res, res1;
 
     public FragmentTraction() {
         // Required empty public constructor
@@ -92,8 +94,6 @@ public class FragmentTraction extends Fragment implements View.OnClickListener {
         linearLayout = view.findViewById(R.id.ll_traction);
 
 
-        btnSubmitTractionScore = view.findViewById(R.id.btn_traction_Submit);
-        btnSubmitTractionScore.setOnClickListener(this);
         ArrayList<Integer> arrayGameScore = getActivity().getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore)));
 
         usrId = fetchUserId(FirebaseAuth.getInstance());
@@ -104,11 +104,7 @@ public class FragmentTraction extends Fragment implements View.OnClickListener {
         }
 
         if (arrayGameScore != null && arrayGameScore.size() > 0) {
-
-            btnSubmitTractionScore.setTag(arrayGameScore);
-            if (arrayGameScore.get(Constants.Game_CP__UserTractionScore) > 0) {
-                btnSubmitTractionScore.setTextColor(Color.RED);
-            }
+            btnTractionList.setTag(arrayGameScore);
         }
 
         Calendar c = Calendar.getInstance();
@@ -122,27 +118,37 @@ public class FragmentTraction extends Fragment implements View.OnClickListener {
         if (mAuth.getCurrentUser() != null) {
             usrId = fbUser.getUid();
         }
-        Cursor res = db.getTractionList(usrId);
-        Cursor res1 = db.getTractionDayList(usrId, dayOfYear);
+        res = db.getTractionList(usrId);
+        res1 = db.getTractionDayList(usrId, dayOfYear);
         res1.moveToFirst();
         if (res1.getCount() > 0) {
             while (res1.moveToNext()) {
-
 
                 if (res1.getString(3).equals("1")) {
                     strTractionPattern.add(res1.getString(2));
                 }
             }
         }
+        res1.close();
         res.moveToFirst();
         recyclerView = view.findViewById(R.id.listTraction);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         TractionAdapter mAdapter = new TractionAdapter(getActivity(), res, usrId, strTractionPattern);
         recyclerView.setAdapter(mAdapter);
 
+
         // Inflate the layout for this fragment
         return view;
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        res.close();
+        res1.close();
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -157,60 +163,70 @@ public class FragmentTraction extends Fragment implements View.OnClickListener {
             homepage.putExtras(mBundle);
             startActivity(homepage);*/
         }
-        if (i == R.id.btn_traction_Submit) {
 
-            FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
-            CommonClass cls = new CommonClass();
-            Calendar c = Calendar.getInstance();
-
-            int dayOfYear = c.get(Calendar.DAY_OF_YEAR);
-            int yr = c.get(Calendar.YEAR);
-            ArrayList<String> userArray = cls.fetchUserArray(FirebaseAuth.getInstance());
-            usrId = userArray.get(0);
-            String userName = userArray.get(1);
-            int totalGameScore = 0;
+    }
 
 
-            DbHelper db = new DbHelper(getActivity());
-            Cursor cus = db.getAttentionScore(usrId, dayOfYear, yr);
+    public void submitWin()
+    {
 
-            int attentionScore = 0;
-            int attentionTot = 0;
-            if (cus.getCount() > 0) {
-                cus.moveToFirst();
+        FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+        CommonClass cls = new CommonClass();
+        Calendar c = Calendar.getInstance();
 
-                attentionScore = Integer.parseInt(cus.getString(Constants.Game_AS_TractionScore));
-                attentionTot = Integer.parseInt(cus.getString(Constants.Game_AS_TotTraction));
+        int dayOfYear = c.get(Calendar.DAY_OF_YEAR);
+        int yr = c.get(Calendar.YEAR);
+        ArrayList<String> userArray = cls.fetchUserArray(FirebaseAuth.getInstance());
+        usrId = userArray.get(0);
+        String userName = userArray.get(1);
+        int totalGameScore = 0;
 
-            }
-            double gameDistractionScore = (double) attentionScore / attentionTot;
 
-            gameDistractionScore = gameDistractionScore * 100;
+        DbHelper db = new DbHelper(getActivity());
+        Cursor cus = db.getAttentionScore(usrId, dayOfYear, yr);
 
-            int databaseScore = (int) gameDistractionScore;
-            Personal_Distraction pd = new Personal_Distraction();
-
-            ArrayList<String> arrayCaptains = getActivity().getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
-            UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains, userName);
-            userGame.setUserTractionScore(databaseScore);
-
-            ArrayList<Integer> arrayGameScore = getActivity().getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore)));
-
-            ArrayList<Integer> arrayNewGameScore = cls.createGameScore(Constants.Game_CP__UserTractionScore, databaseScore, arrayGameScore, userGame, getContext());
-
-            if (arrayNewGameScore.size() == 20) {
-                userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Game_CP__UserTotatScore));
-                arrayGameScore = arrayNewGameScore;
-                totalGameScore = arrayGameScore.get(Constants.Game_CP__UserTotatScore);
-            } else {
-                userGame.setUserTotatScore(databaseScore);
-                totalGameScore = arrayNewGameScore.get(Constants.Status_Zero);
-            }
-            DbHelperClass dbHelperClass = new DbHelperClass();
-
-            dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userTractionScore), databaseScore, totalGameScore);
-            cls.makeSnackBar(linearLayout);
+        int attentionScore = 0;
+        int attentionTot = 0;
+        if (cus.getCount() > 0) {
+            cus.moveToFirst();
+            attentionScore = Integer.parseInt(cus.getString(Constants.Game_AS_TractionScore));
+            attentionTot = Integer.parseInt(cus.getString(Constants.Game_AS_TotTraction));
         }
+        cus.close();
+
+        if (attentionTot == 0) {
+            cls.makeSnackBar(linearLayout, getString(R.string.snakbar_NoData));
+            return;
+        }
+
+        double gameTractionScore = (double) attentionScore / attentionTot;
+
+        gameTractionScore = gameTractionScore * 100;
+
+        int databaseScore = (int) gameTractionScore;
+        Personal_Distraction pd = new Personal_Distraction();
+
+        ArrayList<String> arrayCaptains = getActivity().getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
+        UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains, userName);
+        userGame.setUserTractionScore(databaseScore);
+
+        ArrayList<Integer> arrayGameScore = getActivity().getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore)));
+
+        ArrayList<Integer> arrayNewGameScore = cls.createGameScore(Constants.Game_CP__UserTractionScore, databaseScore, arrayGameScore, userGame, getContext());
+
+        if (arrayNewGameScore.size() == 20) {
+            userGame.setUserTotatScore(arrayNewGameScore.get(Constants.Game_CP__UserTotatScore));
+            arrayGameScore = arrayNewGameScore;
+            totalGameScore = arrayGameScore.get(Constants.Game_CP__UserTotatScore);
+        } else {
+            userGame.setUserTotatScore(databaseScore);
+            totalGameScore = arrayNewGameScore.get(Constants.Status_Zero);
+        }
+        DbHelperClass dbHelperClass = new DbHelperClass();
+
+        dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), getContext(), userGame, rootRef, getString(R.string.fs_Usergame_userTractionScore), databaseScore, totalGameScore);
+        cls.makeSnackBar(linearLayout, getString(R.string.snakbar_Success));
+
     }
 
 
@@ -218,6 +234,35 @@ public class FragmentTraction extends Fragment implements View.OnClickListener {
         FragmentManager fm = getActivity().getSupportFragmentManager();
         FragmentDataInsertion insertFragment = FragmentDataInsertion.newInstance(getString(R.string.Page_Redirect_Traction));
         insertFragment.show(fm, "fragment_edit_name");
+
+
+        insertFragment.onCancel(new DialogInterface() {
+            @Override
+            public void cancel() {
+                Intent i = new Intent(getContext(), ActivityAttention.class);
+
+                Bundle mBundle = new Bundle();
+                mBundle.putString(Constants.common_auth, Constants.common_google);
+                mBundle.putStringArrayList(Constants.Intent_ArrayCaptain, getActivity().getIntent().getStringArrayListExtra(((getString(R.string.Intent_ArrayCaptain)))));
+                mBundle.putIntegerArrayList(Constants.Intent_ArrayGameScore, getActivity().getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore))));
+                i.putExtras(mBundle);
+                getContext().startActivity(i);
+            }
+
+            @Override
+            public void dismiss() {
+                Intent i = new Intent(getContext(), ActivityAttention.class);
+
+                Bundle mBundle = new Bundle();
+                mBundle.putString(Constants.common_auth, Constants.common_google);
+                mBundle.putStringArrayList(Constants.Intent_ArrayCaptain, getActivity().getIntent().getStringArrayListExtra(((getString(R.string.Intent_ArrayCaptain)))));
+                mBundle.putIntegerArrayList(Constants.Intent_ArrayGameScore, getActivity().getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore))));
+                i.putExtras(mBundle);
+                getContext().startActivity(i);
+
+
+            }
+        });
     }
 
     private String fetchUserId(FirebaseAuth mAuth) {

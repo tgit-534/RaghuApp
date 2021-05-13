@@ -17,7 +17,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:background="#02b89a"
             android:elevation="6dp" />
 
         <RelativeLayout
@@ -76,9 +75,8 @@
                 <RatingBar
                     android:id="@+id/rb_captainRatings"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    ></RatingBar>
+                    android:layout_height="wrap_content">
+                </RatingBar>
 
 
                 <LinearLayout
@@ -181,7 +179,6 @@
                 android:layout_height="wrap_content" />-->
         </RelativeLayout>
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -198,6 +195,7 @@
                 android:clipToPadding="false"
                 android:paddingBottom="30dp"
                 android:scrollbarStyle="outsideOverlay"
+                android:elevation="10dp"
                 android:scrollbars="vertical"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
         </LinearLayout>
@@ -213,8 +211,10 @@
         android:contentDescription="TODO"
         android:foregroundTint="@color/plain_white"
         android:src="@drawable/ic_baseline_post_add_24"
-        app:rippleColor="@color/plain_white"
-        app:backgroundTint="@color/firstColor"
+        app:backgroundTint="@color/secondColor"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:rippleColor="@color/plain_white"
+
+        />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -53,6 +53,8 @@ public class Constants {
     public static final String Page_Redirect_Habit = "Habit";
     public static final String Intent_ArrayCaptain = "arrayCaptain";
     public static final String Intent_ArrayGameScore = "arrayGameScore";
+    public static final String Intent_DataInsertion = "dataInsertion";
+
 
 
     //Generic Score
@@ -219,6 +221,9 @@ public class Constants {
     public static final String ClassName_RespectYourWorkWin = "app.actionnation.actionapp.RespectWork";
     public static final String ClassName_HabitInside = "app.actionnation.actionapp.ActivityTimerWindow";
 
+    public static final String ClassName_Attention = "app.actionnation.actionapp.ActivityAttention";
+    public static final String ClassName_Happiness = "app.actionnation.actionapp.ActivityHappiness";
+    public static final String ClassName_Belief = "app.actionnation.actionapp.ActivityOurBelief";
 
 
 }

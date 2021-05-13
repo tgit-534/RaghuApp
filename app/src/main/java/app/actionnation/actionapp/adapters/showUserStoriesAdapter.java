@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -93,6 +94,8 @@ public class showUserStoriesAdapter extends FirestoreRecyclerAdapter<UserStories
         dataForShares.add(5, model.getUserStory());
 
         holder.mBtnShares.setTag(dataForShares);
+        holder.mButtonShare.setTag(dataForShares);
+
 
         Glide.with(holder.mView.getContext())
                 .asBitmap()
@@ -113,6 +116,27 @@ public class showUserStoriesAdapter extends FirestoreRecyclerAdapter<UserStories
                         super.onLoadFailed(errorDrawable);
                     }
                 });
+
+
+        holder.mButtonShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar cal = Calendar.getInstance();
+                Date c = Calendar.getInstance().getTime();
+
+                SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+                String formattedDate = df.format(c);
+                ArrayList<String> getDataArrayList = (ArrayList<String>) holder.mBtnShares.getTag();
+
+                String strBody = getDataArrayList.get(5) + " #ActionNation #IamTheHero";
+                String strSubject = "MY Story " + formattedDate;
+                String strTitle = getDataArrayList.get(3) + "'s Story";
+
+                CommonClass cls = new CommonClass();
+                cls.ShareToOtherPlatforms("", strBody, strSubject, strTitle, holder.mView.getContext());
+
+            }
+        });
 
         holder.mBtnLikes.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -234,6 +258,8 @@ public class showUserStoriesAdapter extends FirestoreRecyclerAdapter<UserStories
         public final ImageButton mBtnShares;
         public final ImageButton mBtnComments;
 
+        public final Button mButtonShare;
+
         public final de.hdodenhof.circleimageview.CircleImageView mUserImage;
         public final TextView mUserName;
 
@@ -256,6 +282,10 @@ public class showUserStoriesAdapter extends FirestoreRecyclerAdapter<UserStories
             mBtnLikes = view.findViewById(R.id.imgBtn_lo_countUserLikes);
             mBtnShares = view.findViewById(R.id.imgBtn_lo_countUserShares);
             mBtnComments = view.findViewById(R.id.imgBtn_lo_countUserComments);
+            mButtonShare = view.findViewById(R.id.Btn_lo_countUserShares);
+
+
+
 
             view.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -2,6 +2,7 @@ package app.actionnation.actionapp;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,12 +42,16 @@ public class TractionAdapter extends RecyclerView.Adapter<TractionAdapter.Tracti
         return new TractionViewHolder(view);
     }
 
+    private static final String TAG = "TractionAdapter:Log";
 
     @Override
     public void onBindViewHolder(@NonNull final TractionViewHolder holder, int position) {
         if (mCursor != null) {
 
             String name = mCursor.getString(mCursor.getColumnIndex("Tr_Name"));
+            Log.d(TAG, "Uid :" + name);
+
+
             holder.tv.setText(name);
 
             if (strTractionData != null) {
@@ -74,7 +79,7 @@ public class TractionAdapter extends RecyclerView.Adapter<TractionAdapter.Tracti
                     cls.InsertAttentionScore(db, mfbId, dayOfTheYear, yr, 0, 1, 0, Integer.parseInt(arrSplit[1]));
                 } else {
                     db.updateTractionDayList(holder.chk.getTag().toString(), 0, mfbId, dayOfTheYear);
-                    cls.InsertAttentionScore(db, mfbId, dayOfTheYear, yr, 0, -1,0, Integer.parseInt(arrSplit[1]));
+                    cls.InsertAttentionScore(db, mfbId, dayOfTheYear, yr, 0, -1, 0, Integer.parseInt(arrSplit[1]));
                 }
             }
 

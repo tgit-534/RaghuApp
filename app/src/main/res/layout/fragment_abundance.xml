@@ -15,14 +15,11 @@
         android:layout_margin="10dp"></TextView>
     <Button
         android:id="@+id/btn_abundancelist"
-        style="@style/SmallButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:layout_margin="5dp"
-        android:background="@drawable/button_border"
         android:text="@string/Data_ADD"
-        android:textColor="#02b89a"
         />
 
 
@@ -35,12 +32,6 @@
         android:layout_height="wrap_content"
         />
 
-    <Button
-        android:id="@+id/btn_abundance_Finish"
-        style="@style/ButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="@string/Common_Win"></Button>
+
 
 </LinearLayout>

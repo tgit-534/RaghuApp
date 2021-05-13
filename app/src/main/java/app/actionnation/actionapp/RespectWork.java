@@ -39,7 +39,7 @@ public class RespectWork extends BaseClassUser implements View.OnClickListener {
     Cursor csrIntegrityGame;
     private static final String TAG = "Respect Work:Log";
     ExtendedFloatingActionButton fab;
- CoordinatorLayout coordinatorLayout;
+    CoordinatorLayout coordinatorLayout;
 
     String placeWin, wordAgreement, respectWork, selfWin, wordAgreementItems;
 
@@ -57,7 +57,7 @@ public class RespectWork extends BaseClassUser implements View.OnClickListener {
         txtFinished = findViewById(R.id.txt_rw_finished);
         txtAbandoned = findViewById(R.id.txt_rw_abandoned);
         txtincomplete = findViewById(R.id.txt_rw_Incomplete);
-        coordinatorLayout   = findViewById(R.id.cl_respectWork);
+        coordinatorLayout = findViewById(R.id.cl_respectWork);
 
 
         btnFinished.setOnClickListener(this);
@@ -82,22 +82,22 @@ public class RespectWork extends BaseClassUser implements View.OnClickListener {
                 wordAgreementItems = csrIntegrityGame.getString(9);
             }
         }
+        csrIntegrityGame.close();
 
 
-        Cursor res = db.getDataRespectWork(Integer.toString(dayOfTheYear));
+        Cursor res = db.getDataRespectWork(Integer.toString(dayOfTheYear), String.valueOf(yr), usrId);
         CommonClass cls = new CommonClass();
 
         countDataRespectWork = res.getCount();
         String strExcercisePattern = "";
         if (res.getCount() > 0) {
             while (res.moveToNext()) {
-                //res.getString(2);
-                cls.callToast(RespectWork.this, res.getString(2));
                 txtFinished.setText(res.getString(2));
                 txtincomplete.setText(res.getString(3));
                 txtAbandoned.setText(res.getString(4));
             }
         }
+        res.close();
 
         fab = findViewById(R.id.fab_act_respectWork);
 
@@ -145,9 +145,7 @@ public class RespectWork extends BaseClassUser implements View.OnClickListener {
                     userGame.setUserTotatScore((int) respectScore);
                 }
 
-
                 DbHelperClass dbHelperClass = new DbHelperClass();
-
                 dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), RespectWork.this, userGame, rootRef, getString(R.string.fs_Usergame_userWorkWinScore), (int) respectScore, totalGameScore);
                 makeSnackBar(coordinatorLayout);
             }
@@ -168,13 +166,13 @@ public class RespectWork extends BaseClassUser implements View.OnClickListener {
             finished = finished + 1;
             txtFinished.setText(String.valueOf(finished));
 
-            insertWorkStatus(usrId, finished, incomplete, abandoned, dayOfTheYear);
+            insertWorkStatus(usrId, finished, incomplete, abandoned, dayOfTheYear,fetchDate(1));
             insertWorkwinIntegrityTable(finished, abandoned, incomplete);
 
         } else if (i == R.id.btn_rw_Abandoned) {
             abandoned = abandoned + 1;
             txtAbandoned.setText(String.valueOf(abandoned));
-            insertWorkStatus(usrId, finished, incomplete, abandoned, dayOfTheYear);
+            insertWorkStatus(usrId, finished, incomplete, abandoned, dayOfTheYear,fetchDate(1));
 
             insertWorkwinIntegrityTable(finished, abandoned, incomplete);
 
@@ -182,7 +180,7 @@ public class RespectWork extends BaseClassUser implements View.OnClickListener {
         } else if (i == R.id.btn_rw_InComplete) {
             incomplete = incomplete + 1;
             txtincomplete.setText(String.valueOf(incomplete));
-            insertWorkStatus(usrId, finished, incomplete, abandoned, dayOfTheYear);
+            insertWorkStatus(usrId, finished, incomplete, abandoned, dayOfTheYear,fetchDate(1));
 
 
             insertWorkwinIntegrityTable(finished, abandoned, incomplete);
@@ -191,11 +189,11 @@ public class RespectWork extends BaseClassUser implements View.OnClickListener {
     }
 
 
-    private void insertWorkStatus(String usrId, int finished, int incomplete, int abandoned, int dayOfTheYear) {
+    private void insertWorkStatus(String usrId, int finished, int incomplete, int abandoned, int dayOfTheYear, int yr) {
         if (countDataRespectWork > 0) {
-            db.updateRespectWork(usrId, finished, incomplete, abandoned, dayOfTheYear);
+            db.updateRespectWork(usrId, finished, incomplete, abandoned, dayOfTheYear,yr);
         } else {
-            db.insertRespectWork(usrId, finished, incomplete, abandoned, dayOfTheYear);
+            db.insertRespectWork(usrId, finished, incomplete, abandoned, dayOfTheYear,yr);
         }
     }
 
@@ -209,7 +207,6 @@ public class RespectWork extends BaseClassUser implements View.OnClickListener {
         //   percentValue = df2.format(String.valueOf(percentValue);
         Log.d(TAG, String.valueOf(percentValue));
         CommonClass cls = new CommonClass();
-        cls.callToast(RespectWork.this, String.valueOf(percentValue));
 
         return percentValue * 100;
     }

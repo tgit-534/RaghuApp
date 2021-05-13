@@ -20,9 +20,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:layout_margin="5dp"
-        android:background="@drawable/button_border"
         android:text="@string/Data_ADD"
-        android:textColor="#02b89a" />
+        />
 
     <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -32,11 +31,5 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp" />
 
-    <Button
-        android:id="@+id/btn_traction_Submit"
-        style="@style/ButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="@string/Common_Win"></Button>
+
 </LinearLayout>

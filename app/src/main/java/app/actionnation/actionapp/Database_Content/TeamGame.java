@@ -18,8 +18,43 @@ public class TeamGame {
     List<String> gamePlayers;
     String gameMasterName;
     long startDate, endDate;
+    int noOfPlayers;
     int status;
+    int noOfPlayersAccepted;
+    int totalCoinsOfPlayers;
+    int coinsAtStake;
 
+    public int getCoinsAtStake() {
+        return coinsAtStake;
+    }
+
+    public void setCoinsAtStake(int coinsAtStake) {
+        this.coinsAtStake = coinsAtStake;
+    }
+
+    public int getNoOfPlayersAccepted() {
+        return noOfPlayersAccepted;
+    }
+
+    public void setNoOfPlayersAccepted(int noOfPlayersAccepted) {
+        this.noOfPlayersAccepted = noOfPlayersAccepted;
+    }
+
+    public int getTotalCoinsOfPlayers() {
+        return totalCoinsOfPlayers;
+    }
+
+    public void setTotalCoinsOfPlayers(int totalCoinsOfPlayers) {
+        this.totalCoinsOfPlayers = totalCoinsOfPlayers;
+    }
+
+    public int getNoOfPlayers() {
+        return noOfPlayers;
+    }
+
+    public void setNoOfPlayers(int noOfPlayers) {
+        this.noOfPlayers = noOfPlayers;
+    }
 
     public String getFb_Id() {
         return fb_Id;

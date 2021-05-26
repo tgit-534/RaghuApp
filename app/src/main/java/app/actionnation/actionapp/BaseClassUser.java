@@ -140,13 +140,6 @@ public class BaseClassUser extends AppCompatActivity {
                 homepage1.putExtras(mBundle1);
                 startActivity(homepage1);
                 break;
-            case R.id.PersonalDetails:
-                Intent homepage2 = new Intent(this, ActivityGameTracking.class);
-                Bundle mBundle2 = new Bundle();
-                mBundle2.putString(getString(R.string.common_auth), getString(R.string.common_google));
-                homepage2.putExtras(mBundle2);
-                startActivity(homepage2);
-                break;
 
             case R.id.Support:
 
@@ -162,16 +155,9 @@ public class BaseClassUser extends AppCompatActivity {
                 startActivity(homepage5);
                 break;
 
-            case R.id.PersonalObjectives:
-                Intent homepage3 = new Intent(this, ActivityMainObjectives.class);
-                Bundle mBundle3 = new Bundle();
-                mBundle3.putString(getString(R.string.common_auth), getString(R.string.common_google));
-                homepage3.putExtras(mBundle3);
-                startActivity(homepage3);
-                break;
 
-            case R.id.testCode:
-                Intent homepage4 = new Intent(this, TestCoding.class);
+            case R.id.YourFeedback:
+                Intent homepage4 = new Intent(this, ActivityCommonInsertion.class);
                 Bundle mBundle4 = new Bundle();
                 mBundle4.putString(getString(R.string.common_auth), getString(R.string.common_google));
                 homepage4.putExtras(mBundle4);
@@ -182,8 +168,9 @@ public class BaseClassUser extends AppCompatActivity {
     }
 
 
-    protected void makeSnackBar(View cl)
-    {
+
+
+    protected void makeSnackBar(View cl) {
 
         Snackbar snackbar = Snackbar
                 .make(cl, "Well Done!", Snackbar.LENGTH_LONG);
@@ -192,8 +179,7 @@ public class BaseClassUser extends AppCompatActivity {
     }
 
 
-    protected void makeSnackBar(View cl, String msg)
-    {
+    protected void makeSnackBar(View cl, String msg) {
 
         Snackbar snackbar = Snackbar
                 .make(cl, msg, Snackbar.LENGTH_SHORT);

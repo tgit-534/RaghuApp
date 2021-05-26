@@ -2,7 +2,9 @@ package app.actionnation.actionapp;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -22,6 +24,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -35,6 +38,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
@@ -53,12 +57,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import app.actionnation.actionapp.Database_Content.CommonData;
-import app.actionnation.actionapp.Database_Content.UserGame;
 import app.actionnation.actionapp.Database_Content.UserProfile;
 import app.actionnation.actionapp.Storage.Constants;
+import app.actionnation.actionapp.Storage.UserStorageGameObject;
 import app.actionnation.actionapp.data.DbHelperClass;
 
-public class ActivityMainObjectives extends BaseClassUser implements View.OnClickListener {
+public class ActivityMainObjectives extends BaseClassUser implements View.OnClickListener, FragmentStakeGame.OnFragmentSuccessBarListener {
 
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
@@ -71,12 +75,12 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
     Uri uri;
     FirebaseFirestore rootRef;
     TextView userName, userDesc;
-    UserGame userGame = new UserGame();
     ArrayList<Integer> userGameArray = new ArrayList<>();
     ArrayList<String> userCaptainArray = new ArrayList<>();
-    ImageButton imgProfile, imgCaptain, imgStory;
+    ImageButton imgProfile, imgCaptain, imgStory, imgGameTrack;
     String strUserRating;
     float[] userRatingFloatArray = new float[2];
+    CoordinatorLayout coordinatorLayout;
 
     private static FragmentManager fragmentManager;
 
@@ -92,15 +96,16 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
 
         profileImageWork();
         imgProfile = findViewById(R.id.imgBtn_profile);
-
+        coordinatorLayout = findViewById(R.id.cl_mainObjectives);
         imgCaptain = findViewById(R.id.imgBtn_Captain);
         imgStory = findViewById(R.id.imgBtn_YourStory);
+        imgGameTrack = findViewById(R.id.imgBtn_GameTrack);
         ratingBar = findViewById(R.id.rb_captainRatings);
         userName = findViewById(R.id.et_amo_username);
         userDesc = findViewById(R.id.et_amo_userDesc);
         recyclerView = findViewById(R.id.listMainObjective);
 
-        Log.d(TAG, "Uid :" + fetchUserId() + " " +String.valueOf(fetchDate(0)) +" "+ String.valueOf(fetchDate(1)));
+        Log.d(TAG, "Uid :" + fetchUserId() + " " + String.valueOf(fetchDate(0)) + " " + String.valueOf(fetchDate(1)));
 
 
         userGameArray = mainDataUpdate();
@@ -132,15 +137,6 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
                 homepage4.putExtras(mBundle4);
                 startActivity(homepage4);
 
-
-                /*userRatingFloatArray = (float[]) fab.getTag();
-                Intent homepage4 = new Intent(ActivityMainObjectives.this, ActivityYourTeam.class);
-                Bundle mBundle4 = new Bundle();
-                mBundle4.putString(getString(R.string.common_auth), getString(R.string.common_google));
-                mBundle4.putFloatArray(getString(R.string.Intent_ArrayRating), (float[]) fab.getTag());
-                mBundle4.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) imgProfile.getTag());
-                homepage4.putExtras(mBundle4);
-                startActivity(homepage4);*/
             }
         });
 
@@ -158,10 +154,53 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
                 Intent homepage4 = new Intent(ActivityMainObjectives.this, ActivityUserStory.class);
                 Bundle mBundle4 = new Bundle();
                 mBundle4.putString(getString(R.string.common_auth), getString(R.string.common_google));
-                if (imgStory.getTag() != null)
-                    mBundle4.putString(getString(R.string.Intent_UserImagePath), imgStory.getTag().toString());
+                mBundle4.putString(getString(R.string.Intent_UserImagePath), imgStory.getTag().toString());
                 homepage4.putExtras(mBundle4);
-                startActivity(homepage4);
+                startActivity(homepage4);            }
+        });
+
+        imgGameTrack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (imgGameTrack.getTag() != null) {
+                    callGameTracking();
+                } else {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ActivityMainObjectives.this);
+
+                    builder.setTitle(getString(R.string.act_MainObjective_AlertDialog_NoCoins));
+                    builder.setMessage(getString(R.string.act_MainObjective_AlertDialog_Now));
+
+                    builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            showStakeGameDialog();
+
+                            /*Snackbar snackbar1 = Snackbar.make(coordinatorLayout, "Added to the team!", Snackbar.LENGTH_SHORT);
+                            snackbar1.show();*/
+                        }
+                    });
+
+                    builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            Snackbar snackbar1 = Snackbar.make(coordinatorLayout, getString(R.string.act_MainObjective_AlertDialog_Not), Snackbar.LENGTH_SHORT);
+                            snackbar1.show();
+
+                            // Do nothing
+                            dialog.dismiss();
+                        }
+                    });
+
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
+
+
+
             }
         });
 
@@ -174,6 +213,18 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
 
         recyclerView.setHasFixedSize(false);
         fetch(userGameArray);
+    }
+
+    private void callGameTracking() {
+
+        Intent homepage4 = new Intent(this, ActivityGameTracking.class);
+        Bundle mBundle4 = new Bundle();
+        if (imgCaptain.getTag() != null)
+            mBundle4.putInt(getString(R.string.Intent_NoOfPlayes), (int) imgCaptain.getTag());
+        mBundle4.putString(getString(R.string.Intent_gameDocumentObject), ((UserStorageGameObject) userName.getTag()).getGameFullDocumentObj() );
+        mBundle4.putString(getString(R.string.common_auth), getString(R.string.common_google));
+        homepage4.putExtras(mBundle4);
+        startActivity(homepage4);
     }
 
 
@@ -374,6 +425,12 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
 
                         Bundle mBundle = new Bundle();
                         mBundle.putString(Constants.common_auth, Constants.common_google);
+
+
+                        UserStorageGameObject userStorageGameObject = (UserStorageGameObject) userName.getTag();
+                        mBundle.putString(Constants.Intent_GameDocumentId, userStorageGameObject.getGameDocumentId());
+                        mBundle.putInt(Constants.Intent_GameCoinsPerDay, userStorageGameObject.getUserCoinsPerDay());
+                        mBundle.putInt(Constants.Intent_ExcellenceBar, userStorageGameObject.getUserExellenceBar());
                         mBundle.putStringArrayList(Constants.Intent_ArrayCaptain, (ArrayList<String>) imgProfile.getTag());
                         mBundle.putIntegerArrayList(Constants.Intent_ArrayGameScore, userGameArray);
                         i.putExtras(mBundle);
@@ -525,7 +582,26 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
                         userName.setText(userProfile.getUserFirstName() + " " + userProfile.getUserLastName());
                         userDesc.setText(userProfile.getUserDream());
                         userCaptainArray = (ArrayList<String>) userProfile.getTeamCaptains();
+
+                        UserStorageGameObject userStorageGameObject = new UserStorageGameObject();
+
+
+                        if (userProfile.getGameDocumentId() != null) {
+                        String[] strDocumentObj = userProfile.getGameDocumentId().split(getString(R.string.fm_fieldPartition));
+
+                            userStorageGameObject.setGameDocumentId(strDocumentObj[0]);
+                            userStorageGameObject.setGameFullDocumentObj(userProfile.getGameDocumentId());
+                        }
+                        userStorageGameObject.setUserCoinsPerDay(userProfile.getUserCoinsPerDay());
+                        userStorageGameObject.setUserExellenceBar(userProfile.getUserExellenceBar());
+
+                        userName.setTag(userStorageGameObject);
+
+                        imgGameTrack.setTag(userProfile.getUserExellenceBar());
                         imgProfile.setTag(userProfile.getTeamCaptains());
+
+                        imgCaptain.setTag(userProfile.getNoOfPlayers());
+
                         imgStory.setTag(userProfile.getUserImagePath());
                         Glide.with(ActivityMainObjectives.this)
                                 .asBitmap()
@@ -690,6 +766,22 @@ public class ActivityMainObjectives extends BaseClassUser implements View.OnClic
         }
 
     }
+
+
+    private void showStakeGameDialog() {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentStakeGame editNameFragment = FragmentStakeGame.newInstance(getString(R.string.Page_Redirect_Attention));
+        editNameFragment.show(fm, "fragment_edit_name");
+    }
+
+
+    //Implementation from Fragment Stake
+    @Override
+    public void onSuccessBarSend(int getSuccessBar) {
+        imgGameTrack.setTag(getSuccessBar);
+
+    }
+
 
     public static class ViewHolderMainObjective extends RecyclerView.ViewHolder {
         public final View mView;

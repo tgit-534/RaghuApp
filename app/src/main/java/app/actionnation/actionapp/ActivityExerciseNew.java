@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import app.actionnation.actionapp.Database_Content.UserGame;
 import app.actionnation.actionapp.Storage.Constants;
+import app.actionnation.actionapp.Storage.UserStorageGameObject;
 import app.actionnation.actionapp.data.DbHelper;
 import app.actionnation.actionapp.data.DbHelperClass;
 
@@ -49,7 +50,13 @@ public class ActivityExerciseNew extends BaseClassUser implements View.OnClickLi
 
 
                 ArrayList<String> arrayCaptains = getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
-                UserGame userGame = cls.loadUserGame(strUser.get(0), dayOfTheYear, yr, arrayCaptains,strUser.get(1));
+
+                UserStorageGameObject userStorageGameObject = new UserStorageGameObject();
+                userStorageGameObject.setGameDocumentId(getIntent().getStringExtra(Constants.Intent_GameDocumentId));
+                userStorageGameObject.setUserCoinsPerDay(getIntent().getIntExtra(Constants.Intent_GameCoinsPerDay, Constants.Status_Zero));
+                userStorageGameObject.setUserExellenceBar(getIntent().getIntExtra(Constants.Intent_ExcellenceBar, Constants.Status_Zero));
+
+                UserGame userGame = cls.loadUserGame(strUser.get(0), dayOfTheYear, yr, arrayCaptains, strUser.get(1), userStorageGameObject);
 
                 userGame.setUserExerciseScore(Constants.Game_Exercise);
 
@@ -70,7 +77,6 @@ public class ActivityExerciseNew extends BaseClassUser implements View.OnClickLi
                 }
 
 
-
                 dbHelperClass.insertFireUserGame(getString(R.string.fs_UserGame), ActivityExerciseNew.this, userGame, rootRef, getString(R.string.fs_Usergame_userExerciseScore), Constants.Game_Exercise, totalGameScore);
 
             }
@@ -84,8 +90,6 @@ public class ActivityExerciseNew extends BaseClassUser implements View.OnClickLi
         fragmentManager.beginTransaction().replace(R.id.fragmentContainerExercise, argumentFragment).commit();
 
     }
-
-
 
 
     @Override

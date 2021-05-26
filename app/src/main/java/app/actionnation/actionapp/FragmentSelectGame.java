@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,8 +25,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import app.actionnation.actionapp.Database_Content.TeamGame;
+import app.actionnation.actionapp.Storage.Constants;
 import app.actionnation.actionapp.data.DbHelperClass2;
 
 /**
@@ -47,7 +50,8 @@ public class FragmentSelectGame extends Fragment {
     RecyclerView recyclerView, recyclerViewSelectGame;
     Button btnTest;
     FirestoreRecyclerAdapter firestoreRecyclerAdapter;
-    TextView tvHeading;
+    TextView tvHeading, tvStatusAddPeople;
+    LinearLayout linearLayout;
 
     public FragmentSelectGame() {
         // Required empty public constructor
@@ -88,6 +92,8 @@ public class FragmentSelectGame extends Fragment {
 
         recyclerView = view.findViewById(R.id.listSelectGame);
         tvHeading = view.findViewById(R.id.tv_fm_HeadingSelectGame);
+        linearLayout = view.findViewById(R.id.ll_showSelectGame);
+        tvStatusAddPeople = view.findViewById(R.id.tv_fm_membersStatus);
 
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -98,9 +104,8 @@ public class FragmentSelectGame extends Fragment {
 
     protected void showGameSelection() {
 
-        final FirebaseFirestore db;
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseAuth mAuth;
-        db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
         final FirebaseUser fbUser = mAuth.getCurrentUser();
 
@@ -110,12 +115,27 @@ public class FragmentSelectGame extends Fragment {
         if (mAuth.getCurrentUser() != null) {
             usrId = fbUser.getUid();
         }
-        com.google.firebase.firestore.Query query1 = db.collection(getString(R.string.fs_TeamGame)).whereEqualTo(getString(R.string.fb_Column_Fb_Id), usrId);
+
+        String className = getContext().getClass().getName();
+
+        com.google.firebase.firestore.Query fbQuery = null;
+
+        switch (className) {
+            case Constants.ClassName_GameTracking:
+                fbQuery = db.collection(getString(R.string.fs_TeamGame)).whereArrayContains(getString(R.string.fs_TeamGame_gamePlayers), mAuth.getCurrentUser().getEmail()).whereGreaterThan(getString(R.string.fs_TeamGame_StartDate), cNew.getTimeInMillis());
+                break;
+
+            case Constants.ClassName_GameCreation:
+                fbQuery = db.collection(getString(R.string.fs_TeamGame)).whereEqualTo(getString(R.string.fb_Column_Fb_Id), usrId).whereGreaterThan(getString(R.string.fs_TeamGame_StartDate), cNew.getTimeInMillis());
+                break;
+
+        }
+        final String fbId = usrId;
         //whereLessThan(getString(R.string.fs_TeamGame_StartDate), cNew.getTimeInMillis());
 
         DbHelperClass2 dbh = new DbHelperClass2();
         final FirestoreRecyclerOptions<TeamGame> options = new FirestoreRecyclerOptions.Builder<TeamGame>()
-                .setQuery(query1, TeamGame.class)
+                .setQuery(fbQuery, TeamGame.class)
                 .build();
         firestoreRecyclerAdapter = new FirestoreRecyclerAdapter<TeamGame, ActivityGameCreation.ViewHolderSelectGame>(options) {
 
@@ -125,6 +145,7 @@ public class FragmentSelectGame extends Fragment {
                 holder.mIdGameName.setText("Game Name: " + model.getGameName());
                 Calendar cal = new GregorianCalendar();
                 DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                final String className = getContext().getClass().getName();
 
                 Calendar calendarStart = Calendar.getInstance();
                 calendarStart.setTimeInMillis(model.getStartDate());
@@ -135,15 +156,115 @@ public class FragmentSelectGame extends Fragment {
                 holder.mIdGameEnd.setText("Game End Date:" + formatter.format(calendarEnd.getTime()));
 
 
-                holder.mIdSelectGame.setTag(getSnapshots().getSnapshot(position).getId());
+                switch (className) {
+                    case Constants.ClassName_GameTracking:
+
+                        String checkBoxAssignedData = getSnapshots().getSnapshot(position).getId() + getString(R.string.fm_fieldPartition)
+                                + String.valueOf(model.getStartDate()) + getString(R.string.fm_fieldPartition)
+                                + String.valueOf(model.getEndDate()) + getString(R.string.fm_fieldPartition) + String.valueOf(model.getGamePlayers().size())+ getString(R.string.fm_fieldPartition) + String.valueOf(model.getCoinsAtStake());
+                        holder.mIdSelectGame.setTag(checkBoxAssignedData);
+
+                        break;
+
+                    case Constants.ClassName_GameCreation:
+                        List<String> gameCreationObjectArray = new ArrayList<>();
+
+                        if (model.getGamePlayers() != null) {
+                            gameCreationObjectArray = model.getGamePlayers();
+
+                            gameCreationObjectArray.add(getString(R.string.fm_arrayListPartition));
+                            gameCreationObjectArray.add(getSnapshots().getSnapshot(position).getId());
+                            gameCreationObjectArray.add(String.valueOf(model.getStartDate()));
+                            gameCreationObjectArray.add(String.valueOf(model.getEndDate()));
+                            holder.mIdSelectGame.setTag(gameCreationObjectArray);
+                        } else {
+                            gameCreationObjectArray.add(getSnapshots().getSnapshot(position).getId());
+                            gameCreationObjectArray.add(String.valueOf(model.getStartDate()));
+                            gameCreationObjectArray.add(String.valueOf(model.getEndDate()));
+                            holder.mIdSelectGame.setTag(gameCreationObjectArray);
+                        }
+
+                        break;
+                }
+
 
                 holder.mIdSelectGame.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         if (isChecked == true) {
-
                             DbHelperClass2 dbc = new DbHelperClass2();
-                            dbc.updateFireUserData(getString(R.string.fs_TeamGame), holder.mIdSelectGame.getTag().toString(), getString(R.string.fs_TeamGame_gamePlayers), (ArrayList<String>)tvHeading.getTag(), db);
+                            ArrayList<String> dataVariables = new ArrayList<>();
+
+
+                            ArrayList<String> players = (ArrayList<String>) tvHeading.getTag();
+                            ArrayList<Object> dataObjects = new ArrayList<>();
+
+
+                            switch (className) {
+                                case Constants.ClassName_GameTracking:
+
+                                    dataVariables.add(getString(R.string.fs_UserProfile_gameDocId));
+                                    dataVariables.add(getString(R.string.fs_TeamGame_noOfPlayers));
+                                    dataVariables.add(getString(R.string.fs_UserProfile_userCoinsPerDay));
+
+
+                                    String[] strObj = holder.mIdSelectGame.getTag().toString().split(getString(R.string.fm_fieldPartition));
+
+                                    dataObjects.add(holder.mIdSelectGame.getTag().toString());
+                                    dataObjects.add(Integer.valueOf(strObj[3]));
+                                    dataObjects.add(Integer.valueOf(strObj[4]));
+
+
+                                    dbc.updateFireUserData(getString(R.string.fs_UserProfile), fbId, dataVariables, dataObjects, db);
+
+                                    break;
+
+                                case Constants.ClassName_GameCreation:
+
+                                    ArrayList<String> gameDataObjects = (ArrayList<String>) holder.mIdSelectGame.getTag();
+
+                                    dataVariables.add(getString(R.string.fs_TeamGame_gamePlayers));
+                                    dataVariables.add(getString(R.string.fs_TeamGame_noOfPlayers));
+
+
+                                    if (gameDataObjects.contains(getString(R.string.fm_arrayListPartition))) {
+                                        if (gameDataObjects != null) {
+                                            int partitionLine = gameDataObjects.indexOf(getString(R.string.fm_arrayListPartition));
+                                            List<String> alreadyGamePlayers = gameDataObjects.subList(0, partitionLine);
+                                            String gameDocId = gameDataObjects.get(partitionLine + 1);
+                                            alreadyGamePlayers.addAll(players);
+                                            ArrayList<String> dataInsert = new ArrayList<>();
+
+                                            for (String data : alreadyGamePlayers) {
+                                                dataInsert.add(data);
+
+                                            }
+
+                                            dataObjects.add(alreadyGamePlayers);
+                                            dataObjects.add(alreadyGamePlayers.size());
+                                            dbc.updateFireUserData(getString(R.string.fs_TeamGame), gameDocId, dataVariables, dataObjects, db);
+
+                                        }
+
+                                    } else {
+
+                                        if (players != null) {
+                                            ArrayList<String> playersNew = new ArrayList<>();
+                                            playersNew.add(fbUser.getEmail());
+                                            playersNew.addAll(players);
+
+                                            dataObjects.add(playersNew);
+                                            dataObjects.add(playersNew.size());
+                                            dbc.updateFireUserData(getString(R.string.fs_TeamGame), gameDataObjects.get(0), dataVariables, dataObjects, db);
+                                        } else {
+                                            CommonClass cls = new CommonClass();
+                                            cls.makeSnackBar(linearLayout, "There are no new users to add!");
+                                        }
+                                    }
+
+                                    break;
+                            }
+
                         } else {
 
                         }
@@ -169,6 +290,11 @@ public class FragmentSelectGame extends Fragment {
 
     public void onNameChange(ArrayList<String> playersList) {
         tvHeading.setTag(playersList);
+        if (playersList != null || playersList.size() > 0) {
+            tvStatusAddPeople.setText("People are ready to Add!");
+
+        }
+
 
     }
 

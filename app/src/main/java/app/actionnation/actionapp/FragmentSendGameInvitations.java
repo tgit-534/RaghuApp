@@ -2,6 +2,8 @@ package app.actionnation.actionapp;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -42,9 +45,9 @@ public class FragmentSendGameInvitations extends Fragment {
     RecyclerView recyclerView, recyclerViewSelectGame;
     Button btnAddEmails;
     FirestoreRecyclerAdapter firestoreRecyclerAdapter;
-    LinearLayout llFirstLayout,llSecondLayout;
-
-
+    LinearLayout llFirstLayout, llSecondLayout;
+    String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+    String email = "";
 
     public FragmentSendGameInvitations() {
         // Required empty public constructor
@@ -96,13 +99,33 @@ public class FragmentSendGameInvitations extends Fragment {
             @Override
             public void onClick(View v) {
                 getEmaildIds();
-                updateRecylclerView();
-                mListener.onPlayersSend(strEmails);
+            }
+        });
+
+
+        etSendInvitations.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                String email = etSendInvitations.getText().toString().trim();
+
+                if (email.matches(emailPattern) && s.length() > 0) {
+                    Toast.makeText(getContext(), "valid email address", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(getContext(), "Invalid email address", Toast.LENGTH_SHORT).show();
+                    //or
+                }
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // other stuffs
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // other stuffs
             }
         });
 
         updateRecylclerView();
-
 
         return view;
     }
@@ -117,10 +140,18 @@ public class FragmentSendGameInvitations extends Fragment {
     }
 
 
-
-
     private ArrayList<String> getEmaildIds() {
-        strEmails.add(etSendInvitations.getText().toString());
+
+        email = etSendInvitations.getText().toString().trim();
+        if (email.matches(emailPattern) && email.length() > 0) {
+            strEmails.add(etSendInvitations.getText().toString().trim());
+            updateRecylclerView();
+            mListener.onPlayersSend(strEmails);
+        } else {
+            Toast.makeText(getContext(), "Invalid email address", Toast.LENGTH_SHORT).show();
+        }
+        etSendInvitations.setText("");
+
         return strEmails;
     }
 
@@ -147,6 +178,7 @@ public class FragmentSendGameInvitations extends Fragment {
                     + " must implement OnFragmentCommunicationListener");
         }
     }
+
     @Override
     public void onDetach() {
         super.onDetach();

@@ -34,21 +34,11 @@ public class ActivityGameCreation extends BaseClassUser implements View.OnClickL
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initializeControls();
         loadTabs();
-
-        fabGamecreation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
     }
-
 
     private void initializeControls() {
         viewPager = findViewById(R.id.view_pager_gameCreation);
         tabLayout = findViewById(R.id.tab_gameCreation);
-        fabGamecreation = findViewById(R.id.fab_act_gameset);
 
     }
 
@@ -61,9 +51,8 @@ public class ActivityGameCreation extends BaseClassUser implements View.OnClickL
         Log.d(TAG, "2");
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        ArrayList<String> arrayCaptains = getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
 
-        ds = new TabsAdapterGameCreation(getSupportFragmentManager(), tabLayout.getTabCount(), arrayCaptains);
+        ds = new TabsAdapterGameCreation(getSupportFragmentManager(), tabLayout.getTabCount());
         tabLayout.setupWithViewPager(viewPager);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         viewPager.setAdapter(ds);
@@ -77,17 +66,10 @@ public class ActivityGameCreation extends BaseClassUser implements View.OnClickL
 
     @Override
     public void onPlayersSend(ArrayList<String> listPlayers) {
-        String tag = "android:switcher:" + R.id.view_pager_gameCreation + ":" + 1;
 
         FragmentSelectGame fm = (FragmentSelectGame) ds.instantiateItem(viewPager, 2);
         fm.onNameChange(listPlayers);
 
-
-        /*FragmentSelectGame fragment = (FragmentSelectGame) getSupportFragmentManager().findFragmentByTag(tag);
-        if (fragment != null) {
-            fragment.onNameChange(listPlayers);
-
-        }*/
     }
 
     public static class ViewHolderSelectGame extends RecyclerView.ViewHolder {

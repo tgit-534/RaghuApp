@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
 
@@ -41,7 +42,7 @@ public class FragmentGameDefine extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    EditText etGameName, etGameDate, etGameEnds;
+    EditText etGameName, etGameDate, etGameEnds, etCoinsStake;
     Button btnNewGameSubmit;
     Button btnPickStartDate, btnPickEndDate;
     int mYear, mMonth, mDay;
@@ -49,6 +50,7 @@ public class FragmentGameDefine extends Fragment {
     private FirebaseAuth mAuth;
     Date dt;
     Long dateInMilli, getDateInMilli2;
+    LinearLayout linearLayout;
 
 
     public FragmentGameDefine() {
@@ -91,6 +93,8 @@ public class FragmentGameDefine extends Fragment {
         etGameName = view.findViewById(R.id.et_fm_gameName);
         etGameDate = view.findViewById(R.id.et_fm_gameDate);
         etGameEnds = view.findViewById(R.id.et_fm_gameEnds);
+        linearLayout = view.findViewById(R.id.ll_gameDefine);
+        etCoinsStake = view.findViewById(R.id.et_fm_gameCoins);
 
         btnPickStartDate = view.findViewById(R.id.btn_fm_gameStartDate);
         btnPickEndDate = view.findViewById(R.id.btn_fm_gameEndDate);
@@ -119,8 +123,6 @@ public class FragmentGameDefine extends Fragment {
                             }
                         }, mYear, mMonth, mDay);
                 datePickerDialog.show();
-
-
 
 
             }
@@ -200,19 +202,36 @@ public class FragmentGameDefine extends Fragment {
                 }
 
                 ut.setStartDate(dateInMilli);
-
                 ut.setEndDate(getDateInMilli2);
                 ut.setStartDay(startDayOfTheYear);
                 ut.setStartYear(startYear);
                 ut.setEndDay(endDayOftheYear);
                 ut.setEndYear(endYear);
+                ut.setCoinsAtStake(Integer.parseInt(etCoinsStake.getText().toString()));
                 ut.setGameMasterName(mAuth.getCurrentUser().getDisplayName());
                 dbh.insertFireTeamGame(getString(R.string.fs_TeamGame), getContext(), ut, db);
+
+                CommonClass cls = new CommonClass();
+                cls.makeSnackBar(linearLayout, "Data Inserted!");
+                clearForm(linearLayout);
+
             }
         });
 
 
         return view;
+    }
+
+    private void clearForm(ViewGroup group) {
+        for (int i = 0, count = group.getChildCount(); i < count; ++i) {
+            View view = group.getChildAt(i);
+            if (view instanceof EditText) {
+                ((EditText) view).setText("");
+            }
+
+            if (view instanceof ViewGroup && (((ViewGroup) view).getChildCount() > 0))
+                clearForm((ViewGroup) view);
+        }
     }
 
 

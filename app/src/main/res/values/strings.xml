@@ -199,6 +199,8 @@
     <string name="Intent_UserImagePath">userImagePath</string>
     <string name="Intent_UserFullName">userFullName</string>
     <string name="Intent_ArrayOneStory">OneStory</string>
+    <string name="Intent_NoOfPlayes">noPlayers</string>
+    <string name="Intent_gameDocumentObject">gameDocumentObject</string>
 
 
     <!-- TODO: Error Messages -->
@@ -235,6 +237,8 @@
     <string name="fs_UserStories">UserStories</string>
     <string name="fs_UserStoryComments">UserStoryComments</string>
     <string name="fs_TeamGame">TeamGame</string>
+    <string name="fs_UserProfileSubData">UserProfileSubData</string>
+    <string name="fs_UserFeedback">UserFeedback</string>
 
 
     <!-- TODO: Firestore Database Usergame fields -->
@@ -263,6 +267,8 @@
     <string name="fs_Usergame_dayOfTheYear"> dayOfTheYear</string>
     <string name="fs_Usergame_yeare"> year</string>
     <string name="fs_Usergame_teamCaptains">teamCaptains</string>
+    <string name="fs_Usergame_gameDocumentId">gameDocumentId</string>
+    <string name="fs_Usergame_timestamp">timestamp</string>
 
 
     <!-- TODO: Firestore Database fieldss -->
@@ -272,12 +278,16 @@
 
 
     <string name="fs_UserProfile_teamCaptains">teamCaptains</string>
+    <string name="fs_UserProfile_gameDocId">gameDocumentId</string>
+    <string name="fs_UserProfile_userCoinsPerDay">userCoinsPerDay</string>
+    <string name="fs_UserProfile_userExellenceBar">userExellenceBar</string>
 
 
     <string name="fs_UserTeam_teamMembers">teamMembers</string>
 
     <string name="fs_TeamGame_gamePlayers">gamePlayers</string>
     <string name="fs_TeamGame_StartDate">startDate</string>
+    <string name="fs_TeamGame_noOfPlayers">noOfPlayers</string>
 
 
     <!-- TODO: Status Active -->
@@ -473,7 +483,7 @@
 
 
     <!-- TODO: Integrity Xml-->
-    <string name="Activity_Integrity">Your Word will create your world!</string>
+    <string name="Activity_Integrity">I say I do!</string>
 
     <!-- TODO: Attention Xml-->
 
@@ -662,8 +672,18 @@
     <string name="act_PreLaunch_Heading"> SET UP!</string>
 
 
+    <!-- Activity MainObjectives Launch -->
+
+    <string name="act_MainObjective_AlertDialog_NoCoins">You have set no coins for your Game!</string>
+    <string name="act_MainObjective_AlertDialog_Now">Do you want to do it now?</string>
+    <string name="act_MainObjective_AlertDialog_Not">Do you soon for better experience?</string>
+
+
     <!-- Menu -->
-    <string name="menu_setUp"> SetUp</string>
+    <string name="menu_setUp">Your Setup</string>
+    <string name="menu_feedback">Your Feedback</string>
+    <string name="menu_support">Support Us</string>
+    <string name="menu_logOut">Log Out</string>
 
 
     <string name="userStoryHeading"> Story Wall!</string>
@@ -675,7 +695,39 @@
     <string name="fm_selectGame_Heading">Select The Game!</string>
 
 
-    <!-- Game Define -->
+    <!-- Fragment Stake Game -->
+
+    <string name="fm_stakeGame_SelectItem">Select Your Bar</string>
+
+    <string name="fm_stakeGame_70">70%</string>
+    <string name="fm_stakeGame_80">80%</string>
+    <string name="fm_stakeGame_90">90%</string>
+    <string name="fm_stakeGame_Heading">What is your stake?</string>
+
+    <string name="fm_stakeGame_Coins">Coins</string>
+
+
+    <!-- Fragment Select Game -->
+    <string name="fm_fieldPartition">#</string>
+    <string name="fm_arrayListPartition">#</string>
+
+
+    <!-- Fragment Data Insertion -->
+
+    <string name="fm_Habit_SelectItem">Select Your level</string>
+
+    <string name="fm_Habit_SelectItem_Beginner">Beginner</string>
+    <string name="fm_Habit_SelectItem_Medium">Medium</string>
+    <string name="fm_Habit_SelectItem_Advanced">Expert</string>
+
+    <string name="pa_HabitsInspire">Given Opportunity, would you like to inspire or teach your habit?</string>
+
+
+    <!-- Fragment Insert Comments -->
+
+    <string name="fm_CommentInsertion_Heading">Your Feedback!</string>
+    <string name="Hint_fm_yourFeedback">Your Feedback is important!</string>
+
 
 
 </resources>

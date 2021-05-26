@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 import app.actionnation.actionapp.Database_Content.UserGame;
 import app.actionnation.actionapp.Storage.Constants;
+import app.actionnation.actionapp.Storage.UserStorageGameObject;
 import app.actionnation.actionapp.data.DbHelper;
 import app.actionnation.actionapp.data.DbHelperClass;
 
@@ -52,7 +53,7 @@ public class MeditationActivity extends BaseClassUser implements View.OnClickLis
         }
         if (arrayGameScore != null && arrayGameScore.size() > 0) {
             if (arrayGameScore.get(Constants.Game_CP__UserMeditationScore) > 0) {
-                btnFinish.setTextColor(Color.RED);
+                btnFinish.setTextColor(Color.BLACK);
             }
         }
 
@@ -84,7 +85,13 @@ public class MeditationActivity extends BaseClassUser implements View.OnClickLis
                 String usrId = fetchUserId(FirebaseAuth.getInstance());
 
                 ArrayList<String> arrayCaptains = getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
-                UserGame userGame = cls.loadUserGame(usrId, dayOfTheYear, yr, arrayCaptains, userName);
+
+
+                UserStorageGameObject userStorageGameObject = new UserStorageGameObject();
+                userStorageGameObject.setGameDocumentId(getIntent().getStringExtra(Constants.Intent_GameDocumentId));
+                userStorageGameObject.setUserCoinsPerDay(getIntent().getIntExtra(Constants.Intent_GameCoinsPerDay, Constants.Status_Zero));
+                userStorageGameObject.setUserExellenceBar(getIntent().getIntExtra(Constants.Intent_ExcellenceBar, Constants.Status_Zero));
+                UserGame userGame = cls.loadUserGame(usrId, dayOfTheYear, yr, arrayCaptains, userName, userStorageGameObject);
                 userGame.setUserMeditationScore(Constants.Game_Meditation);
 
                 arrayGameScore = getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore)));

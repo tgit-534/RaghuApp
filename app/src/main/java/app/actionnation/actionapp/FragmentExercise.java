@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 import app.actionnation.actionapp.Database_Content.UserGame;
 import app.actionnation.actionapp.Storage.Constants;
+import app.actionnation.actionapp.Storage.UserStorageGameObject;
 import app.actionnation.actionapp.data.DbHelper;
 import app.actionnation.actionapp.data.DbHelperClass;
 
@@ -101,7 +102,12 @@ public class FragmentExercise extends Fragment {
 
 
                 ArrayList<String> arrayCaptains = getActivity().getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
-                UserGame userGame = cls.loadUserGame(strUser.get(0), dayOfTheYear, yr, arrayCaptains, strUser.get(1));
+                UserStorageGameObject userStorageGameObject = new UserStorageGameObject();
+                userStorageGameObject.setGameDocumentId(getActivity().getIntent().getStringExtra(Constants.Intent_GameDocumentId));
+                userStorageGameObject.setUserCoinsPerDay(getActivity().getIntent().getIntExtra(Constants.Intent_GameCoinsPerDay, Constants.Status_Zero));
+                userStorageGameObject.setUserExellenceBar(getActivity().getIntent().getIntExtra(Constants.Intent_ExcellenceBar, Constants.Status_Zero));
+
+                UserGame userGame = cls.loadUserGame(strUser.get(0), dayOfTheYear, yr, arrayCaptains, strUser.get(1), userStorageGameObject);
 
                 userGame.setUserExerciseScore(Constants.Game_Exercise);
 

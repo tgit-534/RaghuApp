@@ -11,7 +11,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import app.actionnation.actionapp.utils.TabsAdapterGameTracking;
 
-public class ActivityGameTracking extends BaseClassUser implements View.OnClickListener {
+public class ActivityGameTracking extends BaseClassUser implements View.OnClickListener, FragmentStakeGame.OnFragmentSuccessBarListener {
     ViewPager viewPager;
     TabLayout tabLayout;
     private final String TAG = getClass().getSimpleName();
@@ -42,7 +42,6 @@ public class ActivityGameTracking extends BaseClassUser implements View.OnClickL
 
         tabLayout.addTab(tabLayout.newTab().setText("Game Stake!"));
         tabLayout.addTab(tabLayout.newTab().setText("Game Tracking!"));
-        tabLayout.addTab(tabLayout.newTab().setText("Coin Tracking!"));
 
         Log.d(TAG, "2");
 
@@ -56,6 +55,13 @@ public class ActivityGameTracking extends BaseClassUser implements View.OnClickL
 
     @Override
     public void onClick(View v) {
+
+    }
+
+
+
+    @Override
+    public void onSuccessBarSend(int coins) {
 
     }
 }

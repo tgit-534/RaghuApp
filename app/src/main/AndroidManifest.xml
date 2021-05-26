@@ -18,11 +18,14 @@
         android:roundIcon="@mipmap/ic_launcher_main"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".ActivityGameTracking"
+        <activity android:name=".ActivityCommonInsertion"
             android:screenOrientation="portrait"
             android:theme="@style/NewMyMaterialTheme"
             ></activity>
+        <activity
+            android:name=".ActivityGameTracking"
+            android:screenOrientation="portrait"
+            android:theme="@style/NewMyMaterialTheme" />
         <activity
             android:name=".ActivityGameCreation"
             android:screenOrientation="portrait"
@@ -31,7 +34,10 @@
             android:name=".ActivityPreLaunch"
             android:screenOrientation="portrait"
             android:theme="@style/NewMyMaterialTheme" />
-        <activity android:name=".ActivitySupport" />
+        <activity android:name=".ActivitySupport"
+            android:screenOrientation="portrait"
+            android:theme="@style/NewMyMaterialTheme"
+            />
         <activity
             android:name=".ActivityUserStory"
             android:screenOrientation="portrait"

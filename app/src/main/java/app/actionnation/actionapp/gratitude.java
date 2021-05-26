@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
@@ -23,6 +24,7 @@ import java.util.Calendar;
 
 import app.actionnation.actionapp.Database_Content.UserGame;
 import app.actionnation.actionapp.Storage.Constants;
+import app.actionnation.actionapp.Storage.UserStorageGameObject;
 import app.actionnation.actionapp.data.DbHelper;
 import app.actionnation.actionapp.data.DbHelperClass;
 
@@ -39,6 +41,8 @@ public class gratitude extends Fragment implements View.OnClickListener {
     private static final String ARG_PARAM2 = "param2";
     String TAG = "Gratitude";
     int dayOfYear, yr;
+    ImageButton imgRefresh;
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -91,6 +95,18 @@ public class gratitude extends Fragment implements View.OnClickListener {
 
         linearLayout = view.findViewById(R.id.ll_gratitude);
         btnGratitude = view.findViewById(R.id.gt_btn_gratitudelist);
+        imgRefresh = view.findViewById(R.id.imgBtn_refresh_gratitude);
+
+        imgRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+                getActivity().overridePendingTransition(0, 0);
+                startActivity(getActivity().getIntent());
+                getActivity().overridePendingTransition(0, 0);
+
+            }
+        });
 
         db = new DbHelper(getActivity());
 
@@ -159,7 +175,13 @@ public class gratitude extends Fragment implements View.OnClickListener {
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
 
         ArrayList<String> arrayCaptains = getActivity().getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
-        UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains, userName);
+
+        UserStorageGameObject userStorageGameObject = new UserStorageGameObject();
+        userStorageGameObject.setGameDocumentId(getActivity().getIntent().getStringExtra(Constants.Intent_GameDocumentId));
+        userStorageGameObject.setUserCoinsPerDay(getActivity().getIntent().getIntExtra(Constants.Intent_GameCoinsPerDay, Constants.Status_Zero));
+        userStorageGameObject.setUserExellenceBar(getActivity().getIntent().getIntExtra(Constants.Intent_ExcellenceBar, Constants.Status_Zero));
+
+        UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains, userName, userStorageGameObject);
 
         userGame.setUserGratitudeScore(Constants.Game_Gratitude);
 

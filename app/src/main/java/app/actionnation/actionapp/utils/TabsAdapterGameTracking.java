@@ -5,14 +5,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import app.actionnation.actionapp.FragmentCoinTracker;
 import app.actionnation.actionapp.FragmentGameTracker;
-import app.actionnation.actionapp.FragmentStakeGame;
+import app.actionnation.actionapp.FragmentSelectGame;
 
 public class TabsAdapterGameTracking extends FragmentStatePagerAdapter {
     int mNumOfTabs;
     int activityNumber;
-    String Title[] = {"Game Tracking", "Game Challenge", "CoinTracking"};
+    String Title[] = {"Your Game!", "Choose Game!"};
 
 
     public TabsAdapterGameTracking(FragmentManager fm, int NoofTabs) {
@@ -40,14 +39,11 @@ public class TabsAdapterGameTracking extends FragmentStatePagerAdapter {
         switch (position) {
             case 0:
                 home = new FragmentGameTracker();
-
                 return home;
             case 1:
-                home = new FragmentStakeGame();
+                home = new FragmentSelectGame();
                 return home;
-            case 2:
-                home = new FragmentCoinTracker();
-                return home;
+
             default:
                 return null;
         }

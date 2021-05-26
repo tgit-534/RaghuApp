@@ -17,7 +17,6 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Bundle;
 import android.provider.AlarmClock;
 import android.text.format.Time;
 import android.util.Log;
@@ -42,6 +41,7 @@ import java.util.Date;
 
 import app.actionnation.actionapp.Database_Content.UserGame;
 import app.actionnation.actionapp.Storage.Constants;
+import app.actionnation.actionapp.Storage.UserStorageGameObject;
 import app.actionnation.actionapp.data.DbHelper;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
@@ -156,13 +156,7 @@ public class CommonClass {
                 InviteToActionNation obj = new InviteToActionNation();
                 obj.CreateLink(ct);
                 break;
-            case R.id.ActionNationPhilosophy:
-                Intent homepage1 = new Intent(ct, displaydata.class);
-                Bundle mBundle1 = new Bundle();
-                mBundle1.putString("auth", "google");
-                homepage1.putExtras(mBundle1);
-                ct.startActivity(homepage1);
-                break;
+
 
         }
         return item;
@@ -580,7 +574,7 @@ public class CommonClass {
     }
 
 
-    public UserGame loadUserGame(String fbId, int dayOfTheYear, int yr, ArrayList<String> arrayCaptains, String userName) {
+    public UserGame loadUserGame(String fbId, int dayOfTheYear, int yr, ArrayList<String> arrayCaptains, String userName, UserStorageGameObject userStorageGameObject) {
         UserGame userGame = new UserGame();
         userGame.setFb_Id(fbId);
         userGame.setDayOfTheYear(dayOfTheYear);
@@ -588,6 +582,10 @@ public class CommonClass {
         userGame.setStatus(Constants.Status_One);
         userGame.setTeamCaptains(arrayCaptains);
         userGame.setUserName(userName);
+        userGame.setGameDocumentId(userStorageGameObject.getGameDocumentId());
+        userGame.setUserCoinsPerDay(userStorageGameObject.getUserCoinsPerDay());
+        userGame.setUserExellenceBar(userStorageGameObject.getUserExellenceBar());
+        userGame.setTimestamp(null);
         return userGame;
     }
 
@@ -700,8 +698,6 @@ public class CommonClass {
 
         snackbar.show();
     }
-
-
 
 
 }

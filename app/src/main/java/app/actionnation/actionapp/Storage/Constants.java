@@ -54,6 +54,10 @@ public class Constants {
     public static final String Intent_ArrayCaptain = "arrayCaptain";
     public static final String Intent_ArrayGameScore = "arrayGameScore";
     public static final String Intent_DataInsertion = "dataInsertion";
+    public static final String Intent_GameDocumentId = "GameDocumentId";
+    public static final String Intent_GameCoinsPerDay = "CoinsPerDay";
+    public static final String Intent_ExcellenceBar = "ExcellenceBar";
+
 
 
 
@@ -224,6 +228,25 @@ public class Constants {
     public static final String ClassName_Attention = "app.actionnation.actionapp.ActivityAttention";
     public static final String ClassName_Happiness = "app.actionnation.actionapp.ActivityHappiness";
     public static final String ClassName_Belief = "app.actionnation.actionapp.ActivityOurBelief";
+
+    public static final String ClassName_GameTracking = "app.actionnation.actionapp.ActivityGameTracking";
+    public static final String ClassName_GameCreation = "app.actionnation.actionapp.ActivityGameCreation";
+
+
+
+    public static final String StakeGame_70 = "70%";
+    public static final String StakeGame_80 = "80%";
+    public static final String StakeGame_90 = "90%";
+
+    public static final int StakeGame_70_Int = 70;
+    public static final int StakeGame_80_Int = 80;
+    public static final int StakeGame_90_Int = 90;
+
+
+    public static final int gameObject_playerDoucmentId = 0;
+    public static final int gameObject_playerStartDate = 1;
+    public static final int gameObject_playerEndDate = 2;
+
 
 
 }

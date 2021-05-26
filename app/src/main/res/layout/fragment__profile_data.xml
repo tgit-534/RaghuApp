@@ -84,7 +84,7 @@
             android:layout_margin="10dp"
             android:layout_marginBottom="10dp"
             android:gravity="top|left"
-            android:hint="@string/fpd_dream"
+            android:hint="@string/fpd_challenge"
             android:inputType="textMultiLine"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 

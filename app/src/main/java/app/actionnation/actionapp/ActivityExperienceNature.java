@@ -27,6 +27,7 @@ import app.actionnation.actionapp.Database_Content.CommonData;
 import app.actionnation.actionapp.Database_Content.Personal_Distraction;
 import app.actionnation.actionapp.Database_Content.UserGame;
 import app.actionnation.actionapp.Storage.Constants;
+import app.actionnation.actionapp.Storage.UserStorageGameObject;
 import app.actionnation.actionapp.data.DbHelper;
 import app.actionnation.actionapp.data.DbHelperClass;
 
@@ -80,7 +81,13 @@ public class ActivityExperienceNature extends BaseClassUser {
                 FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
 
                 ArrayList<String> arrayCaptains = getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
-                UserGame userGame = cls.loadUserGame(usrId, dayOfTheYear, yr, arrayCaptains, userName);
+
+
+                UserStorageGameObject userStorageGameObject = new UserStorageGameObject();
+                userStorageGameObject.setGameDocumentId(getIntent().getStringExtra(Constants.Intent_GameDocumentId));
+                userStorageGameObject.setUserCoinsPerDay(getIntent().getIntExtra(Constants.Intent_GameCoinsPerDay, Constants.Status_Zero));
+                userStorageGameObject.setUserExellenceBar(getIntent().getIntExtra(Constants.Intent_ExcellenceBar, Constants.Status_Zero));
+                UserGame userGame = cls.loadUserGame(usrId, dayOfTheYear, yr, arrayCaptains, userName, userStorageGameObject);
 
                 userGame.setUserDistractionScore(Constants.Game_ExperienceNature);
 

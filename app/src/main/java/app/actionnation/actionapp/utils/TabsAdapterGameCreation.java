@@ -18,10 +18,9 @@ public class TabsAdapterGameCreation extends FragmentStatePagerAdapter {
         String Title[] = {"Game Creation", "Game Invitation", "Game Selection"};
 
 
-        public TabsAdapterGameCreation(FragmentManager fm, int NoofTabs, ArrayList<String> arrayCaptains) {
+        public TabsAdapterGameCreation(FragmentManager fm, int NoofTabs) {
             super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
             this.mNumOfTabs = NoofTabs;
-            arrayCaptains = fragmentArrayCaptains;
         }
 
         @Override
@@ -44,7 +43,6 @@ public class TabsAdapterGameCreation extends FragmentStatePagerAdapter {
             switch (position) {
                 case 0:
                     home = new FragmentGameDefine();
-
                     return home;
                 case 1:
                     home = new FragmentSendGameInvitations();

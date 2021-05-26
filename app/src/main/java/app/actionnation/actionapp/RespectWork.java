@@ -20,6 +20,7 @@ import java.util.Calendar;
 
 import app.actionnation.actionapp.Database_Content.UserGame;
 import app.actionnation.actionapp.Storage.Constants;
+import app.actionnation.actionapp.Storage.UserStorageGameObject;
 import app.actionnation.actionapp.data.DbHelper;
 import app.actionnation.actionapp.data.DbHelperClass;
 
@@ -129,7 +130,13 @@ public class RespectWork extends BaseClassUser implements View.OnClickListener {
                 respectScore = respectScore * 2;
 
                 ArrayList<String> arrayCaptains = getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
-                UserGame userGame = cls.loadUserGame(usrId, dayOfTheYear, yr, arrayCaptains, userName);
+
+                UserStorageGameObject userStorageGameObject = new UserStorageGameObject();
+                userStorageGameObject.setGameDocumentId(getIntent().getStringExtra(Constants.Intent_GameDocumentId));
+                userStorageGameObject.setUserCoinsPerDay(getIntent().getIntExtra(Constants.Intent_GameCoinsPerDay, Constants.Status_Zero));
+                userStorageGameObject.setUserExellenceBar(getIntent().getIntExtra(Constants.Intent_ExcellenceBar, Constants.Status_Zero));
+
+                UserGame userGame = cls.loadUserGame(usrId, dayOfTheYear, yr, arrayCaptains, userName, userStorageGameObject);
 
                 userGame.setUserWorkWinScore((int) respectScore);
 
@@ -166,13 +173,13 @@ public class RespectWork extends BaseClassUser implements View.OnClickListener {
             finished = finished + 1;
             txtFinished.setText(String.valueOf(finished));
 
-            insertWorkStatus(usrId, finished, incomplete, abandoned, dayOfTheYear,fetchDate(1));
+            insertWorkStatus(usrId, finished, incomplete, abandoned, dayOfTheYear, fetchDate(1));
             insertWorkwinIntegrityTable(finished, abandoned, incomplete);
 
         } else if (i == R.id.btn_rw_Abandoned) {
             abandoned = abandoned + 1;
             txtAbandoned.setText(String.valueOf(abandoned));
-            insertWorkStatus(usrId, finished, incomplete, abandoned, dayOfTheYear,fetchDate(1));
+            insertWorkStatus(usrId, finished, incomplete, abandoned, dayOfTheYear, fetchDate(1));
 
             insertWorkwinIntegrityTable(finished, abandoned, incomplete);
 
@@ -180,7 +187,7 @@ public class RespectWork extends BaseClassUser implements View.OnClickListener {
         } else if (i == R.id.btn_rw_InComplete) {
             incomplete = incomplete + 1;
             txtincomplete.setText(String.valueOf(incomplete));
-            insertWorkStatus(usrId, finished, incomplete, abandoned, dayOfTheYear,fetchDate(1));
+            insertWorkStatus(usrId, finished, incomplete, abandoned, dayOfTheYear, fetchDate(1));
 
 
             insertWorkwinIntegrityTable(finished, abandoned, incomplete);
@@ -191,9 +198,9 @@ public class RespectWork extends BaseClassUser implements View.OnClickListener {
 
     private void insertWorkStatus(String usrId, int finished, int incomplete, int abandoned, int dayOfTheYear, int yr) {
         if (countDataRespectWork > 0) {
-            db.updateRespectWork(usrId, finished, incomplete, abandoned, dayOfTheYear,yr);
+            db.updateRespectWork(usrId, finished, incomplete, abandoned, dayOfTheYear, yr);
         } else {
-            db.insertRespectWork(usrId, finished, incomplete, abandoned, dayOfTheYear,yr);
+            db.insertRespectWork(usrId, finished, incomplete, abandoned, dayOfTheYear, yr);
         }
     }
 

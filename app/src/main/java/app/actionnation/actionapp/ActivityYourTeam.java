@@ -65,7 +65,6 @@ public class ActivityYourTeam extends BaseClassUser implements View.OnClickListe
         coordinatorLayout = findViewById(R.id.coordinatorLayout);
         btnSubmitEmail = findViewById(R.id.btn_team_invite);
         btnChooseCaptain = findViewById(R.id.btn_team_chooseCaptain);
-        fab = findViewById(R.id.fab_act_rate_captain);
 
         etEmail = findViewById(R.id.etInviteForTeam);
         arrayCaptain = getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));

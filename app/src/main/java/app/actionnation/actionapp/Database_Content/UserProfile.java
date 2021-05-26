@@ -22,6 +22,42 @@ public class UserProfile {
     int userMemberType;
     int userFollowers;
     int userFollowing;
+    String gameDocumentId;
+    int userCoinsPerDay;
+    int userExellenceBar;
+    int noOfPlayers;
+
+    public int getNoOfPlayers() {
+        return noOfPlayers;
+    }
+
+    public void setNoOfPlayers(int noOfPlayers) {
+        this.noOfPlayers = noOfPlayers;
+    }
+
+    public int getUserCoinsPerDay() {
+        return userCoinsPerDay;
+    }
+
+    public void setUserCoinsPerDay(int userCoinsPerDay) {
+        this.userCoinsPerDay = userCoinsPerDay;
+    }
+
+    public int getUserExellenceBar() {
+        return userExellenceBar;
+    }
+
+    public void setUserExellenceBar(int userExellenceBar) {
+        this.userExellenceBar = userExellenceBar;
+    }
+
+    public String getGameDocumentId() {
+        return gameDocumentId;
+    }
+
+    public void setGameDocumentId(String gameDocumentId) {
+        this.gameDocumentId = gameDocumentId;
+    }
 
     public int getUserFollowers() {
         return userFollowers;

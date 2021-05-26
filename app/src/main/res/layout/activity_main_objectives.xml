@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/cl_mainObjectives"
     tools:context=".ActivityMainObjectives">
 
     <LinearLayout
@@ -75,7 +76,9 @@
                 <RatingBar
                     android:id="@+id/rb_captainRatings"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    >
                 </RatingBar>
 
 
@@ -85,7 +88,7 @@
                     android:orientation="horizontal"
                     android:paddingTop="@dimen/activity_padding_mainObjectives"
                     android:paddingBottom="@dimen/activity_padding_mainObjectives"
-                    android:weightSum="3">
+                    android:weightSum="4">
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -99,6 +102,7 @@
                             android:layout_height="wrap_content"
                             android:text="Profile Complete!"
                             android:textColor="@android:color/background_dark"
+                            android:layout_marginLeft="@dimen/activity_5dp"
                             android:textSize="@dimen/activity_IconHeadings"
                             android:textStyle="bold" />
 
@@ -122,7 +126,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Your Captain!"
+                            android:text="Game Create!"
                             android:textColor="@android:color/background_dark"
                             android:textSize="@dimen/activity_IconHeadings"
                             android:textStyle="bold" />
@@ -133,7 +137,31 @@
                             android:layout_height="wrap_content"
                             android:background="#0000"
 
-                            android:src="@drawable/ic_captain_24"></ImageButton>
+                            android:src="@drawable/ic_baseline_sports_24"></ImageButton>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Game Track!"
+                            android:textColor="@android:color/background_dark"
+                            android:textSize="@dimen/activity_IconHeadings"
+                            android:textStyle="bold" />
+
+                        <ImageButton
+                            android:id="@+id/imgBtn_GameTrack"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="#0000"
+
+                            android:src="@drawable/ic_baseline_sports_score_24"></ImageButton>
                     </LinearLayout>
 
                     <LinearLayout

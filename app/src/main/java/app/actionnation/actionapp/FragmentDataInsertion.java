@@ -8,9 +8,15 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
@@ -51,10 +57,13 @@ public class FragmentDataInsertion extends DialogFragment implements View.OnClic
     ImageButton imageButtonHabitCancel, imageButtonDistractionCancel, imageButtonTractionCancel, imageButtonGratitudeCancel, imageButtonBeliefCancel, imageButtonReframeCancel;
     Button btnSave, btnSaveHabit, btnVisualizationSubmit, btnImgSave, btnDistractionSubmit, btnTractionSubmit, btnSaveGratitude, btnReframe, btnBeliefSubmit;
     ImageButton btnImgChoose, btnPrev, btnNxt;
-
+    Spinner spnHabitExpertise;
+    RadioGroup rgInspire;
     EditText etPurpose, etMission, etVision, etHabit, etHabitDescription, etVisualization, etDistraction, etTraction, etGratitudeName, etReframe, etBeliefName, etBeliefDesc;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
+    TextView txtInspireHabit;
+    RadioButton rbInspireYes, rbInspireNo;
 
     private static final int PICK_IMAGE_REQUEST = 234;
     private Uri filePath;
@@ -126,6 +135,8 @@ public class FragmentDataInsertion extends DialogFragment implements View.OnClic
         imageButtonBeliefCancel = view.findViewById(R.id.ImgBtnDialogBeliefCancel);
         imageButtonReframeCancel = view.findViewById(R.id.ImgBtnDialogReframeCancel);
 
+        rgInspire = view.findViewById(R.id.rg_fm_inspire);
+
         etReframe = view.findViewById(R.id.et_fm_ReframeName);
         btnReframe = view.findViewById(R.id.btn_fm_SaveReframe);
         btnReframe.setOnClickListener(this);
@@ -136,6 +147,8 @@ public class FragmentDataInsertion extends DialogFragment implements View.OnClic
         imageButtonBeliefCancel.setOnClickListener(cancel_click);
         imageButtonReframeCancel.setOnClickListener(cancel_click);
 
+        spnHabitExpertise = view.findViewById(R.id.spn_fm_HabitExpertise);
+        txtInspireHabit = view.findViewById(R.id.txt_fm_habitInspire);
 
         btnSaveHabit = view.findViewById(R.id.btn_fm_SaveHabit);
         btnVisualizationSubmit = view.findViewById(R.id.btnPdSaveVisualization);
@@ -156,6 +169,8 @@ public class FragmentDataInsertion extends DialogFragment implements View.OnClic
 
         etTraction = view.findViewById(R.id.et_fm_TractionName);
         etGratitudeName = view.findViewById(R.id.et_fm_Gratitude);
+        rbInspireYes = view.findViewById(R.id.rb_inspire_Yes);
+        rbInspireNo = view.findViewById(R.id.rb_inspire_No);
 
 
         etMission = view.findViewById(R.id.txtPdMission);
@@ -166,6 +181,45 @@ public class FragmentDataInsertion extends DialogFragment implements View.OnClic
         btnBeliefSubmit.setTag(false);
 
         etVision = view.findViewById(R.id.txtPdVision);
+
+        loadSpinner();
+
+        spnHabitExpertise.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 1:
+                        rgInspire.setVisibility(View.INVISIBLE);
+                        txtInspireHabit.setVisibility(View.INVISIBLE);
+                        break;
+                    case 2:
+                        rgInspire.setVisibility(View.INVISIBLE);
+                        txtInspireHabit.setVisibility(View.INVISIBLE);
+                        break;
+
+                    case 3:
+                        rgInspire.setVisibility(View.VISIBLE);
+                        txtInspireHabit.setVisibility(View.VISIBLE);
+                        break;
+
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        rgInspire.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton rb = (RadioButton) group.findViewById(checkedId);
+
+            }
+        });
 
 
         if (mParam1 != null) {
@@ -265,7 +319,6 @@ public class FragmentDataInsertion extends DialogFragment implements View.OnClic
 
             }
 
-
             /*
             i = new Intent(getContext(), ActivityOurBelief.class);
             Bundle mBundle = new Bundle();
@@ -342,12 +395,24 @@ public class FragmentDataInsertion extends DialogFragment implements View.OnClic
                 long presentDate = c.getTimeInMillis();
                 int dayOfYear = c.get(Calendar.DAY_OF_YEAR);
 
+
                 ph.setHabit(etHabit.getText().toString());
                 ph.setHabitWorks(etHabit.getText().toString());
                 ph.setStatus(Integer.parseInt(getString(R.string.Status_Active_Number)));
                 ph.setHabitDayOfTheYear(dayOfYear);
                 ph.setHabitDays(Integer.parseInt(getString(R.string.ht_HabitDaysInitialization)));
                 ph.setHabitDate(presentDate);
+                ph.setHabitLevel(spnHabitExpertise.getSelectedItem().toString());
+                if (spnHabitExpertise.getSelectedItemPosition() == 3) {
+                    RadioButton rb = (RadioButton) rgInspire.findViewById(rgInspire.getCheckedRadioButtonId());
+
+                    if (rb.getText().equals("Yes")) {
+                        ph.setHabitInspire(Constants.Status_One);
+                    } else {
+                        ph.setHabitInspire(Constants.Status_Zero);
+                    }
+
+                }
 
                 Db.insertFireStoreData(getString(R.string.fs_PersonalHabits), getContext(), ph, db);
                 dbh.insertHabit(usrId, etHabit.getText().toString(), 0, "Dummy");
@@ -383,6 +448,19 @@ public class FragmentDataInsertion extends DialogFragment implements View.OnClic
 
     }
 
+    private void loadSpinner() {
+        String[] arraySpinner = new String[]{
+                getString(R.string.fm_Habit_SelectItem), getString(R.string.fm_Habit_SelectItem_Beginner), getString(R.string.fm_Habit_SelectItem_Medium)
+                , getString(R.string.fm_Habit_SelectItem_Advanced)
+
+        };
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
+                android.R.layout.simple_spinner_item, arraySpinner);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spnHabitExpertise.setAdapter(adapter);
+
+
+    }
 
     private void clearForm(ViewGroup group) {
 

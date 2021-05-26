@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
@@ -24,6 +25,7 @@ import java.util.Calendar;
 
 import app.actionnation.actionapp.Database_Content.UserGame;
 import app.actionnation.actionapp.Storage.Constants;
+import app.actionnation.actionapp.Storage.UserStorageGameObject;
 import app.actionnation.actionapp.data.DbHelper;
 import app.actionnation.actionapp.data.DbHelperClass;
 
@@ -51,6 +53,8 @@ public class FragmentAbundance extends Fragment implements View.OnClickListener 
     ArrayList<String> strAttPattern = new ArrayList<>();
     String TAG = "attention";
     LinearLayout linearLayout;
+    ImageButton imgRefresh;
+
 
     public FragmentAbundance() {
         // Required empty public constructor
@@ -91,10 +95,13 @@ public class FragmentAbundance extends Fragment implements View.OnClickListener 
 
         View view = inflater.inflate(R.layout.fragment_abundance, container, false);
 
+
+
         recyclerView = view.findViewById(R.id.listAbundance);
         linearLayout = view.findViewById(R.id.ll_abundance);
         btnAbundanceList = view.findViewById(R.id.btn_abundancelist);
         btnAbundanceList.setOnClickListener(this);
+        imgRefresh = view.findViewById(R.id.imgBtn_refresh_abundance);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         AbundanceAdapter mAdapter = new AbundanceAdapter(getActivity(), getAllItems());
@@ -104,6 +111,18 @@ public class FragmentAbundance extends Fragment implements View.OnClickListener 
 
         Log.d(TAG, "Enter Db fetch");
         // fetch();
+
+        imgRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+                getActivity().overridePendingTransition(0, 0);
+                startActivity(getActivity().getIntent());
+                getActivity().overridePendingTransition(0, 0);
+
+            }
+        });
+
 
         return view;
 
@@ -146,7 +165,12 @@ public class FragmentAbundance extends Fragment implements View.OnClickListener 
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
 
         ArrayList<String> arrayCaptains = getActivity().getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
-        UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains, userName);
+
+        UserStorageGameObject userStorageGameObject = new UserStorageGameObject();
+        userStorageGameObject.setGameDocumentId(getActivity().getIntent().getStringExtra(Constants.Intent_GameDocumentId));
+        userStorageGameObject.setUserCoinsPerDay(getActivity().getIntent().getIntExtra(Constants.Intent_GameCoinsPerDay, Constants.Status_Zero));
+        userStorageGameObject.setUserExellenceBar(getActivity().getIntent().getIntExtra(Constants.Intent_ExcellenceBar, Constants.Status_Zero));
+        UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains, userName, userStorageGameObject);
 
         userGame.setUserAbundanceScore(Constants.Game_Abundance);
 

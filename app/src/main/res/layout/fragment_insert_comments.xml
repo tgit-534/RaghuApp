@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FragmentInsertComments">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/TextTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="@string/fm_CommentInsertion_Heading"></TextView>
+
+
+        <EditText
+            android:id="@+id/et_fm_userFeedback"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen_20dp"
+            android:gravity="top|left"
+            android:hint="@string/Hint_fm_yourFeedback"
+            android:inputType="textMultiLine"
+            android:outlineAmbientShadowColor="@color/main_color"
+            android:scrollbars="vertical" />
+
+        <Button
+            android:id="@+id/btn_fm_userFeedback"
+            style="@style/ButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/btn_submit"></Button>
+
+    </LinearLayout>
+
+
+</FrameLayout>

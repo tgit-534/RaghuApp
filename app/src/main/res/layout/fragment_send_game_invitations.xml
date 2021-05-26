@@ -14,8 +14,10 @@
         android:orientation="vertical">
 
         <TextView
+            style="@style/TextTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_5dp"
             android:layout_gravity="center"
             android:gravity="center"
             android:text="@string/fm_sendInvitations_Heading" />
@@ -25,15 +27,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="@dimen/activity_5dp"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
 
             <EditText
                 android:id="@+id/etInviteForTeamGame"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+
+                android:layout_marginLeft="@dimen/dimen_20dp"
+                android:layout_marginRight="@dimen/dimen_20dp"
+                android:layout_marginBottom="@dimen/activity_5dp"
                 android:hint="Email Id:"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"></EditText>
 

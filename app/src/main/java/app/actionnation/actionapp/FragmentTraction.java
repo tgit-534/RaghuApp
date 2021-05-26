@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
@@ -25,6 +26,7 @@ import java.util.Calendar;
 import app.actionnation.actionapp.Database_Content.Personal_Distraction;
 import app.actionnation.actionapp.Database_Content.UserGame;
 import app.actionnation.actionapp.Storage.Constants;
+import app.actionnation.actionapp.Storage.UserStorageGameObject;
 import app.actionnation.actionapp.data.DbHelper;
 import app.actionnation.actionapp.data.DbHelperClass;
 
@@ -51,6 +53,7 @@ public class FragmentTraction extends Fragment implements View.OnClickListener {
     FirebaseUser fbUser;
     LinearLayout linearLayout;
     Cursor res, res1;
+    ImageButton imgRefresh;
 
     public FragmentTraction() {
         // Required empty public constructor
@@ -92,7 +95,19 @@ public class FragmentTraction extends Fragment implements View.OnClickListener {
         btnTractionList = view.findViewById(R.id.btn_TractionList);
         btnTractionList.setOnClickListener(this);
         linearLayout = view.findViewById(R.id.ll_traction);
+        imgRefresh = view.findViewById(R.id.imgBtn_refresh_traction);
 
+
+        imgRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+                getActivity().overridePendingTransition(0, 0);
+                startActivity(getActivity().getIntent());
+                getActivity().overridePendingTransition(0, 0);
+
+            }
+        });
 
         ArrayList<Integer> arrayGameScore = getActivity().getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore)));
 
@@ -207,7 +222,14 @@ public class FragmentTraction extends Fragment implements View.OnClickListener {
         Personal_Distraction pd = new Personal_Distraction();
 
         ArrayList<String> arrayCaptains = getActivity().getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
-        UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains, userName);
+        UserStorageGameObject userStorageGameObject = new UserStorageGameObject();
+        userStorageGameObject.setGameDocumentId(getActivity().getIntent().getStringExtra(Constants.Intent_GameDocumentId));
+        userStorageGameObject.setUserCoinsPerDay(getActivity().getIntent().getIntExtra(Constants.Intent_GameCoinsPerDay, Constants.Status_Zero));
+        userStorageGameObject.setUserExellenceBar(getActivity().getIntent().getIntExtra(Constants.Intent_ExcellenceBar, Constants.Status_Zero));
+
+
+
+        UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains, userName, userStorageGameObject);
         userGame.setUserTractionScore(databaseScore);
 
         ArrayList<Integer> arrayGameScore = getActivity().getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore)));

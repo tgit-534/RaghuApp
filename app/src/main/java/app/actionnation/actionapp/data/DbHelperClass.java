@@ -317,6 +317,28 @@ public class DbHelperClass {
         userVariable.put(dataVariable, dataObjectUpdate);
         userVariable.put("userTotatScore", totalScore);
 
+
+        if (totalScore == 0) {
+            DocumentReference docRef = db.collection(collectionReference).document(dataObject.getFb_Id() + String.valueOf(dataObject.getDayOfTheYear()) + String.valueOf(dataObject.getYear()));
+            docRef.set(dataObject).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Toast.makeText(ct, "Insertion Done", Toast.LENGTH_LONG);
+                }
+            });
+        } else {
+            db.collection(collectionReference).document(dataObject.getFb_Id() + String.valueOf(dataObject.getDayOfTheYear()) + String.valueOf(dataObject.getYear()))
+                    .update(userVariable)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(ct, "Updation Success", Toast.LENGTH_LONG);
+
+                        }
+                    });
+        }
+
+      /*
         db.collection(collectionReference).document(dataObject.getFb_Id() + String.valueOf(dataObject.getDayOfTheYear()) + String.valueOf(dataObject.getYear()))
                 .update(userVariable)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -343,7 +365,7 @@ public class DbHelperClass {
                     }
                 });
             }
-        });
+        });*/
 
 
     }
@@ -402,10 +424,6 @@ public class DbHelperClass {
             }
         });
     }
-
-
-
-
 
 
     public FirestoreRecyclerAdapter GetFireStoreAdapter(FirestoreRecyclerAdapter adapter, String collectionReference, com.google.firebase.firestore.Query query) {
@@ -1118,15 +1136,13 @@ public class DbHelperClass {
     }
 
 
-
-
-    public FirestoreRecyclerAdapter GetFireStoreAdapterDistraction(com.google.firebase.firestore.Query query,FirestoreRecyclerAdapter adapter ) {
+    public FirestoreRecyclerAdapter GetFireStoreAdapterDistraction(com.google.firebase.firestore.Query query, FirestoreRecyclerAdapter adapter) {
         final FirestoreRecyclerOptions<Personal_Distraction> options = new FirestoreRecyclerOptions.Builder<Personal_Distraction>()
                 .setQuery(query, Personal_Distraction.class)
                 .build();
         Log.d(TAG, "Enter Db 1 firestore");
 
-         adapter = new FirestoreRecyclerAdapter<Personal_Distraction, ActivityAttention.ViewHolderDistraction>(options) {
+        adapter = new FirestoreRecyclerAdapter<Personal_Distraction, ActivityAttention.ViewHolderDistraction>(options) {
 
             @Override
             protected void onBindViewHolder(@NonNull final ActivityAttention.ViewHolderDistraction holder, int position, @NonNull final Personal_Distraction model) {

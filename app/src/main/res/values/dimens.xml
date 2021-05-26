@@ -49,6 +49,8 @@
     <dimen name="storyImage_Display">60dp</dimen>
 
     <dimen name="activity_5dp">5dp</dimen>
+    <dimen name="activity_10dp">10dp</dimen>
+
 
     <dimen name="activity_padding_mainObjectives">5dp</dimen>
 

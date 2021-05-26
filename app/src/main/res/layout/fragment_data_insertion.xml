@@ -139,6 +139,48 @@
                             android:scrollbars="vertical" />
 
 
+
+                        <Spinner
+                            android:id="@+id/spn_fm_HabitExpertise"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"></Spinner>
+
+
+
+
+                        <TextView
+                            android:id="@+id/txt_fm_habitInspire"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:visibility="gone"
+                            android:text="@string/pa_HabitsInspire"></TextView>
+
+                        <RadioGroup
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:id="@+id/rg_fm_inspire"
+                            >
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/rb_inspire_Yes"
+                                 android:text="Yes"></RadioButton>
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/rb_inspire_No"
+
+                                android:text="No"></RadioButton>
+
+                        </RadioGroup>
+
+
+
                         <Button
                             android:id="@+id/btn_fm_SaveHabit"
                             style="@style/ButtonStyle"

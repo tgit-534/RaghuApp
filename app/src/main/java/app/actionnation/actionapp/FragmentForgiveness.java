@@ -31,6 +31,7 @@ import app.actionnation.actionapp.Database_Content.CommonData;
 import app.actionnation.actionapp.Database_Content.Personal_Distraction;
 import app.actionnation.actionapp.Database_Content.UserGame;
 import app.actionnation.actionapp.Storage.Constants;
+import app.actionnation.actionapp.Storage.UserStorageGameObject;
 import app.actionnation.actionapp.data.DbHelper;
 import app.actionnation.actionapp.data.DbHelperClass;
 
@@ -127,11 +128,11 @@ public class FragmentForgiveness extends Fragment implements View.OnClickListene
 
                 if (res.getString(3).equals("1")) {
 
-                    btn_finish_Forgiveness_Inside.setTextColor(Color.RED);
+                    btn_finish_Forgiveness_Inside.setTextColor(Color.BLACK);
                 }
 
                 if (res.getString(4).equals("1")) {
-                    btn_finish_Forgiveness_outside.setTextColor(Color.RED);
+                    btn_finish_Forgiveness_outside.setTextColor(Color.BLACK);
                 }
                 strEmotionData.add(res.getString(5));
                 strEmotionData.add(res.getString(6));
@@ -297,7 +298,12 @@ public class FragmentForgiveness extends Fragment implements View.OnClickListene
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
 
         ArrayList<String> arrayCaptains = getActivity().getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
-        UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains, userName);
+        UserStorageGameObject userStorageGameObject = new UserStorageGameObject();
+        userStorageGameObject.setGameDocumentId(getActivity().getIntent().getStringExtra(Constants.Intent_GameDocumentId));
+        userStorageGameObject.setUserCoinsPerDay(getActivity().getIntent().getIntExtra(Constants.Intent_GameCoinsPerDay, Constants.Status_Zero));
+        userStorageGameObject.setUserExellenceBar(getActivity().getIntent().getIntExtra(Constants.Intent_ExcellenceBar, Constants.Status_Zero));
+
+        UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains, userName, userStorageGameObject);
 
         DbHelperClass dbHelperClass = new DbHelperClass();
 
@@ -312,7 +318,7 @@ public class FragmentForgiveness extends Fragment implements View.OnClickListene
 
 
         if (i == R.id.btn_forgive_Self) {
-            btn_finish_Forgiveness_Inside.setTextColor(Color.RED);
+            btn_finish_Forgiveness_Inside.setTextColor(Color.BLACK);
             cls.SubmitHappinessGame(Constants.HP_ForgiveInsideScore, db, usrId, dayOfYear, yr);
             userGame.setUserForgivenessSelfScore(Constants.Game_Forgiveness_Self);
 
@@ -334,7 +340,7 @@ public class FragmentForgiveness extends Fragment implements View.OnClickListene
             cls.makeSnackBar(linearLayout);
 
         } else if (i == R.id.btn_forgive_Outside) {
-            btn_finish_Forgiveness_outside.setTextColor(Color.RED);
+            btn_finish_Forgiveness_outside.setTextColor(Color.BLACK);
             cls.SubmitHappinessGame(Constants.HP_ForgiveOutsideScore, db, usrId, dayOfYear, yr);
             userGame.setUserForgivenessOutsideScore(Constants.Game_Forgiveness_Outside);
 

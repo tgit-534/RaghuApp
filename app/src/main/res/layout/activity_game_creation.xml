@@ -40,17 +40,5 @@
 
 
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/fab_act_gameset"
-        style="@style/MyMaterialTheme"
-        android:layout_width="wrap_content"
-        android:foregroundTint="@color/plain_white"
-        app:iconTint="@color/plain_white"
-        android:textColor="@color/plain_white"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:text="@string/Common_Win"
-        app:icon="@drawable/ic_baseline_task_24" />
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

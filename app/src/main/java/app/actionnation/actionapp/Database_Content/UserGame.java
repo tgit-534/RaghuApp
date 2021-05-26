@@ -1,5 +1,8 @@
 package app.actionnation.actionapp.Database_Content;
 
+import com.google.firebase.firestore.ServerTimestamp;
+
+import java.util.Date;
 import java.util.List;
 
 public class UserGame {
@@ -33,14 +36,42 @@ public class UserGame {
     int year;
     List<String> teamCaptains;
     int status;
-    List<String> teamPlayers;
+    String gameDocumentId;
+    int userCoinsPerDay;
+    int userExellenceBar;
+    @ServerTimestamp
+    Date timestamp;
 
-    public List<String> getTeamPlayers() {
-        return teamPlayers;
+    public Date getTimestamp() {
+        return timestamp;
     }
 
-    public void setTeamPlayers(List<String> teamPlayers) {
-        this.teamPlayers = teamPlayers;
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public int getUserCoinsPerDay() {
+        return userCoinsPerDay;
+    }
+
+    public void setUserCoinsPerDay(int userCoinsPerDay) {
+        this.userCoinsPerDay = userCoinsPerDay;
+    }
+
+    public int getUserExellenceBar() {
+        return userExellenceBar;
+    }
+
+    public void setUserExellenceBar(int userExellenceBar) {
+        this.userExellenceBar = userExellenceBar;
+    }
+
+    public String getGameDocumentId() {
+        return gameDocumentId;
+    }
+
+    public void setGameDocumentId(String gameDocumentId) {
+        this.gameDocumentId = gameDocumentId;
     }
 
     public String getUserName() {

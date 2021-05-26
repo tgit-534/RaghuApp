@@ -8,11 +8,28 @@ public class Personal_Habit {
    }
 
     String fb_Id;
-    String habit, habitWorks;
+    String habit, habitWorks, habitLevel;
     int status;
     int habitDays, powerLimit;
     long habitDate;
     int habitDayOfTheYear;
+    int habitInspire;
+
+    public String getHabitLevel() {
+        return habitLevel;
+    }
+
+    public void setHabitLevel(String habitLevel) {
+        this.habitLevel = habitLevel;
+    }
+
+    public int getHabitInspire() {
+        return habitInspire;
+    }
+
+    public void setHabitInspire(int habitInspire) {
+        this.habitInspire = habitInspire;
+    }
 
     public int getPowerLimit() {
         return powerLimit;

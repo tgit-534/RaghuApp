@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,7 +33,6 @@ import app.actionnation.actionapp.Database_Content.UserGame;
 import app.actionnation.actionapp.Storage.Constants;
 import app.actionnation.actionapp.Storage.UserShowCaseGame;
 import app.actionnation.actionapp.adapters.GameTrackingAdapter;
-import app.actionnation.actionapp.adapters.ShowGameTrackingAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -153,7 +151,7 @@ public class FragmentGameTracker extends Fragment {
             fetch(fbUser.getUid(), strGameObject, noOfPlayers);
         } else {
             CommonClass cls = new CommonClass();
-            cls.makeSnackBar(linearLayout, "You haven't a game!");
+            cls.makeSnackBar(linearLayout, getString(R.string.fm_Snack_NoGame));
         }
 
         return view;
@@ -246,7 +244,7 @@ public class FragmentGameTracker extends Fragment {
                     } else {
                         // if the snapshot is empty we are
                         // displaying a toast message.
-                        Toast.makeText(getContext(), "No data found in Database", Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(getContext(), "No data found in Database", Toast.LENGTH_SHORT).show();
                     }
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -258,50 +256,8 @@ public class FragmentGameTracker extends Fragment {
                 }
             });
 
-            /*adapter = GetFireStoreAdapterShowGame(query, usrId);
-
-            recyclerView.setAdapter(adapter);*/
         }
     }
-
-
-    private FirestoreRecyclerAdapter GetFireStoreAdapterShowGame(com.google.firebase.firestore.Query query, final String fbId) {
-
-        FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
-
-        final FirestoreRecyclerOptions<UserGame> options = new FirestoreRecyclerOptions.Builder<UserGame>()
-                .setQuery(query, UserGame.class)
-                .build();
-
-
-        adapter = new ShowGameTrackingAdapter(options);
-
-        return adapter;
-
-    }
-
-
-   /* private void fetch2(String gameDocumentId) {
-        db = FirebaseFirestore.getInstance();
-
-        // creating our new array list
-        dataModalArrayList = new ArrayList<>();
-        recyclerView.setHasFixedSize(true);
-
-
-        // adding horizontal layout manager for our recycler view.
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-
-        // adding our array list to our recycler view adapter class.
-        dataRVAdapter = new GameTrackingAdapter(dataModalArrayList, getContext());
-
-        // setting adapter to our recycler view.
-        recyclerView.setAdapter(dataRVAdapter);
-        //loadrecyclerViewData(gameDocumentId);
-
-        int i = 0;
-    }*/
-
 
 
 

@@ -60,7 +60,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_baseline_search_12"
-                android:background="#0000"
+                android:background="@color/plain_white"
+                android:id="@+id/imgBtnSearchUniquename"
                 ></ImageButton>
 
 
@@ -118,6 +119,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="Save" />
+            android:text="@string/Common_Save" />
+
+
+
+        <Button
+            android:id="@+id/btnFPDUpdate"
+            style="@style/ButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/Common_Update"
+            android:visibility="gone"
+            />
+
     </LinearLayout>
 </LinearLayout>

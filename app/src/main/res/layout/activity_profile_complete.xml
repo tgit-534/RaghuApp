@@ -14,10 +14,18 @@
         android:layout_alignParentTop="true"
         android:elevation="6dp" />
 
-    <fragment
-        android:id="@+id/fooFragmentProfileData"
-        android:name="app.actionnation.actionapp.Fragment_ProfileData"
+
+    <FrameLayout
+        android:id="@+id/fragmentProfileData"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"></FrameLayout>
+
+
+
+    <FrameLayout
+        android:id="@+id/fragmentProfileInsert"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></FrameLayout>
+
 
 </LinearLayout>

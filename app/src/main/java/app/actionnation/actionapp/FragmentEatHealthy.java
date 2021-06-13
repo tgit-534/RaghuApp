@@ -162,14 +162,12 @@ public class FragmentEatHealthy extends Fragment {
         if (cus.getCount() > 0) {
             cus.moveToFirst();
 
-            ArrayList<String> arrayCaptains = getActivity().getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
-
             UserStorageGameObject userStorageGameObject = new UserStorageGameObject();
             userStorageGameObject.setGameDocumentId(getActivity().getIntent().getStringExtra(Constants.Intent_GameDocumentId));
             userStorageGameObject.setUserCoinsPerDay(getActivity().getIntent().getIntExtra(Constants.Intent_GameCoinsPerDay, Constants.Status_Zero));
             userStorageGameObject.setUserExellenceBar(getActivity().getIntent().getIntExtra(Constants.Intent_ExcellenceBar, Constants.Status_Zero));
 
-            UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains, userName, userStorageGameObject);
+            UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, userName, userStorageGameObject);
             if (ehEatStatus == Constants.aaq_EatHealthy_Number) {
                 eatScore = Integer.parseInt(cus.getString(Constants.Game_AS_EatFoodScore));
                 EatScoreTot = Integer.parseInt(cus.getString(Constants.Game_AS_TotEatFoodScore));

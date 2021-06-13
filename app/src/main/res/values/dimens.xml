@@ -51,7 +51,34 @@
     <dimen name="activity_5dp">5dp</dimen>
     <dimen name="activity_10dp">10dp</dimen>
 
+    <!-- Activity_Integrity_Main. -->
+    <dimen name="activity_Integrity_Main_LayoutMargin">10dp</dimen>
+
+
+    <!-- Activity_Respect_Work. -->
+    <dimen name="activity_RespectWork_LayoutMargin">10dp</dimen>
+
+
+    <dimen name="commonElevation">6dp</dimen>
+    <dimen name="commonPaddingBottom_RecyclerView">30dp</dimen>
+
+    <dimen name="commonMargin">5dp</dimen>
+    <dimen name="commonPadding">5dp</dimen>
+    <dimen name="commonMargin_10dp">10dp</dimen>
+    <dimen name="common_0dp">0dp</dimen>
+
 
     <dimen name="activity_padding_mainObjectives">5dp</dimen>
+
+
+
+
+    <!-- Activity_Integrity Xml -->
+    <dimen name="ll_AI_margin">10dp</dimen>
+    <dimen name="et_AI_width">100dp</dimen>
+
+    <dimen name="et_margineBottom">2dp</dimen>
+
+
 
 </resources>

@@ -171,12 +171,19 @@
     <string name="common_confirm">Confirm</string>
     <string name="common_facebook">fb</string>
     <string name="common_name">name</string>
+    <string name="Common_Win">WIN</string>
+    <string name="Common_Zero">0</string>
 
 
     <!-- TODO: Common Notations Xml -->
     <string name="common_signup">Sign Up</string>
     <string name="common_enterPwd">Enter password</string>
     <string name="common_enterEmail">Enter email</string>
+    <string name="Common_Edit">Edit</string>
+    <string name="Common_Update">Update</string>
+    <string name="Common_Save">Save</string>
+
+
 
     <!-- TODO: Details Challenges XML -->
     <string name="DC_Title1">Welcome Action Hero!</string>
@@ -201,6 +208,7 @@
     <string name="Intent_ArrayOneStory">OneStory</string>
     <string name="Intent_NoOfPlayes">noPlayers</string>
     <string name="Intent_gameDocumentObject">gameDocumentObject</string>
+    <string name="Intent_profileObject">profileObject</string>
 
 
     <!-- TODO: Error Messages -->
@@ -281,6 +289,13 @@
     <string name="fs_UserProfile_gameDocId">gameDocumentId</string>
     <string name="fs_UserProfile_userCoinsPerDay">userCoinsPerDay</string>
     <string name="fs_UserProfile_userExellenceBar">userExellenceBar</string>
+    <string name="fs_UserProfile_userHandle">userHandle</string>
+    <string name="fs_UserProfile_userFirstName">userFirstName</string>
+    <string name="fs_UserProfile_userLastName">userLastName</string>
+    <string name="fs_UserProfile_userDream">userDream</string>
+    <string name="fs_UserProfile_userChallenge">userChallenge</string>
+
+
 
 
     <string name="fs_UserTeam_teamMembers">teamMembers</string>
@@ -439,9 +454,9 @@
 
     <string name="pd_habit">Habit</string>
     <string name="pd_habitDesc">Habit Description</string>
-    <string name="pd_habitName">Your Habit to achieve your dreams!</string>
+    <string name="pd_habitName">Your Habit to achieve your dreams</string>
 
-    <string name="ht_descrption">Habits are building blocks of our success!</string>
+    <string name="ht_descrption">Habits are building blocks of our success</string>
     <string name="btn_submit">Submit</string>
 
     <!-- TODO: Fragment Philosophy-->
@@ -463,13 +478,13 @@
 
     <!-- TODO: Habit Traking Xml-->
 
-    <string name="go_HabitPage">Add Habit!</string>
+    <string name="go_HabitPage">Add Habit</string>
     <string name="HabitTimer">Habit Timer</string>
 
 
     <!-- TODO: Gratitide List Xml-->
 
-    <string name="gratitide_Add">Add Gratitude!</string>
+    <string name="gratitide_Add">Add Gratitude</string>
 
     <string name="Page_Redirect">PageRedirect</string>
     <string name="Page_Redirect_Gratitude">Gratitude</string>
@@ -483,7 +498,6 @@
 
 
     <!-- TODO: Integrity Xml-->
-    <string name="Activity_Integrity">I say I do!</string>
 
     <!-- TODO: Attention Xml-->
 
@@ -499,21 +513,27 @@
     <!-- TODO: Integrity  Xml-->
     <string name="Integrity_Date">Pick Date</string>
     <string name="Integrity_Time">Pick Time</string>
+    <string name="Integrity_Date_Hint">Date</string>
+    <string name="Integrity_Time_Hint">Time</string>
+    <string name="Integrity_EditBox_Hint">What did you promise?</string>
 
-    <string name="Common_Win">WIN</string>
+
+    <!-- TODO: Fab text  Xml-->
+
+    <string name="fab_newGame">New Game</string>
 
 
     <!-- TODO:  Heading  Xml-->
-    <string name="Fragment_Gr_Heading">Gratitude!</string>
-    <string name="Fragment_fg_Heading">Forgiveness!</string>
-    <string name="Fragment_Dm_Heading">Dream!</string>
-    <string name="Fragment_Dt_Heading">Distraction!</string>
-    <string name="Fragment_Tr_Heading">Traction!</string>
-    <string name="Fragment_Em_Heading">Emotions!</string>
-    <string name="Fragment_Abe_Heading"> Abundance(Reframe your world)!</string>
-    <string name="Fragment_Eh_Heading">Eat Healthy!</string>
+    <string name="Fragment_Gr_Heading">Gratitude</string>
+    <string name="Fragment_fg_Heading">Forgiveness</string>
+    <string name="Fragment_Dm_Heading">Dream</string>
+    <string name="Fragment_Dt_Heading">Distraction</string>
+    <string name="Fragment_Tr_Heading">Traction</string>
+    <string name="Fragment_Em_Heading">Emotions</string>
+    <string name="Fragment_Abe_Heading"> Abundance(Reframe your world)</string>
+    <string name="Fragment_Eh_Heading">Eat Healthy</string>
 
-    <string name="Dialog_Heading">Select Your Captain!</string>
+    <string name="Dialog_Heading">Select Your Captain</string>
 
     <string name="Data_ADD">ADD</string>
     <string name="Data_START">START</string>
@@ -521,16 +541,16 @@
 
     <!-- TODO:  Heading Activity Xml-->
     <string name="Meditation_Heading">Meditation</string>
-    <string name="Activity_Reading_Heading">Reading is Improving!</string>
-    <string name="Activity_ExcerciseNew_Heading">Exercise!</string>
-    <string name="Activity_TL_Heading">True Learning!</string>
-    <string name="Activity_EH_Heading">Eat Healthy!</string>
-    <string name="Activity_Excercise_Heading">Excercise is Important!</string>
-    <string name="Activity_Attention_Heading">Attention for Amazing Creations!</string>
-    <string name="ht_Heading">Your Habits For Your Greatness!</string>
+    <string name="Activity_Reading_Heading">Reading is Improving</string>
+    <string name="Activity_ExcerciseNew_Heading">Exercise</string>
+    <string name="Activity_TL_Heading">True Learning</string>
+    <string name="Activity_EH_Heading">Eat Healthy</string>
+    <string name="Activity_Excercise_Heading">Excercise is Important</string>
+    <string name="Activity_Attention_Heading">Attention for Amazing Creations</string>
+    <string name="ht_Heading">Your Habits For Your Greatness</string>
     <string name="Activity_Belief_Heading">Our Belief System</string>
-    <string name="Activity_Nature_Heading">Experience Nature!</string>
-    <string name="Activity_Story_Heading">Story!</string>
+    <string name="Activity_Nature_Heading">Experience Nature</string>
+    <string name="Activity_Story_Heading">Story</string>
     <string name="Activity_your_team">Team</string>
     <string name="Activity_YourTeam_Heading">Create Your Team</string>
 
@@ -549,9 +569,9 @@
     <string name="Hc_redirect_Gratitude">Gratitude</string>
     <string name="Hc_Gratitude_Heading">Gratitude</string>
     <string name="Hc_Belief_Heading">Belief</string>
-    <string name="Hc_Gratitide_Hint">Insert Gratitude!</string>
-    <string name="Hc_Belief_Hint">Insert Belief!</string>
-    <string name="Hc_Traction_Hint">Insert Traction!</string>
+    <string name="Hc_Gratitide_Hint">Insert Gratitude</string>
+    <string name="Hc_Belief_Hint">Insert Belief</string>
+    <string name="Hc_Traction_Hint">Insert Traction</string>
 
 
     <!-- TODO: Hint -->
@@ -562,8 +582,8 @@
 
     <string name="title_activity_reveal_story">ActivityRevealStory</string>
 
-    <string name="Hint_fm_commentCaptain">Comments for your captain!</string>
-    <string name="Hint_fm_shareStory">Share Your Dream Story!</string>
+    <string name="Hint_fm_commentCaptain">Comments for your captain</string>
+    <string name="Hint_fm_shareStory">Share Your Dream Story</string>
 
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -625,11 +645,11 @@
     <string name="posts">posts</string>
     <string name="followers">followers</string>
     <string name="following">following</string>
-    <string name="msg_error_unable_select_profile_pic">Unable to set profile image. Please try again!</string>
+    <string name="msg_error_unable_select_profile_pic">Unable to set profile image. Please try again</string>
     <string name="lbl_set_profile_photo">Set profile image</string>
     <string name="lbl_take_camera_picture">Take a picture</string>
     <string name="lbl_choose_from_gallery">Choose from gallery</string>
-    <string name="toast_image_intent_null">Image picker option is missing!</string>
+    <string name="toast_image_intent_null">Image picker option is missing</string>
 
     <!-- font families -->
     <string name="font_family_light">sans-serif-light</string>
@@ -647,34 +667,36 @@
     <string name="fpd_firstName"> First Name</string>
     <string name="fpd_lastName"> Last Name</string>
     <string name="fpd_userName">Unique User Name</string>
-    <string name="fpd_dream">The Dream that you want to live!</string>
+    <string name="fpd_dream">The Dream that you want to live</string>
     <string name="fpd_challenge">Challenging: What are you challenging with your Dream?</string>
     <string name="fpd_country"> Country</string>
     <string name="fpd_state"> State</string>
 
     <string name="fpd_title">Your Profile</string>
 
-    <string name="Button_share">Share Your Story!</string>
+    <string name="Button_share">Share Your Story</string>
 
 
-    <string name="snakbar_NoData">No selection is made!</string>
-    <string name="snakbar_Success"> Well Done!</string>
+    <string name="snakbar_NoData">No selection is made</string>
+    <string name="snakbar_Success"> Well Done</string>
 
 
     <!-- Activity Pre Launch -->
-    <string name="act_PreLaunch_HabitHeading"> Set Your Habits!</string>
-    <string name="act_PreLaunch_DistractionHeading"> Identify Your Distractions!</string>
-    <string name="act_PreLaunch_TractionHeading"> Know Your Traction Triggers!</string>
-    <string name="act_PreLaunch_btnText"> SET!</string>
-    <string name="act_PreLaunch_GratitudeHeading"> Set Your Gratitude!</string>
-    <string name="act_PreLaunch_AbundanceHeading"> Abundance Score!</string>
-    <string name="act_PreLaunch_BeliefHeading"> Your Beliefs!</string>
-    <string name="act_PreLaunch_Heading"> SET UP!</string>
+    <string name="act_PreLaunch_HabitHeading"> Set Your Habits</string>
+    <string name="act_PreLaunch_DistractionHeading"> Identify Your Distractions.</string>
+    <string name="act_PreLaunch_TractionHeading"> Know Your Traction Triggers.</string>
+    <string name="act_PreLaunch_btnText"> SET</string>
+    <string name="act_PreLaunch_GratitudeHeading"> Set Your Gratitude.</string>
+    <string name="act_PreLaunch_AbundanceHeading">Your Abundance.</string>
+    <string name="act_PreLaunch_BeliefHeading"> Your Beliefs.</string>
+    <string name="act_PreLaunch_Heading"> SET UP.</string>
+    <string name="act_PreLaunch_SetYourBar"> Set Your Game Bar.</string>
+    <string name="Activity_Support_Heading">Your Support Counts</string>
 
 
     <!-- Activity MainObjectives Launch -->
 
-    <string name="act_MainObjective_AlertDialog_NoCoins">You have set no coins for your Game!</string>
+    <string name="act_MainObjective_AlertDialog_NoCoins">You have set no coins for your Game</string>
     <string name="act_MainObjective_AlertDialog_Now">Do you want to do it now?</string>
     <string name="act_MainObjective_AlertDialog_Not">Do you soon for better experience?</string>
 
@@ -686,13 +708,13 @@
     <string name="menu_logOut">Log Out</string>
 
 
-    <string name="userStoryHeading"> Story Wall!</string>
-    <string name="fm_gameDefine_GameName"> Game Name!</string>
-    <string name="fm_gameDefine_Button"> Submit!</string>
+    <string name="userStoryHeading"> Story Wall</string>
+    <string name="fm_gameDefine_GameName"> Game Name</string>
+    <string name="fm_gameDefine_Button"> Submit</string>
 
 
-    <string name="fm_sendInvitations_Heading">Send invitations!</string>
-    <string name="fm_selectGame_Heading">Select The Game!</string>
+    <string name="fm_sendInvitations_Heading">Send invitations</string>
+    <string name="fm_selectGame_Heading">Select The Game</string>
 
 
     <!-- Fragment Stake Game -->
@@ -702,7 +724,7 @@
     <string name="fm_stakeGame_70">70%</string>
     <string name="fm_stakeGame_80">80%</string>
     <string name="fm_stakeGame_90">90%</string>
-    <string name="fm_stakeGame_Heading">What is your stake?</string>
+    <string name="fm_stakeGame_Heading">Set your bar to play?</string>
 
     <string name="fm_stakeGame_Coins">Coins</string>
 
@@ -710,6 +732,8 @@
     <!-- Fragment Select Game -->
     <string name="fm_fieldPartition">#</string>
     <string name="fm_arrayListPartition">#</string>
+    <string name="fm_radioSelectMaster">Master</string>
+    <string name="fm_radioSelectPlayer">Player</string>
 
 
     <!-- Fragment Data Insertion -->
@@ -725,10 +749,84 @@
 
     <!-- Fragment Insert Comments -->
 
-    <string name="fm_CommentInsertion_Heading">Your Feedback!</string>
-    <string name="Hint_fm_yourFeedback">Your Feedback is important!</string>
+    <string name="fm_CommentInsertion_Heading">Your Feedback</string>
+    <string name="Hint_fm_yourFeedback">Your Feedback is important</string>
 
 
+    <!-- lf game selection -->
+
+    <string name="lf_gameSelection_AddPlayers">Add Players</string>
+    <string name="validate_textBoxEmpty">Textbox is Empty</string>
+
+    <string name="validate_textBoxCoins">Coins missing in the TextBox</string>
+    <string name="validate_dateLessotherdate">Start Date should not be more than End Date</string>
+    <string name="validate_dateSelect">Date should be more than the present date</string>
+    <string name="validate_GameName">Game Name should not be empty</string>
+
+
+    <!-- Alert Game Define -->
+
+    <string name="fm_GameDefine_DataInserted">Succesfully Game Added</string>
+
+
+    <!-- Alert Dialog Matter -->
+
+    <string name="fm_AlertDialog_Replace">Are you sure to replace existing Game?</string>
+    <string name="fm_AlertDialog_NoReplace">Your existing game persists</string>
+
+
+    <!-- Fragment Insert Comment Feedback -->
+    <string name="fm_InsertComments_FeedbackRecorded">Recorded Your Feedback</string>
+
+
+    <string name="fm_Snack_NoGame">You do not have a game</string>
+
+
+    <string name="fm_gameInProgress_gameStatus">Game Status:</string>
+
+
+    <string name="viewHolder_Insert_SuccessSeed">0</string>
+    <string name="viewHolder_Insert_Habit">1</string>
+    <string name="viewHolder_Insert_Distraction">2</string>
+    <string name="viewHolder_Insert_traction">3</string>
+    <string name="viewHolder_Insert_Gratitude">4</string>
+    <string name="viewHolder_Insert_Abundance">5</string>
+    <string name="viewHolder_Insert_Belief">6</string>
+
+
+    <!-- Headings -->
+    <string name="Activity_IntegrityMain_Heading">Integrity</string>
+    <string name="Activity_Integrity_Heading">I Say I Do</string>
+    <string name="Activity_RespectWork">Respect Your Work</string>
+    <string name="fm_gameInProgress_Heading">Game In Progress</string>
+    <string name="fm_userProfile_Heading">My Profile</string>
+
+
+    <!-- ActivityIntegrityMain Design Page -->
+    <string name="Btn_SelfWin">Self Win</string>
+    <string name="Btn_PlaceWin">Place Win</string>
+    <string name="Btn_WordWin">Agreement Of Word Win</string>
+    <string name="Btn_WorkWin">Respect Your Work Win</string>
+    <string name="Btn_DreamWin">Target Dream Win</string>
+
+
+    <!-- Activity Respect Work Design Page -->
+    <string name="tv_RespectWork_Finished">Finished</string>
+    <string name="tv_RespectWork_Incomplete">Incomplete</string>
+    <string name="tv_RespectWork_Abandoned">Abandoned</string>
+
+
+
+    <!-- Activity Fragment Profile Data -->
+    <string name="tv_fg_ProfileData_alreadyHandleExist">Select unique name.</string>
+    <string name="tv_fg_ProfileData_dataChanged">Succesfully changed your information.</string>
+
+
+
+    <!-- Activity Fragment Profile Data -->
+    <string name="tv_fg_UserProfile_DreamPrefix">Your Dream: </string>
+    <string name="tv_fg_UserProfile_ChallegePrefix">Your Challenge: </string>
+    <string name="tv_fg_UserProfile_HandlePrefix">Your Handle Name: </string>
 
 </resources>
 

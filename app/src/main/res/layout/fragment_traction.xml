@@ -29,17 +29,6 @@
             android:layout_weight="1"
             android:gravity="center_vertical">
 
-            <ImageButton
-                android:id="@+id/imgBtn_refresh_traction"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/activity_10dp"
-                android:background="#0000"
-
-                android:gravity="left"
-                android:src="@drawable/ic_baseline_refresh_36"></ImageButton>
-
 
         </LinearLayout>
 

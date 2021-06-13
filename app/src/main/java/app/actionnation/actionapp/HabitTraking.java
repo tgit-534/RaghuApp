@@ -30,7 +30,7 @@ import app.actionnation.actionapp.Storage.UserStorageGameObject;
 import app.actionnation.actionapp.data.DbHelper;
 import app.actionnation.actionapp.data.DbHelperClass;
 
-public class HabitTraking extends BaseClassUser implements View.OnClickListener {
+public class HabitTraking extends BaseClassUser implements View.OnClickListener, FragmentDataInsertion.ListenFromActivity {
     RecyclerView recyclerView;
     FirestoreRecyclerAdapter adapter;
     FirebaseAuth mAuth;
@@ -114,14 +114,13 @@ public class HabitTraking extends BaseClassUser implements View.OnClickListener 
 
                 gameHabitScore = gameHabitScore * Constants.Game_Habits;
 
-                ArrayList<String> arrayCaptains = getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
                 UserStorageGameObject userStorageGameObject = new UserStorageGameObject();
                 userStorageGameObject.setGameDocumentId(getIntent().getStringExtra(Constants.Intent_GameDocumentId));
                 userStorageGameObject.setUserCoinsPerDay(getIntent().getIntExtra(Constants.Intent_GameCoinsPerDay, Constants.Status_Zero));
                 userStorageGameObject.setUserExellenceBar(getIntent().getIntExtra(Constants.Intent_ExcellenceBar, Constants.Status_Zero));
 
 
-                UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains, userName, userStorageGameObject);
+                UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, userName, userStorageGameObject);
 
                 userGame.setUserHabitsScore((int) gameHabitScore);
 
@@ -223,6 +222,11 @@ public class HabitTraking extends BaseClassUser implements View.OnClickListener 
         super.onStop();
 
         adapter.stopListening();
+    }
+
+    @Override
+    public void doSomethingInFragment(int windowNumber) {
+
     }
 
     public static class ViewHolderHabit extends RecyclerView.ViewHolder {

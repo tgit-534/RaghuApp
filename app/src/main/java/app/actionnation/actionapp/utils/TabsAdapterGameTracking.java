@@ -6,7 +6,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import app.actionnation.actionapp.FragmentGameTracker;
-import app.actionnation.actionapp.FragmentSelectGame;
 
 public class TabsAdapterGameTracking extends FragmentStatePagerAdapter {
     int mNumOfTabs;
@@ -39,9 +38,6 @@ public class TabsAdapterGameTracking extends FragmentStatePagerAdapter {
         switch (position) {
             case 0:
                 home = new FragmentGameTracker();
-                return home;
-            case 1:
-                home = new FragmentSelectGame();
                 return home;
 
             default:

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FragmentUserProfile">
+
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/commonMargin"
+        card_view:cardCornerRadius="10dp"
+        card_view:cardElevation="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/my_border"
+            android:orientation="vertical"
+            android:padding="@dimen/activity_10dp">
+
+            <TextView
+                style="@style/TextTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/commonMargin"
+                android:text="@string/fm_userProfile_Heading"
+                android:textColor="@color/an_tabtext"></TextView>
+
+            <TextView
+                android:id="@+id/tv_fg_userName"
+                style="@style/TextTitleInner"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/commonMargin"
+                android:textColor="@color/an_tabtext"></TextView>
+
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal">
+
+
+              <TextView
+                  style="@style/TextTitleInner"
+
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_margin="@dimen/commonMargin"
+                  android:text="@string/tv_fg_UserProfile_HandlePrefix"
+                  android:textColor="@color/an_tabtext"></TextView>
+              <TextView
+                  style="@style/TextTitleInner"
+                  android:id="@+id/tv_fg_userUniqueName"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_margin="@dimen/commonMargin"
+                  android:textColor="@color/an_tabtext"></TextView>
+
+          </LinearLayout>
+
+
+
+
+            <TextView
+                style="@style/TextTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/commonMargin"
+                android:text="@string/tv_fg_UserProfile_DreamPrefix"
+                android:textColor="@color/an_tabtext"></TextView>
+
+            <TextView
+                style="@style/TextTitleInner"
+                android:id="@+id/tv_fg_yourDream"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/commonMargin"
+                android:textColor="@color/an_tabtext"></TextView>
+
+
+            <TextView
+                style="@style/TextTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/commonMargin"
+                android:text="@string/tv_fg_UserProfile_ChallegePrefix"
+                android:textColor="@color/an_tabtext"></TextView>
+
+            <TextView
+                style="@style/TextTitleInner"
+                android:id="@+id/tv_fg_yourChallenge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/commonMargin"
+                android:textColor="@color/an_tabtext"></TextView>
+
+
+            <Button
+                android:id="@+id/btn_fg_editProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/Common_Edit"></Button>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</FrameLayout>

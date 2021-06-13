@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
@@ -41,7 +40,6 @@ public class gratitude extends Fragment implements View.OnClickListener {
     private static final String ARG_PARAM2 = "param2";
     String TAG = "Gratitude";
     int dayOfYear, yr;
-    ImageButton imgRefresh;
 
 
     // TODO: Rename and change types of parameters
@@ -95,18 +93,31 @@ public class gratitude extends Fragment implements View.OnClickListener {
 
         linearLayout = view.findViewById(R.id.ll_gratitude);
         btnGratitude = view.findViewById(R.id.gt_btn_gratitudelist);
-        imgRefresh = view.findViewById(R.id.imgBtn_refresh_gratitude);
+        recyclerView = view.findViewById(R.id.listGratitude);
 
-        imgRefresh.setOnClickListener(new View.OnClickListener() {
+        fetch();
+
+
+        btnGratitude.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().finish();
-                getActivity().overridePendingTransition(0, 0);
-                startActivity(getActivity().getIntent());
-                getActivity().overridePendingTransition(0, 0);
+                showEditDialog();
 
+                /*Intent homepage = new Intent(getActivity(), HappinessContent.class);
+                Bundle mBundle = new Bundle();
+                mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
+                mBundle.putString(getString(R.string.Page_Redirect), getString(R.string.Page_Redirect_Gratitude));
+                homepage.putExtras(mBundle);
+                startActivity(homepage);*/
             }
         });
+
+        return view;
+    }
+
+
+    protected void fetch()
+    {
 
         db = new DbHelper(getActivity());
 
@@ -128,28 +139,11 @@ public class gratitude extends Fragment implements View.OnClickListener {
         }
         res.close();
 
-        recyclerView = view.findViewById(R.id.listGratitude);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         GratitudeAdapter mAdapter = new GratitudeAdapter(getActivity(), getAllItems(), strAttPattern);
         btnGratitude.setTag(mAdapter.getItemCount());
         recyclerView.setAdapter(mAdapter);
 
-
-        btnGratitude.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showEditDialog();
-
-                /*Intent homepage = new Intent(getActivity(), HappinessContent.class);
-                Bundle mBundle = new Bundle();
-                mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
-                mBundle.putString(getString(R.string.Page_Redirect), getString(R.string.Page_Redirect_Gratitude));
-                homepage.putExtras(mBundle);
-                startActivity(homepage);*/
-            }
-        });
-
-        return view;
     }
 
     protected void submitWin() {
@@ -174,14 +168,12 @@ public class gratitude extends Fragment implements View.OnClickListener {
 
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
 
-        ArrayList<String> arrayCaptains = getActivity().getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
-
         UserStorageGameObject userStorageGameObject = new UserStorageGameObject();
         userStorageGameObject.setGameDocumentId(getActivity().getIntent().getStringExtra(Constants.Intent_GameDocumentId));
         userStorageGameObject.setUserCoinsPerDay(getActivity().getIntent().getIntExtra(Constants.Intent_GameCoinsPerDay, Constants.Status_Zero));
         userStorageGameObject.setUserExellenceBar(getActivity().getIntent().getIntExtra(Constants.Intent_ExcellenceBar, Constants.Status_Zero));
 
-        UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains, userName, userStorageGameObject);
+        UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, userName, userStorageGameObject);
 
         userGame.setUserGratitudeScore(Constants.Game_Gratitude);
 

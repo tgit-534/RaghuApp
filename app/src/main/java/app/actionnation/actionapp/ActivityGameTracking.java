@@ -41,7 +41,6 @@ public class ActivityGameTracking extends BaseClassUser implements View.OnClickL
     private void loadTabs() {
 
         tabLayout.addTab(tabLayout.newTab().setText("Game Stake!"));
-        tabLayout.addTab(tabLayout.newTab().setText("Game Tracking!"));
 
         Log.d(TAG, "2");
 

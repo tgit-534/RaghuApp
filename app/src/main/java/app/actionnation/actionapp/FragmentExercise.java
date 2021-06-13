@@ -101,13 +101,12 @@ public class FragmentExercise extends Fragment {
                 FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
 
 
-                ArrayList<String> arrayCaptains = getActivity().getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
                 UserStorageGameObject userStorageGameObject = new UserStorageGameObject();
                 userStorageGameObject.setGameDocumentId(getActivity().getIntent().getStringExtra(Constants.Intent_GameDocumentId));
                 userStorageGameObject.setUserCoinsPerDay(getActivity().getIntent().getIntExtra(Constants.Intent_GameCoinsPerDay, Constants.Status_Zero));
                 userStorageGameObject.setUserExellenceBar(getActivity().getIntent().getIntExtra(Constants.Intent_ExcellenceBar, Constants.Status_Zero));
 
-                UserGame userGame = cls.loadUserGame(strUser.get(0), dayOfTheYear, yr, arrayCaptains, strUser.get(1), userStorageGameObject);
+                UserGame userGame = cls.loadUserGame(strUser.get(0), dayOfTheYear, yr, strUser.get(1), userStorageGameObject);
 
                 userGame.setUserExerciseScore(Constants.Game_Exercise);
 

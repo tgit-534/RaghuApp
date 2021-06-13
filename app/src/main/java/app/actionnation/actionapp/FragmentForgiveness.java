@@ -297,13 +297,12 @@ public class FragmentForgiveness extends Fragment implements View.OnClickListene
         DbHelper db = new DbHelper(getActivity());
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
 
-        ArrayList<String> arrayCaptains = getActivity().getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
         UserStorageGameObject userStorageGameObject = new UserStorageGameObject();
         userStorageGameObject.setGameDocumentId(getActivity().getIntent().getStringExtra(Constants.Intent_GameDocumentId));
         userStorageGameObject.setUserCoinsPerDay(getActivity().getIntent().getIntExtra(Constants.Intent_GameCoinsPerDay, Constants.Status_Zero));
         userStorageGameObject.setUserExellenceBar(getActivity().getIntent().getIntExtra(Constants.Intent_ExcellenceBar, Constants.Status_Zero));
 
-        UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains, userName, userStorageGameObject);
+        UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, userName, userStorageGameObject);
 
         DbHelperClass dbHelperClass = new DbHelperClass();
 

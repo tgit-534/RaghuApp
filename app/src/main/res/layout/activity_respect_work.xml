@@ -18,30 +18,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:elevation="6dp" />
+        android:elevation="@dimen/commonElevation" />
 
     <TextView
         style="@style/TextTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="Respect Your Work"></TextView>
+        android:layout_margin="@dimen/activity_RespectWork_LayoutMargin"
+        android:text="@string/Activity_RespectWork"></TextView>
 
     <Button
         android:id="@+id/btn_rw_Finished"
         style="@style/ButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="Finished"></Button>
+        android:layout_margin="@dimen/activity_RespectWork_LayoutMargin"
+        android:text="@string/tv_RespectWork_Finished"></Button>
 
 
     <TextView
         android:id="@+id/txt_rw_finished"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="0"></TextView>
+        android:layout_margin="@dimen/activity_RespectWork_LayoutMargin"
+        android:text="@string/Common_Zero"></TextView>
 
 
     <Button
@@ -49,30 +49,30 @@
         style="@style/ButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="Incomplete"></Button>
+        android:layout_margin="@dimen/activity_RespectWork_LayoutMargin"
+        android:text="@string/tv_RespectWork_Incomplete"></Button>
 
     <TextView
         android:id="@+id/txt_rw_Incomplete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="0"></TextView>
+        android:layout_margin="@dimen/activity_RespectWork_LayoutMargin"
+        android:text="@string/Common_Zero"></TextView>
 
     <Button
         android:id="@+id/btn_rw_Abandoned"
         style="@style/ButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="Abandoned"></Button>
+        android:layout_margin="@dimen/activity_RespectWork_LayoutMargin"
+        android:text="@string/tv_RespectWork_Abandoned"></Button>
 
     <TextView
         android:id="@+id/txt_rw_abandoned"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="0"></TextView>
+        android:layout_margin="@dimen/activity_RespectWork_LayoutMargin"
+        android:text="@string/Common_Zero"></TextView>
   </LinearLayout>
 
   <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton

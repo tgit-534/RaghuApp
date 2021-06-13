@@ -4,10 +4,9 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_integrity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/cl_integrity"
-
     android:orientation="vertical">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -23,56 +22,54 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:background="@color/an_text"
-            android:elevation="6dp" />
+            android:elevation="@dimen/commonElevation" />
 
         <TextView
             style="@style/TextTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Integrity"></TextView>
+            android:layout_margin="@dimen/activity_Integrity_Main_LayoutMargin"
+            android:text="@string/Activity_IntegrityMain_Heading"></TextView>
 
         <Button
             android:id="@+id/btn_int_Self"
             style="@style/ButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Self Win"></Button>
+            android:layout_margin="@dimen/activity_Integrity_Main_LayoutMargin"
+            android:text="@string/Activity_IntegrityMain_Heading"></Button>
 
         <Button
             android:id="@+id/btn_int_place"
             style="@style/ButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Place Win"></Button>
+            android:layout_margin="@dimen/activity_Integrity_Main_LayoutMargin"
+            android:text="@string/Btn_PlaceWin"></Button>
 
         <Button
             android:id="@+id/btn_int_word"
             style="@style/ButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Agreement of Word Win"></Button>
+            android:layout_margin="@dimen/activity_Integrity_Main_LayoutMargin"
+            android:text="@string/Btn_WordWin"></Button>
 
         <Button
             android:id="@+id/btn_int_completion"
             style="@style/ButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Respect Your Work Win"></Button>
+            android:layout_margin="@dimen/activity_Integrity_Main_LayoutMargin"
+            android:text="@string/Btn_WorkWin"></Button>
 
         <Button
             android:id="@+id/btn_int_targetWin"
             style="@style/ButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Target Dream Win"></Button>
-
+            android:layout_margin="@dimen/activity_Integrity_Main_LayoutMargin"
+            android:text="@string/Btn_DreamWin"></Button>
 
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

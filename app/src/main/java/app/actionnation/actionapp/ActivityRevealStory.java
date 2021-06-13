@@ -68,15 +68,13 @@ public class ActivityRevealStory extends BaseClassUser {
 
                 DbHelperClass dbHelperClass = new DbHelperClass();
                 FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
-                ArrayList<String> arrayCaptains = getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
-
 
                 UserStorageGameObject userStorageGameObject = new UserStorageGameObject();
                 userStorageGameObject.setGameDocumentId(getIntent().getStringExtra(Constants.Intent_GameDocumentId));
                 userStorageGameObject.setUserCoinsPerDay(getIntent().getIntExtra(Constants.Intent_GameCoinsPerDay, Constants.Status_Zero));
                 userStorageGameObject.setUserExellenceBar(getIntent().getIntExtra(Constants.Intent_ExcellenceBar, Constants.Status_Zero));
 
-                UserGame userGame = cls.loadUserGame(userArray.get(0), dayOfTheYear, yr, arrayCaptains, userArray.get(1), userStorageGameObject);
+                UserGame userGame = cls.loadUserGame(userArray.get(0), dayOfTheYear, yr, userArray.get(1), userStorageGameObject);
                 userGame.setUserRevealStoryScore(Constants.Game_RevealStory);
 
                 int totalGameScore = 0;

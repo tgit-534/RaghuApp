@@ -27,6 +27,8 @@ public class ActivitySupport extends BaseClassUser implements PaymentResultListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_support);
         generatePublicMenu();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         startpayment = findViewById(R.id.startpayment);
         orderamount = findViewById(R.id.orderamount);

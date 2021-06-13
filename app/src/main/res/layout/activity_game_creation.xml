@@ -18,8 +18,16 @@
             android:layout_alignParentTop="true"
             android:elevation="6dp" />
 
+
+
+        <FrameLayout
+            android:id="@+id/fragmentContainerGameInProgress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></FrameLayout>
+
+
         <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tab_gameCreation"
+            android:id="@+id/tab_selectGame"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
@@ -30,15 +38,31 @@
             app:tabTextColor="@color/firstColor" />
 
         <androidx.viewpager.widget.ViewPager
-            android:id="@+id/view_pager_gameCreation"
+            android:id="@+id/view_pager_selectGame"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:layout_below="@id/tab_yourTeam" />
+
+        <!--<FrameLayout
+            android:id="@+id/fragmentContainerShowGames"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></FrameLayout>-->
+
+
 
 
     </LinearLayout>
 
 
-
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fab_act_createGame"
+        style="@style/MyMaterialTheme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        app:iconTint="@color/plain_white"
+        android:textColor="@color/plain_white"
+        android:text="@string/fab_newGame"
+        app:icon="@drawable/ic_baseline_task_24" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

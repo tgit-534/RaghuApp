@@ -11,6 +11,7 @@ public class TeamGame {
     }
 
     String fb_Id;
+    String gameDocumentId;
     String gameName;
     @ServerTimestamp Date timestamp;
     int startDay, endDay;
@@ -19,6 +20,15 @@ public class TeamGame {
     String gameMasterName;
     long startDate, endDate;
     int noOfPlayers;
+
+    public String getGameDocumentId() {
+        return gameDocumentId;
+    }
+
+    public void setGameDocumentId(String gameDocumentId) {
+        this.gameDocumentId = gameDocumentId;
+    }
+
     int status;
     int noOfPlayersAccepted;
     int totalCoinsOfPlayers;

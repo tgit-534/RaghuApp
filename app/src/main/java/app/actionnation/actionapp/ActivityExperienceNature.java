@@ -80,14 +80,11 @@ public class ActivityExperienceNature extends BaseClassUser {
 
                 FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
 
-                ArrayList<String> arrayCaptains = getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
-
-
                 UserStorageGameObject userStorageGameObject = new UserStorageGameObject();
                 userStorageGameObject.setGameDocumentId(getIntent().getStringExtra(Constants.Intent_GameDocumentId));
                 userStorageGameObject.setUserCoinsPerDay(getIntent().getIntExtra(Constants.Intent_GameCoinsPerDay, Constants.Status_Zero));
                 userStorageGameObject.setUserExellenceBar(getIntent().getIntExtra(Constants.Intent_ExcellenceBar, Constants.Status_Zero));
-                UserGame userGame = cls.loadUserGame(usrId, dayOfTheYear, yr, arrayCaptains, userName, userStorageGameObject);
+                UserGame userGame = cls.loadUserGame(usrId, dayOfTheYear, yr, userName, userStorageGameObject);
 
                 userGame.setUserDistractionScore(Constants.Game_ExperienceNature);
 

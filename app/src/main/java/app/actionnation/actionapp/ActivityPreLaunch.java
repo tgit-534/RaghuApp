@@ -9,10 +9,10 @@ import android.widget.ViewFlipper;
 
 import androidx.fragment.app.FragmentManager;
 
-public class ActivityPreLaunch extends BaseClassUser implements View.OnClickListener {
+public class ActivityPreLaunch extends BaseClassUser implements View.OnClickListener, FragmentStakeGame.OnFragmentSuccessBarListener, FragmentDataInsertion.ListenFromActivity {
 
     TextView habitHeadline;
-    Button setHabit, setDistraction, setTraction, setGratitude, setAbundance, setBelief;
+    Button setHabit, setDistraction, setTraction, setGratitude, setAbundance, setBelief, setGameBar;
     ViewFlipper vw;
     ImageButton imgPrev, imgNext;
 
@@ -31,6 +31,7 @@ public class ActivityPreLaunch extends BaseClassUser implements View.OnClickList
         setGratitude = findViewById(R.id.btn_preLaunch_GratitudeSet);
         setAbundance = findViewById(R.id.btn_preLaunch_AbundanceSetup);
         setBelief = findViewById(R.id.btn_preLaunch_BeliefSetup);
+        setGameBar = findViewById(R.id.btn_preLaunch_SetBar);
         vw = findViewById(R.id.vf_act_preLoad);
         imgPrev = findViewById(R.id.ImgBtn_PreLaunch_Prev);
 
@@ -45,7 +46,14 @@ public class ActivityPreLaunch extends BaseClassUser implements View.OnClickList
         imgPrev.setOnClickListener(this);
         imgNext.setOnClickListener(this);
 
-
+        setGameBar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fm = getSupportFragmentManager();
+                FragmentStakeGame editNameFragment = FragmentStakeGame.newInstance(getString(R.string.Page_Redirect_Attention));
+                editNameFragment.show(fm, "fragment_edit_name");
+            }
+        });
 
 
     }
@@ -89,5 +97,17 @@ public class ActivityPreLaunch extends BaseClassUser implements View.OnClickList
                 vw.showNext();
                 break;
         }
+    }
+
+
+    @Override
+    public void onSuccessBarSend(int coins) {
+
+    }
+
+
+    @Override
+    public void doSomethingInFragment(int windowNumber) {
+
     }
 }

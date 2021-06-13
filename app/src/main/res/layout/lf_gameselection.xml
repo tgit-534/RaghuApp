@@ -45,6 +45,14 @@
             android:layout_margin="5dp"
 
             ></TextView>
+
+        <Button
+            android:text="@string/lf_gameSelection_AddPlayers"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/lf_fg_btnAddPlayers"></Button>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
 

@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
 
@@ -30,6 +31,7 @@ public class FragmentInsertComments extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     EditText etFeedback;
+    LinearLayout linearLayout;
     Button button;
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
@@ -76,6 +78,7 @@ public class FragmentInsertComments extends Fragment {
         View view = inflater.inflate(R.layout.fragment_insert_comments, container, false);
         etFeedback = view.findViewById(R.id.et_fm_userFeedback);
         button = view.findViewById(R.id.btn_fm_userFeedback);
+        linearLayout = view.findViewById(R.id.ll_userFeedback);
 
 
         button.setOnClickListener(new View.OnClickListener() {
@@ -96,6 +99,9 @@ public class FragmentInsertComments extends Fragment {
                 userFeedback.setUserFeedback(etFeedback.getText().toString());
                 DbHelperClass2 dbHelperClass2 = new DbHelperClass2();
                 dbHelperClass2.insertFireUserData(docRef, getContext(), userFeedback);
+                clearForm(linearLayout);
+                CommonClass cls = new CommonClass();
+                cls.makeSnackBar(linearLayout, getString(R.string.fm_InsertComments_FeedbackRecorded));
 
             }
         });
@@ -103,4 +109,17 @@ public class FragmentInsertComments extends Fragment {
 
         return view;
     }
+
+    private void clearForm(ViewGroup group) {
+        for (int i = 0, count = group.getChildCount(); i < count; ++i) {
+            View view = group.getChildAt(i);
+            if (view instanceof EditText) {
+                ((EditText) view).setText("");
+            }
+
+            if (view instanceof ViewGroup && (((ViewGroup) view).getChildCount() > 0))
+                clearForm((ViewGroup) view);
+        }
+    }
+
 }

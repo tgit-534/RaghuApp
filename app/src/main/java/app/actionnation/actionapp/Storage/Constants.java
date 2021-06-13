@@ -57,6 +57,7 @@ public class Constants {
     public static final String Intent_GameDocumentId = "GameDocumentId";
     public static final String Intent_GameCoinsPerDay = "CoinsPerDay";
     public static final String Intent_ExcellenceBar = "ExcellenceBar";
+    public static final String common_emptySpace = " ";
 
 
 
@@ -92,7 +93,7 @@ public class Constants {
     //Statuses
     public static final int Status_One = 1;
     public static final int Status_Zero = 0;
-
+    public static final int Status_Two = 2;
 
     //Tabs Activity
     public static final int TabAttention = 1;
@@ -246,6 +247,17 @@ public class Constants {
     public static final int gameObject_playerDoucmentId = 0;
     public static final int gameObject_playerStartDate = 1;
     public static final int gameObject_playerEndDate = 2;
+    public static final int gameObject_gameName = 3;
+
+
+    //TabsAdapterGameCreation
+    public static final String tabsAdapter_GameCreation_FirstTab = "Master Game";
+    public static final String tabsAdapter_GameCreation_SecondTab = "Player Game";
+
+    public static final int profileObject_fullName = 0;
+    public static final int profileObject_Dream = 1;
+    public static final int profileObject_Challange = 2;
+    public static final int profileObject_userHandle = 3;
 
 
 

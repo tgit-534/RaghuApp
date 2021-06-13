@@ -1,14 +1,11 @@
 package app.actionnation.actionapp;
 
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
@@ -53,7 +50,8 @@ public class FragmentTraction extends Fragment implements View.OnClickListener {
     FirebaseUser fbUser;
     LinearLayout linearLayout;
     Cursor res, res1;
-    ImageButton imgRefresh;
+    Boolean allowRefresh;
+    private FragmentDataInsertion insertFragment;
 
     public FragmentTraction() {
         // Required empty public constructor
@@ -95,19 +93,21 @@ public class FragmentTraction extends Fragment implements View.OnClickListener {
         btnTractionList = view.findViewById(R.id.btn_TractionList);
         btnTractionList.setOnClickListener(this);
         linearLayout = view.findViewById(R.id.ll_traction);
-        imgRefresh = view.findViewById(R.id.imgBtn_refresh_traction);
+        recyclerView = view.findViewById(R.id.listTraction);
 
 
-        imgRefresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().finish();
-                getActivity().overridePendingTransition(0, 0);
-                startActivity(getActivity().getIntent());
-                getActivity().overridePendingTransition(0, 0);
 
-            }
-        });
+        allowRefresh = false;
+
+        fetch();
+        allowRefresh = true;
+
+        // Inflate the layout for this fragment
+        return view;
+    }
+
+
+    protected void fetch() {
 
         ArrayList<Integer> arrayGameScore = getActivity().getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore)));
 
@@ -146,15 +146,14 @@ public class FragmentTraction extends Fragment implements View.OnClickListener {
         }
         res1.close();
         res.moveToFirst();
-        recyclerView = view.findViewById(R.id.listTraction);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         TractionAdapter mAdapter = new TractionAdapter(getActivity(), res, usrId, strTractionPattern);
         recyclerView.setAdapter(mAdapter);
 
 
-        // Inflate the layout for this fragment
-        return view;
     }
+
+
 
     @Override
     public void onStop() {
@@ -171,19 +170,12 @@ public class FragmentTraction extends Fragment implements View.OnClickListener {
         int i = v.getId();
         if (i == R.id.btn_TractionList) {
             showEditDialog();
-            /*Intent homepage = new Intent(getActivity(), HappinessContent.class);
-            Bundle mBundle = new Bundle();
-            mBundle.putString(getString(R.string.common_auth), getString(R.string.common_google));
-            mBundle.putString(getString(R.string.Page_Redirect), getString(R.string.Page_Redirect_Traction));
-            homepage.putExtras(mBundle);
-            startActivity(homepage);*/
         }
 
     }
 
 
-    public void submitWin()
-    {
+    public void submitWin() {
 
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
         CommonClass cls = new CommonClass();
@@ -221,15 +213,13 @@ public class FragmentTraction extends Fragment implements View.OnClickListener {
         int databaseScore = (int) gameTractionScore;
         Personal_Distraction pd = new Personal_Distraction();
 
-        ArrayList<String> arrayCaptains = getActivity().getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
         UserStorageGameObject userStorageGameObject = new UserStorageGameObject();
         userStorageGameObject.setGameDocumentId(getActivity().getIntent().getStringExtra(Constants.Intent_GameDocumentId));
         userStorageGameObject.setUserCoinsPerDay(getActivity().getIntent().getIntExtra(Constants.Intent_GameCoinsPerDay, Constants.Status_Zero));
         userStorageGameObject.setUserExellenceBar(getActivity().getIntent().getIntExtra(Constants.Intent_ExcellenceBar, Constants.Status_Zero));
 
 
-
-        UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains, userName, userStorageGameObject);
+        UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, userName, userStorageGameObject);
         userGame.setUserTractionScore(databaseScore);
 
         ArrayList<Integer> arrayGameScore = getActivity().getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore)));
@@ -254,37 +244,18 @@ public class FragmentTraction extends Fragment implements View.OnClickListener {
 
     private void showEditDialog() {
         FragmentManager fm = getActivity().getSupportFragmentManager();
-        FragmentDataInsertion insertFragment = FragmentDataInsertion.newInstance(getString(R.string.Page_Redirect_Traction));
+        insertFragment = FragmentDataInsertion.newInstance(getString(R.string.Page_Redirect_Traction));
         insertFragment.show(fm, "fragment_edit_name");
 
 
-        insertFragment.onCancel(new DialogInterface() {
+
+         /* insertFragment.getDialog().setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
-            public void cancel() {
-                Intent i = new Intent(getContext(), ActivityAttention.class);
-
-                Bundle mBundle = new Bundle();
-                mBundle.putString(Constants.common_auth, Constants.common_google);
-                mBundle.putStringArrayList(Constants.Intent_ArrayCaptain, getActivity().getIntent().getStringArrayListExtra(((getString(R.string.Intent_ArrayCaptain)))));
-                mBundle.putIntegerArrayList(Constants.Intent_ArrayGameScore, getActivity().getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore))));
-                i.putExtras(mBundle);
-                getContext().startActivity(i);
+            public void onDismiss(DialogInterface dialog) {
+                fetch();
             }
+        });*/
 
-            @Override
-            public void dismiss() {
-                Intent i = new Intent(getContext(), ActivityAttention.class);
-
-                Bundle mBundle = new Bundle();
-                mBundle.putString(Constants.common_auth, Constants.common_google);
-                mBundle.putStringArrayList(Constants.Intent_ArrayCaptain, getActivity().getIntent().getStringArrayListExtra(((getString(R.string.Intent_ArrayCaptain)))));
-                mBundle.putIntegerArrayList(Constants.Intent_ArrayGameScore, getActivity().getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore))));
-                i.putExtras(mBundle);
-                getContext().startActivity(i);
-
-
-            }
-        });
     }
 
     private String fetchUserId(FirebaseAuth mAuth) {

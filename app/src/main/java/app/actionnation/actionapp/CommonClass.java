@@ -574,13 +574,12 @@ public class CommonClass {
     }
 
 
-    public UserGame loadUserGame(String fbId, int dayOfTheYear, int yr, ArrayList<String> arrayCaptains, String userName, UserStorageGameObject userStorageGameObject) {
+    public UserGame loadUserGame(String fbId, int dayOfTheYear, int yr, String userName, UserStorageGameObject userStorageGameObject) {
         UserGame userGame = new UserGame();
         userGame.setFb_Id(fbId);
         userGame.setDayOfTheYear(dayOfTheYear);
         userGame.setYear(yr);
         userGame.setStatus(Constants.Status_One);
-        userGame.setTeamCaptains(arrayCaptains);
         userGame.setUserName(userName);
         userGame.setGameDocumentId(userStorageGameObject.getGameDocumentId());
         userGame.setUserCoinsPerDay(userStorageGameObject.getUserCoinsPerDay());

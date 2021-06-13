@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FragmentGameInProgress">
+
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/commonMargin"
+        card_view:cardCornerRadius="10dp"
+        card_view:cardElevation="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/my_border"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/TextTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/commonMargin"
+                android:text="@string/fm_gameInProgress_Heading"
+                android:textColor="@color/an_tabtext"></TextView>
+
+            <TextView
+                android:id="@+id/tv_fg_gameInProgress_gameName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/commonMargin"
+                android:textColor="@color/an_tabtext"></TextView>
+
+            <TextView
+                android:id="@+id/tv_fg_gameInProgress_gameStartDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/commonMargin"
+                android:textColor="@color/an_tabtext"></TextView>
+
+            <TextView
+                android:id="@+id/tv_fg_gameInProgress_gameEndDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/commonMargin"
+                android:textColor="@color/an_tabtext"></TextView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/commonMargin"
+                    android:text="@string/fm_gameInProgress_gameStatus"
+                    android:textColor="@color/an_tabtext"></TextView>
+
+                <TextView
+                    android:id="@+id/tv_fg_gameInProgress_gameStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/commonMargin"
+                    android:textColor="@color/an_tabtext"></TextView>
+            </LinearLayout>
+            <Button
+                android:id="@+id/btn_fg_gameInProgress_btnAddPlayers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/lf_gameSelection_AddPlayers"
+                android:visibility="gone"></Button>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</FrameLayout>

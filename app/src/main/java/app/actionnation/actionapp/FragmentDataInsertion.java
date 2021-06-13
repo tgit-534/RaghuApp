@@ -1,5 +1,7 @@
 package app.actionnation.actionapp;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -75,6 +77,9 @@ public class FragmentDataInsertion extends DialogFragment implements View.OnClic
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private ListenFromActivity mListener;
+    Boolean boolCloseStatus = false;
+
 
     public FragmentDataInsertion() {
         // Required empty public constructor
@@ -196,13 +201,10 @@ public class FragmentDataInsertion extends DialogFragment implements View.OnClic
                         rgInspire.setVisibility(View.INVISIBLE);
                         txtInspireHabit.setVisibility(View.INVISIBLE);
                         break;
-
                     case 3:
                         rgInspire.setVisibility(View.VISIBLE);
                         txtInspireHabit.setVisibility(View.VISIBLE);
                         break;
-
-
                 }
             }
 
@@ -250,8 +252,16 @@ public class FragmentDataInsertion extends DialogFragment implements View.OnClic
                 refreshHome();
                 btnBeliefSubmit.setTag(false);
             }
+            getDialog().setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    mListener.doSomethingInFragment(vf.getDisplayedChild());
+                    boolCloseStatus = true;
 
-            getDialog().cancel();
+                }
+            });
+
+            getDialog().dismiss();
 
         }
     };
@@ -268,7 +278,6 @@ public class FragmentDataInsertion extends DialogFragment implements View.OnClic
 
                 Bundle mBundle = new Bundle();
                 mBundle.putString(Constants.common_auth, Constants.common_google);
-                mBundle.putStringArrayList(Constants.Intent_ArrayCaptain, getActivity().getIntent().getStringArrayListExtra(((getString(R.string.Intent_ArrayCaptain)))));
                 mBundle.putIntegerArrayList(Constants.Intent_ArrayGameScore, getActivity().getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore))));
                 mBundle.putString(Constants.Intent_DataInsertion, getString(R.string.Page_Redirect_Traction));
 
@@ -284,7 +293,6 @@ public class FragmentDataInsertion extends DialogFragment implements View.OnClic
 
                 Bundle mBundle = new Bundle();
                 mBundle.putString(Constants.common_auth, Constants.common_google);
-                mBundle.putStringArrayList(Constants.Intent_ArrayCaptain, getActivity().getIntent().getStringArrayListExtra(((getString(R.string.Intent_ArrayCaptain)))));
                 mBundle.putIntegerArrayList(Constants.Intent_ArrayGameScore, getActivity().getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore))));
                 mBundle.putString(Constants.Intent_DataInsertion, getString(R.string.Page_Redirect_Gratitude));
 
@@ -299,7 +307,6 @@ public class FragmentDataInsertion extends DialogFragment implements View.OnClic
 
                 Bundle mBundle = new Bundle();
                 mBundle.putString(Constants.common_auth, Constants.common_google);
-                mBundle.putStringArrayList(Constants.Intent_ArrayCaptain, getActivity().getIntent().getStringArrayListExtra(((getString(R.string.Intent_ArrayCaptain)))));
                 mBundle.putIntegerArrayList(Constants.Intent_ArrayGameScore, getActivity().getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore))));
                 mBundle.putString(Constants.Intent_DataInsertion, getString(R.string.Page_Redirect_Abundance));
                 i.putExtras(mBundle);
@@ -323,7 +330,6 @@ public class FragmentDataInsertion extends DialogFragment implements View.OnClic
             i = new Intent(getContext(), ActivityOurBelief.class);
             Bundle mBundle = new Bundle();
             mBundle.putString(Constants.common_auth, Constants.common_google);
-            mBundle.putStringArrayList(Constants.Intent_ArrayCaptain, getActivity().getIntent().getStringArrayListExtra(((getString(R.string.Intent_ArrayCaptain)))));
             mBundle.putIntegerArrayList(Constants.Intent_ArrayGameScore, getActivity().getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore))));
             i.putExtras(mBundle);
             getContext().startActivity(i);*/
@@ -332,14 +338,22 @@ public class FragmentDataInsertion extends DialogFragment implements View.OnClic
 
     }
 
+    @Override
+    public void dismiss() {
+        super.dismiss();
+        if (!boolCloseStatus) {
+            mListener.doSomethingInFragment(vf.getDisplayedChild());
+        }
+
+    }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-
-        if ((boolean) btnBeliefSubmit.getTag()) {
-            refreshHome();
+        if (!boolCloseStatus) {
+            mListener.doSomethingInFragment(vf.getDisplayedChild());
         }
+
     }
 
     @Override
@@ -473,5 +487,33 @@ public class FragmentDataInsertion extends DialogFragment implements View.OnClic
             if (view instanceof ViewGroup && (((ViewGroup) view).getChildCount() > 0))
                 clearForm((ViewGroup) view);
         }
+    }
+
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mListener =
+                    (ListenFromActivity) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement LogoutUser");
+        }
+    }
+
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+
+    public interface ListenFromActivity {
+        void doSomethingInFragment(int windowNumber);
     }
 }

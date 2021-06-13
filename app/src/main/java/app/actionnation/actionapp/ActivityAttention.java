@@ -16,7 +16,7 @@ import com.google.android.material.tabs.TabLayout;
 import app.actionnation.actionapp.Database_Content.Personal_Distraction;
 import app.actionnation.actionapp.Storage.Constants;
 
-public class ActivityAttention extends BaseClassUser implements View.OnClickListener {
+public class ActivityAttention extends BaseClassUser implements View.OnClickListener, FragmentDataInsertion.ListenFromActivity {
     private long START_TIME_IN_MILLIS = 1000;
 
     String TAG = "attention";
@@ -82,13 +82,13 @@ public class ActivityAttention extends BaseClassUser implements View.OnClickList
             }
         });*/
 
-       // tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
+        // tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
 
 
         TabsAdapterCommon ds;
         ds = new TabsAdapterCommon(getSupportFragmentManager(), tabLayout.getTabCount(), Constants.TabAttention);
         tabLayout.setupWithViewPager(viewPager);
-     //   viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        //   viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -97,18 +97,16 @@ public class ActivityAttention extends BaseClassUser implements View.OnClickList
             }
 
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
 
             @Override
-            public void onPageScrollStateChanged(int state) {}
+            public void onPageScrollStateChanged(int state) {
+            }
         });
 
 
         viewPager.setAdapter(ds);
-
-
-
-
 
 
         String strInsertionData = getIntent().getStringExtra(Constants.Intent_DataInsertion);
@@ -146,12 +144,9 @@ public class ActivityAttention extends BaseClassUser implements View.OnClickList
             public void onClick(View v) {
 
                 FragmentManager fm = getSupportFragmentManager();
-
-
-                    FragmentTraction fragment =
-                            (FragmentTraction) fm.getFragments().get(1);
-                    fragment.submitWin();
-
+                FragmentTraction fragment =
+                        (FragmentTraction) fm.getFragments().get(1);
+                fragment.submitWin();
 
 
             }
@@ -185,6 +180,18 @@ public class ActivityAttention extends BaseClassUser implements View.OnClickList
                 fabTraction.hide();
                 break;
         }
+    }
+
+    @Override
+    public void doSomethingInFragment(int insertStatus) {
+
+        if (insertStatus == Integer.parseInt(getString(R.string.viewHolder_Insert_traction))) {
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTraction fragment =
+                    (FragmentTraction) fm.getFragments().get(1);
+            fragment.fetch();
+        }
+
     }
 
 

@@ -143,7 +143,6 @@ public class ActivityIntegrityMain extends BaseClassUser implements View.OnClick
             mBundle.putString(Constants.Intent_GameDocumentId, getIntent().getStringExtra(Constants.Intent_GameDocumentId));
             mBundle.putInt(Constants.Intent_GameCoinsPerDay, getIntent().getIntExtra(Constants.Intent_GameCoinsPerDay, Constants.Status_Zero));
             mBundle.putInt(Constants.Intent_ExcellenceBar, getIntent().getIntExtra(Constants.Intent_ExcellenceBar, Constants.Status_Zero));
-            mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain))));
             mBundle.putIntegerArrayList(getString(R.string.Intent_ArrayGameScore), (ArrayList<Integer>) btnSelf.getTag());
 
             homepage.putExtras(mBundle);
@@ -156,7 +155,6 @@ public class ActivityIntegrityMain extends BaseClassUser implements View.OnClick
             mBundle.putString(Constants.Intent_GameDocumentId, getIntent().getStringExtra(Constants.Intent_GameDocumentId));
             mBundle.putInt(Constants.Intent_GameCoinsPerDay, getIntent().getIntExtra(Constants.Intent_GameCoinsPerDay, Constants.Status_Zero));
             mBundle.putInt(Constants.Intent_ExcellenceBar, getIntent().getIntExtra(Constants.Intent_ExcellenceBar, Constants.Status_Zero));
-            mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain))));
             mBundle.putIntegerArrayList(getString(R.string.Intent_ArrayGameScore), (ArrayList<Integer>) btnSelf.getTag());
 
             homepage.putExtras(mBundle);
@@ -183,14 +181,12 @@ public class ActivityIntegrityMain extends BaseClassUser implements View.OnClick
 
             }
 
-            ArrayList<String> arrayCaptains = getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
-
             UserStorageGameObject userStorageGameObject = new UserStorageGameObject();
             userStorageGameObject.setGameDocumentId(getIntent().getStringExtra(Constants.Intent_GameDocumentId));
             userStorageGameObject.setUserCoinsPerDay(getIntent().getIntExtra(Constants.Intent_GameCoinsPerDay, Constants.Status_Zero));
             userStorageGameObject.setUserExellenceBar(getIntent().getIntExtra(Constants.Intent_ExcellenceBar, Constants.Status_Zero));
 
-            UserGame userGame = cls.loadUserGame(fbId, dayOfTheYear, yr, arrayCaptains, userName, userStorageGameObject);
+            UserGame userGame = cls.loadUserGame(fbId, dayOfTheYear, yr, userName, userStorageGameObject);
             userGame.setUserSelfWinScore(Constants.Game_SelfWin);
 
             ArrayList<Integer> arrayNewGameScore = cls.createGameScore(Constants.Game_CP__UserSelfWinScore, Constants.Game_SelfWin, arrayGameScore, userGame, ActivityIntegrityMain.this);
@@ -231,9 +227,6 @@ public class ActivityIntegrityMain extends BaseClassUser implements View.OnClick
                         fbId, dayOfTheYear, yr, 1);
             }
 
-            ArrayList<String> arrayCaptains = getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
-
-
             UserStorageGameObject userStorageGameObject = new UserStorageGameObject();
             userStorageGameObject.setGameDocumentId(getIntent().getStringExtra(Constants.Intent_GameDocumentId));
             userStorageGameObject.setUserCoinsPerDay(getIntent().getIntExtra(Constants.Intent_GameCoinsPerDay, Constants.Status_Zero));
@@ -242,7 +235,7 @@ public class ActivityIntegrityMain extends BaseClassUser implements View.OnClick
 
 
 
-            UserGame userGame = cls.loadUserGame(fbId, dayOfTheYear, yr, arrayCaptains, userName, userStorageGameObject);
+            UserGame userGame = cls.loadUserGame(fbId, dayOfTheYear, yr, userName, userStorageGameObject);
             userGame.setUserPlaceWinScore(Constants.Game_PlaceWin);
 
             ArrayList<Integer> arrayNewGameScore = cls.createGameScore(Constants.Game_CP__UserPlaceWinScore, Constants.Game_PlaceWin, arrayGameScore, userGame, ActivityIntegrityMain.this);
@@ -271,7 +264,6 @@ public class ActivityIntegrityMain extends BaseClassUser implements View.OnClick
             mBundle.putString(Constants.Intent_GameDocumentId, getIntent().getStringExtra(Constants.Intent_GameDocumentId));
             mBundle.putInt(Constants.Intent_GameCoinsPerDay, getIntent().getIntExtra(Constants.Intent_GameCoinsPerDay, Constants.Status_Zero));
             mBundle.putInt(Constants.Intent_ExcellenceBar, getIntent().getIntExtra(Constants.Intent_ExcellenceBar, Constants.Status_Zero));
-            mBundle.putStringArrayList(getString(R.string.Intent_ArrayCaptain), (ArrayList<String>) getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain))));
             mBundle.putIntegerArrayList(getString(R.string.Intent_ArrayGameScore), (ArrayList<Integer>) btnSelf.getTag());
             homepage.putExtras(mBundle);
             startActivity(homepage);

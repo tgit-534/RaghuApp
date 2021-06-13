@@ -68,7 +68,6 @@ public class ActivityIntegrity extends BaseClassUser implements View.OnClickList
         btnTimePicker = findViewById(R.id.btn_time);
         btnSubmitIntegrity = findViewById(R.id.in_btn_submit);
         recyclerView = findViewById(R.id.listIntegrity);
-
         fab = findViewById(R.id.fab_act_int_finish);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -123,15 +122,12 @@ public class ActivityIntegrity extends BaseClassUser implements View.OnClickList
 
                 gameWordScore = gameWordScore * Constants.Game_WordWin;
 
-                ArrayList<String> arrayCaptains = getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
-
-
                 UserStorageGameObject userStorageGameObject = new UserStorageGameObject();
                 userStorageGameObject.setGameDocumentId(getIntent().getStringExtra(Constants.Intent_GameDocumentId));
                 userStorageGameObject.setUserCoinsPerDay(getIntent().getIntExtra(Constants.Intent_GameCoinsPerDay, Constants.Status_Zero));
                 userStorageGameObject.setUserExellenceBar(getIntent().getIntExtra(Constants.Intent_ExcellenceBar, Constants.Status_Zero));
 
-                UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains, userName, userStorageGameObject);
+                UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, userName, userStorageGameObject);
                 userGame.setUserWordWinScore((int) gameWordScore);
 
 
@@ -190,11 +186,11 @@ public class ActivityIntegrity extends BaseClassUser implements View.OnClickList
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
 
         Calendar calToday = Calendar.getInstance();
-        calToday.setTimeInMillis(Calendar.getInstance().getTimeInMillis());
+
 
         Calendar cNew = Calendar.getInstance();
 
-        cNew.set(calToday.get(Calendar.YEAR), calToday.get(Calendar.MONTH), calToday.get(Calendar.DAY_OF_MONTH), 00, 00);
+        cNew.set(calToday.get(Calendar.YEAR), calToday.get(Calendar.MONTH), calToday.get(Calendar.DAY_OF_MONTH), 00, 00, 01);
 
         //com.google.firebase.firestore.Query query1 = rootRef.collection(getString(R.string.fs_PersonalHabits)).whereEqualTo(getString(R.string.fb_Column_Fb_Id), usrId);
         com.google.firebase.firestore.Query query1 = rootRef.collection(getString(R.string.fs_PersonIntegrity))
@@ -226,11 +222,16 @@ public class ActivityIntegrity extends BaseClassUser implements View.OnClickList
                         public void onDateSet(DatePicker view, int year,
                                               int monthOfYear, int dayOfMonth) {
 
+
                             txtDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
 
 
                         }
                     }, mYear, mMonth, mDay);
+
+            datePickerDialog.getDatePicker().setMinDate(c.getTimeInMillis());
+
+
             datePickerDialog.show();
         }
         if (v == btnTimePicker) {
@@ -251,6 +252,7 @@ public class ActivityIntegrity extends BaseClassUser implements View.OnClickList
                             txtTime.setText(hourOfDay + ":" + minute);
                         }
                     }, mHour, mMinute, false);
+
             timePickerDialog.show();
         }
         if (v == btnSubmitIntegrity) {
@@ -281,7 +283,6 @@ public class ActivityIntegrity extends BaseClassUser implements View.OnClickList
                     //date.date.gettime.gettime
                 } catch (ParseException e) {
 
-
                 }
 
                 DbHelperClass Db = new DbHelperClass();
@@ -294,7 +295,6 @@ public class ActivityIntegrity extends BaseClassUser implements View.OnClickList
                 Db.insertFireStoreDataIntegrity(getString(R.string.fs_PersonIntegrity), ActivityIntegrity.this, pi, db);
                 clearForm(linearLayout);
 
-                mAuth = FirebaseAuth.getInstance();
                 recyclerView.setLayoutManager(new LinearLayoutManager(ActivityIntegrity.this));
                 recyclerView.setHasFixedSize(false);
                 fetch();

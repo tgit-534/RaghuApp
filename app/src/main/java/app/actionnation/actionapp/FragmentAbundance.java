@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
@@ -53,7 +52,6 @@ public class FragmentAbundance extends Fragment implements View.OnClickListener 
     ArrayList<String> strAttPattern = new ArrayList<>();
     String TAG = "attention";
     LinearLayout linearLayout;
-    ImageButton imgRefresh;
 
 
     public FragmentAbundance() {
@@ -101,31 +99,24 @@ public class FragmentAbundance extends Fragment implements View.OnClickListener 
         linearLayout = view.findViewById(R.id.ll_abundance);
         btnAbundanceList = view.findViewById(R.id.btn_abundancelist);
         btnAbundanceList.setOnClickListener(this);
-        imgRefresh = view.findViewById(R.id.imgBtn_refresh_abundance);
+
+
+        Log.d(TAG, "Enter Db fetch");
+
+        fetch();
+
+        return view;
+
+    }
+
+    protected void fetch()
+    {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         AbundanceAdapter mAdapter = new AbundanceAdapter(getActivity(), getAllItems());
         btnAbundanceList.setTag(mAdapter.getItemCount());
 
         recyclerView.setAdapter(mAdapter);
-
-        Log.d(TAG, "Enter Db fetch");
-        // fetch();
-
-        imgRefresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().finish();
-                getActivity().overridePendingTransition(0, 0);
-                startActivity(getActivity().getIntent());
-                getActivity().overridePendingTransition(0, 0);
-
-            }
-        });
-
-
-        return view;
-
     }
 
     @Override
@@ -163,14 +154,11 @@ public class FragmentAbundance extends Fragment implements View.OnClickListener 
         cls.SubmitHappinessGame(Constants.HP_AbundanceScore, db, usrId, dayOfYear, yr);
 
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
-
-        ArrayList<String> arrayCaptains = getActivity().getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
-
         UserStorageGameObject userStorageGameObject = new UserStorageGameObject();
         userStorageGameObject.setGameDocumentId(getActivity().getIntent().getStringExtra(Constants.Intent_GameDocumentId));
         userStorageGameObject.setUserCoinsPerDay(getActivity().getIntent().getIntExtra(Constants.Intent_GameCoinsPerDay, Constants.Status_Zero));
         userStorageGameObject.setUserExellenceBar(getActivity().getIntent().getIntExtra(Constants.Intent_ExcellenceBar, Constants.Status_Zero));
-        UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains, userName, userStorageGameObject);
+        UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, userName, userStorageGameObject);
 
         userGame.setUserAbundanceScore(Constants.Game_Abundance);
 

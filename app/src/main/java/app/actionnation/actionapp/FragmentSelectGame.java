@@ -1,5 +1,8 @@
 package app.actionnation.actionapp;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,11 +14,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -30,6 +35,7 @@ import java.util.List;
 import app.actionnation.actionapp.Database_Content.TeamGame;
 import app.actionnation.actionapp.Storage.Constants;
 import app.actionnation.actionapp.data.DbHelperClass2;
+import app.actionnation.actionapp.data.OnFragmentRefreshMainListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -45,15 +51,25 @@ public class FragmentSelectGame extends Fragment {
 
     // TODO: Rename and change types of parameters
     private String mParam1;
-    private String mParam2;
+    private int mParam2;
 
-    RecyclerView recyclerView, recyclerViewSelectGame;
+    private OnFragmentRefreshMainListener mListener;
+
+    RecyclerView recyclerView;
     Button btnTest;
     FirestoreRecyclerAdapter firestoreRecyclerAdapter;
     TextView tvHeading, tvStatusAddPeople;
     LinearLayout linearLayout;
 
     public FragmentSelectGame() {
+        // Required empty public constructor
+    }
+
+
+    public FragmentSelectGame(String param1, int memberStatus) {
+        mParam1 = param1;
+        mParam2 = memberStatus;
+
         // Required empty public constructor
     }
 
@@ -66,11 +82,11 @@ public class FragmentSelectGame extends Fragment {
      * @return A new instance of fragment FragmentSelectGame.
      */
     // TODO: Rename and change types and number of parameters
-    public static FragmentSelectGame newInstance(String param1, String param2) {
+    public static FragmentSelectGame newInstance(String param1, int memberStatus) {
         FragmentSelectGame fragment = new FragmentSelectGame();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putInt(ARG_PARAM2, memberStatus);
         fragment.setArguments(args);
         return fragment;
     }
@@ -80,7 +96,7 @@ public class FragmentSelectGame extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mParam2 = getArguments().getInt(ARG_PARAM2);
         }
     }
 
@@ -91,24 +107,34 @@ public class FragmentSelectGame extends Fragment {
         View view = inflater.inflate(R.layout.fragment_select_game, container, false);
 
         recyclerView = view.findViewById(R.id.listSelectGame);
-        tvHeading = view.findViewById(R.id.tv_fm_HeadingSelectGame);
         linearLayout = view.findViewById(R.id.ll_showSelectGame);
         tvStatusAddPeople = view.findViewById(R.id.tv_fm_membersStatus);
 
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setHasFixedSize(false);
         showGameSelection();
         return view;
     }
 
     protected void showGameSelection() {
 
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setHasFixedSize(false);
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseAuth mAuth;
         mAuth = FirebaseAuth.getInstance();
         final FirebaseUser fbUser = mAuth.getCurrentUser();
 
+        String documentGameId = "";
+        long currentGameStartDate = 0, currentGameEndDate = 0;
+
+        if (mParam1 != null) {
+            String[] gameObject = mParam1.split(getString(R.string.fm_fieldPartition));
+            documentGameId = gameObject[0];
+            if (gameObject.length > 1) {
+                currentGameStartDate = Long.parseLong(gameObject[1]);
+                currentGameEndDate = Long.parseLong(gameObject[2]);
+            }
+        }
         Calendar cNew = Calendar.getInstance();
 
         String usrId = "";
@@ -116,21 +142,24 @@ public class FragmentSelectGame extends Fragment {
             usrId = fbUser.getUid();
         }
 
-        String className = getContext().getClass().getName();
-
         com.google.firebase.firestore.Query fbQuery = null;
 
-        switch (className) {
-            case Constants.ClassName_GameTracking:
-                fbQuery = db.collection(getString(R.string.fs_TeamGame)).whereArrayContains(getString(R.string.fs_TeamGame_gamePlayers), mAuth.getCurrentUser().getEmail()).whereGreaterThan(getString(R.string.fs_TeamGame_StartDate), cNew.getTimeInMillis());
-                break;
 
-            case Constants.ClassName_GameCreation:
-                fbQuery = db.collection(getString(R.string.fs_TeamGame)).whereEqualTo(getString(R.string.fb_Column_Fb_Id), usrId).whereGreaterThan(getString(R.string.fs_TeamGame_StartDate), cNew.getTimeInMillis());
-                break;
+        if (mParam2 == Constants.Status_Zero) {
+            fbQuery = db.collection(getString(R.string.fs_TeamGame)).whereEqualTo(getString(R.string.fb_Column_Fb_Id), usrId).whereGreaterThan(getString(R.string.fs_TeamGame_StartDate), cNew.getTimeInMillis());
 
+        } else if (mParam2 == Constants.Status_One) {
+            fbQuery = db.collection(getString(R.string.fs_TeamGame)).whereArrayContains(getString(R.string.fs_TeamGame_gamePlayers), mAuth.getCurrentUser().getEmail()).whereGreaterThan(getString(R.string.fs_TeamGame_StartDate), cNew.getTimeInMillis());
+
+        } else if (mParam2 == Constants.Status_Two) {
+            fbQuery = db.collection(getString(R.string.fs_TeamGame)).whereEqualTo(getString(R.string.fs_Usergame_gameDocumentId), documentGameId);
         }
+
+
         final String fbId = usrId;
+        final String documentGameNewId = documentGameId;
+        final long currentGameStartDateNew = currentGameStartDate, currentGameEndDateNew = currentGameEndDate;
+
         //whereLessThan(getString(R.string.fs_TeamGame_StartDate), cNew.getTimeInMillis());
 
         DbHelperClass2 dbh = new DbHelperClass2();
@@ -145,8 +174,13 @@ public class FragmentSelectGame extends Fragment {
                 holder.mIdGameName.setText("Game Name: " + model.getGameName());
                 Calendar cal = new GregorianCalendar();
                 DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-                final String className = getContext().getClass().getName();
 
+
+                if (getSnapshots().getSnapshot(position).getId().equals(documentGameNewId)) {
+                    holder.mIdSelectGame.setChecked(true);
+                }
+
+//9686142901 Dr. amulya
                 Calendar calendarStart = Calendar.getInstance();
                 calendarStart.setTimeInMillis(model.getStartDate());
                 holder.mIdGameStart.setText("Game Start Date:" + formatter.format(calendarStart.getTime()));
@@ -155,124 +189,89 @@ public class FragmentSelectGame extends Fragment {
                 calendarEnd.setTimeInMillis(model.getEndDate());
                 holder.mIdGameEnd.setText("Game End Date:" + formatter.format(calendarEnd.getTime()));
 
+                if (documentGameNewId.startsWith(fbId)) {
+                    List<String> gameCreationObjectArray = new ArrayList<>();
 
-                switch (className) {
-                    case Constants.ClassName_GameTracking:
+                    if (model.getGamePlayers() != null) {
+                        gameCreationObjectArray = model.getGamePlayers();
 
-                        String checkBoxAssignedData = getSnapshots().getSnapshot(position).getId() + getString(R.string.fm_fieldPartition)
-                                + String.valueOf(model.getStartDate()) + getString(R.string.fm_fieldPartition)
-                                + String.valueOf(model.getEndDate()) + getString(R.string.fm_fieldPartition) + String.valueOf(model.getGamePlayers().size())+ getString(R.string.fm_fieldPartition) + String.valueOf(model.getCoinsAtStake());
-                        holder.mIdSelectGame.setTag(checkBoxAssignedData);
+                        gameCreationObjectArray.add(getString(R.string.fm_arrayListPartition));
+                        gameCreationObjectArray.add(getSnapshots().getSnapshot(position).getId());
+                        gameCreationObjectArray.add(String.valueOf(model.getStartDate()));
+                        gameCreationObjectArray.add(String.valueOf(model.getEndDate()));
+                        holder.mIdAddPlayers.setTag(gameCreationObjectArray);
+                    } else {
+                        gameCreationObjectArray.add(getSnapshots().getSnapshot(position).getId());
+                        gameCreationObjectArray.add(String.valueOf(model.getStartDate()));
+                        gameCreationObjectArray.add(String.valueOf(model.getEndDate()));
+                        holder.mIdAddPlayers.setTag(gameCreationObjectArray);
 
-                        break;
-
-                    case Constants.ClassName_GameCreation:
-                        List<String> gameCreationObjectArray = new ArrayList<>();
-
-                        if (model.getGamePlayers() != null) {
-                            gameCreationObjectArray = model.getGamePlayers();
-
-                            gameCreationObjectArray.add(getString(R.string.fm_arrayListPartition));
-                            gameCreationObjectArray.add(getSnapshots().getSnapshot(position).getId());
-                            gameCreationObjectArray.add(String.valueOf(model.getStartDate()));
-                            gameCreationObjectArray.add(String.valueOf(model.getEndDate()));
-                            holder.mIdSelectGame.setTag(gameCreationObjectArray);
-                        } else {
-                            gameCreationObjectArray.add(getSnapshots().getSnapshot(position).getId());
-                            gameCreationObjectArray.add(String.valueOf(model.getStartDate()));
-                            gameCreationObjectArray.add(String.valueOf(model.getEndDate()));
-                            holder.mIdSelectGame.setTag(gameCreationObjectArray);
-                        }
-
-                        break;
+                    }
                 }
+                String checkBoxAssignedData = getSnapshots().getSnapshot(position).getId() + getString(R.string.fm_fieldPartition)
+                        + String.valueOf(model.getStartDate()) + getString(R.string.fm_fieldPartition)
+                        + String.valueOf(model.getEndDate()) + getString(R.string.fm_fieldPartition) + model.getGameName();
+                //+ getString(R.string.fm_fieldPartition) + String.valueOf(model.getGamePlayers().size()) + getString(R.string.fm_fieldPartition) + String.valueOf(model.getCoinsAtStake());
+                holder.mIdSelectGame.setTag(checkBoxAssignedData);
 
 
                 holder.mIdSelectGame.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         if (isChecked == true) {
-                            DbHelperClass2 dbc = new DbHelperClass2();
-                            ArrayList<String> dataVariables = new ArrayList<>();
+
+                            final String gameObj = holder.mIdSelectGame.getTag().toString();
+
+                            String[] arrayGameObj = gameObj.split(getString(R.string.fm_fieldPartition));
 
 
-                            ArrayList<String> players = (ArrayList<String>) tvHeading.getTag();
-                            ArrayList<Object> dataObjects = new ArrayList<>();
+                            if ((currentGameStartDateNew != Constants.Status_Zero) ||
+                                    (currentGameStartDateNew >= Long.parseLong(arrayGameObj[1]) && currentGameStartDateNew <= Long.parseLong(arrayGameObj[2])) ||
+                                    (currentGameEndDateNew >= Long.parseLong(arrayGameObj[1]) && currentGameEndDateNew <= Long.parseLong(arrayGameObj[2]))) {
 
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
-                            switch (className) {
-                                case Constants.ClassName_GameTracking:
+                                builder.setTitle(getString(R.string.fm_AlertDialog_Replace));
+                                builder.setMessage(getString(R.string.act_MainObjective_AlertDialog_Now));
 
-                                    dataVariables.add(getString(R.string.fs_UserProfile_gameDocId));
-                                    dataVariables.add(getString(R.string.fs_TeamGame_noOfPlayers));
-                                    dataVariables.add(getString(R.string.fs_UserProfile_userCoinsPerDay));
+                                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 
-
-                                    String[] strObj = holder.mIdSelectGame.getTag().toString().split(getString(R.string.fm_fieldPartition));
-
-                                    dataObjects.add(holder.mIdSelectGame.getTag().toString());
-                                    dataObjects.add(Integer.valueOf(strObj[3]));
-                                    dataObjects.add(Integer.valueOf(strObj[4]));
-
-
-                                    dbc.updateFireUserData(getString(R.string.fs_UserProfile), fbId, dataVariables, dataObjects, db);
-
-                                    break;
-
-                                case Constants.ClassName_GameCreation:
-
-                                    ArrayList<String> gameDataObjects = (ArrayList<String>) holder.mIdSelectGame.getTag();
-
-                                    dataVariables.add(getString(R.string.fs_TeamGame_gamePlayers));
-                                    dataVariables.add(getString(R.string.fs_TeamGame_noOfPlayers));
-
-
-                                    if (gameDataObjects.contains(getString(R.string.fm_arrayListPartition))) {
-                                        if (gameDataObjects != null) {
-                                            int partitionLine = gameDataObjects.indexOf(getString(R.string.fm_arrayListPartition));
-                                            List<String> alreadyGamePlayers = gameDataObjects.subList(0, partitionLine);
-                                            String gameDocId = gameDataObjects.get(partitionLine + 1);
-                                            alreadyGamePlayers.addAll(players);
-                                            ArrayList<String> dataInsert = new ArrayList<>();
-
-                                            for (String data : alreadyGamePlayers) {
-                                                dataInsert.add(data);
-
-                                            }
-
-                                            dataObjects.add(alreadyGamePlayers);
-                                            dataObjects.add(alreadyGamePlayers.size());
-                                            dbc.updateFireUserData(getString(R.string.fs_TeamGame), gameDocId, dataVariables, dataObjects, db);
-
-                                        }
-
-                                    } else {
-
-                                        if (players != null) {
-                                            ArrayList<String> playersNew = new ArrayList<>();
-                                            playersNew.add(fbUser.getEmail());
-                                            playersNew.addAll(players);
-
-                                            dataObjects.add(playersNew);
-                                            dataObjects.add(playersNew.size());
-                                            dbc.updateFireUserData(getString(R.string.fs_TeamGame), gameDataObjects.get(0), dataVariables, dataObjects, db);
-                                        } else {
-                                            CommonClass cls = new CommonClass();
-                                            cls.makeSnackBar(linearLayout, "There are no new users to add!");
-                                        }
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        updateProfileForGame(documentGameNewId, fbId, gameObj, db);
                                     }
+                                });
 
-                                    break;
+                                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        Snackbar snackbar1 = Snackbar.make(linearLayout, getString(R.string.fm_AlertDialog_NoReplace), Snackbar.LENGTH_SHORT);
+                                        snackbar1.show();
+
+                                        // Do nothing
+                                        dialog.dismiss();
+                                    }
+                                });
+
+                                AlertDialog alert = builder.create();
+                                alert.show();
+                            } else {
+                                updateProfileForGame(documentGameNewId, fbId, gameObj, db);
                             }
-
-                        } else {
-
                         }
-
                     }
                 });
 
 
+                holder.mIdAddPlayers.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        FragmentManager fm = getActivity().getSupportFragmentManager();
+                        FragmentSendGameInvitations editNameDialogFragment = FragmentSendGameInvitations.newInstance((ArrayList<String>) holder.mIdAddPlayers.getTag());
+                        editNameDialogFragment.show(fm, "fragment_edit_name");
+                    }
+                });
             }
 
             @NonNull
@@ -282,21 +281,22 @@ public class FragmentSelectGame extends Fragment {
                 return new ActivityGameCreation.ViewHolderSelectGame(view);
             }
         };
-
         recyclerView.setAdapter(firestoreRecyclerAdapter);
-
-
     }
 
-    public void onNameChange(ArrayList<String> playersList) {
-        tvHeading.setTag(playersList);
-        if (playersList != null || playersList.size() > 0) {
-            tvStatusAddPeople.setText("People are ready to Add!");
 
-        }
+    private void updateProfileForGame(String documentGameNewId, String fbId, String gameObjectId, FirebaseFirestore db) {
 
+        DbHelperClass2 dbc = new DbHelperClass2();
+        ArrayList<String> dataVariables = new ArrayList<>();
 
+        ArrayList<Object> dataObjects = new ArrayList<>();
+        dataVariables.add(getString(R.string.fs_UserProfile_gameDocId));
+        dataObjects.add(gameObjectId);
+        dbc.updateFireUserData(getString(R.string.fs_UserProfile), fbId, dataVariables, dataObjects, db);
+        mListener.refreshMain(gameObjectId);
     }
+
 
     @Override
     public void onStart() {
@@ -310,6 +310,24 @@ public class FragmentSelectGame extends Fragment {
         super.onStop();
         firestoreRecyclerAdapter.stopListening();
 
+    }
+
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentRefreshMainListener) {
+            mListener = (OnFragmentRefreshMainListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentCommunicationListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
     }
 
 }

@@ -6,7 +6,12 @@ android {
 
 
     signingConfigs {
-
+        release {
+            storeFile file('/Users/raghunandanvadla/Key/actionnationkey.jks')
+            storePassword 'Thatha!$great3401'
+            keyAlias = 'key0'
+            keyPassword 'Thatha!$great3401'
+        }
     }
 
     compileSdkVersion 29
@@ -15,8 +20,8 @@ android {
         applicationId "app.actionnation.actionapp"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 7
-        versionName "1.7"
+        versionCode 12
+        versionName "1.12"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
@@ -76,9 +81,8 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-storage:6.0.2'
     // FirebaseUI for Cloud Firestore
     // FirebaseUI for Cloud Storage
-
-    implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'id.zelory:compressor:3.0.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
 
 
 

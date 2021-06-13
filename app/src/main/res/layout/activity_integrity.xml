@@ -20,56 +20,59 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:elevation="6dp" />
+            android:elevation="@dimen/commonElevation" />
 
         <TextView
             style="@style/TextTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:text="@string/Activity_Integrity"></TextView>
+            android:layout_margin="@dimen/commonMargin"
+            android:text="@string/Activity_Integrity_Heading"></TextView>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-
+            android:layout_gravity="center_vertical"
+            android:layout_margin="@dimen/ll_AI_margin"
             android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/in_date"
-                android:layout_width="100dp"
+                android:layout_width="@dimen/et_AI_width"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="@dimen/commonMargin_10dp"
                 android:background="@drawable/my_border"
-                android:layout_marginRight="@dimen/activity_10dp"
-
                 android:enabled="false"
-                android:hint="Date"
-                android:padding="5dp" />
+                android:gravity="center_vertical"
+                android:hint="@string/Integrity_Date_Hint"
+                android:padding="@dimen/commonPadding" />
 
             <Button
                 android:id="@+id/btn_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:text="@string/Integrity_Date" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="@dimen/ll_AI_margin"
 
             android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/in_time"
-                android:layout_width="100dp"
+                android:layout_width="@dimen/et_AI_width"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/activity_10dp"
                 android:background="@drawable/my_border"
                 android:enabled="false"
-                android:layout_marginRight="@dimen/activity_10dp"
-                android:hint="Time"
-                android:padding="5dp" />
+                android:hint="@string/Integrity_Time_Hint"
+                android:padding="@dimen/commonPadding" />
 
             <Button
                 android:id="@+id/btn_time"
@@ -85,21 +88,22 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
-            android:layout_margin="5dp"
-            android:layout_marginBottom="2dp"
+            android:layout_margin="@dimen/commonMargin"
+            android:layout_marginBottom="@dimen/et_margineBottom"
             android:background="@drawable/my_border"
             android:gravity="top|left"
-            android:hint="What did you promise?"
+            android:hint="@string/Integrity_EditBox_Hint"
             android:inputType="textMultiLine"
             android:lines="2"
             android:outlineAmbientShadowColor="@color/main_color"
+            android:padding="@dimen/commonPadding"
             android:scrollbars="vertical" />
 
         <Button
             android:id="@+id/in_btn_submit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="@dimen/commonMargin"
             android:background="@drawable/button_border_material"
             android:text="Submit" />
 
@@ -111,7 +115,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipToPadding="false"
-            android:paddingBottom="30dp"
+            android:paddingBottom="@dimen/commonPaddingBottom_RecyclerView"
             android:scrollbarStyle="outsideOverlay"
             android:scrollbars="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -128,6 +132,6 @@
         android:layout_gravity="bottom|right"
         android:text="@string/Common_Win"
         android:textColor="@color/plain_white"
-        app:iconTint="@color/plain_white"
-        app:icon="@drawable/ic_baseline_task_24" />
+        app:icon="@drawable/ic_baseline_task_24"
+        app:iconTint="@color/plain_white" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

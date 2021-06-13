@@ -131,13 +131,12 @@
                             android:gravity="top|left"
                             android:hint="@string/pd_habitName"
                             android:inputType="textMultiLine"
-                            android:padding="@dimen/activity_5dp"
                             android:lines="4"
                             android:maxLines="10"
                             android:minLines="6"
                             android:outlineAmbientShadowColor="@color/main_color"
+                            android:padding="@dimen/activity_5dp"
                             android:scrollbars="vertical" />
-
 
 
                         <Spinner
@@ -148,37 +147,34 @@
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"></Spinner>
 
 
-
-
                         <TextView
                             android:id="@+id/txt_fm_habitInspire"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="10dp"
-                            android:visibility="gone"
-                            android:text="@string/pa_HabitsInspire"></TextView>
+                            android:text="@string/pa_HabitsInspire"
+                            android:visibility="gone"></TextView>
 
                         <RadioGroup
+                            android:id="@+id/rg_fm_inspire"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:visibility="gone"
-                            android:id="@+id/rg_fm_inspire"
-                            >
-                            <RadioButton
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/rb_inspire_Yes"
-                                 android:text="Yes"></RadioButton>
+                            android:visibility="gone">
 
                             <RadioButton
+                                android:id="@+id/rb_inspire_Yes"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:text="Yes"></RadioButton>
+
+                            <RadioButton
                                 android:id="@+id/rb_inspire_No"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
 
                                 android:text="No"></RadioButton>
 
                         </RadioGroup>
-
 
 
                         <Button
@@ -241,6 +237,7 @@
                             android:maxLines="10"
                             android:minLines="6"
                             android:outlineAmbientShadowColor="@color/main_color"
+                            android:padding="@dimen/activity_5dp"
                             android:scrollbars="vertical" />
 
                         <Button
@@ -296,6 +293,7 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="10dp"
                             android:layout_marginBottom="10dp"
+
                             android:background="@drawable/my_border"
                             android:gravity="top|left"
                             android:hint="@string/Hint_Traction_Name"
@@ -304,6 +302,7 @@
                             android:maxLines="10"
                             android:minLines="6"
                             android:outlineAmbientShadowColor="@color/main_color"
+                            android:padding="@dimen/activity_5dp"
                             android:scrollbars="vertical" />
 
 
@@ -362,6 +361,7 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="10dp"
                             android:layout_marginBottom="10dp"
+
                             android:background="@drawable/my_border"
                             android:gravity="top|left"
                             android:hint="@string/Hc_Gratitide_Hint"
@@ -370,6 +370,7 @@
                             android:maxLines="10"
                             android:minLines="6"
                             android:outlineAmbientShadowColor="@color/main_color"
+                            android:padding="@dimen/activity_5dp"
                             android:scrollbars="vertical" />
 
                         <Button
@@ -427,6 +428,7 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="10dp"
                             android:layout_marginBottom="10dp"
+
                             android:background="@drawable/my_border"
                             android:gravity="top|left"
                             android:hint="@string/Hint_reframe"
@@ -435,6 +437,7 @@
                             android:maxLines="10"
                             android:minLines="6"
                             android:outlineAmbientShadowColor="@color/main_color"
+                            android:padding="@dimen/activity_5dp"
                             android:scrollbars="vertical" />
 
 
@@ -491,7 +494,6 @@
                             android:id="@+id/et_fm_BelieveName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:padding="@dimen/activity_5dp"
                             android:layout_margin="10dp"
                             android:layout_marginBottom="10dp"
                             android:background="@drawable/my_border"
@@ -502,6 +504,7 @@
                             android:maxLines="10"
                             android:minLines="6"
                             android:outlineAmbientShadowColor="@color/main_color"
+                            android:padding="@dimen/activity_5dp"
                             android:scrollbars="vertical" />
 
 

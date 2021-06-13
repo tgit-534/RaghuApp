@@ -11,7 +11,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import app.actionnation.actionapp.Storage.Constants;
 
-public class ActivityHappiness extends BaseClassUser {
+public class ActivityHappiness extends BaseClassUser implements FragmentDataInsertion.ListenFromActivity {
 
     ViewPager viewPager;
     TabLayout tabLayout;
@@ -136,4 +136,18 @@ public class ActivityHappiness extends BaseClassUser {
     }
 
 
+    @Override
+    public void doSomethingInFragment(int windowNumber) {
+        if (windowNumber == Integer.parseInt(getString(R.string.viewHolder_Insert_Abundance))) {
+            FragmentAbundance fm = (FragmentAbundance) ds.instantiateItem(viewPager, 1);
+
+            fm.fetch();
+        } else
+        if (windowNumber == Integer.parseInt(getString(R.string.viewHolder_Insert_Gratitude))) {
+            gratitude fragment = (gratitude) ds.instantiateItem(viewPager, 0);
+
+            fragment.fetch();
+        }
+
+    }
 }

@@ -172,7 +172,6 @@ public class FragmentDistraction extends Fragment implements View.OnClickListene
 
         Log.d(TAG, "Enter Db");
 
-        ArrayList<String> arrayCaptains = getActivity().getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
         UserStorageGameObject userStorageGameObject = new UserStorageGameObject();
         userStorageGameObject.setGameDocumentId(getActivity().getIntent().getStringExtra(Constants.Intent_GameDocumentId));
         userStorageGameObject.setUserCoinsPerDay(getActivity().getIntent().getIntExtra(Constants.Intent_GameCoinsPerDay, Constants.Status_Zero));
@@ -180,7 +179,7 @@ public class FragmentDistraction extends Fragment implements View.OnClickListene
 
 
 
-        UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, arrayCaptains, userName, userStorageGameObject);
+        UserGame userGame = cls.loadUserGame(usrId, dayOfYear, yr, userName, userStorageGameObject);
 
         userGame.setUserDistractionScore(databaseScore);
 
@@ -222,7 +221,6 @@ public class FragmentDistraction extends Fragment implements View.OnClickListene
 
                 Bundle mBundle = new Bundle();
                 mBundle.putString(Constants.common_auth, Constants.common_google);
-                mBundle.putStringArrayList(Constants.Intent_ArrayCaptain, getActivity().getIntent().getStringArrayListExtra(((getString(R.string.Intent_ArrayCaptain)))));
                 mBundle.putIntegerArrayList(Constants.Intent_ArrayGameScore, getActivity().getIntent().getIntegerArrayListExtra((getString(R.string.Intent_ArrayGameScore))));
                 i.putExtras(mBundle);
                 getContext().startActivity(i);

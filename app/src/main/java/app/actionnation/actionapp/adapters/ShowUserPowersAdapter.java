@@ -206,7 +206,6 @@ public class ShowUserPowersAdapter extends FirebaseRecyclerAdapter<CommonData, S
 
                 Bundle mBundle = new Bundle();
                 mBundle.putString(Constants.common_auth, Constants.common_google);
-                mBundle.putStringArrayList(Constants.Intent_ArrayCaptain, userArrayCaptains);
                 mBundle.putIntegerArrayList(Constants.Intent_ArrayGameScore, userGameArray);
                 i.putExtras(mBundle);
                 holder.mView.getContext().startActivity(i);
@@ -221,7 +220,6 @@ public class ShowUserPowersAdapter extends FirebaseRecyclerAdapter<CommonData, S
                     Intent homepage = new Intent(view.getContext(), ActivityIntegrityMain.class);
                     Bundle mBundle = new Bundle();
                     mBundle.putString(Resources.getSystem().getString(R.string.common_auth), Resources.getSystem().getString(R.string.common_google));
-                    mBundle.putStringArrayList(Resources.getSystem().getString(R.string.Intent_ArrayCaptain), userArrayCaptains);
                     mBundle.putIntegerArrayList(Resources.getSystem().getString(R.string.Intent_ArrayGameScore), userGameArray);
                     homepage.putExtras(mBundle);
                     holder.mView.getContext().startActivity(homepage);
@@ -230,14 +228,12 @@ public class ShowUserPowersAdapter extends FirebaseRecyclerAdapter<CommonData, S
                     Bundle mBundle = new Bundle();
                     mBundle.putString(Resources.getSystem().getString(R.string.common_auth), Resources.getSystem().getString(R.string.common_google));
                     mBundle.putIntegerArrayList(Resources.getSystem().getString(R.string.Intent_ArrayGameScore), userGameArray);
-                    mBundle.putStringArrayList(Resources.getSystem().getString(R.string.Intent_ArrayCaptain), userArrayCaptains);
                     homepage.putExtras(mBundle);
                     holder.mView.getContext().startActivity(homepage);
                 } else if (Integer.parseInt(holder.mImageView.getTag().toString()) == Integer.parseInt(Resources.getSystem().getString(R.string.Display_fields_Meditation))) {
                     Intent homepage = new Intent(view.getContext(), MeditationActivity.class);
                     Bundle mBundle = new Bundle();
                     mBundle.putString(Resources.getSystem().getString(R.string.common_auth), Resources.getSystem().getString(R.string.common_google));
-                    mBundle.putStringArrayList(Resources.getSystem().getString(R.string.Intent_ArrayCaptain), userArrayCaptains);
                     mBundle.putIntegerArrayList(Resources.getSystem().getString(R.string.Intent_ArrayGameScore), userGameArray);
                     homepage.putExtras(mBundle);
                     holder.mView.getContext().startActivity(homepage);
@@ -245,7 +241,6 @@ public class ShowUserPowersAdapter extends FirebaseRecyclerAdapter<CommonData, S
                     Intent homepage = new Intent(view.getContext(), Activity_TrueLearning.class);
                     Bundle mBundle = new Bundle();
                     mBundle.putString(Resources.getSystem().getString(R.string.common_auth), Resources.getSystem().getString(R.string.common_google));
-                    mBundle.putStringArrayList(Resources.getSystem().getString(R.string.Intent_ArrayCaptain), userArrayCaptains);
                     mBundle.putIntegerArrayList(Resources.getSystem().getString(R.string.Intent_ArrayGameScore), userGameArray);
                     homepage.putExtras(mBundle);
                     holder.mView.getContext().startActivity(homepage);
@@ -253,7 +248,6 @@ public class ShowUserPowersAdapter extends FirebaseRecyclerAdapter<CommonData, S
                     Intent homepage = new Intent(view.getContext(), ActivityHappiness.class);
                     Bundle mBundle = new Bundle();
                     mBundle.putString(Resources.getSystem().getString(R.string.common_auth), Resources.getSystem().getString(R.string.common_google));
-                    mBundle.putStringArrayList(Resources.getSystem().getString(R.string.Intent_ArrayCaptain), userArrayCaptains);
                     mBundle.putIntegerArrayList(Resources.getSystem().getString(R.string.Intent_ArrayGameScore), userGameArray);
 
                     homepage.putExtras(mBundle);
@@ -262,7 +256,6 @@ public class ShowUserPowersAdapter extends FirebaseRecyclerAdapter<CommonData, S
                     Intent homepage = new Intent(view.getContext(), ActivityEatHealthy.class);
                     Bundle mBundle = new Bundle();
                     mBundle.putString(Resources.getSystem().getString(R.string.common_auth), Resources.getSystem().getString(R.string.common_google));
-                    mBundle.putStringArrayList(Resources.getSystem().getString(R.string.Intent_ArrayCaptain), userArrayCaptains);
                     mBundle.putIntegerArrayList(Resources.getSystem().getString(R.string.Intent_ArrayGameScore), userGameArray);
 
                     homepage.putExtras(mBundle);
@@ -271,7 +264,6 @@ public class ShowUserPowersAdapter extends FirebaseRecyclerAdapter<CommonData, S
                     Intent homepage = new Intent(view.getContext(), HabitTraking.class);
                     Bundle mBundle = new Bundle();
                     mBundle.putString(Resources.getSystem().getString(R.string.common_auth), Resources.getSystem().getString(R.string.common_google));
-                    mBundle.putStringArrayList(Resources.getSystem().getString(R.string.Intent_ArrayCaptain), userArrayCaptains);
                     mBundle.putIntegerArrayList(Resources.getSystem().getString(R.string.Intent_ArrayGameScore), userGameArray);
 
                     homepage.putExtras(mBundle);
@@ -280,7 +272,6 @@ public class ShowUserPowersAdapter extends FirebaseRecyclerAdapter<CommonData, S
                     Intent homepage = new Intent(view.getContext(), ActivityExperienceNature.class);
                     Bundle mBundle = new Bundle();
                     mBundle.putString(Resources.getSystem().getString(R.string.common_auth), Resources.getSystem().getString(R.string.common_google));
-                    mBundle.putStringArrayList(Resources.getSystem().getString(R.string.Intent_ArrayCaptain), userArrayCaptains);
                     mBundle.putIntegerArrayList(Resources.getSystem().getString(R.string.Intent_ArrayGameScore), userGameArray);
 
                     homepage.putExtras(mBundle);
@@ -289,7 +280,6 @@ public class ShowUserPowersAdapter extends FirebaseRecyclerAdapter<CommonData, S
                     Intent homepage = new Intent(view.getContext(), ActivityRevealStory.class);
                     Bundle mBundle = new Bundle();
                     mBundle.putString(Resources.getSystem().getString(R.string.common_auth), Resources.getSystem().getString(R.string.common_google));
-                    mBundle.putStringArrayList(Resources.getSystem().getString(R.string.Intent_ArrayCaptain), userArrayCaptains);
                     mBundle.putIntegerArrayList(Resources.getSystem().getString(R.string.Intent_ArrayGameScore), userGameArray);
 
                     homepage.putExtras(mBundle);
@@ -298,7 +288,6 @@ public class ShowUserPowersAdapter extends FirebaseRecyclerAdapter<CommonData, S
                     Intent homepage = new Intent(view.getContext(), ActivityOurBelief.class);
                     Bundle mBundle = new Bundle();
                     mBundle.putString(Resources.getSystem().getString(R.string.common_auth), Resources.getSystem().getString(R.string.common_google));
-                    mBundle.putStringArrayList(Resources.getSystem().getString(R.string.Intent_ArrayCaptain), userArrayCaptains);
                     mBundle.putIntegerArrayList(Resources.getSystem().getString(R.string.Intent_ArrayGameScore), userGameArray);
                     homepage.putExtras(mBundle);
                     holder.mView.getContext().startActivity(homepage);

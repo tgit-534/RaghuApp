@@ -46,21 +46,29 @@ public class TractionAdapter extends RecyclerView.Adapter<TractionAdapter.Tracti
 
     @Override
     public void onBindViewHolder(@NonNull final TractionViewHolder holder, int position) {
-        if (mCursor != null) {
 
-            String name = mCursor.getString(mCursor.getColumnIndex("Tr_Name"));
-            Log.d(TAG, "Uid :" + name);
+        if (mCursor != null && mCursor.getCount() > 0) {
+
+            if (position < mCursor.getCount()) {
+
+                String name = mCursor.getString(mCursor.getColumnIndex("Tr_Name"));
+                Log.d(TAG, "Uid :" + name);
 
 
-            holder.tv.setText(name);
+                holder.tv.setText(name);
 
-            if (strTractionData != null) {
-                if (strTractionData.contains(name)) {
-                    holder.chk.setChecked(true);
+                if (strTractionData != null) {
+                    if (strTractionData.contains(name)) {
+                        holder.chk.setChecked(true);
+                    }
                 }
+                holder.chk.setTag(name + "#" + String.valueOf(mCursor.getCount()));
+                mCursor.moveToNext();
             }
-            holder.chk.setTag(name + "#" + String.valueOf(mCursor.getCount()));
-            mCursor.moveToNext();
+
+            if (position == mCursor.getCount() - 1) {
+                mCursor.moveToFirst();
+            }
 
         }
 

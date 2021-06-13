@@ -4,7 +4,6 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.FragmentManager;
@@ -24,14 +23,13 @@ import app.actionnation.actionapp.Storage.UserStorageGameObject;
 import app.actionnation.actionapp.data.DbHelper;
 import app.actionnation.actionapp.data.DbHelperClass;
 
-public class ActivityOurBelief extends BaseClassUser implements View.OnClickListener {
+public class ActivityOurBelief extends BaseClassUser implements View.OnClickListener, FragmentDataInsertion.ListenFromActivity {
 
     RecyclerView recyclerView;
     ArrayList<String> strAttPattern = new ArrayList<>();
     FirebaseAuth mAuth;
     CoordinatorLayout coordinatorLayout;
     ExtendedFloatingActionButton fab;
-    ImageButton imgRefresh;
 
 
     String usrId;
@@ -39,6 +37,7 @@ public class ActivityOurBelief extends BaseClassUser implements View.OnClickList
 
     String TAG = "Belief System";
     Button btnBelief;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,21 +49,8 @@ public class ActivityOurBelief extends BaseClassUser implements View.OnClickList
         coordinatorLayout = findViewById(R.id.cl_belief);
         fab = findViewById(R.id.fab_act_belief_finish);
         recyclerView = findViewById(R.id.listBelief);
-        imgRefresh = findViewById(R.id.imgBtn_refresh_ourBelief);
 
         usrId = fetchUserId();
-
-        imgRefresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-                overridePendingTransition(0, 0);
-                startActivity(getIntent());
-                overridePendingTransition(0, 0);
-
-            }
-        });
-
 
         btnBelief.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,15 +94,12 @@ public class ActivityOurBelief extends BaseClassUser implements View.OnClickList
                 DbHelperClass dbHelperClass = new DbHelperClass();
                 FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
 
-
-                ArrayList<String> arrayCaptains = getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
-
                 UserStorageGameObject userStorageGameObject = new UserStorageGameObject();
                 userStorageGameObject.setGameDocumentId(getIntent().getStringExtra(Constants.Intent_GameDocumentId));
                 userStorageGameObject.setUserCoinsPerDay(getIntent().getIntExtra(Constants.Intent_GameCoinsPerDay, Constants.Status_Zero));
                 userStorageGameObject.setUserExellenceBar(getIntent().getIntExtra(Constants.Intent_ExcellenceBar, Constants.Status_Zero));
 
-                UserGame userGame = cls.loadUserGame(usrId, dayOfTheYear, yr, arrayCaptains, userArray.get(1), userStorageGameObject);
+                UserGame userGame = cls.loadUserGame(usrId, dayOfTheYear, yr, userArray.get(1), userStorageGameObject);
                 userGame.setUserOurBeliefScore(Constants.Game_OurBeliefSystem);
 
                 int totalGameScore = 0;
@@ -137,6 +120,11 @@ public class ActivityOurBelief extends BaseClassUser implements View.OnClickList
                 makeSnackBar(coordinatorLayout, getString(R.string.snakbar_Success));
             }
         });
+        fetch();
+
+    }
+
+    private void fetch() {
 
         Cursor res = db.getBeliefList(usrId);
         if (res.getCount() > 0) {
@@ -150,7 +138,7 @@ public class ActivityOurBelief extends BaseClassUser implements View.OnClickList
             }
         }
         res.moveToFirst();
-       // recyclerView.setLayoutManager(new LinearLayoutManager(ActivityOurBelief.this));
+        // recyclerView.setLayoutManager(new LinearLayoutManager(ActivityOurBelief.this));
 
         BeliefAdapter mAdapter = new BeliefAdapter(ActivityOurBelief.this, res);
         btnBelief.setTag(mAdapter.getItemCount());
@@ -173,14 +161,22 @@ public class ActivityOurBelief extends BaseClassUser implements View.OnClickList
     public void onClick(View v) {
 
     }
+
     private void showEditDialog() {
         FragmentManager fm = getSupportFragmentManager();
         FragmentDataInsertion editNameFragment = FragmentDataInsertion.newInstance(getString(R.string.Page_Redirect_Belief));
         editNameFragment.show(fm, "fragment_edit_name");
     }
 
+    @Override
+    public void doSomethingInFragment(int windowNumber) {
+        if (windowNumber == Integer.parseInt(getString(R.string.viewHolder_Insert_Belief))) {
+            fetch();
+        }
+    }
 
-  /*  @Override
+
+  /* @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;

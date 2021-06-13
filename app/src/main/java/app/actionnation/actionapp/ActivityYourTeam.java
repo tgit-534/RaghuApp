@@ -38,7 +38,6 @@ import java.util.List;
 import app.actionnation.actionapp.Database_Content.UserTeam;
 import app.actionnation.actionapp.Storage.Constants;
 import app.actionnation.actionapp.data.DbHelperClass;
-import app.actionnation.actionapp.utils.TabsAdapterYourTeam;
 
 public class ActivityYourTeam extends BaseClassUser implements View.OnClickListener {
     CoordinatorLayout coordinatorLayout;
@@ -67,7 +66,6 @@ public class ActivityYourTeam extends BaseClassUser implements View.OnClickListe
         btnChooseCaptain = findViewById(R.id.btn_team_chooseCaptain);
 
         etEmail = findViewById(R.id.etInviteForTeam);
-        arrayCaptain = getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
 
         btnChooseCaptain.setOnClickListener(this);
         //getPlayerEmailId(arrayCaptain);
@@ -226,13 +224,12 @@ public class ActivityYourTeam extends BaseClassUser implements View.OnClickListe
         Log.d(TAG, "2");
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        ArrayList<String> arrayCaptains = getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
-
+/*
         TabsAdapterYourTeam ds;
         ds = new TabsAdapterYourTeam(getSupportFragmentManager(), tabLayout.getTabCount(), arrayCaptains);
         tabLayout.setupWithViewPager(viewPager);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        viewPager.setAdapter(ds);
+        viewPager.setAdapter(ds);*/
     }
 
     @Override
@@ -247,13 +244,12 @@ public class ActivityYourTeam extends BaseClassUser implements View.OnClickListe
 
     RecyclerView rvTest;
 
-    private void fetchChooseCaptain() {
+    /*private void fetchChooseCaptain() {
 
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
         final FirebaseUser fbUser = mAuth.getCurrentUser();
 
-        ArrayList<String> strArrayCaptain = getIntent().getStringArrayListExtra((getString(R.string.Intent_ArrayCaptain)));
 
         String usrId = "";
         if (mAuth.getCurrentUser() != null) {
@@ -272,7 +268,7 @@ public class ActivityYourTeam extends BaseClassUser implements View.OnClickListe
         rvTest.setAdapter(adapter);
         adapter.startListening();
 
-    }
+    }*/
 
     private void showEditDialog() {
         FragmentManager fm = getSupportFragmentManager();
